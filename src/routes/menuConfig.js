@@ -8,8 +8,7 @@ export default {
     },
     {
         title: "报警",
-        key: "/main/police",
-        component: "Police",
+        key: "/police",
         children:[
             {
                 title: "报警信息",

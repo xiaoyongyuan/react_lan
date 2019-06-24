@@ -18,7 +18,7 @@ class Routes extends Component {
           <Route exact path="/" render={()=> <Redirect to="/Main/cs" push />}/>
       		<Route path="/login" component={Login}/>
       		<Route path="/main" component={Main}/>
-      		// <Route path="/pandect" component={Pandect} />
+      		{/*<Route path="/pandect" component={Pandect} />*/}
           <Route path="/404" component={Notfound} />
           <Route component={Notfound} />/
       	</Switch>
