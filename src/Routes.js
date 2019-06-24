@@ -15,7 +15,7 @@ class Routes extends Component {
       <HashRouter>
       <App>
       	<Switch>
-          <Route exact path="/" render={()=> <Redirect to="/Main/cs" push />}/>
+          <Route exact path="/" render={()=> <Redirect to="/Main/index" push />}/>
       		<Route path="/login" component={Login}/>
       		<Route path="/main" component={Main}/>
       		{/*<Route path="/pandect" component={Pandect} />*/}

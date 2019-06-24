@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 
-class Csindex extends Component {
+class Index extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -15,4 +15,4 @@ class Csindex extends Component {
     }
 }
 
-export default Csindex;
+export default Index;
