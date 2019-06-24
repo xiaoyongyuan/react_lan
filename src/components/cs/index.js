@@ -8,14 +8,11 @@ class Csindex extends Component {
 
       };
     }
-
-  render() {
-    return (
-      <div className="Csindex">
-        内容
-      </div>
-    );
-  }
+    render() {
+        return(
+            <div>11111</div>
+        );
+    }
 }
 
 export default Csindex;
