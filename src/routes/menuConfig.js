@@ -3,7 +3,7 @@ export default {
     {
       title: "首页",
       key: "/main/index",
-      component: "Index",
+      component: "Index"
       //icon: "action-shujuzonglan",
     },
     {
@@ -39,6 +39,12 @@ export default {
       key: "/main/system",
       component: "System"
       //icon: "action-shujuzonglan",
+    }
+  ],
+  other: [
+    {
+      key: "/main/equipadd",
+      component: "EquipAdd"
     }
   ]
 };
