@@ -4,14 +4,426 @@
   .equNum{
     display: flex;
     justify-content: space-between;
+    margin-bottom: 12px;
+    .equ1{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      width: 22%;
+      height: 74px;
+      background: #fff;
+      .equImg6 {
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        background: url("../../style/ztt/imgs/todays.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .equContext {
+        display: flex;
+        flex-direction: column;
+        padding-left:28px;
+        .equBer{
+          font-size: 22px;
+        }
+        .equipName{
+          color: #354D9D;
+          font-weight: bold;
+          font-size: 15px;
+        }
+        .equipTotal{
+          color: #385BD1;
+          font-weight: bolder;
+          letter-spacing: 1px;
+        }
+        .equipTotal-today{
+          color: #FF7200;
+          font-weight: bolder;
+          letter-spacing: 1px;
+        }
+      }
+    }
     .equ{
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 17%;
+      flex-direction: row;
+      width: 15%;
       height: 74px;
-      margin: 5px 8px;
       background: #fff;
+      .equContext{
+        display: flex;
+        flex-direction: column;
+        padding-left:26px;
+        .equBer{
+          font-size: 22px;
+        }
+        .equipName{
+          color: #354D9D;
+          font-weight: bold;
+          font-size: 15px;
+        }
+        .equipTotal{
+          color: #385BD1;
+          font-weight: bolder;
+          letter-spacing: 1px;
+        }
+        .equipTotal-Handle{
+          color: #1877FF;
+          font-weight: bolder;
+          letter-spacing:1px;
+        }
+        .equipTotal-UHandle{
+          color: #656A7B;
+          font-weight: bolder;
+          letter-spacing: 1px;
+        }
+      }
+      .equImg1{
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        background: url("../../style/ztt/imgs/Total.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .equImg2{
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        background: url("../../style/ztt/imgs/equipment.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .equImg3{
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        background: url("../../style/ztt/imgs/offline.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .equImg4{
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        background: url("../../style/ztt/imgs/processed.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .equImg5{
+        display: inline-block;
+        width: 46px;
+        height: 46px;
+        background: url("../../style/ztt/imgs/unhandled.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+  }
+  .computerRoom{
+    display: flex;
+    flex-direction: row;
+    .computerRoom-context{
+      width: 78%;
+      background: #fff;
+      margin-right: 11px;
+      .RoomStatusLeft{
+        width: 30%;
+      }
+      .computerRoomStatus{
+        display: flex;
+        flex-direction: row;
+        .RoomStatusLeft{
+          .roomAlarm{
+            display: flex;
+            align-items: center;
+            margin: 28px 55px;
+            font-weight: bolder;
+            .status1{
+              color: #ff7200;
+              margin-left: 12px;
+            }
+            .status2{
+              color: #006cff;
+              margin-left: 12px;
+            }
+            .status3{
+              color: #686d7e;
+              margin-left: 12px;
+            }
+            .statusImg1{
+              display: inline-block;
+              width: 26px;
+              height: 26px;
+              background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+              background-size: 100% 100%;
+            }
+            .statusImg2{
+              display: inline-block;
+              width: 26px;
+              height: 26px;
+              background: url("../../style/ztt/imgs/noStatus.png") no-repeat;
+              background-size: 100% 100%;
+            }
+            .statusImg3{
+              display: inline-block;
+              width: 26px;
+              height: 26px;
+              background: url("../../style/ztt/imgs/offStatus.png") no-repeat;
+              background-size: 100% 100%;
+            }
+          }
+        }
+        .computer{
+          width: 62%;
+        }
+      }
+
+      .computerRoom-title{
+        color: #213c95;
+        font-size: 18px;
+        margin: 15px 55px;
+      }
+    }
+    .computerRoom-camera{
+      width: 22%;
+      .video-camera{
+        display: flex;
+        align-items: center;
+        height: 50px;
+        background: #fff;
+        margin-bottom: 4px;
+        .videoImg{
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+          background-size: 100% 100%;
+          margin-left: 20px;
+        }
+        .videoName{
+          color:#FF7E1D;
+          margin-left: 8px;
+          font-size: 15px;
+        }
+      }
+      .eqiIp{
+        display: flex;
+        flex-direction: row;
+        height: 70px;
+        margin-bottom: 3px;
+        .eqiIp-context{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 50%;
+          background: #fff;
+          color: #2E4699;
+          padding-left: 26px;
+        }
+        .eqiIp-UHanld{
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 50%;
+          background: #fff;
+          margin-left: 4px;
+          color: #2E4699;
+          padding-left: 26px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+      .fortification{
+        height: 135px;
+        background: #fff;
+        text-align: center;
+        margin-bottom:4px;
+        .fortification-title{
+          display: flex;
+          align-items: center;
+          padding: 8px 0;
+          .videoImg{
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+            background-size: 100% 100%;
+            margin-left: 20px;
+          }
+          .videoName{
+            color:#FF7E1D;
+            margin-left: 8px;
+            font-size: 15px;
+          }
+        }
+        .defended{
+          display: flex;
+          justify-content: center;
+          .defended-title{
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            .defended-name{
+              text-align: center;
+              cursor: pointer;
+            }
+            .defendedBorder1{
+              display: inline-block;
+              height: 3px;
+              margin: 4px 0;
+              cursor: pointer;
+            }
+            .defendedBorder2{
+              display: inline-block;
+              height: 3px;
+              margin: 4px 0;
+              cursor: pointer;
+            }
+            .defendedBorder1bg{
+              background-color: #006CFF;
+            }
+            .defendedBorder1Color{
+              color: #006CFF;
+            }
+            .defendedBorder2bg{
+              background-color: #D3D3D3;
+            }
+            .defendedBorder2Color{
+              color: #D3D3D3;
+            }
+          }
+        }
+        .defendedBtn{
+          width: 40%;
+          height: 30px;
+          text-align: center;
+          border: none;
+          background-color: #006CFF;
+          color: #fff;
+          margin: 10px 0;
+        }
+        .defendedBtn1{
+          width: 40%;
+          height: 30px;
+          text-align: center;
+          border: none;
+          background-color: #FF7200;
+          color: #fff;
+          margin: 10px 0;
+        }
+      }
+      .lastAlarm{
+        background-color: #fff;
+        padding: 18px 0;
+        .alarm-title{
+          display: flex;
+          align-items: center;
+          .videoImg{
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+            background-size: 100% 100%;
+            margin-left: 20px;
+          }
+          .videoName{
+            color:#FF7E1D;
+            margin-left: 8px;
+            font-size: 15px;
+          }
+        }
+        .alarmImg{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          .alarmVideo{
+            width: 60%;
+            padding: 10px 0;
+            position: relative;
+            .alarmVideoBtn{
+              position: absolute;
+              top: 34%;
+              left: 42%;
+              width: 44px;
+              height: 44px;
+            }
+            .alarmVideoBottom{
+              position: absolute;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              height: 32px;
+              background-color:#0d3d7b;
+              display: flex;
+              align-items: center;
+              .alarmVideoCircle{
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                background-color: #FF7200;
+                border-radius: 50%;
+                margin: 0 14px;
+              }
+              .alarmVideoName{
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .alarminfor{
+    margin: 12px 0 15px 0;
+    .alarminfornikName{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      .alarminfornikName-title{
+        color: #066fff;
+        margin-right: 15px;
+      }
+      .alarminfornikNameBg{
+        width: 24px;
+        height: 14px;
+        background: url("../../style/ztt/imgs/next.png");
+        background-size: 100% 100%;
+      }
+    }
+    .alarminfor-img{
+      float: left;
+      width: 13%;
+      margin: 20px 0 10px 20px;
+      position: relative;
+      .alarmVideoBtn{
+        position: absolute;
+        top: 34%;
+        left: 42%;
+        width: 44px;
+        height: 44px;
+      }
+      .alarminforBg{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 32px;
+        background-color: #0a3976;
+        display: flex;
+        align-items: center;
+        .alarminforCirle{
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          background-color: #ff7200;
+          border-radius: 50%;
+          margin: 0 14px;
+        }
+        .alarminforFont{
+          color: #fff;
+        }
+      }
     }
   }
 }
