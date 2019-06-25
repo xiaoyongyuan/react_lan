@@ -2,8 +2,8 @@ export default {
   menuList: [
     {
       title: "首页",
-      key: "/main/cs",
-      component: "Csindex"
+      key: "/main/index",
+      component: "Index",
       //icon: "action-shujuzonglan",
     },
     {

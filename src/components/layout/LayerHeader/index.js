@@ -15,13 +15,18 @@ class LayerHeader extends Component {
   render() {
     return (
       <div className="LayerHeader">
-        <div className="headerLeft"><span className="logo"/></div>
-        <div>
-            {/*<Select defaultValue="Admin" style={{ width: 120 }}>
-                <Option value="Admin">Admin</Option>
-                <Option value="1354435667">1354435667</Option>
-            </Select>*/}
-        </div>
+          <div className="headerLeft">
+              <div className="logo" />
+              <div className="logoFont" />
+              <div className="secant" />
+              <div className="logo-title">A.I.视频警戒系统</div>
+          </div>
+          <div className="headerRight">
+              <div className="header-right"/>
+              <Select defaultValue="Admin" style={{width:120}}>
+                  <Option value="Admin">Admin</Option>
+              </Select>
+          </div>
       </div>
     );
   }

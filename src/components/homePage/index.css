@@ -1,0 +1,18 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+}
+.homePage .equNum {
+  display: flex;
+  justify-content: space-between;
+}
+.homePage .equNum .equ {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 17%;
+  height: 74px;
+  margin: 5px 8px;
+  background: #fff;
+}
+/*# sourceMappingURL=index.css.map */
