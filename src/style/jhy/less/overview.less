@@ -1,19 +1,140 @@
 .overview {
   height: 100%;
   background: #f8f8f8;
+  padding: 30px;
+
+  .ant-card-head {
+    border: 0;
+  }
+
+  .ant-card-head-title {
+    font-size: 20px;
+  }
+
+  .cpu::before,
+  .physics::before,
+  .disk::before,
+  .ossys::before,
+  .funset::before {
+    content: '';
+    width: 16px;
+    height: 4px;
+    background: #006cff;
+    position: absolute;
+    left: 0px;
+    top: 25px;
+  }
+
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
 
   .topwrap {
-    border: 1px solid;
-    height: 40%;
+    height: 36%;
+
+    .desc {
+      margin-top: 10px;
+    }
+
+    .cpu {
+      .desc:first-of-type {
+        color: #006cff;
+
+        .bluedot {
+          background: #006cff;
+        }
+      }
+
+      .desc:last-of-type {
+        color: #dcdbe0;
+
+        .graydot {
+          background: #dcdbe0;
+        }
+      }
+    }
+
+    .physics,
+    .disk {
+      .desc:first-of-type {
+        color: #006cff;
+
+        .bluedot {
+          background: #006cff;
+        }
+      }
+
+      .desc:nth-of-type(2) {
+        color: #ff7200;
+
+        .orangedot {
+          background: #ff7200;
+        }
+      }
+
+      .desc:last-of-type {
+        color: #32e8fe;
+
+        .lightbluedot {
+          background: #32e8fe;
+        }
+      }
+    }
+
   }
 
   .midwrap {
-    border: 1px solid;
+    margin-top: 20px;
     height: 20%;
+
+    .ossys {
+
+      .syslabel {
+        display: inline-block;
+        width: 25%;
+        font-size: 16px;
+        color: #2c459a;
+        text-align: right;
+      }
+
+      .prog {
+        margin-left: 20px;
+        width: 60%;
+        position: relative;
+
+        .ant-progress-inner {
+          height: 25px;
+
+          .ant-progress-bg {
+            background: #006cff;
+            height: 25px !important;
+          }
+        }
+
+        .ant-progress-text {
+          position: absolute;
+          left: 35%;
+          top: 25%;
+
+        }
+      }
+
+    }
+
   }
+
 
   .botwrap {
     border: 1px solid;
-    height: 40%;
+
+    .ant-list-split .ant-list-item {
+      border: 1px solid #f0f0f0;
+      margin-top: 5px;
+    }
   }
+
 }

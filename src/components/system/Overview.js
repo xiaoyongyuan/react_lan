@@ -1,57 +1,143 @@
 import React, { Component } from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
-import { Row, Col, Card, Progress, Descriptions, List } from "antd";
+import { Row, Col, Card, Progress, Descriptions, List, Radio } from "antd";
+import "../../style/jhy/less/overview.less";
 
 class Overview extends Component {
-  const = (funconfig = [
-    <Radio>云端同步服务器是否运行</Radio>,
-    <Radio>删除服务器是否运行</Radio>,
-    <Radio>直播服务器是否运行</Radio>
-  ]);
   render() {
+    const funconfig = [
+      <Radio>云端同步服务器是否运行</Radio>,
+      <Radio>删除服务器是否运行</Radio>,
+      <Radio>直播服务器是否运行</Radio>
+    ];
     return (
       <div className="overview">
-        <Row className="topwrap" gutter={48}>
-          <Col span={8}>
-            <Card title="CPU" bordered={false} style={{ width: 300 }}>
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
-            </Card>
-          </Col>
-        </Row>
+        <div className="topwrap">
+          <Row gutter={48}>
+            <Col span={8}>
+              <Card title="CPU" bordered={false} className="cpu">
+                <Row>
+                  <Col span={16}>
+                    <p className="pie">Card content</p>
+                  </Col>
+                  <Col span={8}>
+                    <p className="desc">
+                      <span className="dot bluedot" />
+                      CUP使用率
+                    </p>
+                    <p className="desc">
+                      <span className="dot graydot" />
+                      CUP空闲率
+                    </p>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card title="物理内存" bordered={false} className="physics">
+                <Row>
+                  <Col span={16}>
+                    <p className="pie">Card content</p>
+                  </Col>
+                  <Col span={8}>
+                    <p className="desc">
+                      <span className="dot bluedot" />
+                      总物理内存
+                    </p>
+                    <p className="desc">
+                      <span className="dot orangedot" />
+                      剩余物理内存
+                    </p>
+                    <p className="desc">
+                      <span className="dot lightbluedot" />
+                      已使用物理内存
+                    </p>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+            <Col span={8}>
+              <Card title="磁盘内存" bordered={false} className="disk">
+                <Row>
+                  <Col span={16}>
+                    <p className="pie">Card content</p>
+                  </Col>
+                  <Col span={8}>
+                    <p className="desc">
+                      <span className="dot bluedot" />
+                      可使用内存
+                    </p>
+                    <p className="desc">
+                      <span className="dot orangedot" />
+                      剩余内存
+                    </p>
+                    <p className="desc">
+                      <span className="dot lightbluedot" />
+                      最大可使用内存
+                    </p>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          </Row>
+        </div>
         <Row className="midwrap">
           <Card
             title="操作系统"
             bordered={false}
             // style={{ width: 300 }}
+            className="ossys"
           >
             <Row>
-              <Col span="4">
+              <Col span={5}>
                 <span className="syslabel">总线程数</span>
-                <Progress percent={30} format={percent => {}} />
+                <Progress
+                  percent={30}
+                  className="prog"
+                  format={percent => {
+                    return percent;
+                  }}
+                />
               </Col>
-              <Col span="4">
+              <Col span={5}>
                 <span className="syslabel">CUP使用率</span>
-                <Progress percent={30} />
+                <Progress
+                  percent={30}
+                  className="prog"
+                  format={percent => {
+                    return percent;
+                  }}
+                />
               </Col>
-              <Col span="4">
+              <Col span={5}>
                 <span className="syslabel">显存</span>
-                <Progress percent={30} />
+                <Progress
+                  percent={30}
+                  className="prog"
+                  format={percent => {
+                    return percent;
+                  }}
+                />
               </Col>
-              <Col span="4">
+              <Col span={5}>
                 <span className="syslabel">空闲显存</span>
-                <Progress percent={30} />
+                <Progress
+                  percent={30}
+                  className="prog"
+                  format={percent => {
+                    return percent;
+                  }}
+                />
               </Col>
             </Row>
           </Card>
         </Row>
         <Row className="botwrap">
-          <Card title="功能设置">
-            <Row>
+          <Card title="功能设置" className="funset">
+            <Row gutter={16}>
               <Col span={6}>
-                <Descriptions title="User Info" bordered>
+                <Descriptions bordered column={1}>
                   <Descriptions.Item label="系统持续运营时间">
                     365天12小时
                   </Descriptions.Item>
@@ -64,7 +150,7 @@ class Overview extends Component {
                 </Descriptions>
               </Col>
               <Col span={6}>
-                <Descriptions title="User Info" bordered>
+                <Descriptions bordered column={1}>
                   <Descriptions.Item label="软件版本">V1.0.1</Descriptions.Item>
                   <Descriptions.Item label="一次算法版本">
                     V1.0.1
