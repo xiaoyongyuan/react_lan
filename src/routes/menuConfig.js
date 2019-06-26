@@ -3,12 +3,13 @@ export default {
     {
       title: "首页",
       key: "/main/index",
-      component: "Index"
-      //icon: "action-shujuzonglan",
+      component: "Index",
+      icon: "home",
     },
     {
       title: "报警",
       key: "/police",
+      icon:"alert",
       children: [
         {
           title: "报警信息",
@@ -25,19 +26,19 @@ export default {
     {
       title: "直播",
       key: "/main/broadcast",
-      component: "Broadcast"
-      //icon: "action-shujuzonglan",
+      component: "Broadcast",
+      icon: "play-square",
     },
     {
       title: "设备",
       key: "/main/equipment",
-      component: "Equipment"
-      //icon: "action-shujuzonglan",
+      component: "Equipment",
+      icon: "tablet",
     },
     {
       title: "系统",
       key: "/main/system",
-      //icon: "action-shujuzonglan",
+      icon: "bars",
       children: [
           {
               title: "系统概览",

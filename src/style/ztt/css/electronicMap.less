@@ -1,3 +1,177 @@
 .electronicMap{
+  display: flex;
+  flex-direction: row;
+  .showDraw{
+    width: 50%;
+    background-color: #fff;
+    border: 1px solid #ECECEC;
+    margin-right: 10px;
+    .showDrawImg{
+      padding: 50px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .showDraw-title{
+      padding-left: 25px;
+      display: flex;
+      align-items: center;
+      height: 40px;
+      color: #303B99;
+      border-bottom: 1px solid #ECECEC;
+    }
+  }
+  .showDraw img{
+    width:80%;
+  }
+  .drawing{
+    width: 18%;
+    background-color: #fff;
+    border: 1px solid #ECECEC;
+    position: relative;
+    .Square{
+      background-color: #EDEDED;
+      padding: 10px 0;
+      color: #1E339E;
+      margin: 6px 6px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .drawImg{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: url("../../../style/ztt/imgs/draw.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+    .Square span:nth-child(2){
+      padding-left: 14px;
+      color: #1B3F95;
+    }
 
+    .segment{
+      background-color: #EDEDED;
+      border: 1px solid #DFDFDF;
+      margin:20px 30px 1px 30px;
+      padding: 5px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+        .segmentImg{
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          background: url("../../../style/ztt/imgs/segment.png") no-repeat;
+        }
+    }
+    .segment span:nth-child(2){
+      padding-left: 14px;
+      color: #1B3F95;
+      font-size: 14px;
+    }
+    .rectangle{
+      background-color: #4D64AA;
+      border: 1px solid #DFDFDF;
+      margin:20px 30px 1px 30px;
+      padding: 5px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .rectangleImg{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background: url("../../../style/ztt/imgs/rectangle.png") no-repeat;
+      }
+    }
+    .rectangle span:nth-child(2){
+      padding-left: 14px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .camera{
+      background-color: #EDEDED;
+      border: 1px solid #DFDFDF;
+      margin:20px 30px 1px 30px;
+      padding: 5px 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .cameraImg{
+        display: inline-block;
+        width: 28px;
+        height: 22px;
+        background: url("../../../style/ztt/imgs/cameraImg.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+    .camera span:nth-child(2){
+      padding-left: 14px;
+      color: #1B3F95;
+      font-size: 14px;
+    }
+    .revoke{
+      margin-top: 100px;
+      display: flex;
+      .revokeLeft{
+        width: 50%;
+        background-color: #EDEDED;
+        display: flex;
+        justify-content: center;
+        padding: 8px 0;
+        margin: 0 3px 4px 26px;
+      }
+      .revokeRight{
+        width: 50%;
+        background-color: #EDEDED;
+        display: flex;
+        justify-content: center;
+        padding: 8px 0;
+        margin: 0 26px 4px 3px;
+      }
+      .revokeLeft span:nth-child(1){
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url("../../../style/ztt/imgs/left.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .revokeRight span:nth-child(1){
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url("../../../style/ztt/imgs/right.png") no-repeat;
+        background-size: 100% 100%;
+      }
+    }
+    .reBtn{
+      display: flex;
+      justify-content: center;
+      .revokeBtn{
+        background-color: #EDEDED;
+        border: 1px solid #DFDFDF;
+        color: #1B3F95;
+        width: 82%;
+        padding: 3px 0;
+      }
+    }
+    .confirmBnt{
+      position: absolute;
+      bottom: 2%;
+      left: 8%;
+      background-color: #006BFF;
+      text-align: center;
+      color: #fff;
+      width: 84%;
+      height: 36px;
+      line-height: 34px;
+      padding: 3px 0;
+      font-size: 15px;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Menu } from 'antd';
+import { Menu,Icon } from 'antd';
 import MenuConfig from './../../../routes/menuConfig';
 import './index.less';
 
@@ -43,7 +43,7 @@ class LayerSider extends Component {
           <SubMenu key={el.key} 
             title={
               <span>
-                {el.icon && <i className={'actionfont '+el.icon} />}
+                {el.icon && <Icon type={el.icon} />}
                 <span className="nav-text">{el.title}</span>
               </span>
             } 
@@ -53,7 +53,7 @@ class LayerSider extends Component {
         )
       }
       return (<Menu.Item key={el.key}><NavLink to={el.key}>
-          {el.icon && <i className={'actionfont '+el.icon} />}
+          {el.icon && <Icon type={el.icon} />}
           <span className="nav-text">{el.title}</span>
         </NavLink></Menu.Item>)
     })
