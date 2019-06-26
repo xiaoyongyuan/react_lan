@@ -11,6 +11,36 @@ class Overview extends Component {
       <Radio>删除服务器是否运行</Radio>,
       <Radio>直播服务器是否运行</Radio>
     ];
+    const cpupie = {
+      series: [
+        {
+          type: "pie",
+          radius: ["50%", "80%"],
+          label: [],
+          data: [{ value: 25 }, { value: 75 }]
+        }
+      ]
+    };
+    const physpie = {
+      series: [
+        {
+          type: "pie",
+          radius: ["50%", "80%"],
+          label: [],
+          data: [{ value: 25 }, { value: 25 }, { value: 50 }]
+        }
+      ]
+    };
+    const diskpie = {
+      series: [
+        {
+          type: "pie",
+          radius: ["50%", "80%"],
+          label: [],
+          data: [{ value: 25 }, { value: 15 }, { value: 60 }]
+        }
+      ]
+    };
     return (
       <div className="overview">
         <div className="topwrap">
@@ -19,7 +49,12 @@ class Overview extends Component {
               <Card title="CPU" bordered={false} className="cpu">
                 <Row>
                   <Col span={16}>
-                    <p className="pie">Card content</p>
+                    <div className="pie">
+                      <ReactEcharts
+                        option={cpupie}
+                        style={{ height: "220px" }}
+                      />
+                    </div>
                   </Col>
                   <Col span={8}>
                     <p className="desc">
@@ -38,7 +73,12 @@ class Overview extends Component {
               <Card title="物理内存" bordered={false} className="physics">
                 <Row>
                   <Col span={16}>
-                    <p className="pie">Card content</p>
+                    <div className="pie">
+                      <ReactEcharts
+                        option={physpie}
+                        style={{ height: "220px" }}
+                      />
+                    </div>
                   </Col>
                   <Col span={8}>
                     <p className="desc">
@@ -61,7 +101,12 @@ class Overview extends Component {
               <Card title="磁盘内存" bordered={false} className="disk">
                 <Row>
                   <Col span={16}>
-                    <p className="pie">Card content</p>
+                    <div className="pie">
+                      <ReactEcharts
+                        option={diskpie}
+                        style={{ height: "220px" }}
+                      />
+                    </div>
                   </Col>
                   <Col span={8}>
                     <p className="desc">
