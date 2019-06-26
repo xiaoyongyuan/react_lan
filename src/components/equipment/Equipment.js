@@ -19,7 +19,7 @@ class Equipment extends Component {
     return (
       <div className="equip">
         <Row gutter={16}>
-          <Col md={6} style={{ height: "218px" }}>
+          <Col md={6} style={{ height: "278px" }}>
             <div
               className="card"
               style={{
@@ -66,7 +66,9 @@ class Equipment extends Component {
                 </div>
               ]}
             >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
+              <p className="elli tit">
+                <span className="titpoint" />啊大大的大大的大大的大大的
+              </p>
             </Card>
           </Col>
           <Col md={6}>

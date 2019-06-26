@@ -1,15 +1,26 @@
 .equipadd {
   height: 100%;
-  border: 1px solid;
+
+  .verhorcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ant-tabs-nav-container {
+    height: 50px !important;
+  }
 
   .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
     color: #fff !important;
     background: #e5e5e5 !important;
+    height: 50px;
     width: 250px;
     text-align: center;
   }
 
   .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
+    height: 50px;
     color: #fff !important;
     background: #006fe4 !important;
   }
@@ -21,7 +32,6 @@
   .ant-tabs .ant-tabs-top-content {
     // width: 90%;
     // height: 90%;
-    border: 1px solid red;
     // margin: 0 auto;
     // padding: 20px;
     // position: relative;
@@ -37,9 +47,23 @@
     }
 
     .defopt {
-      width: 90%;
-      height: auto;
-      border: 1px solid #933;
+      height: 622px;
+      border: 1px solid #eeeeee;
+      border-radius: 5px;
+      background: #f8f8f8;
+
+
+    }
+
+    .ant-list-bordered .ant-list-item {
+      height: 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ant-list-bordered .ant-list-item:hover {
+      color: #fd9c52
     }
 
     .defopt::before,
@@ -48,18 +72,108 @@
       height: 0px;
       border-width: 12px;
       border-style: solid;
-      border-color: transparent #fff transparent transparent;
+      border-color: transparent #f8f8f8 transparent transparent;
       position: absolute;
       content: ' ';
-      left: 0;
-      top: -24px;
+      left: -22px;
+      top: 40px;
     }
 
     .defopt::before {
-      border-color: transparent #933 transparent transparent;
+      border-color: transparent #eeeeee transparent transparent;
 
-      left: 0;
-      top: -24px;
+      left: -24px;
+      top: 40px;
+    }
+
+
+
+    .again {
+      display: block;
+      margin: -80px auto;
+      background: #006fe4;
+      color: #fff;
+    }
+
+    .definfo {
+      height: 622px;
+      border: 1px solid #eeeeee;
+      background: #f8f8f8;
+
+      .infowrap {
+        width: 100%;
+
+        .label {
+          text-align: right;
+          display: inline-block;
+          width: 25%;
+          margin-right: 20px;
+        }
+      }
+
+    }
+
+  }
+
+  .bottwrap {
+    margin-top: 16px;
+    color: #243f97;
+
+    .defsetwrap {
+      border: 1px solid #eeeeee;
+      background: #f8f8f8;
+
+      .defsetit {
+        .verhorcenter;
+        height: 40px;
+      }
+
+      .defset {
+        height: 40px;
+        border: 1px solid #eeeeee;
+        .verhorcenter;
+
+        .ant-radio-wrapper {
+          color: #243f97;
+        }
+      }
+    }
+
+    .threshold {
+      border: 1px solid #eeeeee;
+      background: #f8f8f8;
+
+      .thresholdtit {
+        .verhorcenter;
+        height: 40px;
+        border-bottom: 1px solid #eeeeee;
+
+      }
+
+      .thresholesetWrap {
+        height: 80px;
+        .verhorcenter;
+
+        .thresholdlabel {
+          border: 1px solid #eeeeee;
+          text-align: center;
+          width: 20%;
+          padding: 4px;
+        }
+
+        .thresholdset {
+          width: 60%;
+
+        }
+
+        .thresholdrest {
+          border: 1px solid #eeeeee;
+          width: 10%;
+          text-align: center;
+          padding: 4px;
+
+        }
+      }
     }
   }
 
