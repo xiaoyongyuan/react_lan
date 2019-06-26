@@ -1,0 +1,41 @@
+.broadcast {
+  background-color: #0a0c1d;
+}
+.broadcast .title-broad {
+  display: flex;
+  align-items: center;
+  color: #00ffff;
+  background: #142253;
+}
+.broadcast .broContext {
+  padding: 20px 0;
+}
+.broadcast .borderBot {
+  position: relative;
+}
+.broadcast .borderBot .broadcastBott {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 36px;
+  background-color: #142745;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+.broadcast .borderBot .broadcastBott .broCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ff7200;
+}
+.broadcast .borderBot .broadcastBott .broFont {
+  color: #fff;
+  padding-left: 8px;
+}
+.broadcast .gutter-box img {
+  width: 100%;
+}
+/*# sourceMappingURL=broadcast.css.map */

@@ -8,12 +8,22 @@ import Index from './homePage/index';
 import Broadcast from "./broadcast/Broadcast";
 //设备
 import Equipment from "./equipment/Equipment";
-//系统
-import System from "./system/System";
 //报警信息
 import PoliceInformation from "./police/PoliceInformation";
 //报警跟踪
 import AlarmTracking from "./police/AlarmTracking";
+//系统
+import Overview from "./system/Overview";
+import UserInfo from "./system/UserInfo";
+import NetworkSettings from "./system/NetworkSettings";
+import TimesSettings from "./system/TimesSettings";
+import RecycleBin from "./system/RecycleBin";
+import CloudSynchr from "./system/CloudSynchr.js";
+import UpgradeSystem from "./system/UpgradeSystem.js";
+import ElectronicMap from "./system/ElectronicMap.js";
+import Operational from "./system/Operational";
 export default {
-    Index,PoliceInformation,AlarmTracking,Broadcast,Equipment,System
+    Index,PoliceInformation,AlarmTracking,Broadcast,Equipment,
+    Overview,UserInfo,NetworkSettings,TimesSettings,RecycleBin,
+    CloudSynchr,UpgradeSystem,ElectronicMap,Operational
 };

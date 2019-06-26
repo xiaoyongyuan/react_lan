@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import "./index.less";
+import {Modal} from "antd";
 import alarmBg from "../../style/ztt/imgs/alarmBg.png";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import pingmian from "../../style/ztt/imgs/pingmian.png";
 import playBtn from "../../style/ztt/imgs/playBtn.png";
+import HomePageModel from "./HomePageModel";
 class Index extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          fortification:"已布防"
+          fortification:"已布防",
+          visible:false
       };
     }
     componentDidMount() {
@@ -44,12 +47,25 @@ class Index extends Component {
         }
     };
     hanleWithdrawal=()=>{
-
+        this.setState({
+            visible:true
+        })
     };
+    handleOk=()=>{
+        this.setState({
+            visible:true
+        })
+    };
+    handleCancel=()=>{
+        this.setState({
+            visible:false
+        })
+    };
+    //最后一次报警情况
     hanlelastAlarm=()=>{
       if(this.state.fortification==="已布防"){
           return(
-              <div className="alarmImg">
+              <div className="alarmImg" onClick={this.hanleWithdrawal}>
                   <div className="alarmVideo"><img src={defenceImg} alt=""/>
                       <div className="alarmVideoBottom">
                           <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
@@ -65,7 +81,7 @@ class Index extends Component {
           )
       }else{
          return(
-             <div className="alarmImg">
+             <div className="alarmImg" onClick={this.hanleWithdrawal}>
                  <div className="alarmVideo"><img src={alarmBg} alt=""/>
                      <div className="alarmVideoBottom">
                          <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
@@ -167,7 +183,7 @@ class Index extends Component {
                                     <span className={this.hanleBgColor2("已撤防")} />
                                 </div>
                             </div>
-                            <button className={this.hanledefendedBtn()} onClick={this.hanleWithdrawal}>{this.state.fortification==="已布防"?"一键撤防":"一键布防"}</button>
+                            <button className={this.hanledefendedBtn()}>{this.state.fortification==="已布防"?"一键撤防":"一键布防"}</button>
                         </div>
                         <div className="lastAlarm">
                             <div className="alarm-title"><span className="videoImg" /><span className="videoName">最新一次报警情况</span></div>
@@ -235,6 +251,15 @@ class Index extends Component {
                         <img className="alarmVideoBtn" src={playBtn}/>
                     </div>
                 </div>
+                <Modal
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    width={860}
+                    footer={null}
+                >
+                    <HomePageModel visible={this.state.visible} />
+                </Modal>
             </div>
         );
     }
