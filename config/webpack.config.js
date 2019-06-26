@@ -435,6 +435,8 @@ module.exports = function(webpackEnv) {
                       "@menu-bg":"#172A66",//菜单背景色
                       "@menu-item-active-bg":"#172A66",//菜单选中的背景色
                       "@menu-item-color":"#fff",//菜单项字体颜色
+                      "@table-header-bg": "#C7DCF9",//表格头部颜色
+                      "@table-header-color":"#000" ,//表格头部字体颜色
                   }
                 }
               }

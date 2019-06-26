@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import "../../style/ztt/css/electronicMap.css";
 class ElectronicMap extends Component{
     render() {
         return (
-            <div className="userInfo">电子地图绘制</div>
+            <div className="electronicMap">电子地图绘制</div>
         );
     }
 }

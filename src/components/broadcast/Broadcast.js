@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import videojs from 'video.js';
-import 'video.js/dist/video-js.min.css';
-import {Row,Col,Form,Input,Button,Select} from "antd";
+//import videojs from 'video.js';
+//import 'video.js/dist/video-js.min.css';
+import {Row,Col,Form,Button,Select} from "antd";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import "./broadcast.css";
 const { Option } = Select;

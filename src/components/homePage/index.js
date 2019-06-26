@@ -25,7 +25,6 @@ class Index extends Component {
         });
     };
     hanleBgColor1=(params)=>{
-        console.log(this.state.fortification)
         if(this.state.fortification===params){
             return "defended-name defendedBorder1Color";
         }else{
