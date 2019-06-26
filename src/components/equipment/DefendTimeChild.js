@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import ReactDOM from "react-dom";
 // import $ from "jquery";
-import "../style/jhy/css/defendTime.css";
+import "../../style/jhy/less/defendTime.less";
 // import "../style/jhy/js/dfTime.js";
 class DefendTimeChild extends Component {
   constructor(props) {
@@ -359,6 +359,11 @@ class DefendTimeChild extends Component {
         <button
           onClick={() => {
             this.resetResultData();
+          }}
+          style={{
+            position: " absolute",
+            right: "-50px",
+            bottom: "-2px"
           }}
         >
           重置
