@@ -1,1 +1,42 @@
-.Login{position:relative;height:100%;width:100%;overflow:hidden;background:radial-gradient(ellipse at bottom,#1b2735 0,#090a0f 100%)}.Login .logincont{position:absolute;top:calc(50% - 200px);left:calc(50% - 200px);width:400px;background:rgba(255,255,255)}.Login .logincont .login-logo{text-align:center;padding:15px 0;font-size:22px}
+.Login .ant-input-affix-wrapper {
+  height: 40px;
+}
+.Login .login-title {
+  width: 15%;
+  height: 100px;
+  background: url("../../style/imgs/logo.png") no-repeat;
+  background-size: 100%;
+}
+.Login .logoBor {
+  position: relative;
+}
+.Login .logoBor .logoBg {
+  width: 100%;
+  height: 60vh;
+  background: url("../../style/imgs/login.png") no-repeat left 50%;
+  background-size: 100% 100%;
+}
+.Login .logoBor .loginFrame {
+  position: absolute;
+  top: 32%;
+  left: 61%;
+  width: 22%;
+  height: 46vh;
+  background: #fff;
+  box-shadow: 0px 0px 10px rgba(34, 34, 34, 0.1);
+  padding: 30px 50px;
+}
+.Login .logoBor .loginFrame .logoForm {
+  padding-top: 30px;
+}
+.Login .logoBor .loginFrame .logoForm .logoBtn {
+  width: 100%;
+  height: 40px;
+  background: #006CFF;
+  border: none;
+  border-radius: 1px;
+}
+.Login .logoBor .loginFrame p {
+  color: #4A4A4A;
+}
+/*# sourceMappingURL=index.css.map */
