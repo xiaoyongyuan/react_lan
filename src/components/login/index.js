@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox,message } from "antd";
+import { Form, Icon, Input, Button} from "antd";
+import axios from '../../axios/index'
 import './index.less';
-const FormItem = Form.Item;
 class Login extends Component {
 
   componentDidMount() {
-
+      axios.login({
+          data: {
+              account:"admin",
+              password:"ddddd",
+          }
+      }).then((res)=>{
+          console.log(res,"222");
+      })
   }
   render() {
       const { getFieldDecorator} = this.props.form;

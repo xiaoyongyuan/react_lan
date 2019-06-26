@@ -66,7 +66,7 @@ export default class Axios {
             loading.style.display = 'block';
         }
         return new Promise((resolve,reject)=>{
-            axios.post(window.g.loginurl+'/oauth/login/login',options.data)
+            axios.post(window.g.loginURL+'/api/login/verify',options.data)
                 .then((response)=>{
                     if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
