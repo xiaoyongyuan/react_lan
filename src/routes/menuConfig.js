@@ -3,7 +3,7 @@ export default {
     {
       title: "首页",
       key: "/main/index",
-      component: "Index",
+      component: "Index"
       //icon: "action-shujuzonglan",
     },
     {
@@ -90,6 +90,12 @@ export default {
               component: "CloudSynchr"
           }
       ]
+    }
+  ],
+  other: [
+    {
+      key: "/main/equipadd",
+      component: "EquipAdd"
     }
   ]
 };

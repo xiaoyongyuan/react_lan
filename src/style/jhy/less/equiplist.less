@@ -1,0 +1,57 @@
+.equip {
+
+  .clearfix::after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+
+  .elli {
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .mulelli {
+    display: webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .ant-card-body {
+    padding: 0;
+
+  }
+
+  .card {
+    height: 100%;
+  }
+
+  .tit {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    background: rgba(36, 52, 74, 0.3);
+    width: 100%;
+    padding: 1px 4px;
+    //  margin: 0;
+  }
+
+  .ant-card-actions>li {
+    margin: 4px 0;
+  }
+
+  .extra {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    img {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+    }
+  }
+
+}

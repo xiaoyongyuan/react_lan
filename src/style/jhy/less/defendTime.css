@@ -1,0 +1,248 @@
+* {
+	box-sizing: border-box;
+}
+
+.weekday {
+	position: relative;
+}
+
+
+
+.bar {
+	background-color: #fff;
+	border: 1px solid #555;
+	position: relative;
+	height: 20px;
+	width: 100%;
+}
+
+
+/*刻度*/
+.day {
+	position: relative;
+	margin: 20px auto 0 0;
+	height: 10px;
+	box-sizing: border-box;
+}
+
+.day .hour {
+	position: absolute;
+	border-left: 1px solid #555;
+	height: 10px;
+	width: calc(1 / 24 * 100%);
+}
+
+
+.day .hour:after {
+	position: absolute;
+	top: -15px;
+	font: 11px/1 sans-serif;
+}
+
+.day .hour:nth-of-type(1) {
+	left: 0%;
+}
+
+.day .hour:nth-of-type(1):after {
+	content: "0";
+}
+
+.day .hour:nth-of-type(2) {
+	left: calc(1 / 24 * 1 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(3) {
+	left: calc(1 / 24 * 2 * 100%);
+}
+
+.day .hour:nth-of-type(3):after {
+	content: "2";
+}
+
+.day .hour:nth-of-type(4) {
+	left: calc(1 / 24 * 3 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(5) {
+	left: calc(1 / 24 * 4 * 100%);
+}
+
+.day .hour:nth-of-type(5):after {
+	content: "4";
+}
+
+.day .hour:nth-of-type(6) {
+	left: calc(1 / 24 * 5 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(7) {
+	left: calc(1 / 24 * 6 * 100%);
+}
+
+.day .hour:nth-of-type(7):after {
+	content: "6";
+}
+
+.day .hour:nth-of-type(8) {
+	left: calc(1 / 24 * 7 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(9) {
+	left: calc(1 / 24 * 8 * 100%);
+}
+
+.day .hour:nth-of-type(9):after {
+	content: "8";
+}
+
+.day .hour:nth-of-type(10) {
+	left: calc(1 / 24 * 9 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(11) {
+	left: calc(1 / 24 * 10 * 100%);
+}
+
+.day .hour:nth-of-type(11):after {
+	content: "10";
+}
+
+.day .hour:nth-of-type(12) {
+	left: calc(1 / 24 * 11 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(13) {
+	left: calc(1 / 24 * 12 * 100%);
+}
+
+.day .hour:nth-of-type(13):after {
+	content: "12";
+}
+
+.day .hour:nth-of-type(14) {
+	left: calc(1 / 24 * 13 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(15) {
+	left: calc(1 / 24 * 14 * 100%);
+}
+
+.day .hour:nth-of-type(15):after {
+	content: "14";
+}
+
+.day .hour:nth-of-type(16) {
+	left: calc(1 / 24 * 15 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(17) {
+	left: calc(1 / 24 * 16 * 100%);
+}
+
+.day .hour:nth-of-type(17):after {
+	content: "16";
+}
+
+.day .hour:nth-of-type(18) {
+	left: calc(1 / 24 * 17 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(19) {
+	left: calc(1 / 24 * 18 * 100%);
+}
+
+.day .hour:nth-of-type(19):after {
+	content: "18";
+}
+
+.day .hour:nth-of-type(20) {
+	left: calc(1 / 24 * 19 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(21) {
+	left: calc(1 / 24 * 20 * 100%);
+}
+
+.day .hour:nth-of-type(21):after {
+	content: "20";
+}
+
+.day .hour:nth-of-type(22) {
+	left: calc(1 / 24 * 21 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(23) {
+	left: calc(1 / 24 * 22 * 100%);
+}
+
+.day .hour:nth-of-type(23):after {
+	content: "22";
+}
+
+.day .hour:nth-of-type(24) {
+	left: calc(1 / 24 * 23 * 100%);
+}
+
+
+
+.day .hour:nth-of-type(25) {
+	left: calc(1 / 24 * 24 * 100% - 1px);
+	left: -webkit-calc(1 / 24 * 24 * 100% - 1px);
+}
+
+.day .hour:nth-of-type(25):after {
+	content: "24";
+}
+
+.day .hour:after {
+	text-indent: -0.5em;
+}
+
+.bar div {
+	display: inline-block;
+}
+
+.item {
+	position: absolute;
+	top: 0;
+	background-color: blue;
+}
+
+#item1 {
+	background-color: blue;
+	height: 100%;
+}
+
+#item2 {
+	background-color: pink;
+	height: 100%;
+
+}
+
+#item3 {
+	background-color: orange;
+	height: 100%;
+
+}

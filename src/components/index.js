@@ -8,6 +8,8 @@ import Index from './homePage/index';
 import Broadcast from "./broadcast/Broadcast";
 //设备
 import Equipment from "./equipment/Equipment";
+//添加设备
+import EquipAdd from "./equipment/EquipAdd";
 //报警信息
 import PoliceInformation from "./police/PoliceInformation";
 //报警跟踪
@@ -23,7 +25,7 @@ import UpgradeSystem from "./system/UpgradeSystem.js";
 import ElectronicMap from "./system/ElectronicMap.js";
 import Operational from "./system/Operational";
 export default {
-    Index,PoliceInformation,AlarmTracking,Broadcast,Equipment,
+    Index,PoliceInformation,AlarmTracking,Broadcast,Equipment,EquipAdd,
     Overview,UserInfo,NetworkSettings,TimesSettings,RecycleBin,
     CloudSynchr,UpgradeSystem,ElectronicMap,Operational
 };
