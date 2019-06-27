@@ -16,15 +16,19 @@ class TimesSettings extends Component {
       <div className="timeset">
         <Row>
           <Col span={8}>
-            <Form {...formItemLayout}>
-              <Form.Item label="自动时间设置">
-                {getFieldDecorator("autoGettime", {})(<Radio />)}
+            <Form {...formItemLayout} colon={false}>
+              <Form.Item>
+                {getFieldDecorator("autoGettime", {})(
+                  <Radio>自动时间设置</Radio>
+                )}
               </Form.Item>
               <Form.Item label="选择时间获取源">
                 {getFieldDecorator("timeselect", {})(<TimePicker />)}
               </Form.Item>
-              <Form.Item label="手动时间配置">
-                {getFieldDecorator("handletime", {})(<Radio />)}
+              <Form.Item>
+                {getFieldDecorator("handletime", {})(
+                  <Radio>手动时间配置</Radio>
+                )}
               </Form.Item>
               <Form.Item label="日期">
                 {getFieldDecorator("date", {})(<Input />)}
@@ -32,9 +36,11 @@ class TimesSettings extends Component {
               <Form.Item label="时间">
                 {getFieldDecorator("time", {})(<Input />)}
               </Form.Item>
-              <Form.Item>
-                <Button type="primary">确认</Button>
-                <Button type="">取消</Button>
+              <Form.Item label=" ">
+                <div className="optwrap">
+                  <Button className="submit">确认</Button>
+                  <Button className="cancle">取消</Button>
+                </div>
               </Form.Item>
             </Form>
           </Col>

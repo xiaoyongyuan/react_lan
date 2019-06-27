@@ -16,15 +16,19 @@ class NetworkSettings extends Component {
       <div className="netset">
         <Row>
           <Row>
-            <Button type="primary">网卡一配置</Button>
+            <Button className="netcard">网卡一配置</Button>
           </Row>
           <Col span={8}>
-            <Form {...formItemLayout}>
-              <Form.Item label="自动获取IP地址">
-                {getFieldDecorator("autoGetIp", {})(<Radio />)}
+            <Form {...formItemLayout} colon={false}>
+              <Form.Item>
+                {getFieldDecorator("autoGetIp", {})(
+                  <Radio>自动获取IP地址</Radio>
+                )}
               </Form.Item>
-              <Form.Item label="使用下面的IP地址">
-                {getFieldDecorator("userUnderIP", {})(<Radio />)}
+              <Form.Item>
+                {getFieldDecorator("userUnderIP", {})(
+                  <Radio>使用下面的IP地址</Radio>
+                )}
               </Form.Item>
               <Form.Item label="IP号">
                 {getFieldDecorator("ip", {})(<Input />)}
@@ -41,27 +45,33 @@ class NetworkSettings extends Component {
               <Form.Item label="DNS2">
                 {getFieldDecorator("ip", {})(<Input />)}
               </Form.Item>
-              <Form.Item label="网络测试">
-                {getFieldDecorator("userUnderIP", {})(<Radio />)}
-              </Form.Item>
               <Form.Item>
-                <Button type="primary">确认</Button>
-                <Button type="default">取消</Button>
+                {getFieldDecorator("userUnderIP", {})(<Radio>网络测试</Radio>)}
+              </Form.Item>
+              <Form.Item label=" ">
+                <div className="optwrap">
+                  <Button className="submit">确认</Button>
+                  <Button className="cancle">取消</Button>
+                </div>
               </Form.Item>
             </Form>
           </Col>
         </Row>
         <Row>
           <Row>
-            <Button type="primary">网卡二配置</Button>
+            <Button className="netcard">网卡二配置</Button>
           </Row>
           <Col span={8}>
-            <Form {...formItemLayout}>
-              <Form.Item label="自动获取IP地址">
-                {getFieldDecorator("autoGetIp", {})(<Radio />)}
+            <Form {...formItemLayout} colon={false}>
+              <Form.Item>
+                {getFieldDecorator("autoGetIp", {})(
+                  <Radio>自动获取IP地址</Radio>
+                )}
               </Form.Item>
-              <Form.Item label="使用下面的IP地址">
-                {getFieldDecorator("userUnderIP", {})(<Radio />)}
+              <Form.Item>
+                {getFieldDecorator("userUnderIP", {})(
+                  <Radio>使用下面的IP地址</Radio>
+                )}
               </Form.Item>
               <Form.Item label="IP号">
                 {getFieldDecorator("ip", {})(<Input />)}
@@ -78,12 +88,14 @@ class NetworkSettings extends Component {
               <Form.Item label="DNS2">
                 {getFieldDecorator("ip", {})(<Input />)}
               </Form.Item>
-              <Form.Item label="网络测试">
-                {getFieldDecorator("userUnderIP", {})(<Radio />)}
-              </Form.Item>
               <Form.Item>
-                <Button type="primary">确认</Button>
-                <Button type="default">取消</Button>
+                {getFieldDecorator("userUnderIP", {})(<Radio>网络测试</Radio>)}
+              </Form.Item>
+              <Form.Item label=" ">
+                <div className="optwrap">
+                  <Button className="submit">确认</Button>
+                  <Button className="cancle">取消</Button>
+                </div>
               </Form.Item>
             </Form>
           </Col>
