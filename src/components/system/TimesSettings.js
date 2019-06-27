@@ -15,7 +15,7 @@ class TimesSettings extends Component {
     return (
       <div className="timeset">
         <Row>
-          <Col span={8}>
+          <Col span={12}>
             <Form {...formItemLayout} colon={false}>
               <Form.Item>
                 {getFieldDecorator("autoGettime", {})(

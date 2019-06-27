@@ -71,8 +71,8 @@ class UserInfo extends Component {
     ];
     return (
       <div className="userInfo">
-        <Row style={{ padding: "20px" }}>
-          <Button type="primary">
+        <Row style={{ padding: "20px 0" }}>
+          <Button className="addbtn">
             <Icon type="plus" />
             添加用户
           </Button>

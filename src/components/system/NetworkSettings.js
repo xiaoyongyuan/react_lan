@@ -16,9 +16,9 @@ class NetworkSettings extends Component {
       <div className="netset">
         <Row>
           <Row>
-            <Button className="netcard">网卡一配置</Button>
+            <span className="netcard">网卡一配置</span>
           </Row>
-          <Col span={8}>
+          <Col span={12}>
             <Form {...formItemLayout} colon={false}>
               <Form.Item>
                 {getFieldDecorator("autoGetIp", {})(
@@ -57,11 +57,11 @@ class NetworkSettings extends Component {
             </Form>
           </Col>
         </Row>
-        <Row>
+        <Row className="cardtwo">
           <Row>
-            <Button className="netcard">网卡二配置</Button>
+            <span className="netcard">网卡二配置</span>
           </Row>
-          <Col span={8}>
+          <Col span={12}>
             <Form {...formItemLayout} colon={false}>
               <Form.Item>
                 {getFieldDecorator("autoGetIp", {})(

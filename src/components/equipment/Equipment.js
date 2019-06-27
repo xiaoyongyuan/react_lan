@@ -1,4 +1,4 @@
-import { Card, Col, Icon, Row } from "antd";
+import { Card, Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
 import "../../style/jhy/less/equiplist.less";
 import "../../style/jhy/less/reset.less";
@@ -19,7 +19,7 @@ class Equipment extends Component {
     return (
       <div className="equip">
         <Row gutter={16}>
-          <Col md={6} style={{ height: "278px" }}>
+          <Col md={6} style={{ height: "270px" }}>
             <div
               className="card"
               style={{
@@ -43,7 +43,7 @@ class Equipment extends Component {
               <p style={{ color: "#223c95" }}>添加设备</p>
             </div>
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -67,11 +67,12 @@ class Equipment extends Component {
               ]}
             >
               <p className="elli tit">
-                <span className="titpoint" />啊大大的大大的大大的大大的
+                <span className="titpoint" />
+                啊大大的大大的大大的大大的
               </p>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -97,7 +98,7 @@ class Equipment extends Component {
               <p className="elli tit">啊大大的大大的大大的大大的</p>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -123,7 +124,7 @@ class Equipment extends Component {
               <p className="elli tit">啊大大的大大的大大的大大的</p>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -149,7 +150,7 @@ class Equipment extends Component {
               <p className="elli tit">啊大大的大大的大大的大大的</p>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -175,7 +176,7 @@ class Equipment extends Component {
               <p className="elli tit">啊大大的大大的大大的大大的</p>
             </Card>
           </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -201,59 +202,7 @@ class Equipment extends Component {
               <p className="elli tit">啊大大的大大的大大的大大的</p>
             </Card>
           </Col>
-          <Col md={6}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6}>
+          <Col md={6} style={{ marginBottom: "16px" }}>
             <Card
               cover={
                 <img
@@ -280,6 +229,15 @@ class Equipment extends Component {
             </Card>
           </Col>
         </Row>
+        <Pagination
+          total={50}
+          showSizeChanger
+          showQuickJumper
+          showTotal={total => {
+            return `共${total}条`;
+          }}
+          className="pagination"
+        />
       </div>
     );
   }
