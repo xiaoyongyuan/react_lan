@@ -3,6 +3,9 @@ import { Row, Col, Select,DatePicker,Button,Icon } from 'antd';
 import "./ploceinfomation.less";
 import test2 from "../../style/imgs/test2.png";
 import alarmcl from "../../style/imgs/alarmcl.png";
+import 'swiper/dist/css/swiper.min.css';
+import Swiper from 'swiper/dist/js/swiper.js'
+import alarmBg from "../../style/ztt/imgs/defenceImg.png";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 class PoliceInformation extends Component {
@@ -12,6 +15,21 @@ class PoliceInformation extends Component {
 
         };
     }
+    componentDidMount() {
+        new Swiper(".swiper-container", {
+            loop: false, //循环
+            // autoplay: {
+            //     //滑动后继续播放（不写官方默认暂停）
+            //     disableOnInteraction: false
+            // }, //可选选项，自动滑动
+            slidesPerView: 5,
+            spaceBetween: 10,
+            observer: true,
+            observeParents: true,
+            observeSlideChildren: true
+        });
+    }
+
     handleChange = (value) =>{
         console.log(`selected ${value}`);
     };
@@ -85,6 +103,24 @@ class PoliceInformation extends Component {
                                         </div>
                                         <span className="img-up-fu-word-span">新风机房2号门</span>
                                     </div>
+                                </div>
+                                <div className="swiper-container">
+                                    <div className="swiper-wrapper">
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                    </div>
+                                   {/* <Icon type="left" className="prev" />
+                                    <Icon type="right" className="next"/>*/}
                                 </div>
                             </Col>
                             <Col className="main-left-R" span={12}>
