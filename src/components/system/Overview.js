@@ -52,7 +52,7 @@ class Overview extends Component {
                     <div className="pie">
                       <ReactEcharts
                         option={cpupie}
-                        style={{ height: "220px" }}
+                        style={{ height: "180px" }}
                       />
                     </div>
                   </Col>
@@ -76,7 +76,7 @@ class Overview extends Component {
                     <div className="pie">
                       <ReactEcharts
                         option={physpie}
-                        style={{ height: "220px" }}
+                        style={{ height: "180px" }}
                       />
                     </div>
                   </Col>
@@ -104,7 +104,7 @@ class Overview extends Component {
                     <div className="pie">
                       <ReactEcharts
                         option={diskpie}
-                        style={{ height: "220px" }}
+                        style={{ height: "180px" }}
                       />
                     </div>
                   </Col>

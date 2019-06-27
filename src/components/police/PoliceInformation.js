@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Select,DatePicker,Button,Icon } from 'antd';
 import "./ploceinfomation.less";
-import test from "../../style/imgs/testl.png";
 import test2 from "../../style/imgs/test2.png";
-import bottom from "../../style/imgs/bottom.png";
 import alarmcl from "../../style/imgs/alarmcl.png";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -29,7 +27,7 @@ class PoliceInformation extends Component {
             <div className="ploceinfomation">
                 <Row className="ploceinfomation-query">
                     <Col span={5}>
-                        <span className="select-camera">选择摄像头</span>
+                        <span className="select-camera">选择设备</span>
                         <Select className="select-form" defaultValue="lucy" onChange={this.handleChange}>
                             <Option value="jack">Jack</Option>
                             <Option value="lucy">Lucy</Option>
