@@ -1,0 +1,115 @@
+.overview {
+  height: 100%;
+  background: #f8f8f8;
+  padding: 30px;
+}
+.overview .ant-card-head {
+  border: 0;
+}
+.overview .ant-card-head-title {
+  font-size: 20px;
+}
+.overview .cpu::before,
+.overview .physics::before,
+.overview .disk::before,
+.overview .ossys::before,
+.overview .funset::before {
+  content: '';
+  width: 16px;
+  height: 4px;
+  background: #006cff;
+  position: absolute;
+  left: 0px;
+  top: 25px;
+}
+.overview .dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+.overview .topwrap {
+  height: 36%;
+}
+.overview .topwrap .desc {
+  margin-top: 10px;
+}
+.overview .topwrap .cpu .desc:first-of-type {
+  color: #006cff;
+}
+.overview .topwrap .cpu .desc:first-of-type .bluedot {
+  background: #006cff;
+}
+.overview .topwrap .cpu .desc:last-of-type {
+  color: #dcdbe0;
+}
+.overview .topwrap .cpu .desc:last-of-type .graydot {
+  background: #dcdbe0;
+}
+.overview .topwrap .physics .desc:first-of-type,
+.overview .topwrap .disk .desc:first-of-type {
+  color: #006cff;
+}
+.overview .topwrap .physics .desc:first-of-type .bluedot,
+.overview .topwrap .disk .desc:first-of-type .bluedot {
+  background: #006cff;
+}
+.overview .topwrap .physics .desc:nth-of-type(2),
+.overview .topwrap .disk .desc:nth-of-type(2) {
+  color: #ff7200;
+}
+.overview .topwrap .physics .desc:nth-of-type(2) .orangedot,
+.overview .topwrap .disk .desc:nth-of-type(2) .orangedot {
+  background: #ff7200;
+}
+.overview .topwrap .physics .desc:last-of-type,
+.overview .topwrap .disk .desc:last-of-type {
+  color: #32e8fe;
+}
+.overview .topwrap .physics .desc:last-of-type .lightbluedot,
+.overview .topwrap .disk .desc:last-of-type .lightbluedot {
+  background: #32e8fe;
+}
+.overview .midwrap {
+  margin-top: 20px;
+  height: 20%;
+}
+.overview .midwrap .ossys .syslabel {
+  display: inline-block;
+  width: 25%;
+  font-size: 16px;
+  color: #2c459a;
+  text-align: right;
+}
+.overview .midwrap .ossys .prog {
+  margin-left: 20px;
+  width: 60%;
+  position: relative;
+}
+.overview .midwrap .ossys .prog .ant-progress-inner {
+  height: 25px;
+}
+.overview .midwrap .ossys .prog .ant-progress-inner .ant-progress-bg {
+  background: #006cff;
+  height: 25px !important;
+}
+.overview .midwrap .ossys .prog .ant-progress-text {
+  position: absolute;
+  left: 35%;
+  top: 25%;
+}
+.overview .botwrap .ant-list-split .ant-list-item {
+  border: 1px solid #f0f0f0;
+  margin-top: 5px;
+}
+.overview .botwrap .ant-list-split .ant-list-item .ant-radio-wrapper {
+  width: 100%;
+  position: relative;
+}
+.overview .botwrap .ant-list-split .ant-list-item .ant-radio-wrapper .ant-radio {
+  position: absolute;
+  right: 0;
+  top: 4px;
+}
+/*# sourceMappingURL=overview.css.map */

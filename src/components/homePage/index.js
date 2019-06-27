@@ -254,7 +254,7 @@ class Index extends Component {
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    width={860}
+                    width={880}
                     footer={null}
                 >
                     <HomePageModel visible={this.state.visible} />
