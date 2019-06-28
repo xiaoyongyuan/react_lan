@@ -85,11 +85,11 @@ export default {
               component: "ElectronicMap"
           }
           ,
-          {
+          /*{
               title: "云端同步",
               key: "/main/cloudSynchr",
               component: "CloudSynchr"
-          }
+          }*/
       ]
     }
   ],
@@ -97,6 +97,10 @@ export default {
     {
       key: "/main/equipadd",
       component: "EquipAdd"
-    }
+    },
+      {
+          key: "/login",
+          component: "Login"
+      }
   ]
 };

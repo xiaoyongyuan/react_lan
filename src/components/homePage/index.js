@@ -253,6 +253,7 @@ class Index extends Component {
                 <Modal
                     visible={this.state.visible}
                     onOk={this.handleOk}
+                    centered
                     onCancel={this.handleCancel}
                     width={880}
                     footer={null}
