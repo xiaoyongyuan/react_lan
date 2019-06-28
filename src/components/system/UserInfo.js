@@ -3,55 +3,44 @@ import { Row, Icon, Button, Modal, Form, Input, Select } from "antd";
 import Etable from "../common/Etable";
 import "../../style/jhy/less/userinfo.less";
 const { Option } = Select;
-const { confirm } = Modal;
 class UserInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalshow: false
+       modalshow: false,
+       addModel:false
     };
   }
-  showAdd = () => {
-    const formlayout = {
-      labelCol: {
-        span: 6
-      },
-      wrapperCol: {
-        span: 16
-      }
-    };
-    const { getFieldDecorator } = this.props.form;
-    confirm({
-      icon: null,
-      className: "adduser",
-      content: (
-        <Form {...formlayout}>
-          <Form.Item label="用户名" key="username">
-            {getFieldDecorator("username")(<Input />)}
-          </Form.Item>
-          <Form.Item label="昵称" key="nickname">
-            {getFieldDecorator("nickname")(<Input />)}
-          </Form.Item>
-          <Form.Item label="角色权限" key="role">
-            {getFieldDecorator("role", {
-              initialValue: "1"
-            })(
-              <Select>
-                <Option key="1" value="1">
-                  管理员
-                </Option>
-              </Select>
-            )}
-          </Form.Item>
-        </Form>
-      )
-    });
+  userAdd = (e) => {
+      e.preventDefault();
+      this.props.form.validateFields((err,values)=>{
+          if(!err){
+
+          }
+      })
   };
-  userAdd = () => {};
-  cancelModal = () => {
+  showAdd=()=>{
+      this.setState({
+          addModel:true
+      })
+  };
+    handleAdd=()=>{
+        this.props.form.validateFields((err, values)=>{
+          if(!err){
+              console.log(values,"values");
+          }
+        })
+    }
+  handleOk=()=>{
+
     this.setState({
-      modalshow: false
-    });
+        addModel:false
+    })
+  };
+  handleCancel=()=>{
+      this.setState({
+          addModel:false
+      })
   };
   render() {
     const userlist = [
@@ -123,20 +112,55 @@ class UserInfo extends Component {
         role: "管理员"
       }
     ];
+    const formlayout = {
+        labelCol: {
+            span: 6
+        },
+        wrapperCol: {
+            span: 16
+        }
+    };
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="userInfo">
         <Row style={{ padding: "20px 0" }}>
           <Button
             className="addbtn"
-            onClick={() => {
-              this.showAdd();
-            }}
-          >
+            onClick={() => {this.showAdd()}}>
             <Icon type="plus" />
             添加用户
           </Button>
         </Row>
         <Etable dataSource={userdata} columns={userlist} />
+          <Modal
+            title="用户新增"
+            visible={this.state.addModel}
+            onOk={this.handleOk}
+            onCancel={this.handleCancel}
+            footer={null}
+          >
+              <Form {...formlayout} onClick={this.handleAdd}>
+                  <Form.Item label="用户名" key="username" >
+                      {getFieldDecorator("account")(<Input />)}
+                  </Form.Item>
+                  <Form.Item label="昵称" key="nickname">
+                      {getFieldDecorator("nickname")(<Input />)}
+                  </Form.Item>
+                  <Form.Item label="角色权限" key="role">
+                      {getFieldDecorator("realname", {
+                          initialValue: "0"
+                      })(
+                          <Select>
+                              <Option value="0">管理员</Option>
+                              <Option value="1">普通用户</Option>
+                          </Select>
+                      )}
+                  </Form.Item>
+                  <Form.Item>
+                     <Button type="primary" htmlType="submit">确定</Button>
+                  </Form.Item>
+              </Form>
+          </Modal>
       </div>
     );
   }

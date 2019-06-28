@@ -60,7 +60,7 @@ export default class Axios {
     static ajax(options){
         const biography={
             account:'admin',
-            companycode:"7000001"
+            companycode:"1000001"
         };
      /* let loading;
         if (options.isShowLoading !== false){
