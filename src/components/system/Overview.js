@@ -16,10 +16,17 @@ class Overview extends Component {
         {
           type: "pie",
           radius: ["50%", "80%"],
+          // tooltip: {
+          //   show: false
+          // },
           label: [],
-          data: [{ value: 25 }, { value: 75 }]
+          selectedOffset: 20,
+          cursor: "default",
+          data: [{ value: 25, selected: true }, { value: 75 }]
         }
-      ]
+      ],
+      color: ["#006cff", "#dcdbe0"],
+      animation: false
     };
     const physpie = {
       series: [
@@ -29,7 +36,8 @@ class Overview extends Component {
           label: [],
           data: [{ value: 25 }, { value: 25 }, { value: 50 }]
         }
-      ]
+      ],
+      color: ["#006cff", "#ff7200", "#32e8fe"]
     };
     const diskpie = {
       series: [
@@ -39,7 +47,8 @@ class Overview extends Component {
           label: [],
           data: [{ value: 25 }, { value: 15 }, { value: 60 }]
         }
-      ]
+      ],
+      color: ["#006cff", "#ff7200", "#32e8fe"]
     };
     return (
       <div className="overview">
