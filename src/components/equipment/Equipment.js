@@ -14,14 +14,14 @@ class Equipment extends Component {
     this.state = {};
   }
   componentDidMount() {
-      axios.ajax({
+     /* axios.ajax({
           baseURL:window.g.equipmentURL,
           method: 'get',
           url: '/camera/getlist',
       })
           .then((res)=>{
             console.log(res,"0000")
-          });
+          });*/
   }
 
     addEquip = () => {

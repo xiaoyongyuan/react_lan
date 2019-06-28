@@ -13,11 +13,11 @@ class Login extends Component {
             if (!err) {
                 axios.login({
                     data: {
-                        account:values.account,
-                        password:values.password,
+                        account:"admin",
+                        password:"888888",
                     }
                 }).then((res)=>{
-                    this.props.history.push('/main/index');
+                    //this.props.history.push('/main/index');
                     console.log(res,"222");
                 })
             }

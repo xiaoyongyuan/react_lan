@@ -3,18 +3,18 @@ import { message } from "antd";
 const baseURL = window.g.baseURL;
 export default class Axios {
     static login(options){
-        let loading;
+      /*  let loading;
         if (options.isShowLoading !== false){
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
-        }
+        }*/
         return new Promise((resolve,reject)=>{
             axios.post(window.g.loginURL+'/api/login/verify',options.data)
                 .then((response)=>{
-                    if (options.isShowLoading !== false) {
+                   /* if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
                         loading.style.display = 'none';
-                    }
+                    }*/
                     if(response&&response.status=='200'){
                         const res=response.data;
                         resolve(res)
@@ -34,7 +34,7 @@ export default class Axios {
         return new Promise((resolve,reject)=>{
             axios({
                 method:'get',
-                url: window.g.exiturl+'/login/exit',
+                url: window.g.loginURL+'/login/exit',
                 params:{
                     token:localStorage.getItem("token")
                 },
@@ -57,7 +57,9 @@ export default class Axios {
         })
     }
     static ajax(options){
-       /* let loading;
+        /*options.data.account="admin";
+        options.data.companycode="1000001";*/
+     /* let loading;
         if (options.isShowLoading !== false){
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
@@ -65,7 +67,7 @@ export default class Axios {
         const token=localStorage.getItem("token");
         return new Promise((resolve,reject)=>{
             if(!token){
-                window.location.href='#/login'
+                window.location.href='#/login';
                 reject(false)
             }
             axios({
