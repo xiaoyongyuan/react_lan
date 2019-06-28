@@ -9,7 +9,8 @@ export default class Axios {
             loading.style.display = 'block';
         }*/
         return new Promise((resolve,reject)=>{
-            axios.post(window.g.loginURL+'/api/login/verify',options.data)
+            axios.post(window.g.loginURL+'/api/login/verify'
+                ,options.data)
                 .then((response)=>{
                    /* if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
@@ -57,29 +58,31 @@ export default class Axios {
         })
     }
     static ajax(options){
-        /*options.data.account="admin";
-        options.data.companycode="1000001";*/
+        const biography={
+            account:'admin',
+            companycode:"7000001"
+        };
      /* let loading;
         if (options.isShowLoading !== false){
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }*/
-        const token=localStorage.getItem("token");
+        //const token=localStorage.getItem("token");
         return new Promise((resolve,reject)=>{
-            if(!token){
+            /*if(!token){
                 window.location.href='#/login';
                 reject(false)
-            }
+            }*/
             axios({
                 baseURL: options.baseURL||baseURL,
                 method: options.method || 'get',
                 url: options.url,
                 headers:{
-                    ContentType:'application/json;charset=UTF-8',
-                    AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
+                    // ContentType:'application/json;charset=UTF-8',
+                    // AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
                 },
-                params: options.method === 'get' || options.method === 'delete' ? options.data : null,
-                data: options.method === 'post' || options.method === 'put' ? options.data: null,
+                params: options.method === 'get' || options.method === 'delete' ? Object.assign(options.data,biography) : null,
+                data: options.method === 'post' || options.method === 'put' ? Object.assign(options.data,biography): null,
             })
                 .then((response)=>{
                   /*  if (options.isShowLoading !== false) {

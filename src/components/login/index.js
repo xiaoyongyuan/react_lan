@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button} from "antd";
-import axios from '../../axios/index'
+import { Form, Icon, Input, Button,message} from "antd";
+import axios from '../../axios/index';
 import './index.less';
 class Login extends Component {
 
@@ -12,14 +12,21 @@ class Login extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 axios.login({
-                    data: {
-                        account:"admin",
-                        password:"888888",
+                    data:{
+                        account:values.account,
+                        password:values.password,
                     }
                 }).then((res)=>{
-                    //this.props.history.push('/main/index');
-                    console.log(res,"222");
+                    if(res.data.datainfo){
+                        localStorage.setItem("account", res.data.datainfo.account);
+                        localStorage.setItem("companycode", res.data.datainfo.companycode);
+                        // localStorage.setItem("token", res.data.datainfo.token);
+                        this.props.history.push("/main/index");
+                    }else{
+                        message.warn('用户名或密码错误！')
+                    }
                 })
+
             }
         });
     };
