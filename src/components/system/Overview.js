@@ -5,10 +5,7 @@ import { Row, Col, Card, Progress, Descriptions, List, Radio } from "antd";
 import "../../style/jhy/less/overview.less";
 
 class Overview extends Component {
-  componentDidMount() {
-    const cpuech = echarts.init(document.getElementById(cpuech));
-    console.log(cpuech);
-  }
+  componentDidMount() {}
   render() {
     const funconfig = [
       <Radio>云端同步服务器是否运行</Radio>,

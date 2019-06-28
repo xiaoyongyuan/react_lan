@@ -3,13 +3,15 @@
 
  */
 
-import Index from './homePage/index';
+import Index from "./homePage/index";
 //直播
 import Broadcast from "./broadcast/Broadcast";
 //设备
 import Equipment from "./equipment/Equipment";
 //添加设备
 import EquipAdd from "./equipment/EquipAdd";
+//测试防区
+import Setarea from "./equipment/Setarea";
 //报警信息
 import PoliceInformation from "./police/PoliceInformation";
 //报警跟踪
@@ -27,7 +29,21 @@ import Operational from "./system/Operational";
 //登录
 import Login from "./login/index";
 export default {
-    Index,PoliceInformation,AlarmTracking,Broadcast,Equipment,EquipAdd,
-    Overview,UserInfo,NetworkSettings,TimesSettings,RecycleBin,
-    CloudSynchr,UpgradeSystem,ElectronicMap,Operational,Login
+  Index,
+  PoliceInformation,
+  AlarmTracking,
+  Broadcast,
+  Equipment,
+  EquipAdd,
+  Overview,
+  UserInfo,
+  NetworkSettings,
+  TimesSettings,
+  RecycleBin,
+  CloudSynchr,
+  UpgradeSystem,
+  ElectronicMap,
+  Operational,
+  Login,
+  Setarea
 };
