@@ -3,7 +3,6 @@ import { HashRouter, Route, Switch, Redirect} from 'react-router-dom'
 import App from './App'
 import Login from './components/login'
 import Main from './components/main'
-import Pandect from './components/pandect'
 import Notfound from './components/pages/notfound'
 
 
@@ -15,10 +14,9 @@ class Routes extends Component {
       <HashRouter>
       <App>
       	<Switch>
-          <Route exact path="/" render={()=> <Redirect to="/Main/index" push />}/>
+          <Route exact path="/" render={()=> <Redirect to="/main/index" push />}/>
       		<Route path="/login" component={Login}/>
       		<Route path="/main" component={Main}/>
-      		{/*<Route path="/pandect" component={Pandect} />*/}
           <Route path="/404" component={Notfound} />
           <Route component={Notfound} />/
       	</Switch>

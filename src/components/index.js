@@ -24,8 +24,10 @@ import CloudSynchr from "./system/CloudSynchr.js";
 import UpgradeSystem from "./system/UpgradeSystem.js";
 import ElectronicMap from "./system/ElectronicMap.js";
 import Operational from "./system/Operational";
+//登录
+import Login from "./login/index";
 export default {
     Index,PoliceInformation,AlarmTracking,Broadcast,Equipment,EquipAdd,
     Overview,UserInfo,NetworkSettings,TimesSettings,RecycleBin,
-    CloudSynchr,UpgradeSystem,ElectronicMap,Operational
+    CloudSynchr,UpgradeSystem,ElectronicMap,Operational,Login
 };

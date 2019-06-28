@@ -5,15 +5,24 @@ import './index.less';
 class Login extends Component {
 
   componentDidMount() {
-      axios.login({
-          data: {
-              account:"admin",
-              password:"ddddd",
-          }
-      }).then((res)=>{
-          console.log(res,"222");
-      })
+
   }
+  hanleSubmit=(e)=>{
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                axios.login({
+                    data: {
+                        account:values.account,
+                        password:values.account,
+                    }
+                }).then((res)=>{
+                    this.props.history.push('/main/index');
+                    console.log(res,"222");
+                })
+            }
+        });
+    };
   render() {
       const { getFieldDecorator} = this.props.form;
     return (
@@ -23,20 +32,20 @@ class Login extends Component {
             <div className="logoBg" />
             <div className="loginFrame">
               <p>用户登录</p>
-                <Form className="logoForm">
+                <Form className="logoForm" onClick={this.hanleSubmit}>
                     <Form.Item>
-                        {getFieldDecorator('username', {
-                            rules: [{ required: false, message: 'Please input your username!' }],
+                        {getFieldDecorator('account', {
+                            rules: [{ required: true, message: '请输入用户名/邮箱/手机号!' }],
                         })(
                             <Input
                                 prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.1)' }} />}
-                                placeholder="用户名/邮箱/手机"
+                                placeholder="用户名/邮箱/手机号"
                             />,
                         )}
                     </Form.Item>
                     <Form.Item >
                         {getFieldDecorator('password', {
-                            rules: [{ required: false, message: 'Please input your Password!' }],
+                            rules: [{ required: true, message: '请输入密码!' }],
                         })(
                             <Input
                                 prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.1)' }} />}

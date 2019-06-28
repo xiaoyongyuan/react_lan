@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Select} from "antd";
-import logoCricle from "../../../style/imgs/logoCricle.png";
-import shield from "../../../style/imgs/shield.png";
+import {Select,Icon,Modal} from "antd";
+import { withRouter } from 'react-router-dom';
 import './index.less';
 const { Option } = Select;
+const confirm = Modal.confirm;
 class LayerHeader extends Component {
     constructor(props) {
       super(props);
@@ -11,7 +11,16 @@ class LayerHeader extends Component {
 
       };
     }
-
+    hanleClose=()=>{
+        const _this=this;
+        confirm({
+            title: '退出',
+            content: '确认退出吗？',
+            onOk() {
+                _this.props.history.push('/login')
+            }
+        });
+    };
   render() {
     return (
       <div className="LayerHeader">
@@ -26,10 +35,11 @@ class LayerHeader extends Component {
               <Select defaultValue="Admin" style={{width:120}}>
                   <Option value="Admin">Admin</Option>
               </Select>
+              <Icon type="poweroff" className="signout" onClick={this.hanleClose} />
           </div>
       </div>
     );
   }
 }
 
-export default LayerHeader;
+export default withRouter(LayerHeader);
