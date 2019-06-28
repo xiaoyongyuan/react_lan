@@ -1,248 +1,285 @@
 * {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-.weekday {
-	position: relative;
+body {
+  background-color: #e3e3e3;
 }
-
-
 
 .bar {
-	background-color: #fff;
-	border: 1px solid #555;
-	position: relative;
-	height: 20px;
-	width: 100%;
+  background-color: #fff;
+  border: 1px solid #555;
+  position: relative;
+  margin: 0 auto 20px 0;
+  height: 20px;
+  width: calc(100% + 1px);
 }
 
 
 /*刻度*/
 .day {
-	position: relative;
-	margin: 20px auto 0 0;
-	height: 10px;
-	box-sizing: border-box;
+  position: relative;
+  margin: 20px auto 0 0;
+  height: 10px;
+  box-sizing: border-box;
 }
 
 .day .hour {
-	position: absolute;
-	border-left: 1px solid #555;
-	height: 10px;
-	width: calc(1 / 24 * 100%);
+  position: absolute;
+  border-left: 1px solid #555;
+  height: 10px;
+  width: calc(1 / 24 * 100%);
 }
 
+.day .halfhour {
+  position: absolute;
+  border-left: 1px solid #555;
+  height: 7px;
+  width: 50%;
+  top: 4px;
+}
 
 .day .hour:after {
-	position: absolute;
-	top: -15px;
-	font: 11px/1 sans-serif;
+  position: absolute;
+  top: -15px;
+  font: 11px/1 sans-serif;
 }
 
 .day .hour:nth-of-type(1) {
-	left: 0%;
+  left: 0%;
 }
 
 .day .hour:nth-of-type(1):after {
-	content: "0";
+  content: "0";
 }
 
 .day .hour:nth-of-type(2) {
-	left: calc(1 / 24 * 1 * 100%);
+  left: calc(1 / 24 * 1 * 100%);
 }
 
-
+.day .hour:nth-of-type(2):after {
+  /*content: "1";*/
+}
 
 .day .hour:nth-of-type(3) {
-	left: calc(1 / 24 * 2 * 100%);
+  left: calc(1 / 24 * 2 * 100%);
 }
 
 .day .hour:nth-of-type(3):after {
-	content: "2";
+  content: "2";
 }
 
 .day .hour:nth-of-type(4) {
-	left: calc(1 / 24 * 3 * 100%);
+  left: calc(1 / 24 * 3 * 100%);
 }
 
-
+.day .hour:nth-of-type(4):after {
+  /*content: "3";*/
+}
 
 .day .hour:nth-of-type(5) {
-	left: calc(1 / 24 * 4 * 100%);
+  left: calc(1 / 24 * 4 * 100%);
 }
 
 .day .hour:nth-of-type(5):after {
-	content: "4";
+  content: "4";
 }
 
 .day .hour:nth-of-type(6) {
-	left: calc(1 / 24 * 5 * 100%);
+  left: calc(1 / 24 * 5 * 100%);
 }
 
-
+.day .hour:nth-of-type(6):after {
+  /*content: "5";*/
+}
 
 .day .hour:nth-of-type(7) {
-	left: calc(1 / 24 * 6 * 100%);
+  left: calc(1 / 24 * 6 * 100%);
 }
 
 .day .hour:nth-of-type(7):after {
-	content: "6";
+  content: "6";
 }
 
 .day .hour:nth-of-type(8) {
-	left: calc(1 / 24 * 7 * 100%);
+  left: calc(1 / 24 * 7 * 100%);
 }
 
-
+.day .hour:nth-of-type(8):after {
+  /*content: "7";*/
+}
 
 .day .hour:nth-of-type(9) {
-	left: calc(1 / 24 * 8 * 100%);
+  left: calc(1 / 24 * 8 * 100%);
 }
 
 .day .hour:nth-of-type(9):after {
-	content: "8";
+  content: "8";
 }
 
 .day .hour:nth-of-type(10) {
-	left: calc(1 / 24 * 9 * 100%);
+  left: calc(1 / 24 * 9 * 100%);
 }
 
-
+.day .hour:nth-of-type(10):after {
+  /*content: "9";*/
+}
 
 .day .hour:nth-of-type(11) {
-	left: calc(1 / 24 * 10 * 100%);
+  left: calc(1 / 24 * 10 * 100%);
 }
 
 .day .hour:nth-of-type(11):after {
-	content: "10";
+  content: "10";
 }
 
 .day .hour:nth-of-type(12) {
-	left: calc(1 / 24 * 11 * 100%);
+  left: calc(1 / 24 * 11 * 100%);
 }
 
-
+.day .hour:nth-of-type(12):after {
+  /*content: "11";*/
+}
 
 .day .hour:nth-of-type(13) {
-	left: calc(1 / 24 * 12 * 100%);
+  left: calc(1 / 24 * 12 * 100%);
 }
 
 .day .hour:nth-of-type(13):after {
-	content: "12";
+  content: "12";
 }
 
 .day .hour:nth-of-type(14) {
-	left: calc(1 / 24 * 13 * 100%);
+  left: calc(1 / 24 * 13 * 100%);
 }
 
-
+.day .hour:nth-of-type(14):after {
+  /*content: "13";*/
+}
 
 .day .hour:nth-of-type(15) {
-	left: calc(1 / 24 * 14 * 100%);
+  left: calc(1 / 24 * 14 * 100%);
 }
 
 .day .hour:nth-of-type(15):after {
-	content: "14";
+  content: "14";
 }
 
 .day .hour:nth-of-type(16) {
-	left: calc(1 / 24 * 15 * 100%);
+  left: calc(1 / 24 * 15 * 100%);
 }
 
-
+.day .hour:nth-of-type(16):after {
+  /*content: "15";*/
+}
 
 .day .hour:nth-of-type(17) {
-	left: calc(1 / 24 * 16 * 100%);
+  left: calc(1 / 24 * 16 * 100%);
 }
 
 .day .hour:nth-of-type(17):after {
-	content: "16";
+  content: "16";
 }
 
 .day .hour:nth-of-type(18) {
-	left: calc(1 / 24 * 17 * 100%);
+  left: calc(1 / 24 * 17 * 100%);
 }
 
-
+.day .hour:nth-of-type(18):after {
+  /*content: "17";*/
+}
 
 .day .hour:nth-of-type(19) {
-	left: calc(1 / 24 * 18 * 100%);
+  left: calc(1 / 24 * 18 * 100%);
 }
 
 .day .hour:nth-of-type(19):after {
-	content: "18";
+  content: "18";
 }
 
 .day .hour:nth-of-type(20) {
-	left: calc(1 / 24 * 19 * 100%);
+  left: calc(1 / 24 * 19 * 100%);
 }
 
-
+.day .hour:nth-of-type(20):after {
+  /*content: "19";*/
+}
 
 .day .hour:nth-of-type(21) {
-	left: calc(1 / 24 * 20 * 100%);
+  left: calc(1 / 24 * 20 * 100%);
 }
 
 .day .hour:nth-of-type(21):after {
-	content: "20";
+  content: "20";
 }
 
 .day .hour:nth-of-type(22) {
-	left: calc(1 / 24 * 21 * 100%);
+  left: calc(1 / 24 * 21 * 100%);
 }
 
-
+.day .hour:nth-of-type(22):after {
+  /*content: "21";*/
+}
 
 .day .hour:nth-of-type(23) {
-	left: calc(1 / 24 * 22 * 100%);
+  left: calc(1 / 24 * 22 * 100%);
 }
 
 .day .hour:nth-of-type(23):after {
-	content: "22";
+  content: "22";
 }
 
 .day .hour:nth-of-type(24) {
-	left: calc(1 / 24 * 23 * 100%);
+  left: calc(1 / 24 * 23 * 100%);
 }
 
-
+.day .hour:nth-of-type(24):after {
+  /*content: "23";*/
+}
 
 .day .hour:nth-of-type(25) {
-	left: calc(1 / 24 * 24 * 100% - 1px);
-	left: -webkit-calc(1 / 24 * 24 * 100% - 1px);
+  left: calc(1 / 24 * 24 * 100%);
+  width: 1px;
 }
 
 .day .hour:nth-of-type(25):after {
-	content: "24";
+  content: "24";
 }
 
 .day .hour:after {
-	text-indent: -0.5em;
+  text-indent: -0.5em;
+}
+
+.day .halfhour {
+  left: 50%;
+}
+
+.weekday {
+  position: relative;
+  overflow: hidden;
+  padding-right: 10px;
+}
+
+.weekday>div:nth-child(1) {
+  width: 80px;
+  position: relative;
+  top: 25px;
+  text-align: center;
+  user-select: none;
+  float: left;
+}
+
+.weekday>div:nth-child(2) {
+  margin-left: 80px;
 }
 
 .bar div {
-	display: inline-block;
+  display: inline-block;
 }
 
 .item {
-	position: absolute;
-	top: 0;
-	background-color: blue;
-}
-
-#item1 {
-	background-color: blue;
-	height: 100%;
-}
-
-#item2 {
-	background-color: pink;
-	height: 100%;
-
-}
-
-#item3 {
-	background-color: orange;
-	height: 100%;
-
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background-color: #85f1fd;
 }
