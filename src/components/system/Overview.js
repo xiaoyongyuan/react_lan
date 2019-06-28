@@ -5,6 +5,10 @@ import { Row, Col, Card, Progress, Descriptions, List, Radio } from "antd";
 import "../../style/jhy/less/overview.less";
 
 class Overview extends Component {
+  componentDidMount() {
+    const cpuech = echarts.init(document.getElementById(cpuech));
+    console.log(cpuech);
+  }
   render() {
     const funconfig = [
       <Radio>云端同步服务器是否运行</Radio>,
@@ -12,21 +16,17 @@ class Overview extends Component {
       <Radio>直播服务器是否运行</Radio>
     ];
     const cpupie = {
+      tooltip: {
+        show: true
+      },
       series: [
         {
           type: "pie",
           radius: ["50%", "80%"],
-          // tooltip: {
-          //   show: false
-          // },
-          label: [],
-          selectedOffset: 20,
-          cursor: "default",
           data: [{ value: 25, selected: true }, { value: 75 }]
         }
       ],
-      color: ["#006cff", "#dcdbe0"],
-      animation: false
+      color: ["#006cff", "#dcdbe0"]
     };
     const physpie = {
       series: [
@@ -60,6 +60,7 @@ class Overview extends Component {
                   <Col span={16}>
                     <div className="pie">
                       <ReactEcharts
+                        id="cpuech"
                         option={cpupie}
                         style={{ height: "180px" }}
                       />
