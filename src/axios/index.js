@@ -4,17 +4,17 @@ const baseURL = window.g.baseURL;
 export default class Axios {
     static login(options){
         let loading;
-       /* if (options.isShowLoading !== false){
+        if (options.isShowLoading !== false){
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
-        }*/
+        }
         return new Promise((resolve,reject)=>{
             axios.post(window.g.loginURL+'/api/login/verify',options.data)
                 .then((response)=>{
-                   /* if (options.isShowLoading !== false) {
+                    if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
                         loading.style.display = 'none';
-                    }*/
+                    }
                     if(response&&response.status=='200'){
                         const res=response.data;
                         resolve(res)

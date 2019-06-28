@@ -5,6 +5,7 @@ import "../../style/jhy/less/reset.less";
 import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
+import axios from "../../axios";
 const { Meta } = Card;
 
 class Equipment extends Component {
@@ -12,7 +13,18 @@ class Equipment extends Component {
     super(props);
     this.state = {};
   }
-  addEquip = () => {
+  componentDidMount() {
+      axios.ajax({
+          baseURL:window.g.equipmentURL,
+          method: 'get',
+          url: '/camera/getlist',
+      })
+          .then((res)=>{
+            console.log(res,"0000")
+          });
+  }
+
+    addEquip = () => {
     window.location.href = "#/main/equipadd";
   };
   render() {

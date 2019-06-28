@@ -14,7 +14,7 @@ class Login extends Component {
                 axios.login({
                     data: {
                         account:values.account,
-                        password:values.account,
+                        password:values.password,
                     }
                 }).then((res)=>{
                     this.props.history.push('/main/index');
