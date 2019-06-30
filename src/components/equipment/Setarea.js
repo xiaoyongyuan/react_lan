@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Button, Modal } from "antd";
+import axios from "axios";
 // import "../../style/jhy/css/setarea.css";
 // import { post } from "../../axios/tools";
 const blue = "#5063ee";
@@ -274,7 +275,20 @@ class Setarea extends Component {
 
   componentDidMount() {
     const _this = this;
+    axios
+      .get("http://192.168.1.197:8111/api/camera/getlist", {
+        params: {
+          companycode: 7000001,
+          account: "admin"
+        }
+      })
+      .then(res => {
+        this.setState({ datalist: res.data });
+        console.log(res, "getlist");
+      });
   }
+
+  subdef = () => {};
 
   render() {
     return (
@@ -299,7 +313,7 @@ class Setarea extends Component {
             <Button type="primary" className="queryBtn" onClick={this.opendraw}>
               添加防区
             </Button>
-            <Button type="primary" className="queryBtn">
+            <Button type="primary" className="queryBtn" onClick={this.subdef}>
               确认提交
             </Button>
           </div>

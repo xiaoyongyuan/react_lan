@@ -1,7 +1,7 @@
 import { Tabs, Col, Row, List, Button, Select, Radio, Slider } from "antd";
 import React, { Component } from "react";
 import DefTime from "./DefendTime";
-import "../../style/jhy/less/equipadd.less";
+import "../../style/jhy/less/equipset.less";
 import "../../style/jhy/less/reset.less";
 
 import backdrop from "../../style/jhy/imgs/backdrop.png";
@@ -75,7 +75,7 @@ class EquipAdd extends Component {
       </p>
     ];
     return (
-      <div className="equipadd">
+      <div className="equipset">
         <Tabs defaultActiveKey="1" type="card">
           <TabPane
             tab={
@@ -88,7 +88,54 @@ class EquipAdd extends Component {
                   justifyContent: "center"
                 }}
               >
-                <span className="camera">摄像头设备</span>
+                <span className="info">基本信息</span>
+              </span>
+            }
+            key="0"
+          >
+            <Row>
+              <Col
+                span={8}
+                className="definfo"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center"
+                }}
+              >
+                <List
+                  style={{ width: "90%" }}
+                  dataSource={definfo}
+                  renderItem={item => <List.Item>{item}</List.Item>}
+                />
+                <div className="threshold">
+                  <Row className="thresholdtit">设备智能分析阈值</Row>
+                  <Row className="thresholesetWrap">
+                    <span className="thresholdlabel">设置阈值（10-100）</span>
+                    <Slider
+                      step={10}
+                      defaultValue={50}
+                      min={10}
+                      className="thresholdset"
+                    />
+                    <span className="thresholdrest">50</span>
+                  </Row>
+                </div>
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane
+            tab={
+              <span
+                style={{
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <span className="camera">防区设置</span>
               </span>
             }
             key="1"
@@ -99,7 +146,7 @@ class EquipAdd extends Component {
               </Col>
               <Col span={12}>
                 <Row gutter={16}>
-                  <Col span={6} style={{ position: "relative" }}>
+                  <Col span={8} style={{ position: "relative" }}>
                     <List
                       className="defopt"
                       bordered
@@ -108,21 +155,6 @@ class EquipAdd extends Component {
                       style={{ textAlign: "center" }}
                     />
                     <Button className="again">重新获取底图</Button>
-                  </Col>
-                  <Col
-                    span={18}
-                    className="definfo"
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "center"
-                    }}
-                  >
-                    <List
-                      style={{ width: "90%" }}
-                      dataSource={definfo}
-                      renderItem={item => <List.Item>{item}</List.Item>}
-                    />
                   </Col>
                 </Row>
               </Col>
@@ -144,21 +176,6 @@ class EquipAdd extends Component {
                     <Col span={8} className="defset">
                       <Radio style={{ marginRight: "38px" }}>强制报警</Radio>
                     </Col>
-                  </Row>
-                </div>
-              </Col>
-              <Col span={12}>
-                <div className="threshold">
-                  <Row className="thresholdtit">设备智能分析阈值</Row>
-                  <Row className="thresholesetWrap">
-                    <span className="thresholdlabel">设置阈值（10-100）</span>
-                    <Slider
-                      step={10}
-                      defaultValue={50}
-                      min={10}
-                      className="thresholdset"
-                    />
-                    <span className="thresholdrest">50</span>
                   </Row>
                 </div>
               </Col>

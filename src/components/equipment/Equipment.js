@@ -5,27 +5,32 @@ import "../../style/jhy/less/reset.less";
 import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
-import axios from "../../axios";
-const { Meta } = Card;
-
+// import axios from "axios";
+import ajax from "../../axios";
+const equipmentURL = window.equipmentURL;
 class Equipment extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      equipList: []
+    };
   }
   componentDidMount() {
-      axios.ajax({
-          baseURL:window.g.equipmentURL,
-          method: 'get',
-          url: '/camera/getlist',
-      })
-          .then((res)=>{
-            console.log(res,"0000")
-          });
+    this.getList();
   }
+  getList = () => {
+    // ajax({
+    //   baseURL: equipmentURL,
+    //   method: "get",
+    //   url: "/api/camera / getlist",
+    //   data: {}
+    // }).then(res => {
+    //   console.log(res);
+    // });
+  };
 
-    addEquip = () => {
-    window.location.href = "#/main/equipadd";
+  addEquip = () => {
+    window.location.href = "#/main/equipset";
   };
   render() {
     return (

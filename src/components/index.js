@@ -9,7 +9,7 @@ import Broadcast from "./broadcast/Broadcast";
 //设备
 import Equipment from "./equipment/Equipment";
 //添加设备
-import EquipAdd from "./equipment/EquipAdd";
+import EquipSet from "./equipment/EquipSet";
 //测试防区
 import Setarea from "./equipment/Setarea";
 //报警信息
@@ -34,7 +34,7 @@ export default {
   AlarmTracking,
   Broadcast,
   Equipment,
-  EquipAdd,
+  EquipSet,
   Overview,
   UserInfo,
   NetworkSettings,
