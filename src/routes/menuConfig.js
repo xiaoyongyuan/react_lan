@@ -85,8 +85,8 @@ export default {
   ],
   other: [
     {
-      key: "/main/equipadd",
-      component: "EquipAdd"
+      key: "/main/equipset",
+      component: "EquipSet"
     },
     {
       key: "/main/setarea",
