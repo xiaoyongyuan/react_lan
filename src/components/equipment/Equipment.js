@@ -6,7 +6,7 @@ import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
 // import axios from "axios";
-import ajax from "../../axios";
+import axios from "../../axios";
 const equipmentURL = window.equipmentURL;
 class Equipment extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class Equipment extends Component {
     this.getList();
   }
   getList = () => {
-    // ajax({
+    // axios.ajax({
     //   baseURL: equipmentURL,
     //   method: "get",
     //   url: "/api/camera / getlist",

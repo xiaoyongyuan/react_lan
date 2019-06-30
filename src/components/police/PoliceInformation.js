@@ -6,6 +6,7 @@ import alarmcl from "../../style/imgs/alarmcl.png";
 import 'swiper/dist/css/swiper.min.css';
 import Swiper from 'swiper/dist/js/swiper.js'
 import alarmBg from "../../style/ztt/imgs/defenceImg.png";
+import axios from "../../axios/index";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 class PoliceInformation extends Component {
@@ -28,6 +29,16 @@ class PoliceInformation extends Component {
             observeParents: true,
             observeSlideChildren: true
         });
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/alarm/alarminfo",
+            data:{
+                cid:1,
+                status:0
+            }
+        }).then((res)=>{
+            console.log(res,"list");
+        })
     }
 
     handleChange = (value) =>{
