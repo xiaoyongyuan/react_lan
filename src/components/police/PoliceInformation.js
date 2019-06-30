@@ -13,9 +13,13 @@ class PoliceInformation extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            alarm: {},
+            malarminfo: []
         };
     }
+    params={
+
+    };
     componentDidMount() {
         new Swiper(".swiper-container", {
             loop: false, //循环
@@ -29,18 +33,70 @@ class PoliceInformation extends Component {
             observeParents: true,
             observeSlideChildren: true
         });
+       this.getList();
+       this.hanleEquipment();
+    }
+    getList=()=>{
+        this.params.cid=1;
+        this.params.status=0;
         axios.ajax({
             method:"get",
             url:window.g.loginURL+"/api/alarm/alarminfo",
-            data:{
-                cid:1,
-                status:0
-            }
+            data:this.params
         }).then((res)=>{
-            console.log(res,"list");
+            if(res.success){
+                this.setState({
+                    alarm:res.data.Malarm,
+                    alarmImg:res.data.Malarm.picpath,
+                    malarminfo:res.data.Malarm.Malarminfo,
+                    field:res.data.Malarm.field
+                },()=>{
+                    this.draw();
+                })
+            }
+        })
+    };
+    //画围界
+    draw=()=>{
+        let ele = document.getElementById("canvasobj");
+        let area = ele.getContext("2d");
+        area.clearRect(0,0,300,278);//清除之前的绘图
+        const datafield=this.state.field;
+        if(this.state.field && datafield.length){
+            const xi=300/704, yi=278/576;
+            let areafield = ele.getContext("2d");
+            area.lineWidth=1;
+            areafield.strokeStyle='#f00';
+            datafield.map((el,i)=>{
+                areafield.beginPath();
+                areafield.moveTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
+                areafield.lineTo(parseInt(datafield[i][1][0]*xi),parseInt(datafield[i][1][1]*yi));
+                areafield.lineTo(parseInt(datafield[i][2][0]*xi),parseInt(datafield[i][2][1]*yi));
+                areafield.lineTo(parseInt(datafield[i][3][0]*xi),parseInt(datafield[i][3][1]*yi));
+                areafield.lineTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
+                areafield.stroke();
+                areafield.closePath();
+                return '';
+            })
+        }
+    }
+    //设备
+    hanleEquipment=()=>{
+        axios.ajax({
+            method: "get",
+            url:window.g.loginURL+"/api/camera/getlistSelect",
+            data:{}
+        }).then((res)=>{
+            if(res.success){
+
+            }
         })
     }
-
+    hanleReplace=(picImg)=>{
+       this.setState({
+           alarmImg:picImg
+       })
+    };
     handleChange = (value) =>{
         console.log(`selected ${value}`);
     };
@@ -75,15 +131,7 @@ class PoliceInformation extends Component {
                             </Col>
                             <Col className="alert-col" span={8}>
                                 <div className="falsealert">
-                                    <div className="zdupdate-word">警情</div>
-                                    <div className="cicrle">
-                                        <Icon className="cicrle-icon" type="check" />
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col className="alert-col" span={8}>
-                                <div className="xualert">
-                                    <div className="zdupdate-word">警情</div>
+                                    <div className="zdupdate-word">虚警</div>
                                     <div className="cicrle">
                                         <Icon className="cicrle-icon" type="check" />
                                     </div>
@@ -109,33 +157,29 @@ class PoliceInformation extends Component {
                         <Row type="flex" justify="space-around">
                             <Col className="main-left-L" span={12}>
                                 <div className="img-up-fu">
+                                    <div className="alarmImg">
+                                        <img src={this.state.alarmImg?this.state.alarmImg:alarmBg} alt=""/>
+                                        <canvas id="canvasobj" width="300px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg?this.state.alarmImg:alarmBg+')',backgroundSize:"100% 100%"}} />
+                                    </div>
                                     <div className="img-up-fu-word">
-                                        <div className="circle">
-                                        </div>
-                                        <span className="img-up-fu-word-span">新风机房2号门</span>
+                                        <div className="circle" />
+                                        <span className="img-up-fu-word-span">{this.state.alarm.name}</span>
                                     </div>
                                 </div>
                                 <div className="swiper-container">
                                     <div className="swiper-wrapper">
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
-                                        <div className="swiper-slide"><img src={alarmBg} alt=""/></div>
+                                        {
+                                            this.state.malarminfo.map((v,i)=>(
+                                                <div key={i} className="everyImg">
+                                                    <div className="swiper-slide"><img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v.picpath)} /></div>
+                                                </div>
+                                            ))
+                                        }
                                     </div>
-                                   {/* <Icon type="left" className="prev" />
-                                    <Icon type="right" className="next"/>*/}
                                 </div>
                             </Col>
                             <Col className="main-left-R" span={12}>
-                                <img src={test2} style={{ width:'100%',height:'100%' }}/>
+                                <video controls="controls" src={this.state.alarm.videopath?this.state.alarm.videopath:test2} style={{ width:'100%',height:'100%' }}/>
                             </Col>
                         </Row>
                         <Row>
@@ -156,7 +200,7 @@ class PoliceInformation extends Component {
                                     设备名称
                                 </Col>
                                 <Col className="equipName-right" span={16}>
-                                    <span className="equipName-right-word">新风机房2号门</span>
+                                    <span className="equipName-right-word">{this.state.alarm.name}</span>
                                 </Col>
                             </Row>
                             <Row className="equipName">
@@ -175,19 +219,19 @@ class PoliceInformation extends Component {
                                     报警时间
                                 </Col>
                                 <Col className="equipName-right" span={16}>
-                                    <span className="equipName-right-word">2019-12-12 12:12:23</span>
+                                    <span className="equipName-right-word">{this.state.alarm.atime}</span>
                                 </Col>
                             </Row>
                             <Row className="showTaget">
                                 <Col span={8}>
                                     <div className="showfq">
-                                        <div className="zdupdate-word">自动更新</div>
+                                        <div className="zdupdate-word">防区显示</div>
                                         <div className="cicrle">
                                             <Icon className="cicrle-icon" type="check" />
                                         </div>
                                     </div>
                                     <div className="showfq">
-                                        <div className="zdupdate-word">自动更新</div>
+                                        <div className="zdupdate-word">目标显示</div>
                                         <div className="cicrle">
                                             <Icon className="cicrle-icon" type="check" />
                                         </div>

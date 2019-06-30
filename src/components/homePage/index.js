@@ -6,19 +6,34 @@ import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import pingmian from "../../style/ztt/imgs/pingmian.png";
 import playBtn from "../../style/ztt/imgs/playBtn.png";
 import HomePageModel from "./HomePageModel";
+import axios from "../../axios/index";
 class Index extends Component {
     constructor(props) {
       super(props);
       this.state = {
           fortification:"已布防",
-          visible:false
+          visible:false,
+          policeList:[]
       };
     }
+    params={};
     componentDidMount() {
         this.hanleBgColor1();
         this.hanleBgColor2();
+        this.getList();
     }
-
+    //报警信息
+    getList=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/index/alarmvideolist",
+            data:{}
+        }).then((res)=>{
+            this.setState({
+                policeList:res.data
+            })
+        })
+    };
     hanleDefence=(params)=>{
         this.setState({
             fortification:params
@@ -45,10 +60,11 @@ class Index extends Component {
             return "defendedBtn1";
         }
     };
-    hanleWithdrawal=()=>{
+    hanleWithdrawal=(listCode)=>{
         this.setState({
-            visible:true
-        })
+            visible:true,
+            listCode
+        });
     };
     handleOk=()=>{
         this.setState({
@@ -64,7 +80,7 @@ class Index extends Component {
     hanlelastAlarm=()=>{
       if(this.state.fortification==="已布防"){
           return(
-              <div className="alarmImg" onClick={this.hanleWithdrawal}>
+              <div className="alarmImg">
                   <div className="alarmVideo"><img src={defenceImg} alt=""/>
                       <div className="alarmVideoBottom">
                           <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
@@ -80,7 +96,7 @@ class Index extends Component {
           )
       }else{
          return(
-             <div className="alarmImg" onClick={this.hanleWithdrawal}>
+             <div className="alarmImg">
                  <div className="alarmVideo"><img src={alarmBg} alt=""/>
                      <div className="alarmVideoBottom">
                          <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
@@ -192,73 +208,29 @@ class Index extends Component {
                 </div>
                 <div className="alarminfor">
                     <div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><span className="alarminfornikNameBg"/></div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                            <span className="alarminforVideo"/>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
-                    <div className="alarminfor-img">
-                        <img src={defenceImg} alt=""/>
-                        <div className="alarminforBg">
-                            <span className="alarminforCirle"/>
-                            <span className="alarminforFont">新房机1号门</span>
-                        </div>
-                        <img className="alarmVideoBtn" src={playBtn}/>
-                    </div>
+                    {
+                        this.state.policeList.map((v,i)=>(
+                            <div className="alarminfor-img" key={i}>
+                                <img src={v.picpath?v.picpath:defenceImg} alt=""/>
+                                <div className="alarminforBg">
+                                    <span className="alarminforCirle"/>
+                                    <span className="alarminforFont">{v.name}</span>
+                                    <span className="alarminforVideo"/>
+                                </div>
+                                <img className="alarmVideoBtn" src={playBtn} onClick={()=>this.hanleWithdrawal(v.code)} />
+                            </div>
+                        ))
+                    }
                 </div>
                 <Modal
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     centered
                     onCancel={this.handleCancel}
-                    width={880}
+                    width={1200}
                     footer={null}
                 >
-                    <HomePageModel visible={this.state.visible} />
+                    <HomePageModel visible={this.state.visible} listCode={this.state.listCode} />
                 </Modal>
             </div>
         );

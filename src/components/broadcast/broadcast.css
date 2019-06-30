@@ -1,11 +1,42 @@
 .broadcast {
   background-color: #0a0c1d;
 }
+.broadcast .ant-form-item-label > label {
+  color: #9fa8d0;
+}
+.broadcast .ant-select {
+  color: #9fa8d0;
+}
+.broadcast .ant-select-selection {
+  background-color: #213C95;
+  border: none;
+}
+.broadcast .ant-select-arrow {
+  color: #2CE6F9;
+}
 .broadcast .title-broad {
   display: flex;
   align-items: center;
   color: #00ffff;
   background: #142253;
+}
+.broadcast .title-broad .sureBtn {
+  border-radius: 1px;
+  color: #000;
+}
+.broadcast .title-broad .resetBtn {
+  border-radius: 1px;
+  color: #fff;
+  background-color: #213C95;
+  border: none;
+  margin-left: 16px;
+}
+.broadcast .title-broad .stopBtn {
+  border-radius: 1px;
+  color: #fff;
+  background-color: #213C95;
+  border: none;
+  margin-left: 16px;
 }
 .broadcast .broContext {
   padding: 20px 0;
@@ -13,13 +44,21 @@
 .broadcast .borderBot {
   position: relative;
 }
+.broadcast .borderBot .videoBtn {
+  width: 16%;
+  position: absolute;
+  top: 36%;
+  left: 40%;
+  cursor: pointer;
+}
 .broadcast .borderBot .broadcastBott {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 36px;
-  background-color: #142745;
+  height: 32px;
+  background-color: rgba(20, 39, 69, 0.9);
+  font-size: 14px;
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -34,8 +73,5 @@
 .broadcast .borderBot .broadcastBott .broFont {
   color: #fff;
   padding-left: 8px;
-}
-.broadcast .gutter-box img {
-  width: 100%;
 }
 /*# sourceMappingURL=broadcast.css.map */

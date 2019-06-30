@@ -6,6 +6,7 @@
 import Index from "./homePage/index";
 //直播
 import Broadcast from "./broadcast/Broadcast";
+import Live from "./live/Live";
 //设备
 import Equipment from "./equipment/Equipment";
 //添加设备
@@ -15,7 +16,7 @@ import Setarea from "./equipment/Setarea";
 //报警信息
 import PoliceInformation from "./police/PoliceInformation";
 //报警跟踪
-import AlarmTracking from "./police/AlarmTracking";
+// import AlarmTracking from "./police/AlarmTracking";
 //系统
 import Overview from "./system/Overview";
 import UserInfo from "./system/UserInfo";
@@ -31,7 +32,6 @@ import Login from "./login/index";
 export default {
   Index,
   PoliceInformation,
-  AlarmTracking,
   Broadcast,
   Equipment,
   EquipAdd,
@@ -45,5 +45,6 @@ export default {
   ElectronicMap,
   Operational,
   Login,
-  Setarea
+  Setarea,
+  Live
 };

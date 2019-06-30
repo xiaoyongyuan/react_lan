@@ -5,14 +5,423 @@
 .homePage .equNum {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 12px;
+}
+.homePage .equNum .equ1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 22%;
+  height: 74px;
+  background: #fff;
+}
+.homePage .equNum .equ1 .equImg6 {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  background: url("../../style/ztt/imgs/todays.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .equNum .equ1 .equContext {
+  display: flex;
+  flex-direction: column;
+  padding-left: 28px;
+}
+.homePage .equNum .equ1 .equContext .equBer {
+  font-size: 22px;
+}
+.homePage .equNum .equ1 .equContext .equipName {
+  color: #354D9D;
+  font-weight: bold;
+  font-size: 15px;
+  padding-bottom: 4px;
+}
+.homePage .equNum .equ1 .equContext .equipTotal {
+  color: #385BD1;
+  letter-spacing: 1px;
+}
+.homePage .equNum .equ1 .equContext .equipTotal-today {
+  color: #FF7200;
+  letter-spacing: 1px;
 }
 .homePage .equNum .equ {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 17%;
+  flex-direction: row;
+  width: 15%;
   height: 74px;
-  margin: 5px 8px;
   background: #fff;
+}
+.homePage .equNum .equ .equContext {
+  display: flex;
+  flex-direction: column;
+  padding-left: 26px;
+}
+.homePage .equNum .equ .equContext .equBer {
+  font-size: 22px;
+}
+.homePage .equNum .equ .equContext .equipName {
+  color: #354D9D;
+  font-size: 15px;
+  font-weight: bolder;
+  padding-bottom: 4px;
+}
+.homePage .equNum .equ .equContext .equipTotal {
+  color: #385BD1;
+  letter-spacing: 1px;
+}
+.homePage .equNum .equ .equContext .equipTotal-Handle {
+  color: #1877FF;
+  letter-spacing: 1px;
+}
+.homePage .equNum .equ .equContext .equipTotal-UHandle {
+  color: #656A7B;
+  letter-spacing: 1px;
+}
+.homePage .equNum .equ .equImg1 {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  background: url("../../style/ztt/imgs/Total.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .equNum .equ .equImg2 {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  background: url("../../style/ztt/imgs/equipment.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .equNum .equ .equImg3 {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  background: url("../../style/ztt/imgs/offline.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .equNum .equ .equImg4 {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  background: url("../../style/ztt/imgs/processed.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .equNum .equ .equImg5 {
+  display: inline-block;
+  width: 46px;
+  height: 46px;
+  background: url("../../style/ztt/imgs/unhandled.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .computerRoom {
+  display: flex;
+  flex-direction: row;
+}
+.homePage .computerRoom .computerRoom-context {
+  width: 78%;
+  background: #fff;
+  margin-right: 11px;
+}
+.homePage .computerRoom .computerRoom-context .RoomStatusLeft {
+  width: 30%;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus {
+  display: flex;
+  flex-direction: row;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm {
+  display: flex;
+  align-items: center;
+  margin: 28px 55px;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm .status1 {
+  color: #ff7200;
+  margin-left: 12px;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm .status2 {
+  color: #006cff;
+  margin-left: 12px;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm .status3 {
+  color: #686d7e;
+  margin-left: 12px;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm .statusImg1 {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm .statusImg2 {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background: url("../../style/ztt/imgs/noStatus.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .RoomStatusLeft .roomAlarm .statusImg3 {
+  display: inline-block;
+  width: 26px;
+  height: 26px;
+  background: url("../../style/ztt/imgs/offStatus.png") no-repeat;
+  background-size: 100% 100%;
+}
+.homePage .computerRoom .computerRoom-context .computerRoomStatus .computer {
+  width: 55%;
+}
+.homePage .computerRoom .computerRoom-context .computerRoom-title {
+  color: #213c95;
+  font-size: 18px;
+  margin: 15px 55px;
+}
+.homePage .computerRoom .computerRoom-camera {
+  width: 22%;
+}
+.homePage .computerRoom .computerRoom-camera .video-camera {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  background: #fff;
+  margin-bottom: 4px;
+}
+.homePage .computerRoom .computerRoom-camera .video-camera .videoImg {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+  background-size: 100% 100%;
+  margin-left: 20px;
+}
+.homePage .computerRoom .computerRoom-camera .video-camera .videoName {
+  color: #FF7E1D;
+  margin-left: 8px;
+  font-size: 15px;
+}
+.homePage .computerRoom .computerRoom-camera .eqiIp {
+  display: flex;
+  flex-direction: row;
+  height: 70px;
+  margin-bottom: 3px;
+}
+.homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-context {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  background: #fff;
+  color: #2E4699;
+  padding-left: 26px;
+}
+.homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  background: #fff;
+  margin-left: 4px;
+  color: #2E4699;
+  padding-left: 26px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.homePage .computerRoom .computerRoom-camera .fortification {
+  height: 135px;
+  background: #fff;
+  text-align: center;
+  margin-bottom: 4px;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .fortification-title {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .fortification-title .videoImg {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+  background-size: 100% 100%;
+  margin-left: 20px;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .fortification-title .videoName {
+  color: #FF7E1D;
+  margin-left: 8px;
+  font-size: 15px;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended {
+  display: flex;
+  justify-content: center;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title {
+  width: 30%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defended-name {
+  text-align: center;
+  cursor: pointer;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defendedBorder1 {
+  display: inline-block;
+  height: 3px;
+  margin: 4px 0;
+  cursor: pointer;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defendedBorder2 {
+  display: inline-block;
+  height: 3px;
+  margin: 4px 0;
+  cursor: pointer;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defendedBorder1bg {
+  background-color: #006CFF;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defendedBorder1Color {
+  color: #006CFF;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defendedBorder2bg {
+  background-color: #D3D3D3;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defended .defended-title .defendedBorder2Color {
+  color: #D3D3D3;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defendedBtn {
+  width: 40%;
+  height: 30px;
+  text-align: center;
+  border: none;
+  background-color: #006CFF;
+  color: #fff;
+  margin: 10px 0;
+  font-size: 14px;
+}
+.homePage .computerRoom .computerRoom-camera .fortification .defendedBtn1 {
+  width: 40%;
+  height: 30px;
+  text-align: center;
+  border: none;
+  background-color: #FF7200;
+  color: #fff;
+  margin: 10px 0;
+  font-size: 14px;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm {
+  background-color: #fff;
+  padding: 18px 0;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarm-title {
+  display: flex;
+  align-items: center;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarm-title .videoImg {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url("../../style/ztt/imgs/alarmStatus.png") no-repeat;
+  background-size: 100% 100%;
+  margin-left: 20px;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarm-title .videoName {
+  color: #FF7E1D;
+  margin-left: 8px;
+  font-size: 15px;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo {
+  width: 60%;
+  padding: 10px 0;
+  position: relative;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo .alarmVideoBtn {
+  position: absolute;
+  top: 34%;
+  left: 42%;
+  width: 20%;
+  cursor: pointer;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo .alarmVideoBottom {
+  position: absolute;
+  bottom: 6%;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  background-color: rgba(20, 39, 69, 0.8);
+  display: flex;
+  align-items: center;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo .alarmVideoBottom .alarmVideoCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #FF7200;
+  border-radius: 50%;
+  margin: 0 14px;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo .alarmVideoBottom .alarmVideoName {
+  color: #fff;
+  font-size: 14px;
+}
+.homePage .alarminfor {
+  margin: 12px 0 15px 0;
+}
+.homePage .alarminfor .alarminfornikName {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.homePage .alarminfor .alarminfornikName .alarminfornikName-title {
+  color: #066fff;
+  margin-right: 15px;
+}
+.homePage .alarminfor .alarminfornikName .alarminfornikNameBg {
+  width: 24px;
+  height: 14px;
+  background: url("../../style/ztt/imgs/next.png");
+  background-size: 100% 100%;
+}
+.homePage .alarminfor .alarminfor-img {
+  float: left;
+  width: 13%;
+  margin: 10px 0 10px 20px;
+  position: relative;
+}
+.homePage .alarminfor .alarminfor-img .alarmVideoBtn {
+  position: absolute;
+  top: 34%;
+  left: 42%;
+  width: 18%;
+  cursor: pointer;
+}
+.homePage .alarminfor .alarminfor-img .alarminforBg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 28px;
+  background-color: rgba(20, 39, 69, 0.9);
+  display: flex;
+  align-items: center;
+}
+.homePage .alarminfor .alarminfor-img .alarminforBg .alarminforCirle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #ff7200;
+  border-radius: 50%;
+  margin: 0 14px;
+}
+.homePage .alarminfor .alarminfor-img .alarminforBg .alarminforFont {
+  color: #fff;
+  font-size: 14px;
 }
 /*# sourceMappingURL=index.css.map */

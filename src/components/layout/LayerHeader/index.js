@@ -11,6 +11,12 @@ class LayerHeader extends Component {
 
       };
     }
+    componentDidMount() {
+        this.setState({
+            account:localStorage.getItem("account")
+        })
+    }
+
     hanleClose=()=>{
         const _this=this;
         confirm({
@@ -32,9 +38,7 @@ class LayerHeader extends Component {
           </div>
           <div className="headerRight">
               <div className="header-right"/>
-              <Select defaultValue="Admin" style={{width:120}}>
-                  <Option value="Admin">Admin</Option>
-              </Select>
+              <span>{this.state.account}</span>
               <Icon type="poweroff" className="signout" onClick={this.hanleClose} />
           </div>
       </div>

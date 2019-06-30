@@ -15,11 +15,6 @@ export default {
           title: "报警信息",
           key: "/main/policeInformation",
           component: "PoliceInformation"
-        },
-        {
-          title: "报警跟踪",
-          key: "/main/alarmTracking",
-          component: "AlarmTracking"
         }
       ]
     },
@@ -100,6 +95,10 @@ export default {
     {
       key: "/login",
       component: "Login"
+    },
+    {
+        key: "/main/live",
+        component: "live"
     }
   ]
 };

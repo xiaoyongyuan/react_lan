@@ -1,43 +1,50 @@
 import React, { Component } from 'react';
-//import videojs from 'video.js';
-//import 'video.js/dist/video-js.min.css';
-import {Row,Col,Form,Button,Select} from "antd";
+import {Row,Col,Form,Button,Select,Modal} from "antd";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
-import "./broadcast.css";
+import "./broadcast.less";
+import axios from "../../axios/index";
+import Live from "../live/Live";
+import playBtn from "../../style/ztt/imgs/playBtn.png";
 const { Option } = Select;
 class Broadcast extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            liveModel: false,
+            liveList: []
         };
     }
     componentDidMount() {
-      /*  this.player = videojs('myvideo', {
-            preload: 'auto',// 预加载
-            bigPlayButton: {},// 大按钮
-            controls: true,// 是否开启控制栏
-            width: 900,// 播放器宽度
-            height: 600,// 播放器高度
-            playbackRates: [1, 1.5, 2],
-            muted: true, //是否循环播放
-            loop : true, //是否静音
-            autoplay:true, //是否自动播放
-        }, function onPlayerReady() {
-                this.src({
-                    src: 'rtmp://192.168.1.178/live/app7',
-                    type:'rtmp/flv'
-                })
-        });*/
+      this.getList();
     }
+    getList=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/camera/getlistforvideo",
+            data:{}
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    liveList:res.data
+                });
+            }
+        })
+    };
+    hanleLive=()=>{
+        this.setState({
+            liveModel:true
+        })
+    };
+    hanleLiveCancel=()=>{
+        this.setState({
+            liveModel:false
+        })
+    };
 
     render() {
         const { getFieldDecorator} = this.props.form;
         return(
             <div className="broadcast">
-               {/* <div data-vjs-player>
-                    <video ref={ node => this.videoNode = node } className="video-js" id="myvideo"></video>
-                </div>*/}
                 <Row className="title-broad">
                     <Col span={14}>直播功能</Col>
                     <Col span={10} className="condition">
@@ -55,28 +62,37 @@ class Broadcast extends Component {
                                 )}
                             </Form.Item>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit" >确定</Button>
-                                <Button type="primary" >重置</Button>
-                                <Button type="primary">全部停止</Button>
+                                <Button type="primary" htmlType="submit" className="sureBtn">确定</Button>
+                                <Button type="primary" className="resetBtn">重置</Button>
+                                <Button type="primary" className="stopBtn">全部停止</Button>
                             </Form.Item>
                         </Form>
                     </Col>
                 </Row>
                 <Row gutter={16} className="broContext">
-                    <Col xxl={4} xl={8} className="gutter-row">
-                        <div className="gutter-box borderBot">
-                            <img src={defenceImg} alt=""/>
-                            <div className="broadcastBott">
-                                <span className="broCircle"/><span className="broFont">新机房1</span>
+                {
+                    this.state.liveList.map((v,i)=>(
+                        <Col xxl={4} xl={8} className="gutter-row">
+                            <div className="gutter-box borderBot">
+                                <img className="videoImg" src={v.picpath?v.picpath:defenceImg} alt="" />
+                                <img className="videoBtn" src={playBtn} alt="" onClick={this.hanleLive} />
+                                <div className="broadcastBott">
+                                    <span className="broCircle"/><span className="broFont">{v.name}</span>
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                    <Col xxl={4} xl={8} className="gutter-row"><div className="gutter-box"><img src={defenceImg} alt=""/></div></Col>
-                    <Col xxl={4} xl={8} className="gutter-row"><div className="gutter-box"><img src={defenceImg} alt=""/></div></Col>
-                    <Col xxl={4} xl={8} className="gutter-row"><div className="gutter-box"><img src={defenceImg} alt=""/></div></Col>
-                    <Col xxl={4} xl={8} className="gutter-row"><div className="gutter-box"><img src={defenceImg} alt=""/></div></Col>
-                    <Col xxl={4} xl={8} className="gutter-row"><div className="gutter-box"><img src={defenceImg} alt=""/></div></Col>
+                        </Col>
+                    ))
+                }
                 </Row>
+                <Modal
+                    title="直播"
+                    visible={this.state.liveModel}
+                    width={900}
+                    footer={null}
+                    onCancel={this.hanleLiveCancel}
+                >
+                    <Live />
+                </Modal>
             </div>
         );
     }
