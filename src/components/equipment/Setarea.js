@@ -273,20 +273,7 @@ class Setarea extends Component {
     }
   };
 
-  componentDidMount() {
-    const _this = this;
-    axios
-      .get("http://192.168.1.197:8111/api/camera/getlist", {
-        params: {
-          companycode: 7000001,
-          account: "admin"
-        }
-      })
-      .then(res => {
-        this.setState({ datalist: res.data });
-        console.log(res, "getlist");
-      });
-  }
+  componentDidMount() {}
 
   subdef = () => {};
 

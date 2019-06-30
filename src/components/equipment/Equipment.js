@@ -5,6 +5,7 @@ import "../../style/jhy/less/reset.less";
 import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
+import addpic from "../../style/jhy/imgs/addpic.jpg";
 // import axios from "axios";
 import axios from "../../axios";
 const equipmentURL = window.equipmentURL;
@@ -19,232 +20,105 @@ class Equipment extends Component {
     this.getList();
   }
   getList = () => {
-    // axios.ajax({
-    //   baseURL: equipmentURL,
-    //   method: "get",
-    //   url: "/api/camera / getlist",
-    //   data: {}
-    // }).then(res => {
-    //   console.log(res);
-    // });
+    axios
+      .ajax({
+        // baseURL: equipmentURL,
+        method: "get",
+        url: "http://192.168.1.197:8111/api/camera/getlist",
+        data: {}
+      })
+      .then(res => {
+        if (res.success) {
+          this.setState({
+            equipList: res.data
+          });
+        }
+      });
   };
-
+  renderEquipList = () => {
+    // this.state.equipList.map((val, inx) => (
+    //   <Col md={6} style={{ marginBottom: "16px" }} key={val}>
+    //     <Card
+    //       cover={<img alt="example" src={val.pic_min} />}
+    //       actions={[
+    //         <div className="extra">
+    //           <img src={onlinepic} alt="" />
+    //           <span>在线</span>
+    //         </div>,
+    //         <div className="extra">
+    //           <img src={defpic} alt="" />
+    //           <span>布防中</span>
+    //         </div>,
+    //         <div className="extra">
+    //           <img src={setpic} alt="" />
+    //           <span onClick={this.setEquip}>设置</span>
+    //         </div>
+    //       ]}
+    //     >
+    //       <p className="elli tit">
+    //         <span className="titpoint" />
+    //         {val.location}
+    //       </p>
+    //     </Card>
+    //   </Col>
+    // ));
+  };
   addEquip = () => {
     window.location.href = "#/main/equipset";
+  };
+  setEquip = code => {
+    window.location.href = `#/main/equipset?code=${code}`;
   };
   render() {
     return (
       <div className="equip">
         <Row gutter={16}>
-          <Col md={6} style={{ height: "270px" }}>
-            <div
-              className="card"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                background: "#fff",
-                border: "1px solid #eeeeee"
-              }}
-              onClick={() => {
-                this.addEquip();
-              }}
-            >
-              <p>
-                <Icon
-                  type="plus"
-                  style={{ fontSize: "30px", color: "#223c95" }}
-                />
-              </p>
-              <p style={{ color: "#223c95" }}>添加设备</p>
-            </div>
+          <Col md={6} style={{ marginBottom: "50px" }}>
+            <img src={addpic} alt="" />
           </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">
-                <span className="titpoint" />
-                啊大大的大大的大大的大大的
-              </p>
-            </Card>
+          <Col md={6} style={{ marginBottom: "50px" }}>
+            <Card cover={<img alt="example" src={addpic} />} />
           </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
-          <Col md={6} style={{ marginBottom: "16px" }}>
-            <Card
-              cover={
-                <img
-                  alt="example"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                />
-              }
-              actions={[
-                <div className="extra">
-                  <img src={onlinepic} alt="" />
-                  <span>在线</span>
-                </div>,
-                <div className="extra">
-                  <img src={defpic} alt="" />
-                  <span>布防中</span>
-                </div>,
-                <div className="extra">
-                  <img src={setpic} alt="" />
-                  <span>设置</span>
-                </div>
-              ]}
-            >
-              <p className="elli tit">啊大大的大大的大大的大大的</p>
-            </Card>
-          </Col>
+          {this.state.equipList.length > 0
+            ? this.state.equipList.map((val, inx) => (
+                <Col
+                  md={6}
+                  style={{ marginBottom: "16px" }}
+                  key={inx}
+                  className="equipWrap"
+                >
+                  <Icon type="delete" className="deleteEquip" />
+                  <Card
+                    cover={<img alt="example" src={val.pic_min} />}
+                    actions={[
+                      <div className="extra">
+                        <img src={onlinepic} alt="" />
+                        <span>在线</span>
+                      </div>,
+                      <div className="extra">
+                        <img src={defpic} alt="" />
+                        <span>布防中</span>
+                      </div>,
+                      <div className="extra">
+                        <img src={setpic} alt="" />
+                        <span
+                          onClick={() => {
+                            this.setEquip(val.code);
+                          }}
+                        >
+                          设置
+                        </span>
+                      </div>
+                    ]}
+                  >
+                    <p className="elli tit">
+                      <span className="titpoint" />
+                      {val.location}
+                    </p>
+                  </Card>
+                </Col>
+              ))
+            : null}
         </Row>
         <Pagination
           total={50}
