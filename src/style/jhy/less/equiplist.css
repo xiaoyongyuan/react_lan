@@ -1,3 +1,8 @@
+.equip {
+  height: 100%;
+  padding: 30px;
+  position: relative;
+}
 .equip .clearfix::after {
   content: '';
   clear: both;
@@ -14,6 +19,17 @@
   -webkit-line-clamp: 3;
   overflow: hidden;
 }
+.equip .equipWrap {
+  position: relative;
+}
+.equip .equipWrap .deleteEquip {
+  font-size: 30px;
+  position: absolute;
+  color: #fff;
+  top: 5px;
+  right: 10px;
+  z-index: 10;
+}
 .equip .ant-card-body {
   padding: 0;
 }
@@ -22,14 +38,23 @@
 }
 .equip .tit {
   position: absolute;
-  bottom: 32px;
+  bottom: 45px;
   left: 0;
-  background: rgba(36, 52, 74, 0.3);
+  background: rgba(36, 52, 74, 0.8);
+  color: #fff;
   width: 100%;
   padding: 1px 4px;
 }
+.equip .tit .titpoint {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #fe7200;
+  border-radius: 5px;
+  margin: 0 10px;
+}
 .equip .ant-card-actions > li {
-  margin: 4px 0;
+  margin: 10px 0;
 }
 .equip .extra {
   display: flex;
@@ -40,5 +65,10 @@
   width: 16px;
   height: 16px;
   margin-right: 10px;
+}
+.equip .pagination {
+  position: absolute;
+  bottom: 10px;
+  left: 28%;
 }
 /*# sourceMappingURL=equiplist.css.map */

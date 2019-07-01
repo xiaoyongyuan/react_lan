@@ -211,7 +211,7 @@ class Index extends Component {
                     {
                         this.state.policeList.map((v,i)=>(
                             <div className="alarminfor-img" key={i}>
-                                <img src={v.picpath?v.picpath:defenceImg} alt=""/>
+                                <img src={v.picpath?v.picpath:defenceImg} alt="" className="policeImg"/>
                                 <div className="alarminforBg">
                                     <span className="alarminforCirle"/>
                                     <span className="alarminforFont">{v.name}</span>

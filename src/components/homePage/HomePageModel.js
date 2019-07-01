@@ -3,7 +3,7 @@ import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import policeImg from "../../style/ztt/imgs/policeImg.png";
 import "./homeModel.less";
 import axios from "../../axios/index";
-import {Button, Icon} from "antd";
+import {Button, Icon, message} from "antd";
 class HomePageModel extends Component{
     constructor(props){
         super(props);
@@ -28,9 +28,19 @@ class HomePageModel extends Component{
             }
         }).then((res)=>{
             if(res.success){
+               /* res.data[0].fieldresult.map((v)=>{
+                    this.setState({
+                        tagType:v.tag
+                    });
+                });*/
                 this.setState({
                     homeDatail:res.data,
-                    field:res.data[0].field
+                    field:res.data[0].field,
+                    fieldresult:res.data[0].fieldresult,
+                    pic_width:res.data[0].pic_width,
+                    pic_height:res.data[0].pic_height,
+                    policeStatus:res.data[0].status,
+                    policeCode:res.data[0].code,
                 },()=>{
                     this.draw();
                 })
@@ -42,9 +52,10 @@ class HomePageModel extends Component{
         let ele = document.getElementById("homeCanvas");
         let area = ele.getContext("2d");
         area.clearRect(0,0,400,280);//清除之前的绘图
+        area.lineWidth=1;
         const datafield=this.state.field;
         if(this.state.field && datafield.length){
-            const xi=400/704, yi=280/576;
+            const xi=400/this.state.pic_width, yi=280/this.state.pic_height;
             let areafield = ele.getContext("2d");
             area.lineWidth=1;
             areafield.strokeStyle='#f00';
@@ -60,7 +71,37 @@ class HomePageModel extends Component{
                 return '';
             })
         }
-    }
+        const objs=this.state.fieldresult;
+        if(this.state.fieldresult && objs.length){
+            //计算缩放比例
+            const x=400/this.state.pic_width, y=280/this.state.pic_height;
+            objs.map((el,i)=>{
+                area.strokeStyle='#ff0';
+                area.beginPath();
+                area.rect(parseInt(el.x*x),parseInt(el.y*y),parseInt(el.w*x),parseInt(el.h*y));
+                area.stroke();
+                area.closePath();
+                return '';
+            })
+        }
+    };
+    //修改报警状态
+    hanlePoliceStatus=(status)=>{
+        if(this.state.policeCode){
+            axios.ajax({
+                method:"get",
+                url:window.g.loginURL+"/api/alarm/setalastatus",
+                data:{
+                    acode:this.state.policeCode,
+                    status:status
+                }
+            }).then((res)=>{
+                if(res.success){
+                    message.info(res.msg);
+                }
+            })
+        }
+    };
     render() {
         return(
                 this.state.homeDatail.map((v,i)=>(
@@ -84,7 +125,7 @@ class HomePageModel extends Component{
                         <div className="homePageModelRight">
                             <div className="deviceContext">
                             <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
-                            <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">人员报警</span><span>报警类型</span></div>
+                            <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span>{this.state.tagType===1?"车辆报警":"人员报警"}</span></div>
                             <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
                             <Button>防区显示<span className="sectorBtn"><Icon className="cicrle-icon" type="check" /></span></Button>
                             <Button>目标显示<span className="sectorBtn"><Icon className="cicrle-icon" type="check" /></span></Button>
@@ -95,8 +136,8 @@ class HomePageModel extends Component{
                                     <span>报警处理</span>
                                 </div>
                                 <div className="policeBtn">
-                                    <Button type="primary">警情</Button>
-                                    <Button type="primary">虚警</Button>
+                                    <Button type="primary" onClick={()=>this.hanlePoliceStatus("1")}>警情</Button>
+                                    <Button type="primary" onClick={()=>this.hanlePoliceStatus("3")}>虚警</Button>
                                 </div>
                             </div>
                         </div>

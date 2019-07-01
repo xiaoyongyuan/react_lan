@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Select,DatePicker,Button,Icon } from 'antd';
+import { Row, Col, Select,DatePicker,Button,Icon,Form,message } from 'antd';
 import "./ploceinfomation.less";
 import test2 from "../../style/imgs/test2.png";
 import alarmcl from "../../style/imgs/alarmcl.png";
@@ -7,6 +7,7 @@ import 'swiper/dist/css/swiper.min.css';
 import Swiper from 'swiper/dist/js/swiper.js'
 import alarmBg from "../../style/ztt/imgs/defenceImg.png";
 import axios from "../../axios/index";
+import moment from "moment";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 class PoliceInformation extends Component {
@@ -14,7 +15,9 @@ class PoliceInformation extends Component {
         super(props);
         this.state = {
             alarm: {},
-            malarminfo: []
+            malarminfo: [],
+            policeList:[],
+            equList:[]
         };
     }
     params={
@@ -35,6 +38,8 @@ class PoliceInformation extends Component {
         });
        this.getList();
        this.hanleEquipment();
+       this.hanleQuantity();
+       this.handlePoliceList();
     }
     getList=()=>{
         this.params.cid=1;
@@ -45,11 +50,21 @@ class PoliceInformation extends Component {
             data:this.params
         }).then((res)=>{
             if(res.success){
+                res.data.Malarm.fieldresult.map((v)=>{
+                    this.setState({
+                        tagType:v.tag
+                    });
+                });
                 this.setState({
                     alarm:res.data.Malarm,
                     alarmImg:res.data.Malarm.picpath,
                     malarminfo:res.data.Malarm.Malarminfo,
-                    field:res.data.Malarm.field
+                    field:res.data.Malarm.field,
+                    fieldresult:res.data.Malarm.fieldresult,
+                    policeCode:res.data.Malarm.code,
+                    pic_width:res.data.Malarm.pic_width,
+                    pic_height:res.data.Malarm.pic_height,
+                    policeStatus:res.data.Malarm.status
                 },()=>{
                     this.draw();
                 })
@@ -61,9 +76,11 @@ class PoliceInformation extends Component {
         let ele = document.getElementById("canvasobj");
         let area = ele.getContext("2d");
         area.clearRect(0,0,300,278);//清除之前的绘图
+        area.lineWidth=1;
+
         const datafield=this.state.field;
         if(this.state.field && datafield.length){
-            const xi=300/704, yi=278/576;
+            const xi=300/this.state.pic_width, yi=278/this.state.pic_height;
             let areafield = ele.getContext("2d");
             area.lineWidth=1;
             areafield.strokeStyle='#f00';
@@ -79,7 +96,20 @@ class PoliceInformation extends Component {
                 return '';
             })
         }
-    }
+        const objs=this.state.fieldresult;
+        if(this.state.fieldresult && objs.length){
+            //计算缩放比例
+            const x=300/this.state.pic_width, y=278/this.state.pic_height;
+            objs.map((el,i)=>{
+                area.strokeStyle='#ff0';
+                area.beginPath();
+                area.rect(parseInt(el.x*x),parseInt(el.y*y),parseInt(el.w*x),parseInt(el.h*y));
+                area.stroke();
+                area.closePath();
+                return '';
+            })
+        }
+    };
     //设备
     hanleEquipment=()=>{
         axios.ajax({
@@ -88,70 +118,185 @@ class PoliceInformation extends Component {
             data:{}
         }).then((res)=>{
             if(res.success){
-
+                this.setState({
+                    equList:res.data
+                })
             }
         })
-    }
+    };
+    //更新数量
+    hanleQuantity=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/alarm/updatecount",
+            data:{}
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    updateQuant:res.data.count
+                })
+            }
+        })
+    };
+    //报警列表
+    handlePoliceList=(datas)=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/alarm/alarmlist",
+            data:{datas}
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    policeList:res.data
+                })
+            }
+        })
+    };
+    //报警状态
+    hanleStatus=(ststus)=>{
+        switch (ststus) {
+            case 0:
+                return "未处理";
+            case 1:
+                return "警情";
+            case 3:
+                return "虚警";
+            default:
+                return;
+        }
+    };
+    //报警背景颜色
+    hanlePoliceBg=(ststus)=>{
+        switch (ststus) {
+            case 0:
+                return "policeStatus unhanle";
+            case 1:
+                return "policeStatus policebg";
+            case 3:
+                return "policeStatus falsePolicebg";
+            default:
+                return;
+        }
+    };
+    //修改报警状态
+    hanlePoliceStatus=(status)=>{
+        console.log(status,"status",this.state.policeCode);
+        if(this.state.policeCode){
+            axios.ajax({
+                method:"get",
+                url:window.g.loginURL+"/api/alarm/setalastatus",
+                data:{
+                    acode:this.state.policeCode,
+                    status:status
+                }
+            }).then((res)=>{
+                if(res.success){
+                    this.state.policeStatus=status;
+                    this.getList();
+                    message.info(res.msg);
+                }
+            })
+        }
+    };
     hanleReplace=(picImg)=>{
        this.setState({
            alarmImg:picImg
        })
     };
-    handleChange = (value) =>{
-        console.log(`selected ${value}`);
+    hanlePoliceDateil=(code)=>{
+        this.params.cid=code;
+        this.getList();
     };
-    onChange = (value,dateString) => {
-        console.log('Selected Time: ', value);
-        console.log('Formatted Selected Time: ', dateString);
+    //查询
+    handleSubmitSelect=(e)=>{
+        e.preventDefault();
+        this.props.form.validateFields((err,values)=>{
+            if(!err){
+                let datas={
+                    cid:values.cid,
+                    status:values.status
+                };
+             /*   this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):"";
+                this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):"";*/
+                this.handlePoliceList(datas);
+            }
+        })
     };
-    onOk = (value) => {
-        console.log('onOk: ', value);
+    disabledDate=(current)=> {
+        return current && current < moment().endOf('day');
+    }
+    range=(start, end) =>{
+        const result = [];
+        for (let i = start; i < end; i++) {
+            result.push(i);
+        }
+        return result;
+    };
+
+    disabledRangeTime=(_, type)=> {
+        if (type === 'start') {
+            return {
+                disabledHours: () => this.range(0, 60).splice(4, 20),
+                disabledMinutes: () => this.range(30, 60),
+                disabledSeconds: () => [55, 56],
+            };
+        }
+        return {
+            disabledHours: () => this.range(0, 60).splice(20, 4),
+            disabledMinutes: () => this.range(0, 31),
+            disabledSeconds: () => [55, 56],
+        };
     };
     render() {
+        const {getFieldDecorator}=this.props.form;
         return(
             <div className="ploceinfomation">
-                <Row className="ploceinfomation-query">
-                    <Col span={5}>
-                        <span className="select-camera">选择设备</span>
-                        <Select className="select-form" defaultValue="lucy" onChange={this.handleChange}>
-                            <Option value="jack">Jack</Option>
-                            <Option value="lucy">Lucy</Option>
-                            <Option value="Yiminghe">yiminghe</Option>
-                        </Select>
-                    </Col>
-                    <Col span={7}>
-                        <Row className="falsealarm">
-                            <Col span={8} className="alert-col">
-                                <div className="alert">
-                                    <div className="zdupdate-word">警情</div>
-                                    <div className="cicrle">
-                                        <Icon className="cicrle-icon" type="check" />
-                                    </div>
-                                </div>
-                            </Col>
-                            <Col className="alert-col" span={8}>
-                                <div className="falsealert">
-                                    <div className="zdupdate-word">虚警</div>
-                                    <div className="cicrle">
-                                        <Icon className="cicrle-icon" type="check" />
-                                    </div>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col span={12}>
-                        <span className="select-time">选择时间</span>
-                        <RangePicker
-                            className="select-time-form"
-                            showTime={{ format: 'HH:mm' }}
-                            format="YYYY-MM-DD HH:mm"
-                            placeholder={['开始时间', '结束时间']}
-                            onChange={this.onChange}
-                            onOk={this.onOk}
-                        />
-                        <Button className="query-btn" type="primary">搜索</Button>
-                    </Col>
-                </Row>
+                <Form layout="inline" onSubmit={this.handleSubmitSelect}>
+                    <Row className="ploceinfomation-query">
+                        <Form.Item label="选择设备" className="choiceEqu" >
+                            {getFieldDecorator('cid',{
+                                initialValue:""
+                            })(
+                                <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
+                                    <Option  value="">所有</Option>
+                                    {
+                                        this.state.equList.map((v,i)=>(
+                                            <Option key={i} value={v.code}>{v.name}</Option>
+                                        ))
+                                    }
+                                </Select>
+                            )}
+                        </Form.Item>
+                        <Form.Item>
+                            <Form.Item label="报警状态">
+                                {getFieldDecorator('status',{
+                                    initialValue:""
+                                })(
+                                    <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
+                                        <Option  value="">所有</Option>
+                                        <Option  value="1">警报</Option>
+                                        <Option  value="3">虚警</Option>
+                                    </Select>
+                                )}
+                            </Form.Item>
+                        </Form.Item>
+                        <Form.Item label="选择时间">
+                            {getFieldDecorator('date')(
+                                <RangePicker
+                                    disabledDate={this.disabledDate}
+                                    disabledTime={this.disabledRangeTime}
+                                    showTime={{
+                                        hideDisabledOptions: true,
+                                        defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
+                                    }}
+                                    format="YYYY-MM-DD HH:mm:ss"
+                                />
+                            )}
+
+                            <Button className="query-btn" type="primary" htmlType="submit">搜索</Button>
+                        </Form.Item>
+                    </Row>
+                </Form>
                 <Row className="ploceinfomation-main" >
                     <div  className="main-left">
                         <Row type="flex" justify="space-around">
@@ -208,10 +353,10 @@ class PoliceInformation extends Component {
                                     报警类型
                                 </Col>
                                 <Col className="equipName-left" span={8}>
-                                    <span className="equipName-right-word">人员报警</span>
+                                    <span className="equipName-right-word">{this.state.tagType===0?"人员报警":"车辆报警"}</span>
                                 </Col>
                                 <Col className="equipName-right-caralarm" span={8}>
-                                    <span className="equipName-right-word">车辆报警</span>
+                                    <span className="equipName-right-word">{this.state.tagType===1?"车辆报警":"人员报警"}</span>
                                 </Col>
                             </Row>
                             <Row className="equipName">
@@ -258,10 +403,10 @@ class PoliceInformation extends Component {
                                     </div>
                                 </Col>
                                 <Col span={18}>
-                                    <div className="alarmq">
+                                    <div className="alarmq" onClick={()=>this.hanlePoliceStatus("1")}>
                                         <span>警情</span>
                                     </div>
-                                    <div className="alarmx">
+                                    <div className="alarmx" onClick={()=>this.hanlePoliceStatus("3")}>
                                         <span>虚警</span>
                                     </div>
                                 </Col>
@@ -273,7 +418,7 @@ class PoliceInformation extends Component {
                     <Col span={12}>
                         <span className="updata-word">累计更新数量</span>
                         <div className="updata-Num">
-                            50
+                           {this.state.updateQuant?this.state.updateQuant:0}
                         </div>
                     </Col>
                     <Col span={12} className="zdupdate-col">
@@ -285,133 +430,25 @@ class PoliceInformation extends Component {
                         </div>
                     </Col>
                 </Row>
-                <Row className="ploceinfomation-bottom">
-                    <Col>
-                        <div className="ploceinfomation-bottom-item">
-                            <div className="ploceinfomation-bottom-item-inner">
-                                <div className="ploceinfomation-bottom-item-img">
-                                    <div className="up">
-                                        <div className="mark">
-                                            <div className="cicler">
-                                            </div>
-                                            <span className="word">未处理</span>
-                                        </div>
-                                        <div className="time">
-                                            <span className="tiem-word">2019-10-10 12:12:12</span>
-                                        </div>
+                <Row gutter={16}>
+                    {
+                        this.state.policeList.map((v,i)=>(
+                            <Col className="gutter-row" span={4} key={i}>
+                                <div className="gutter-box" onClick={()=>this.hanlePoliceDateil(v.code)}>
+                                    <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
+                                    <div className="policeBottom">
+                                        <span className="policeCircle" /><span className="policeName">{v.name?v.name:"无"}</span>
                                     </div>
-                                    <div className="down">
-                                        <div className="img-up-fu-word">
-                                            <div className="circle">
-                                            </div>
-                                            <span className="img-up-fu-word-span">新风机房2号门</span>
-                                            <Icon className="icondian" type="ellipsis" />
-                                        </div>
-                                    </div>
+                                    <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
+                                    <span className="policeTimes">{v.atime}</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="ploceinfomation-bottom-item">
-                            <div className="ploceinfomation-bottom-item-inner">
-                                <div className="ploceinfomation-bottom-item-img">
-                                    <div className="up">
-                                        <div className="mark">
-                                            <div className="cicler">
-                                            </div>
-                                            <span className="word">未处理</span>
-                                        </div>
-                                        <div className="time">
-                                            <span className="tiem-word">2019-10-10 12:12:12</span>
-                                        </div>
-                                    </div>
-                                    <div className="down">
-                                        <div className="img-up-fu-word">
-                                            <div className="circle">
-                                            </div>
-                                            <span className="img-up-fu-word-span">新风机房2号门</span>
-                                            <Icon className="icondian" type="ellipsis" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ploceinfomation-bottom-item">
-                            <div className="ploceinfomation-bottom-item-inner">
-                                <div className="ploceinfomation-bottom-item-img">
-                                    <div className="up">
-                                        <div className="mark">
-                                            <div className="cicler">
-                                            </div>
-                                            <span className="word">未处理</span>
-                                        </div>
-                                        <div className="time">
-                                            <span className="tiem-word">2019-10-10 12:12:12</span>
-                                        </div>
-                                    </div>
-                                    <div className="down">
-                                        <div className="img-up-fu-word">
-                                            <div className="circle">
-                                            </div>
-                                            <span className="img-up-fu-word-span">新风机房2号门</span>
-                                            <Icon className="icondian" type="ellipsis" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ploceinfomation-bottom-item">
-                            <div className="ploceinfomation-bottom-item-inner">
-                                <div className="ploceinfomation-bottom-item-img">
-                                    <div className="up">
-                                        <div className="mark">
-                                            <div className="cicler">
-                                            </div>
-                                            <span className="word">未处理</span>
-                                        </div>
-                                        <div className="time">
-                                            <span className="tiem-word">2019-10-10 12:12:12</span>
-                                        </div>
-                                    </div>
-                                    <div className="down">
-                                        <div className="img-up-fu-word">
-                                            <div className="circle">
-                                            </div>
-                                            <span className="img-up-fu-word-span">新风机房2号门</span>
-                                            <Icon className="icondian" type="ellipsis" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="ploceinfomation-bottom-item">
-                            <div className="ploceinfomation-bottom-item-inner">
-                                <div className="ploceinfomation-bottom-item-img">
-                                    <div className="up">
-                                        <div className="mark">
-                                            <div className="cicler">
-                                            </div>
-                                            <span className="word">未处理</span>
-                                        </div>
-                                        <div className="time">
-                                            <span className="tiem-word">2019-10-10 12:12:12</span>
-                                        </div>
-                                    </div>
-                                    <div className="down">
-                                        <div className="img-up-fu-word">
-                                            <div className="circle">
-                                            </div>
-                                            <span className="img-up-fu-word-span">新风机房2号门</span>
-                                            <Icon className="icondian" type="ellipsis" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </Col>
+                            </Col>
+                        ))
+                    }
                 </Row>
             </div>
         );
     }
 }
 
-export default PoliceInformation;
+export default PoliceInformation=Form.create({})(PoliceInformation);

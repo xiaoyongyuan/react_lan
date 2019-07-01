@@ -395,6 +395,10 @@
   margin: 10px 0 10px 20px;
   position: relative;
 }
+.homePage .alarminfor .alarminfor-img .policeImg {
+  width: 100%;
+  height: 100%;
+}
 .homePage .alarminfor .alarminfor-img .alarmVideoBtn {
   position: absolute;
   top: 34%;
