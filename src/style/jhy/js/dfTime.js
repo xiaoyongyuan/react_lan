@@ -201,7 +201,7 @@
       // backdata[i] = {weekdata};
       // backdata[i] = [i + 1, i + 2];
     });
-    return backdata;
+    return weekdata;
   };
 
   function nearest(left) {

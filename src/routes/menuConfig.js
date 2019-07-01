@@ -85,6 +85,10 @@ export default {
   ],
   other: [
     {
+      key: "/main/equipset:add",
+      component: "EquipSet"
+    },
+    {
       key: "/main/equipset",
       component: "EquipSet"
     },
@@ -97,8 +101,8 @@ export default {
       component: "Login"
     },
     {
-        key: "/main/live",
-        component: "live"
+      key: "/main/live",
+      component: "live"
     }
   ]
 };
