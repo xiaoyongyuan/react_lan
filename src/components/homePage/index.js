@@ -21,7 +21,40 @@ class Index extends Component {
         this.hanleBgColor1();
         this.hanleBgColor2();
         this.getList();
+        this.equipmentCount();
+        this.policeCount();
     }
+    //设备数量
+    equipmentCount=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/index/equipmenttotal",
+            data:{}
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    cameraTotals:res.data.cameraTotals,
+                    onlineCameras:res.data.onlineCameras,
+                    downCameras:res.data.downCameras
+                })
+            }
+        })
+    };
+    policeCount=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/index/alarmtotal",
+            data:{}
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    totalCount:res.data.totalCount,
+                    hasDealCount:res.data.hasDealCount,
+                    unDealCount:res.data.unDealCount
+                })
+            }
+        })
+    };
     //报警信息
     getList=()=>{
         axios.ajax({
@@ -63,8 +96,9 @@ class Index extends Component {
     hanleWithdrawal=(listCode)=>{
         this.setState({
             visible:true,
-            listCode
+            listCode:listCode
         });
+        console.log(listCode,"listCode11111111111")
     };
     handleOk=()=>{
         this.setState({
@@ -74,7 +108,8 @@ class Index extends Component {
     handleCancel=()=>{
         this.setState({
             visible:false
-        })
+        });
+        this.getList();
     };
     //最后一次报警情况
     hanlelastAlarm=()=>{
@@ -120,42 +155,42 @@ class Index extends Component {
                         <span className="equImg1" />
                         <div className="equContext">
                             <span className="equipName">设备总数</span>
-                            <span className="equipTotal"><span className="equBer">6</span>/部</span>
+                            <span className="equipTotal"><span className="equBer">{this.state.cameraTotals}</span>/部</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg2" />
                         <div className="equContext">
                             <span className="equipName">在线设备</span>
-                            <span className="equipTotal"><span className="equBer">5</span>/部</span>
+                            <span className="equipTotal"><span className="equBer">{this.state.onlineCameras}</span>/部</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg3" />
                         <div className="equContext">
                             <span className="equipName">离线设备</span>
-                            <span className="equipTotal"><span className="equBer">1</span>/部</span>
+                            <span className="equipTotal"><span className="equBer">{this.state.downCameras}</span>/部</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg4" />
                         <div className="equContext">
                             <span className="equipName">已处理报警</span>
-                            <span className="equipTotal-Handle"><span className="equBer">20</span>/条</span>
+                            <span className="equipTotal-Handle"><span className="equBer">{this.state.hasDealCount}</span>/条</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg5" />
                         <div className="equContext">
                             <span className="equipName">未处理报警</span>
-                            <span className="equipTotal-UHandle"><span className="equBer">8</span>/条</span>
+                            <span className="equipTotal-UHandle"><span className="equBer">{this.state.unDealCount}</span>/条</span>
                         </div>
                     </div>
                     <div className="equ1 equ-left">
                         <span className="equImg6" />
                         <div className="equContext">
                             <span className="equipName">今天报警总数</span>
-                            <span className="equipTotal-today"><span className="equBer">28</span>/条</span>
+                            <span className="equipTotal-today"><span className="equBer">{this.state.totalCount}</span>/条</span>
                         </div>
                     </div>
                 </div>

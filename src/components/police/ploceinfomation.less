@@ -15,6 +15,16 @@
   .falsePolicebg{
     background-color: #B28750;
   }
+  .policeName{
+    color: #fff;
+    padding-left: 8px;
+    font-size: 13px;
+  }
+  .pagination{
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+  }
   .ploceinfomation-query{
     height: 60px;
     background-color: #fff;
@@ -192,22 +202,18 @@
         }
         .img-up-fu{
           position: relative;
-          #canvasobj{
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top:0;
-            left: 0;
-          }
           .alarmImg{
-            width: 100%;
+            width:100%;
             height:278px;
           }
           .alarmImg canvas{
             width: 100%;
             height: 100%;
+            border: 1px solid #F0F2F5;
           }
           .alarmImg img{
+            position: absolute;
+            left: 0;
             width: 100%;
             height: 100%;
           }
@@ -310,7 +316,7 @@
           height: 90px;
           width: 90%;
           .showfq{
-            width: 90px;
+            width: 100px;
             height: 25px;
             background-color: #006fe4;
             border-radius:  25px ;
@@ -318,11 +324,11 @@
             margin-top: 10px;
             .zdupdate-word{
               line-height: 25px;
-              color: #fff;
-              font-family: 黑体;
               font-size: 13px;
-              margin-left: 5px;
-              float: left;
+              color:#fff;
+              display: flex;
+              align-items: center;
+              justify-content: center;
             }
             .cicrle{
               width: 15px;
@@ -468,6 +474,7 @@
     border: 2px solid #F8F8F8;
     .gutter-box{
       position: relative;
+      cursor: pointer;
       .policeStatus{
         display: inline-block;
         //background-color: #006CE2;
@@ -516,11 +523,7 @@
           background-color: #FF7200;
          margin-left: 18px;
         }
-        .policeName{
-          color: #fff;
-          padding-left: 8px;
-          font-size: 13px;
-        }
+
       }
     }
   }
