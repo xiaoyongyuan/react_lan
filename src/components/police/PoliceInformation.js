@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Select,DatePicker,Button,Icon,Form,message } from 'antd';
+import { Row, Col, Select,DatePicker,Button,Icon,Form,message,Pagination,Switch  } from 'antd';
 import "./ploceinfomation.less";
 import test2 from "../../style/imgs/test2.png";
+import nodata from "../../style/imgs/nodata.png";
 import alarmcl from "../../style/imgs/alarmcl.png";
 import 'swiper/dist/css/swiper.min.css';
 import Swiper from 'swiper/dist/js/swiper.js'
@@ -17,12 +18,13 @@ class PoliceInformation extends Component {
             alarm: {},
             malarminfo: [],
             policeList:[],
-            equList:[]
+            equList:[],
+            page:1,
+            pagesize:2,
+            field:true, //是否显示围界信息
+            obj:true, //是否显示报警对象
         };
     }
-    params={
-
-    };
     componentDidMount() {
         new Swiper(".swiper-container", {
             loop: false, //循环
@@ -36,78 +38,106 @@ class PoliceInformation extends Component {
             observeParents: true,
             observeSlideChildren: true
         });
-       this.getList();
        this.hanleEquipment();
        this.hanleQuantity();
        this.handlePoliceList();
     }
-    getList=()=>{
-        this.params.cid=1;
-        this.params.status=0;
+    //报警列表
+    handlePoliceList=()=>{
+        let params={
+            cid:this.state.scid,
+            status:this.state.selectstatus,
+            pageindex:this.state.page,
+            pagesize:2
+        };
         axios.ajax({
             method:"get",
-            url:window.g.loginURL+"/api/alarm/alarminfo",
-            data:this.params
+            url:window.g.loginURL+"/api/alarm/alarmlist",
+            data:params
         }).then((res)=>{
             if(res.success){
-                res.data.Malarm.fieldresult.map((v)=>{
-                    this.setState({
-                        tagType:v.tag
-                    });
-                });
                 this.setState({
-                    alarm:res.data.Malarm,
-                    alarmImg:res.data.Malarm.picpath,
-                    malarminfo:res.data.Malarm.Malarminfo,
-                    field:res.data.Malarm.field,
-                    fieldresult:res.data.Malarm.fieldresult,
-                    policeCode:res.data.Malarm.code,
-                    pic_width:res.data.Malarm.pic_width,
-                    pic_height:res.data.Malarm.pic_height,
-                    policeStatus:res.data.Malarm.status
+                    policeList:res.data,
+                    policeListCode:res.data[0].code,
+                    totalcount:res.data
                 },()=>{
-                    this.draw();
+                   this.getInfor();
                 })
             }
         })
     };
-    //画围界
-    draw=()=>{
-        let ele = document.getElementById("canvasobj");
-        let area = ele.getContext("2d");
-        area.clearRect(0,0,300,278);//清除之前的绘图
-        area.lineWidth=1;
-
-        const datafield=this.state.field;
-        if(this.state.field && datafield.length){
-            const xi=300/this.state.pic_width, yi=278/this.state.pic_height;
-            let areafield = ele.getContext("2d");
-            area.lineWidth=1;
-            areafield.strokeStyle='#f00';
-            datafield.map((el,i)=>{
-                areafield.beginPath();
-                areafield.moveTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][1][0]*xi),parseInt(datafield[i][1][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][2][0]*xi),parseInt(datafield[i][2][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][3][0]*xi),parseInt(datafield[i][3][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
-                areafield.stroke();
-                areafield.closePath();
-                return '';
+    getInfor=()=>{
+        if(this.state.policeListCode){
+            axios.ajax({
+                method:"get",
+                url:window.g.loginURL+"/api/alarm/alarminfo",
+                data:{
+                    code:this.state.policeListCode
+                }
+            }).then((res)=>{
+                if(res.success){
+                    res.data.Malarm.fieldresult.map((v)=>{
+                        this.setState({
+                            tagType:v.tag
+                        });
+                    });
+                    this.setState({
+                        alarm:res.data.Malarm,
+                        alarmImg:res.data.Malarm.picpath,
+                        malarminfo:res.data.Malarm.Malarminfo,
+                        fields:res.data.Malarm.field,
+                        fieldresult:res.data.Malarm.fieldresult,
+                        policeCode:res.data.Malarm.code,
+                        pic_width:res.data.Malarm.pic_width,
+                        pic_height:res.data.Malarm.pic_height,
+                        policeStatus:res.data.Malarm.status
+                    },()=>{
+                        this.draw();
+                    })
+                }
             })
         }
-        const objs=this.state.fieldresult;
-        if(this.state.fieldresult && objs.length){
-            //计算缩放比例
-            const x=300/this.state.pic_width, y=278/this.state.pic_height;
-            objs.map((el,i)=>{
-                area.strokeStyle='#ff0';
-                area.beginPath();
-                area.rect(parseInt(el.x*x),parseInt(el.y*y),parseInt(el.w*x),parseInt(el.h*y));
-                area.stroke();
-                area.closePath();
-                return '';
-            })
+
+    };
+    //画围界
+    draw=()=>{
+        if(this.state.alarmImg) {
+            let ele = document.getElementById("canvasobj");
+            let area = ele.getContext("2d");
+            area.clearRect(0, 0, 704, 576);//清除之前的绘图
+            area.lineWidth = 1;
+
+            const datafield = this.state.fields;
+            if (this.state.field && datafield.length) {
+                const xi = 510 / 704, yi = 278 / 576;
+                let areafield = ele.getContext("2d");
+                area.lineWidth = 1;
+                areafield.strokeStyle = '#f00';
+                datafield.map((el, i) => {
+                    areafield.beginPath();
+                    areafield.moveTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
+                    areafield.lineTo(parseInt(datafield[i][1][0] * xi), parseInt(datafield[i][1][1] * yi));
+                    areafield.lineTo(parseInt(datafield[i][2][0] * xi), parseInt(datafield[i][2][1] * yi));
+                    areafield.lineTo(parseInt(datafield[i][3][0] * xi), parseInt(datafield[i][3][1] * yi));
+                    areafield.lineTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
+                    areafield.stroke();
+                    areafield.closePath();
+                    return '';
+                })
+            }
+            const objs = this.state.fieldresult;
+            if (this.state.obj && objs.length) {
+                //计算缩放比例
+                const x = 510 / this.state.pic_width, y = 278 / this.state.pic_height;
+                objs.map((el, i) => {
+                    area.strokeStyle = '#ff0';
+                    area.beginPath();
+                    area.rect(parseInt(el.x * x), parseInt(el.y * y), parseInt(el.w * x), parseInt(el.h * y));
+                    area.stroke();
+                    area.closePath();
+                    return '';
+                })
+            }
         }
     };
     //设备
@@ -134,20 +164,6 @@ class PoliceInformation extends Component {
             if(res.success){
                 this.setState({
                     updateQuant:res.data.count
-                })
-            }
-        })
-    };
-    //报警列表
-    handlePoliceList=(datas)=>{
-        axios.ajax({
-            method:"get",
-            url:window.g.loginURL+"/api/alarm/alarmlist",
-            data:{datas}
-        }).then((res)=>{
-            if(res.success){
-                this.setState({
-                    policeList:res.data
                 })
             }
         })
@@ -180,7 +196,6 @@ class PoliceInformation extends Component {
     };
     //修改报警状态
     hanlePoliceStatus=(status)=>{
-        console.log(status,"status",this.state.policeCode);
         if(this.state.policeCode){
             axios.ajax({
                 method:"get",
@@ -191,40 +206,65 @@ class PoliceInformation extends Component {
                 }
             }).then((res)=>{
                 if(res.success){
-                    this.state.policeStatus=status;
-                    this.getList();
                     message.info(res.msg);
+                    this.handlePoliceList();
                 }
             })
         }
     };
     hanleReplace=(picImg)=>{
-       this.setState({
-           alarmImg:picImg
-       })
+        this.setState({
+            alarmImg:picImg.picpath,
+            fields:picImg.field,
+            fieldresult:picImg.fieldresult,
+            pic_width:picImg.pic_width,
+            pic_height:picImg.pic_height,
+        },()=>{
+            this.draw();
+        })
     };
     hanlePoliceDateil=(code)=>{
-        this.params.cid=code;
-        this.getList();
+        this.setState({
+            policeListCode:code
+        },()=>{
+            this.getInfor();
+        });
     };
     //查询
     handleSubmitSelect=(e)=>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
             if(!err){
-                let datas={
-                    cid:values.cid,
-                    status:values.status
-                };
+                this.setState({
+                    scid:values.cid,
+                    selectstatus:values.status
+                },()=>{
+                    this.handlePoliceList();
+                });
              /*   this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):"";
                 this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):"";*/
-                this.handlePoliceList(datas);
             }
         })
     };
+    //分页
+    hanlePage=(page)=>{
+        this.setState({
+            page:page,
+        },()=>{
+            this.handlePoliceList()
+        })
+    };
+    //控制显示围界与对象
+    onChangeCumference=(checked,text)=>{
+        this.setState({
+            [text]: checked,
+        },()=>{
+            this.draw();
+        });
+    };
     disabledDate=(current)=> {
         return current && current < moment().endOf('day');
-    }
+    };
     range=(start, end) =>{
         const result = [];
         for (let i = start; i < end; i++) {
@@ -303,8 +343,7 @@ class PoliceInformation extends Component {
                             <Col className="main-left-L" span={12}>
                                 <div className="img-up-fu">
                                     <div className="alarmImg">
-                                        <img src={this.state.alarmImg?this.state.alarmImg:alarmBg} alt=""/>
-                                        <canvas id="canvasobj" width="300px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg?this.state.alarmImg:alarmBg+')',backgroundSize:"100% 100%"}} />
+                                        <canvas id="canvasobj" width="510px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
                                     </div>
                                     <div className="img-up-fu-word">
                                         <div className="circle" />
@@ -316,7 +355,7 @@ class PoliceInformation extends Component {
                                         {
                                             this.state.malarminfo.map((v,i)=>(
                                                 <div key={i} className="everyImg">
-                                                    <div className="swiper-slide"><img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v.picpath)} /></div>
+                                                    <div className="swiper-slide"><img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} /></div>
                                                 </div>
                                             ))
                                         }
@@ -370,16 +409,10 @@ class PoliceInformation extends Component {
                             <Row className="showTaget">
                                 <Col span={8}>
                                     <div className="showfq">
-                                        <div className="zdupdate-word">防区显示</div>
-                                        <div className="cicrle">
-                                            <Icon className="cicrle-icon" type="check" />
-                                        </div>
+                                        <div className="zdupdate-word">防区显示&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></div>
                                     </div>
                                     <div className="showfq">
-                                        <div className="zdupdate-word">目标显示</div>
-                                        <div className="cicrle">
-                                            <Icon className="cicrle-icon" type="check" />
-                                        </div>
+                                        <div className="zdupdate-word">目标显示&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></div>
                                     </div>
                                 </Col>
                                 <Col span={16} className="addqc">
@@ -446,6 +479,7 @@ class PoliceInformation extends Component {
                         ))
                     }
                 </Row>
+                <div className="pagination"><Pagination defaultCurrent={this.state.page} current={this.state.page} total={3} pageSize={this.state.pagesize} onChange={this.hanlePage} style={{display:this.state.policeList?"block":"none"}} /></div>
             </div>
         );
     }

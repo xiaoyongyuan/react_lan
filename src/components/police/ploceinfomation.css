@@ -16,6 +16,16 @@
 .ploceinfomation .falsePolicebg {
   background-color: #B28750;
 }
+.ploceinfomation .policeName {
+  color: #fff;
+  padding-left: 8px;
+  font-size: 13px;
+}
+.ploceinfomation .pagination {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+}
 .ploceinfomation .ploceinfomation-query {
   height: 60px;
   background-color: #fff;
@@ -196,13 +206,6 @@
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu {
   position: relative;
 }
-.ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu #canvasobj {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg {
   width: 100%;
   height: 278px;
@@ -210,8 +213,11 @@
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg canvas {
   width: 100%;
   height: 100%;
+  border: 1px solid #F0F2F5;
 }
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg img {
+  position: absolute;
+  left: 0;
   width: 100%;
   height: 100%;
 }
@@ -314,7 +320,7 @@
   width: 90%;
 }
 .ploceinfomation .ploceinfomation-main .main-right .up .showTaget .showfq {
-  width: 90px;
+  width: 100px;
   height: 25px;
   background-color: #006fe4;
   border-radius: 25px ;
@@ -323,11 +329,11 @@
 }
 .ploceinfomation .ploceinfomation-main .main-right .up .showTaget .showfq .zdupdate-word {
   line-height: 25px;
-  color: #fff;
-  font-family: 黑体;
   font-size: 13px;
-  margin-left: 5px;
-  float: left;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .ploceinfomation .ploceinfomation-main .main-right .up .showTaget .showfq .cicrle {
   width: 15px;
@@ -469,6 +475,7 @@
 }
 .ploceinfomation .gutter-row .gutter-box {
   position: relative;
+  cursor: pointer;
 }
 .ploceinfomation .gutter-row .gutter-box .policeStatus {
   display: inline-block;
@@ -517,10 +524,5 @@
   border-radius: 50%;
   background-color: #FF7200;
   margin-left: 18px;
-}
-.ploceinfomation .gutter-row .gutter-box .policeBottom .policeName {
-  color: #fff;
-  padding-left: 8px;
-  font-size: 13px;
 }
 /*# sourceMappingURL=ploceinfomation.css.map */

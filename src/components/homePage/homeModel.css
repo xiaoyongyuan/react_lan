@@ -18,7 +18,7 @@
 .homePageModel .homePageModelLeft .homeageImg .homeImg {
   width: 400px;
   margin-top: 2px;
-  height: 280px;
+  height: 250px;
 }
 .homePageModel .homePageModelLeft .homeageImg .homeImg #homeCanvas {
   width: 100%;
@@ -70,6 +70,13 @@
 .homePageModel .homePageModelRight {
   width: 480px;
 }
+.homePageModel .homePageModelRight .sector {
+  background: #006FE4;
+  color: #fff;
+  padding: 4px 8px;
+  margin: 0 4px;
+  border-radius: 30px;
+}
 .homePageModel .homePageModelRight .deviceContext {
   padding: 10px;
   border: 2px solid #EEEEEE;
@@ -109,6 +116,10 @@
   border-right: 1px solid #dedee2;
   border-left: 1px solid #dedee2;
   padding: 0 15px;
+  color: #32419C;
+}
+.homePageModel .homePageModelRight .deviceContext .nameDevice .carBg {
+  color: #C0C0C2;
 }
 .homePageModel .homePageModelRight .deviceContext .nameDevice .equName {
   display: inline-block;
@@ -118,13 +129,6 @@
 .homePageModel .homePageModelRight .deviceContext .nameDevice .equTimes {
   display: inline-block;
   padding-left: 10px;
-}
-.homePageModel .homePageModelRight .deviceContext Button {
-  background: #006EE2;
-  color: #fff;
-  border-radius: 20px;
-  font-size: 12px;
-  margin-top: 16px;
 }
 .homePageModel .homePageModelRight .alarmImg {
   display: flex;
