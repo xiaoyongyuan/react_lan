@@ -24,7 +24,8 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 const blue = "#5063ee";
 const red = "#ED2F2F";
-const maskcol = "rgba(204, 204, 204, 0.3)";
+const green = "#4ec9b0";
+const maskcol = "rgba(204, 204, 204, 0.1)";
 var open = false;
 var moveswitch = false;
 var scopeswitch = false;
@@ -41,7 +42,6 @@ class EquipAdd extends Component {
       cid: "",
       clicknum: 0,
       presentlast: [],
-      // initarea: [[152, 188], [352, 188], [552, 188], [552, 388], [152, 388]],
       initarea: [
         [152, 188],
         [108, 95],
@@ -50,14 +50,30 @@ class EquipAdd extends Component {
         [278, 340],
         [400, 208]
       ],
-      areaone: [], //防区一
-      areatwo: [],
-      areathree: []
+      newinitarea: [],
+      areaOne: [], //防区一
+      areaTwo: [],
+      areaThree: [],
+      defOneAddBtn: false,
+      defTwoAddBtn: false,
+      defThreeAddBtn: false,
+      defOneDelBtn: true,
+      defTwoDelBtn: true,
+      defThreeDelBtn: true,
+      defOneSubBtn: false,
+      defTwoSubBtn: false,
+      defThreeSubBtn: false
     };
   }
   componentDidMount() {
     console.log(this.props, "dddddddddd");
-    this.getOne();
+    if (this.props.query.code) {
+      this.getOne();
+    }
+    document.body.onmouseup = function() {
+      moveswitch = false;
+      scopeswitch = false;
+    };
   }
   getOne = () => {
     const { setFieldsValue } = this.props.form;
@@ -65,7 +81,7 @@ class EquipAdd extends Component {
       .ajax({
         // baseURL: equipmentURL,
         method: "get",
-        url: "http://192.168.1.163:8111/api/camera/getone?",
+        url: "http://192.168.1.197:8112/api/camera/getone?",
         data: {
           code: this.props.query.code
         }
@@ -80,20 +96,437 @@ class EquipAdd extends Component {
               const equipData = this.state.equipData;
               setFieldsValue({
                 name: equipData.name || "",
+                ipctype: equipData.ipctype || "hikvision",
+                fielddistance: equipData.fielddistance || "10~20米",
+                scene: equipData.scene || "室外",
                 ip: equipData.ip || "",
                 authport: equipData.authport || "",
                 ausername: equipData.ausername || "",
                 apassword: equipData.apassword || "",
-                vender: equipData.vender || "",
                 streamport: equipData.streamport || "",
-                threshold: equipData.threshold || "",
-                frozentime: equipData.frozentime || "",
+                vusername: equipData.vusername || "",
+                vpassword: equipData.vpassword || "",
+                Protocol: equipData.Protocol || "",
+                threshold: equipData.threshold || 5,
+                frozentime: equipData.frozentime || 5,
                 alarmtype: equipData.alarmtype || ""
               });
             }
           );
         }
       });
+  };
+  handleTabChange(activekey) {
+    if (activekey === "1") {
+      const equipData = this.state.equipData;
+      console.log(equipData, "详情");
+      if (equipData.field && equipData.field[1]) {
+        console.log("1cunzai");
+        this.setState(
+          {
+            defOneAddBtn: true,
+            defOneDelBtn: false,
+            defOneSubBtn: true,
+            areaOne: equipData.field[1].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+      if (equipData.field && equipData.field[2]) {
+        this.setState(
+          {
+            defTwoAddBtn: true,
+            defTwoDelBtn: false,
+            defTwoSubBtn: true,
+            areaTwo: equipData.field[2].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+      if (equipData.field && equipData.field[3]) {
+        this.setState(
+          {
+            defThreeAddBtn: true,
+            defThreeDelBtn: false,
+            defThreeSubBtn: true,
+            areaThree: equipData.field[3].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+      if (equipData.field && equipData.field[1] && equipData.field[2]) {
+        console.log("1he2cunzai");
+
+        this.setState(
+          {
+            defOneAddBtn: true,
+            defOneDelBtn: false,
+            defOneSubBtn: true,
+            areaOne: equipData.field[1].pointList,
+            defTwoAddBtn: true,
+            defTowDelBtn: false,
+            defTwoSubBtn: true,
+            areaTwo: equipData.field[2].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+      if (equipData.field && equipData.field[1] && equipData.field[3]) {
+        this.setState(
+          {
+            defOneAddBtn: true,
+            defOneDelBtn: false,
+            defOneSubBtn: true,
+            areaOne: equipData.field[1].pointList,
+            defThreeAddBtn: true,
+            defThreeDelBtn: false,
+            defThreeSubBtn: true,
+            areaThree: equipData.field[3].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+      if (equipData.field && equipData.field[2] && equipData.field[3]) {
+        this.setState(
+          {
+            defTwoAddBtn: true,
+            defTwoDelBtn: false,
+            defTwoSubBtn: true,
+            areaTwo: equipData.field[2].pointList,
+            defThreeAddBtn: true,
+            defThreeDelBtn: false,
+            defThreeSubBtn: true,
+            areaThree: equipData.field[3].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+      if (
+        equipData.field &&
+        equipData.field[1] &&
+        equipData.field[2] &&
+        equipData.field[3]
+      ) {
+        this.setState(
+          {
+            defOneAddBtn: true,
+            defOneDelBtn: false,
+            defOneSubBtn: true,
+            areaOne: equipData.field[1].pointList,
+            defTwoAddBtn: true,
+            defTwoDelBtn: false,
+            defTwoSubBtn: true,
+            areaTwo: equipData.field[2].pointList,
+            defThreeAddBtn: true,
+            defThreeDelBtn: false,
+            defThreeSubBtn: true,
+            areaThree: equipData.field[3].pointList
+          },
+          () => {
+            this.boundarydraw();
+          }
+        );
+      }
+    }
+  }
+  boundarydraw = () => {
+    let ele = document.getElementById("cavcontainer");
+    let area = ele.getContext("2d");
+    area.clearRect(0, 0, 704, 576);
+    if (this.state.areaOne.length > 0) {
+      let areaOne = this.state.areaOne;
+      area.strokeStyle = blue;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaOne[0][0], areaOne[0][1]);
+      areaOne.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaOne[i][0], areaOne[i][1]);
+          if (i === 5) {
+            area.lineTo(areaOne[0][0], areaOne[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaOne.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
+    if (this.state.areaTwo.length > 0) {
+      let areaTwo = this.state.areaTwo;
+      area.strokeStyle = red;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+      areaTwo.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+          if (i === 5) {
+            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaTwo.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
+    if (this.state.areaThree.length > 0) {
+      let areaThree = this.state.areaThree;
+      area.strokeStyle = green;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaThree[0][0], areaThree[0][1]);
+      areaThree.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaThree[i][0], areaThree[i][1]);
+          if (i === 5) {
+            area.lineTo(areaThree[0][0], areaThree[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaThree.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
+    if (this.state.areaOne.length > 0 && this.state.areaTwo.length > 0) {
+      let areaOne = this.state.areaOne;
+      area.strokeStyle = blue;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaOne[0][0], areaOne[0][1]);
+      areaOne.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaOne[i][0], areaOne[i][1]);
+          if (i === 5) {
+            area.lineTo(areaOne[0][0], areaOne[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaOne.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+      let areaTwo = this.state.areaTwo;
+      area.strokeStyle = red;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+      areaTwo.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+          if (i === 5) {
+            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaTwo.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
+    if (this.state.areaOne.length > 0 && this.state.areaThree.length > 0) {
+      let areaOne = this.state.areaOne;
+      area.strokeStyle = blue;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaOne[0][0], areaOne[0][1]);
+      areaOne.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaOne[i][0], areaOne[i][1]);
+          if (i === 5) {
+            area.lineTo(areaOne[0][0], areaOne[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaOne.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+      let areaThree = this.state.areaThree;
+      area.strokeStyle = green;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaThree[0][0], areaThree[0][1]);
+      areaThree.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaThree[i][0], areaThree[i][1]);
+          if (i === 5) {
+            area.lineTo(areaThree[0][0], areaThree[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaThree.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
+    if (this.state.areaTwo.length > 0 && this.state.areaThree.length > 0) {
+      let areaTwo = this.state.areaTwo;
+      area.strokeStyle = red;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+      areaTwo.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+          if (i === 5) {
+            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaTwo.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+      let areaThree = this.state.areaThree;
+      area.strokeStyle = green;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaThree[0][0], areaThree[0][1]);
+      areaThree.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaThree[i][0], areaThree[i][1]);
+          if (i === 5) {
+            area.lineTo(areaThree[0][0], areaThree[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaThree.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
+    if (
+      this.state.areaOne.length > 0 &&
+      this.state.areaTwo.length > 0 &&
+      this.state.areaThree.length > 0
+    ) {
+      let areaOne = this.state.areaOne;
+      area.strokeStyle = blue;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaOne[0][0], areaOne[0][1]);
+      areaOne.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaOne[i][0], areaOne[i][1]);
+          if (i === 5) {
+            area.lineTo(areaOne[0][0], areaOne[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaOne.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+      let areaTwo = this.state.areaTwo;
+      area.strokeStyle = red;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+      areaTwo.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+          if (i === 5) {
+            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaTwo.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+      let areaThree = this.state.areaThree;
+      area.strokeStyle = green;
+      area.fillStyle = maskcol;
+      area.lineWidth = 2;
+      area.beginPath();
+      area.moveTo(areaThree[0][0], areaThree[0][1]);
+      areaThree.map((elx, i) => {
+        if (i > 0) {
+          area.lineTo(areaThree[i][0], areaThree[i][1]);
+          if (i === 5) {
+            area.lineTo(areaThree[0][0], areaThree[0][1]);
+          }
+        }
+      });
+      area.stroke();
+      area.fill();
+      areaThree.map(val => {
+        area.beginPath();
+        area.fillStyle = "rgba(128, 100, 162, 0.7)";
+        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+        area.fill();
+      });
+    }
   };
   handleAdd = e => {
     e.preventDefault();
@@ -108,7 +541,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "post",
-              url: "http://192.168.1.163:8111/api/camera/add",
+              url: "http://192.168.1.197:8112/api/camera/add",
               data: {
                 name: fields.name,
                 ip: fields.ip,
@@ -123,12 +556,12 @@ class EquipAdd extends Component {
               }
             })
             .then(res => {
-              // resetFields();
               if (res.success) {
                 this.setState({
                   addOnly: false,
                   addBackCode: res.data.code
                 });
+                message.success("添加成功");
               }
             });
         }
@@ -149,7 +582,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "put",
-              url: "http://192.168.1.197:8111/api/camera/update",
+              url: "http://192.168.1.197:8112/api/camera/update",
               data: {
                 code: this.state.addBackCode,
                 name: fields.name,
@@ -172,6 +605,7 @@ class EquipAdd extends Component {
     });
   };
   handleTypeChange = cv => {
+    console.log(this.deftab, "tab");
     this.setState({
       typeSelect: cv
     });
@@ -216,18 +650,8 @@ class EquipAdd extends Component {
         break;
     }
   };
-  handleDefAdd = num => {
-    switch (num) {
-      case 1:
-        {
-          this.opendraw();
-        }
-
-        break;
-
-      default:
-        break;
-    }
+  handleDefAdd = () => {
+    this.opendraw();
   };
   handleDefDelete = num => {
     switch (num) {
@@ -236,8 +660,8 @@ class EquipAdd extends Component {
           axios
             .ajax({
               // baseURL: equipmentURL,
-              method: "put",
-              url: "http://192.168.1.163:8111/api/camera/fielddel",
+              method: "get",
+              url: "http://192.168.1.197:8112/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1
@@ -245,7 +669,80 @@ class EquipAdd extends Component {
             })
             .then(res => {
               if (res.success) {
-                console.log("删除成功");
+                message.success("1号防区删除成功");
+                this.setState(
+                  {
+                    defOneAddBtn: false,
+                    defOneDelBtn: true,
+                    defOneSubBtn: false,
+                    areaOne: []
+                  },
+                  () => {
+                    this.boundarydraw();
+                  }
+                );
+              }
+            });
+        }
+
+        break;
+      case 2:
+        {
+          axios
+            .ajax({
+              // baseURL: equipmentURL,
+              method: "get",
+              url: "http://192.168.1.197:8112/api/camera/fielddel",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 2
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("2号防区删除成功");
+                this.setState(
+                  {
+                    defTwoAddBtn: false,
+                    defTwoDelBtn: true,
+                    defTwoSubBtn: false,
+                    areaTwo: []
+                  },
+                  () => {
+                    this.boundarydraw();
+                  }
+                );
+              }
+            });
+        }
+
+        break;
+      case 3:
+        {
+          axios
+            .ajax({
+              // baseURL: equipmentURL,
+              method: "get",
+              url: "http://192.168.1.197:8112/api/camera/fielddel",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 3
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("3号防区删除成功");
+                this.setState(
+                  {
+                    defThreeAddBtn: false,
+                    defThreeDelBtn: true,
+                    defThreeSubBtn: false,
+                    areaThree: []
+                  },
+                  () => {
+                    this.boundarydraw();
+                  }
+                );
               }
             });
         }
@@ -264,18 +761,103 @@ class EquipAdd extends Component {
           axios
             .ajax({
               // baseURL: equipmentURL,
-              method: "put",
-              url: "http://192.168.1.163:8111/api/camera/fieldadd",
+              method: "get",
+              url: "http://192.168.1.197:8112/api/camera/fieldadd",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1,
-                field: this.state.initarea || this.state.newinitarea,
+                field:
+                  JSON.stringify(this.state.initarea) ||
+                  JSON.stringify(this.state.newinitarea),
                 type: this.state.typeSelect
               }
             })
             .then(res => {
               if (res.success) {
-                console.log("添加成功");
+                message.success("1号防区添加成功");
+                this.setState(
+                  {
+                    defOneAddBtn: true,
+                    defOneDelBtn: false,
+                    defOneSubBtn: true,
+                    areaOne: this.state.initarea || this.state.newinitarea
+                  },
+                  () => {
+                    this.boundarydraw();
+                  }
+                );
+              }
+            });
+        }
+
+        break;
+      case 2:
+        {
+          console.log(this.state.newinitarea, "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+          axios
+            .ajax({
+              // baseURL: equipmentURL,
+              method: "get",
+              url: "http://192.168.1.197:8112/api/camera/fieldadd",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 2,
+                field:
+                  JSON.stringify(this.state.initarea) ||
+                  JSON.stringify(this.state.newinitarea),
+                type: this.state.typeSelect
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("2号防区添加成功");
+                this.setState(
+                  {
+                    defTwoAddBtn: true,
+                    defTwoDelBtn: false,
+                    defTwoSubBtn: true,
+                    areaTwo: this.state.initarea || this.state.newinitarea
+                  },
+                  () => {
+                    this.boundarydraw();
+                  }
+                );
+              }
+            });
+        }
+
+        break;
+      case 3:
+        {
+          console.log(this.state.newinitarea, "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+          axios
+            .ajax({
+              // baseURL: equipmentURL,
+              method: "get",
+              url: "http://192.168.1.197:8112/api/camera/fieldadd",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 3,
+                field:
+                  JSON.stringify(this.state.initarea) ||
+                  JSON.stringify(this.state.newinitarea),
+                type: this.state.typeSelect
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("3号防区添加成功");
+                this.setState(
+                  {
+                    defThreeAddBtn: true,
+                    defThreeDelBtn: false,
+                    defThreeSubBtn: true,
+                    areaThree: this.state.initarea || this.state.newinitarea
+                  },
+                  () => {
+                    this.boundarydraw();
+                  }
+                );
               }
             });
         }
@@ -293,6 +875,7 @@ class EquipAdd extends Component {
   };
 
   draw = (newdata, arc) => {
+    console.log("zhixing3tianjia");
     //绘制默认的五边形
     //绘制区域
     let item = newdata ? newdata : this.state.initarea;
@@ -487,8 +1070,9 @@ class EquipAdd extends Component {
         <span className="optbtn">
           <Button
             onClick={() => {
-              this.handleDefAdd(1);
+              this.handleDefAdd();
             }}
+            disabled={this.state.defOneAddBtn}
           >
             添加
           </Button>
@@ -497,6 +1081,7 @@ class EquipAdd extends Component {
               this.handleDefDelete(1);
             }}
             type="danger"
+            disabled={this.state.defOneDelBtn}
           >
             删除
           </Button>
@@ -505,6 +1090,7 @@ class EquipAdd extends Component {
               this.handleDefSubmit(1);
             }}
             type="primary"
+            disabled={this.state.defOneSubBtn}
           >
             提交
           </Button>
@@ -522,8 +1108,9 @@ class EquipAdd extends Component {
         <span className="optbtn">
           <Button
             onClick={() => {
-              this.handleDefAdd(2);
+              this.handleDefAdd();
             }}
+            disabled={this.state.defTwoAddBtn}
           >
             添加
           </Button>
@@ -532,6 +1119,7 @@ class EquipAdd extends Component {
               this.handleDefDelete(2);
             }}
             type="danger"
+            disabled={this.state.defTwoDelBtn}
           >
             删除
           </Button>
@@ -540,6 +1128,7 @@ class EquipAdd extends Component {
               this.handleDefSubmit(2);
             }}
             type="primary"
+            disabled={this.state.defTwoSubBtn}
           >
             提交
           </Button>
@@ -557,8 +1146,9 @@ class EquipAdd extends Component {
         <span className="optbtn">
           <Button
             onClick={() => {
-              this.handleDefAdd(3);
+              this.handleDefAdd();
             }}
+            disabled={this.state.defThreeAddBtn}
           >
             添加
           </Button>
@@ -567,6 +1157,7 @@ class EquipAdd extends Component {
               this.handleDefDelete(3);
             }}
             type="danger"
+            disabled={this.state.defThreeDelBtn}
           >
             删除
           </Button>
@@ -575,6 +1166,7 @@ class EquipAdd extends Component {
               this.handleDefSubmit(3);
             }}
             type="primary"
+            disabled={this.state.defThreeSubBtn}
           >
             提交
           </Button>
@@ -613,7 +1205,61 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  <Form.Item label="摄像头IP">
+                  <Form.Item label="摄像头类型">
+                    {getFieldDecorator("ipctype", {
+                      initialValue: "hikvision"
+                    })(
+                      <Select>
+                        <Option key="1" value="hikvision">
+                          海康威视
+                        </Option>
+                        <Option key="2" value="dahua">
+                          浙江大华
+                        </Option>
+                        <Option key="3" value="tiandy">
+                          天地伟业
+                        </Option>
+                        <Option key="4" value="uniview">
+                          浙江宇视
+                        </Option>
+                        <Option key="5" value="aebell">
+                          美电贝尔
+                        </Option>
+                        <Option key="6" value="other">
+                          其他
+                        </Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item label="场景">
+                    {getFieldDecorator("scene", {
+                      initialValue: "室外"
+                    })(
+                      <Select>
+                        <Option key="1" value="室外">
+                          室外
+                        </Option>
+                        <Option key="2" value="室内">
+                          室内
+                        </Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item label="场距">
+                    {getFieldDecorator("fielddistance", {
+                      initialValue: "10~20米"
+                    })(
+                      <Select>
+                        <Option key="1" value="10~20米">
+                          10~20米
+                        </Option>
+                        <Option key="2" value="20~40米">
+                          20~40米
+                        </Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                  <Form.Item label="IP地址">
                     {getFieldDecorator("ip", {
                       rules: [
                         {
@@ -623,7 +1269,7 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  <Form.Item label="摄像头端口">
+                  <Form.Item label="管理端口">
                     {getFieldDecorator("authport", {
                       rules: [
                         {
@@ -633,7 +1279,7 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  <Form.Item label="用户名">
+                  <Form.Item label="管理用户名">
                     {getFieldDecorator("ausername", {
                       rules: [
                         {
@@ -643,7 +1289,7 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  <Form.Item label="密码">
+                  <Form.Item label="管理密码">
                     {getFieldDecorator("apassword", {
                       rules: [
                         {
@@ -653,7 +1299,7 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  <Form.Item label="摄像头厂家">
+                  {/* <Form.Item label="摄像头厂家">
                     {getFieldDecorator("vender", {
                       initialValue: 1
                     })(
@@ -663,9 +1309,25 @@ class EquipAdd extends Component {
                         </Option>
                       </Select>
                     )}
-                  </Form.Item>
-                  <Form.Item label="RTSP地址">
+                  </Form.Item> */}
+                  <Form.Item label="视频流地址">
                     {getFieldDecorator("streamport", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "Please input your streamport!"
+                        }
+                      ]
+                    })(<Input />)}
+                  </Form.Item>
+                  <Form.Item label="视频用户名">
+                    {getFieldDecorator("vusername", {})(<Input />)}
+                  </Form.Item>
+                  <Form.Item label="视频密码">
+                    {getFieldDecorator("vpassword", {})(<Input />)}
+                  </Form.Item>
+                  <Form.Item label="视频传输协议">
+                    {getFieldDecorator("Protocol", {
                       rules: [
                         {
                           required: true,
@@ -714,7 +1376,13 @@ class EquipAdd extends Component {
           </div>
         )}
         {(this.state.addOnly === false || this.props.query.code) && (
-          <Tabs defaultActiveKey="0" type="card">
+          <Tabs
+            defaultActiveKey="0"
+            type="card"
+            onChange={activekey => {
+              this.handleTabChange(activekey);
+            }}
+          >
             <TabPane
               tab={
                 <span
@@ -737,7 +1405,6 @@ class EquipAdd extends Component {
                     {...formItemLayout}
                     key="changeform"
                     onSubmit={this.handleChangeInfo}
-                    ref={form => (this.setForm = form)}
                   >
                     <Form.Item label="摄像头名称">
                       {getFieldDecorator("name", {
@@ -749,7 +1416,61 @@ class EquipAdd extends Component {
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="摄像头IP">
+                    <Form.Item label="摄像头类型">
+                      {getFieldDecorator("ipctype", {
+                        initialValue: "hikvision"
+                      })(
+                        <Select>
+                          <Option key="1" value="hikvision">
+                            海康威视
+                          </Option>
+                          <Option key="2" value="dahua">
+                            浙江大华
+                          </Option>
+                          <Option key="3" value="tiandy">
+                            天地伟业
+                          </Option>
+                          <Option key="4" value="uniview">
+                            浙江宇视
+                          </Option>
+                          <Option key="5" value="aebell">
+                            美电贝尔
+                          </Option>
+                          <Option key="6" value="other">
+                            其他
+                          </Option>
+                        </Select>
+                      )}
+                    </Form.Item>
+                    <Form.Item label="场景">
+                      {getFieldDecorator("scene", {
+                        initialValue: "室外"
+                      })(
+                        <Select>
+                          <Option key="1" value="室外">
+                            室外
+                          </Option>
+                          <Option key="2" value="室内">
+                            室内
+                          </Option>
+                        </Select>
+                      )}
+                    </Form.Item>
+                    <Form.Item label="场距">
+                      {getFieldDecorator("fielddistance", {
+                        initialValue: "10~20米"
+                      })(
+                        <Select>
+                          <Option key="1" value="10~20米">
+                            10~20米
+                          </Option>
+                          <Option key="2" value="20~40米">
+                            20~40米
+                          </Option>
+                        </Select>
+                      )}
+                    </Form.Item>
+                    <Form.Item label="IP地址">
                       {getFieldDecorator("ip", {
                         rules: [
                           {
@@ -759,7 +1480,7 @@ class EquipAdd extends Component {
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="摄像头端口">
+                    <Form.Item label="管理端口">
                       {getFieldDecorator("authport", {
                         rules: [
                           {
@@ -769,7 +1490,7 @@ class EquipAdd extends Component {
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="用户名">
+                    <Form.Item label="管理用户名">
                       {getFieldDecorator("ausername", {
                         rules: [
                           {
@@ -779,7 +1500,7 @@ class EquipAdd extends Component {
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="密码">
+                    <Form.Item label="管理密码">
                       {getFieldDecorator("apassword", {
                         rules: [
                           {
@@ -789,19 +1510,35 @@ class EquipAdd extends Component {
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    <Form.Item label="摄像头厂家">
-                      {getFieldDecorator("vender", {
-                        initialValue: 1
-                      })(
-                        <Select>
-                          <Option key="1" value={1}>
-                            海康
-                          </Option>
-                        </Select>
-                      )}
-                    </Form.Item>
-                    <Form.Item label="RTSP地址">
+                    {/* <Form.Item label="摄像头厂家">
+                    {getFieldDecorator("vender", {
+                      initialValue: 1
+                    })(
+                      <Select>
+                        <Option key="1" value={1}>
+                          海康
+                        </Option>
+                      </Select>
+                    )}
+                  </Form.Item> */}
+                    <Form.Item label="视频流地址">
                       {getFieldDecorator("streamport", {
+                        rules: [
+                          {
+                            required: true,
+                            message: "Please input your streamport!"
+                          }
+                        ]
+                      })(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="视频用户名">
+                      {getFieldDecorator("vusername", {})(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="视频密码">
+                      {getFieldDecorator("vpassword", {})(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="视频传输协议">
+                      {getFieldDecorator("Protocol", {
                         rules: [
                           {
                             required: true,
