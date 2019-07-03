@@ -13,28 +13,45 @@ class Equipment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      equipList: []
+      equipList: [],
+      totalCount: 0,
+      page: 1,
+      pagesize: 10
     };
   }
   componentDidMount() {
     this.getList();
   }
+
   getList = () => {
     axios
       .ajax({
         // baseURL: equipmentURL,
         method: "get",
-        url: "http://192.168.1.197:8111/api/camera/getlist",
-        data: {}
+        url: "http://192.168.1.197:8112/api/camera/getlist",
+        data: { page: this.state.page, pageSize: this.state.pagesize }
       })
       .then(res => {
         if (res.success) {
           this.setState({
-            equipList: res.data
+            equipList: res.data,
+            totalCount: res.totalcount
           });
         }
       });
   };
+  pageChange = (page, pagesize) => {
+    this.setState({
+      page: page,
+      pagesize: pagesize
+    });
+  };
+  pageSizeChange = (current, size) => {
+    this.setState({
+      pagesize: size
+    });
+  };
+
   addEquip = () => {
     window.location.href = "#/main/equipset:add";
   };
@@ -50,6 +67,7 @@ class Equipment extends Component {
             onClick={() => {
               this.addEquip();
             }}
+            style={{ cursor: "pointer" }}
           >
             <img src={addpic} alt="" />
           </Col>
@@ -95,7 +113,13 @@ class Equipment extends Component {
             : null}
         </Row>
         <Pagination
-          total={50}
+          onChange={(page, pagesize) => {
+            this.pageChange(page, pagesize);
+          }}
+          onShowSizeChange={(current, size) => {
+            this.pageSizeChange(current, size);
+          }}
+          total={this.state.totalCount}
           showSizeChanger
           showQuickJumper
           showTotal={total => {

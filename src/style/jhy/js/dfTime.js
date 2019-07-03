@@ -158,7 +158,7 @@
       me.cando = true;
       if (me.mousedown) {
         me.mousedown = false;
-        fnend(me);
+        // // fnend(me);
         me.nowmove = -1;
       }
       return false; //防止事件冒泡
@@ -173,36 +173,35 @@
       }
     });
   };
-  MyinitDefend.prototype.getdata = function() {
-    var backdata = [];
-    // var day = new Map();
-    var day = [];
-    var weekdata = [];
-    $.each($(".weekday"), function(i, obj) {
-      console.log(obj);
-      $.each($(obj).find(".item"), function(j, obj1) {
-        var x = parseFloat($(obj1).css("left")) / perwidth;
-        var y = parseFloat($(obj1).css("width")) / perwidth + x;
-        var starttime =
-          Math.round(x) % 2 == 0
-            ? ("0" + Math.round(x) / 2).slice(-2) + ":00"
-            : ("0" + parseInt(Math.round(x) / 2)).slice(-2) + ":30";
-        var endtime =
-          Math.round(y) % 2 == 0
-            ? ("0" + Math.round(y) / 2).slice(-2) + ":00"
-            : ("0" + parseInt(Math.round(y) / 2)).slice(-2) + ":30";
-        console.log(j, obj1, "---------------");
-        weekdata.push({
-          starttime: starttime,
-          endtime: endtime
-        });
-        console.log(weekdata, "weekdata");
-      });
-      // backdata[i] = {weekdata};
-      // backdata[i] = [i + 1, i + 2];
-    });
-    return weekdata;
-  };
+  // MyinitDefend.prototype.getdata = function() {
+  //   var backdata = [[], [], [], [], [], [], []];
+  //   var weekdata = [];
+  //   $.each($(".weekday"), function(i, obj) {
+  //     console.log(i, obj, `星期${i + 1}`);
+  //     $(obj)[i].find(".item").map((obj1,j)=>{
+  //         var x = parseFloat($(obj1).css("left")) / perwidth;
+  //         var y = parseFloat($(obj1).css("width")) / perwidth + x;
+  //         var starttime =
+  //           Math.round(x) % 2 == 0
+  //             ? ("0" + Math.round(x) / 2).slice(-2) + ":00"
+  //             : ("0" + parseInt(Math.round(x) / 2)).slice(-2) + ":30";
+  //         var endtime =
+  //           Math.round(y) % 2 == 0
+  //             ? ("0" + Math.round(y) / 2).slice(-2) + ":00"
+  //             : ("0" + parseInt(Math.round(y) / 2)).slice(-2) + ":30";
+  //         console.log(j, obj1, "---------------");
+
+  //         const week = weekdata.push({
+  //           starttime: starttime,
+  //           endtime: endtime
+  //         });
+  //         console.log(backdata, weekdata, "fanhuis");
+  //     }),
+
+  //     // backdata[i].push(week);
+  //   });
+  //   return backdata;
+  // };
 
   function nearest(left) {
     var yu = left % perwidth;
@@ -251,87 +250,87 @@
     }
   }
 
-  function fnend(me, i) {
-    var width = me.width;
-    var left = me.left;
-    var item = ".item" + me.nowmove;
-    if (width == 0) {
-      $(item).remove();
-    } else {
-      $(item).css("width", nearest(width) + "px");
-      $(item).css("left", nearest(left) + "px");
-      var result = getResult(item);
-      var items = $(item)
-        .parent()
-        .find(".item");
-      if (result.length < items.length) {
-        $.each(items, function(i, obj) {
-          if (i < result.length) {
-            $(obj).css({
-              left: result[i][0] + "px",
-              width: result[i][1] + "px"
-            });
-          } else {
-            $(obj).remove();
-          }
-        });
-      }
-      me.width = 0;
-    }
-    //松手后才能修改值
-  }
+  // function fnend(me, i) {
+  //   var width = me.width;
+  //   var left = me.left;
+  //   var item = ".item" + me.nowmove;
+  //   if (width == 0) {
+  //     $(item).remove();
+  //   } else {
+  //     $(item).css("width", nearest(width) + "px");
+  //     $(item).css("left", nearest(left) + "px");
+  //     var result = getResult(item);
+  //     var items = $(item)
+  //       .parent()
+  //       .find(".item");
+  //     if (result.length < items.length) {
+  //       $.each(items, function(i, obj) {
+  //         if (i < result.length) {
+  //           $(obj).css({
+  //             left: result[i][0] + "px",
+  //             width: result[i][1] + "px"
+  //           });
+  //         } else {
+  //           $(obj).remove();
+  //         }
+  //       });
+  //     }
+  //     me.width = 0;
+  //   }
+  //   //松手后才能修改值
+  // }
 
-  function getResult(item) {
-    var array = [];
-    var arrayresult = [];
-    var $item = $(item)
-      .parent()
-      .find(".item");
-    $.each($item, function(i, obj) {
-      var left = parseFloat($(obj).css("left"));
-      var width = parseFloat($(obj).css("width"));
-      array.push([left, left + width]);
-    });
-    var sortarray = bubbleSort(array);
-    //var sortarray = array.sort();
-    var temp = sortarray[0];
-    console.log("排序后：");
-    console.log(sortarray);
-    for (var i = 0; i < sortarray.length; i++) {
-      if (!sortarray[i + 1]) {
-        arrayresult.push(temp);
-        break;
-      }
-      if (temp[1] < sortarray[i + 1][0]) {
-        arrayresult.push(temp);
-        temp = sortarray[i + 1];
-      } else {
-        if (temp[1] <= sortarray[i + 1][1]) {
-          temp = [temp[0], sortarray[i + 1][1]];
-        } else {
-          temp = [temp[0], temp[1]];
-        }
-      }
-    }
-    console.log("小仙女变身后：");
-    console.log(arrayresult);
-    var huanyuan = [];
-    for (var j = 0; j < arrayresult.length; j++) {
-      huanyuan.push([arrayresult[j][0], arrayresult[j][1] - arrayresult[j][0]]);
-    }
-    return huanyuan;
-  }
+  // function getResult(item) {
+  //   var array = [];
+  //   var arrayresult = [];
+  //   var $item = $(item)
+  //     .parent()
+  //     .find(".item");
+  //   $.each($item, function(i, obj) {
+  //     var left = parseFloat($(obj).css("left"));
+  //     var width = parseFloat($(obj).css("width"));
+  //     array.push([left, left + width]);
+  //   });
+  //   var sortarray = bubbleSort(array);
+  //   //var sortarray = array.sort();
+  //   var temp = sortarray[0];
+  //   console.log("排序后：");
+  //   console.log(sortarray);
+  //   for (var i = 0; i < sortarray.length; i++) {
+  //     if (!sortarray[i + 1]) {
+  //       arrayresult.push(temp);
+  //       break;
+  //     }
+  //     if (temp[1] < sortarray[i + 1][0]) {
+  //       arrayresult.push(temp);
+  //       temp = sortarray[i + 1];
+  //     } else {
+  //       if (temp[1] <= sortarray[i + 1][1]) {
+  //         temp = [temp[0], sortarray[i + 1][1]];
+  //       } else {
+  //         temp = [temp[0], temp[1]];
+  //       }
+  //     }
+  //   }
+  //   console.log("小仙女变身后：");
+  //   console.log(arrayresult);
+  //   var huanyuan = [];
+  //   for (var j = 0; j < arrayresult.length; j++) {
+  //     huanyuan.push([arrayresult[j][0], arrayresult[j][1] - arrayresult[j][0]]);
+  //   }
+  //   return huanyuan;
+  // }
 
   function bubbleSort(array) {
-    for (var unfix = array.length - 1; unfix > 0; unfix--) {
-      for (var i = 0; i < unfix; i++) {
-        if (array[i][0] > array[i + 1][0]) {
-          var temp = array[i];
-          array.splice(i, 1, array[i + 1]);
-          array.splice(i + 1, 1, temp);
-        }
-      }
-    }
+    // for (var unfix = array.length - 1; unfix > 0; unfix--) {
+    //   for (var i = 0; i < unfix; i++) {
+    //     if (array[i][0] > array[i + 1][0]) {
+    //       var temp = array[i];
+    //       array.splice(i, 1, array[i + 1]);
+    //       array.splice(i + 1, 1, temp);
+    //     }
+    //   }
+    // }
     return array;
   }
 })(window.jQuery);
