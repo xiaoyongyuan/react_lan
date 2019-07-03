@@ -213,6 +213,14 @@
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg {
   width: 100%;
   height: 278px;
+  position: relative;
+}
+.ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg .nodata {
+  width: 74px;
+  height: 105px;
+  position: absolute;
+  top: 20%;
+  left: 40%;
 }
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg canvas {
   width: 100%;

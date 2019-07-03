@@ -44,11 +44,11 @@ class HomePageModel extends Component{
             }
         }).then((res)=>{
             if(res.success){
-               /* res.data[0].fieldresult.map((v)=>{
+                res.data[0].fieldresult.map((v)=>{
                     this.setState({
                         tagType:v.tag
                     });
-                });*/
+                });
                 this.setState({
                     homeDatail:res.data,
                     fields:res.data[0].field,

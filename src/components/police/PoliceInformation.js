@@ -20,9 +20,14 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:2,
+            pagesize:10,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
+            checkedVal:false
+            // cid:"",//设备id
+            // status:"",//报警状态
+            // bdate:"",
+            // edate:""
         };
     }
     componentDidMount() {
@@ -48,7 +53,7 @@ class PoliceInformation extends Component {
             cid:this.state.scid,
             status:this.state.selectstatus,
             pageindex:this.state.page,
-            pagesize:2,
+            pagesize:10,
             bdate:this.state.bdate,
             edate:this.state.edate
         };
@@ -60,21 +65,28 @@ class PoliceInformation extends Component {
             if(res.success){
                 this.setState({
                     policeList:res.data,
-                    totalcount:res.totalcount
+                    totalcount:res.totalcount,
                 },()=>{
                     this.getInfor();
-                })
+                });
+                if(res.data.length>0){
+                    this.setState({
+                        policeListCode:res.data[0].code
+                    },()=>{
+                        this.getInfor();
+                    })
+                }
             }
         })
     };
     getInfor=()=>{
         if(this.state.policeList.length>0){
-            if(this.state.policeList[0].code){
+            if(this.state.policeListCode){
                 axios.ajax({
                     method:"get",
                     url:window.g.loginURL+"/api/alarm/alarminfo",
                     data:{
-                        code:this.state.policeList[0].code
+                        code:this.state.policeListCode
                     }
                 }).then((res)=>{
                     if(res.success){
@@ -106,12 +118,11 @@ class PoliceInformation extends Component {
     };
     //画围界
     draw=()=>{
-        if(this.state.alarmImg) {
-            let ele = document.getElementById("canvasobj");
-            let area = ele.getContext("2d");
-            area.clearRect(0, 0, 704, 576);//清除之前的绘图
-            area.lineWidth = 1;
-
+        let ele = document.getElementById("canvasobj");
+        let area = ele.getContext("2d");
+        area.clearRect(0, 0, 510, 278);//清除之前的绘图
+        area.lineWidth = 1;
+        if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length) {
                 const xi = 510 / 704, yi = 278 / 576;
@@ -270,8 +281,16 @@ class PoliceInformation extends Component {
         });
     };
     //自动更新
-    hanleUpdate=(Event)=>{
-        console.log(Event)
+    hanleUpdate=(e)=>{
+        this.setState({
+            checkedVal:e.target.checked
+        },()=>{
+            if(this.state.checkedVal){
+                this.timer=setInterval(()=>this.handlePoliceList(),2000);
+            }else{
+                clearInterval(this.timer);
+            }
+        })
     };
     //上一个
     hanleUper=()=>{
@@ -281,31 +300,12 @@ class PoliceInformation extends Component {
     hanleNext=()=>{
 
     };
-    disabledDate=(current)=> {
-        return current && current < moment().endOf('day');
+    disabledDate = (current) => {
+        return current > moment().endOf('day');
     };
-    range=(start, end) =>{
-        const result = [];
-        for (let i = start; i < end; i++) {
-            result.push(i);
-        }
-        return result;
-    };
-
-    disabledRangeTime=(_, type)=> {
-        if (type === 'start') {
-            return {
-                disabledHours: () => this.range(0, 60).splice(4, 20),
-                disabledMinutes: () => this.range(30, 60),
-                disabledSeconds: () => [55, 56],
-            };
-        }
-        return {
-            disabledHours: () => this.range(0, 60).splice(20, 4),
-            disabledMinutes: () => this.range(0, 31),
-            disabledSeconds: () => [55, 56],
-        };
-    };
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
     render() {
         const {getFieldDecorator}=this.props.form;
         return(
@@ -343,11 +343,7 @@ class PoliceInformation extends Component {
                             {getFieldDecorator('date')(
                                 <RangePicker
                                     disabledDate={this.disabledDate}
-                                    disabledTime={this.disabledRangeTime}
-                                    showTime={{
-                                        hideDisabledOptions: true,
-                                        defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                                    }}
+                                    showTime={{ format: 'YYYY-MM-DD HH:mm:ss' }}
                                     format="YYYY-MM-DD HH:mm:ss"
                                 />
                             )}
@@ -363,6 +359,7 @@ class PoliceInformation extends Component {
                                 <div className="img-up-fu">
                                     <div className="alarmImg">
                                         <canvas id="canvasobj" width="510px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
+                                        <img src={nodata} alt="" className="nodata" style={{display:this.state.alarmImg?"none":"block"}} />
                                     </div>
                                     <div className="img-up-fu-word">
                                         <div className="circle" />
@@ -374,7 +371,9 @@ class PoliceInformation extends Component {
                                         {
                                             this.state.malarminfo.map((v,i)=>(
                                                 <div key={i} className="everyImg">
-                                                    <div className="swiper-slide"><img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} /></div>
+                                                    <div className="swiper-slide">
+                                                        <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
+                                                    </div>
                                                 </div>
                                             ))
                                         }
@@ -496,7 +495,7 @@ class PoliceInformation extends Component {
                     }
                 </Row>
                 <div className="nodata"><img src={nodata} alt="" style={{width:"80px",height:"78px",display:this.state.policeList.length>0?"none":"block"}} /></div>
-                <div className="pagination"><Pagination defaultCurrent={this.state.page} current={this.state.page} total={3} pageSize={this.state.pagesize} onChange={this.hanlePage} style={{display:this.state.policeList.length>0?"block":"none"}} /></div>
+                <div className="pagination"><Pagination hideOnSinglePage={true} defaultCurrent={this.state.page} current={this.state.page} total={this.state.totalcount} pageSize={this.state.pagesize} onChange={this.hanlePage} style={{display:this.state.policeList.length>0?"block":"none"}} /></div>
             </div>
         );
     }
