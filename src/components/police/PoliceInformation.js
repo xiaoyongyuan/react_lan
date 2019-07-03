@@ -23,11 +23,7 @@ class PoliceInformation extends Component {
             pagesize:10,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
-            checkedVal:false
-            // cid:"",//设备id
-            // status:"",//报警状态
-            // bdate:"",
-            // edate:""
+            checkedVal:false,
         };
     }
     componentDidMount() {
@@ -66,16 +62,13 @@ class PoliceInformation extends Component {
                 this.setState({
                     policeList:res.data,
                     totalcount:res.totalcount,
-                },()=>{
-                    this.getInfor();
                 });
                 if(res.data.length>0){
                     this.setState({
                         policeListCode:res.data[0].code
-                    },()=>{
-                        this.getInfor();
                     })
                 }
+                this.getInfor();
             }
         })
     };
@@ -105,8 +98,8 @@ class PoliceInformation extends Component {
                             pic_width:res.data.Malarm.pic_width,
                             pic_height:res.data.Malarm.pic_height,
                             policeStatus:res.data.Malarm.status,
-                            next:res.data.nextcode,
-                            uuper:res.data.lastcode
+                            nextcode:res.data.nextcode,
+                            lastcode:res.data.lastcode
                         },()=>{
                             this.draw();
                         })
@@ -120,7 +113,7 @@ class PoliceInformation extends Component {
     draw=()=>{
         let ele = document.getElementById("canvasobj");
         let area = ele.getContext("2d");
-        area.clearRect(0, 0, 510, 278);//清除之前的绘图
+        area.clearRect(0, 0, 704, 576);//清除之前的绘图
         area.lineWidth = 1;
         if(this.state.alarmImg){
             const datafield = this.state.fields;
@@ -252,12 +245,13 @@ class PoliceInformation extends Component {
     handleSubmitSelect=(e)=>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
+            console.log(values)
             if(!err){
                 this.setState({
                     scid:values.cid,
                     selectstatus:values.status,
-                    bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):"",
-                    edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):""
+                    bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):null,
+                    edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):null,
                 },()=>{
                     this.handlePoliceList();
                 });
@@ -293,12 +287,22 @@ class PoliceInformation extends Component {
         })
     };
     //上一个
-    hanleUper=()=>{
-
-    };
-    //下一个
-    hanleNext=()=>{
-
+    hanleUper=(text)=>{
+        if(this.state.lastcode || this.state.nextcode){
+            if(text==="uper"){
+                this.setState({
+                    policeListCode:this.state.lastcode
+                },()=>{
+                    this.getInfor();
+                })
+            }else if(text==="next"){
+                this.setState({
+                    policeListCode:this.state.nextcode
+                },()=>{
+                    this.getInfor();
+                })
+            }
+        }
     };
     disabledDate = (current) => {
         return current > moment().endOf('day');
@@ -347,7 +351,6 @@ class PoliceInformation extends Component {
                                     format="YYYY-MM-DD HH:mm:ss"
                                 />
                             )}
-
                             <Button className="query-btn" type="primary" htmlType="submit">搜索</Button>
                         </Form.Item>
                     </Row>
@@ -381,14 +384,14 @@ class PoliceInformation extends Component {
                                 </div>
                             </Col>
                             <Col className="main-left-R" span={12}>
-                                <video controls="controls" src={this.state.alarm.videopath} poster={test2} style={{ width:'100%',height:'100%' }}/>
+                                <video controls="controls" src={this.state.alarm.videopath} style={{ width:'100%',height:'100%' }}/>
                             </Col>
                         </Row>
                         <Row>
                             <Col className="updown">
                                 <span>上一个</span>
-                                    <div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} onClick={this.hanleUper} /></div>
-                                    <div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }} onClick={this.hanleNext} /></div>
+                                <div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} onClick={()=>this.hanleUper("uper")} /></div>
+                                <div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }} onClick={()=>this.hanleUper("next")} /></div>
                                 <span>下一个</span>
                             </Col>
                         </Row>
@@ -413,7 +416,7 @@ class PoliceInformation extends Component {
                                     <span className="equipName-right-word">{this.state.tagType===0?"人员报警":"车辆报警"}</span>
                                 </Col>
                                 <Col className="equipName-right-caralarm" span={8}>
-                                    <span className="equipName-right-word">{this.state.tagType===1?"车辆报警":"人员报警"}</span>
+                                    <span className="equipName-right-word">{this.state.tagType===1?"人员报警":"车辆报警"}</span>
                                 </Col>
                             </Row>
                             <Row className="equipName">
@@ -426,10 +429,10 @@ class PoliceInformation extends Component {
                             </Row>
                             <Row className="showTaget">
                                 <Col span={8}>
-                                    <div className="showfq">
+                                    <div className="showfq" style={{display:this.state.alarmImg?"block":"none"}}>
                                         <div className="zdupdate-word">防区显示&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></div>
                                     </div>
-                                    <div className="showfq">
+                                    <div className="showfq" style={{display:this.state.alarmImg?"block":"none"}}>
                                         <div className="zdupdate-word">目标显示&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></div>
                                     </div>
                                 </Col>
@@ -485,7 +488,7 @@ class PoliceInformation extends Component {
                                 <div className="gutter-box" onClick={()=>this.hanlePoliceDateil(v.code)}>
                                     <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
                                     <div className="policeBottom">
-                                        <span className="policeCircle" /><span className="policeName">{v.name?v.name:"无"}</span>
+                                        <span className="policeCircle" /><span className="policeName">{v.name}</span>
                                     </div>
                                     <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
                                     <span className="policeTimes">{v.atime}</span>

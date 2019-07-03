@@ -393,25 +393,22 @@
   height: 14px;
   background: url("../../style/ztt/imgs/next.png");
   background-size: 100% 100%;
+  cursor: pointer;
 }
-.homePage .alarminfor .alarminfor-img {
-  float: left;
-  width: 13%;
-  margin: 10px 0 10px 20px;
+.homePage .alarminfor .gutter-example {
+  margin-top: 16px;
+}
+.homePage .alarminfor .gutter-example .gutter-box {
   position: relative;
 }
-.homePage .alarminfor .alarminfor-img .policeImg {
-  width: 100%;
-  height: 100%;
-}
-.homePage .alarminfor .alarminfor-img .alarmVideoBtn {
+.homePage .alarminfor .gutter-example .gutter-box .alarmVideoBtn {
   position: absolute;
   top: 34%;
   left: 42%;
-  width: 18%;
+  width: 16%;
   cursor: pointer;
 }
-.homePage .alarminfor .alarminfor-img .alarminforBg {
+.homePage .alarminfor .gutter-example .gutter-box .alarminforBg {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -421,7 +418,7 @@
   display: flex;
   align-items: center;
 }
-.homePage .alarminfor .alarminfor-img .alarminforBg .alarminforCirle {
+.homePage .alarminfor .gutter-example .gutter-box .alarminforBg .alarminforCirle {
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -429,7 +426,7 @@
   border-radius: 50%;
   margin: 0 14px;
 }
-.homePage .alarminfor .alarminfor-img .alarminforBg .alarminforFont {
+.homePage .alarminfor .gutter-example .gutter-box .alarminforBg .alarminforFont {
   color: #fff;
   font-size: 14px;
 }

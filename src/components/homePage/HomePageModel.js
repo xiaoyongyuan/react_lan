@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import policeImg from "../../style/ztt/imgs/policeImg.png";
+import nodata from "../../style/imgs/nodata.png";
 import "./homeModel.less";
 import axios from "../../axios/index";
-import {Button, Icon, message, Switch} from "antd";
+import {Button, message, Switch} from "antd";
 class HomePageModel extends Component{
     constructor(props){
         super(props);
@@ -52,6 +53,7 @@ class HomePageModel extends Component{
                 this.setState({
                     homeDatail:res.data,
                     fields:res.data[0].field,
+                    picpathImg:res.data[0].picpath,
                     fieldresult:res.data[0].fieldresult,
                     pic_width:res.data[0].pic_width,
                     pic_height:res.data[0].pic_height,
@@ -69,36 +71,38 @@ class HomePageModel extends Component{
         let area = ele.getContext("2d");
         area.clearRect(0,0,704,576);//清除之前的绘图
         area.lineWidth=1;
-        const datafield=this.state.fields;
-        if(this.state.field && datafield.length){
-            const xi=400/704, yi=280/576;
-            let areafield = ele.getContext("2d");
-            area.lineWidth=1;
-            areafield.strokeStyle='#f00';
-            datafield.map((el,i)=>{
-                areafield.beginPath();
-                areafield.moveTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][1][0]*xi),parseInt(datafield[i][1][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][2][0]*xi),parseInt(datafield[i][2][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][3][0]*xi),parseInt(datafield[i][3][1]*yi));
-                areafield.lineTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
-                areafield.stroke();
-                areafield.closePath();
-                return '';
-            })
-        }
-        const objs=this.state.fieldresult;
-        if(this.state.obj && objs.length){
-            //计算缩放比例
-            const x=400/this.state.pic_width, y=280/this.state.pic_height;
-            objs.map((el,i)=>{
-                area.strokeStyle='#ff0';
-                area.beginPath();
-                area.rect(parseInt(el.x*x),parseInt(el.y*y),parseInt(el.w*x),parseInt(el.h*y));
-                area.stroke();
-                area.closePath();
-                return '';
-            })
+        if(this.state.picpathImg){
+            const datafield=this.state.fields;
+            if(this.state.field && datafield.length){
+                const xi=400/704, yi=280/576;
+                let areafield = ele.getContext("2d");
+                area.lineWidth=1;
+                areafield.strokeStyle='#f00';
+                datafield.map((el,i)=>{
+                    areafield.beginPath();
+                    areafield.moveTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
+                    areafield.lineTo(parseInt(datafield[i][1][0]*xi),parseInt(datafield[i][1][1]*yi));
+                    areafield.lineTo(parseInt(datafield[i][2][0]*xi),parseInt(datafield[i][2][1]*yi));
+                    areafield.lineTo(parseInt(datafield[i][3][0]*xi),parseInt(datafield[i][3][1]*yi));
+                    areafield.lineTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
+                    areafield.stroke();
+                    areafield.closePath();
+                    return '';
+                })
+            }
+            const objs=this.state.fieldresult;
+            if(this.state.obj && objs.length){
+                //计算缩放比例
+                const x=400/this.state.pic_width, y=280/this.state.pic_height;
+                objs.map((el,i)=>{
+                    area.strokeStyle='#ff0';
+                    area.beginPath();
+                    area.rect(parseInt(el.x*x),parseInt(el.y*y),parseInt(el.w*x),parseInt(el.h*y));
+                    area.stroke();
+                    area.closePath();
+                    return '';
+                })
+            }
         }
     };
     //控制显示围界与对象
@@ -126,10 +130,6 @@ class HomePageModel extends Component{
             })
         }
     };
-    //查看上下一条
-    looknew=(text)=>{
-       
-    };
     render() {
         return(
                 this.state.homeDatail.map((v,i)=>(
@@ -138,25 +138,26 @@ class HomePageModel extends Component{
                             <div className="homeageImg">
                                 <div className="homeImg">
                                     <canvas id="homeCanvas" width="400px" height="280px" style={{backgroundImage:'url('+v.picpath+')',backgroundSize:"100% 100%"}} alt=""/>
+                                    <img className="nodata" src={nodata} alt="" style={{display:v.picpath?"none":"block"}} />
                                 </div>
                                 <div className="homeImg">
-                                    <video controls src={v.videopath?v.videopath:defenceImg} poster={defenceImg} alt=""/>
+                                    <video controls="controls" autoplay="autoplay" src={v.videopath?v.videopath:defenceImg} alt=""/>
                                 </div>
                             </div>
-                            <p className="nextHome">
+                            {/*<div className="nextHome">
                                 <span className="nextUp">上一个 </span>
                                 <span className="arrLeft"><Icon type="arrow-left" className="cicrle-icon" onClick={()=>this.looknew('prev')} /></span>
                                 <span className="arrRight"><Icon type="arrow-right" className="cicrle-icon" onClick={()=>this.looknew('next')} /></span>
                                 <span className="nextUp">下一个</span>
-                            </p>
+                            </div>*/}
                         </div>
                         <div className="homePageModelRight">
                             <div className="deviceContext">
-                            <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
-                            <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType===1?"车辆报警":"人员报警"}</span></div>
-                            <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
-                            <span className="sector">防区显示&nbsp;&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
-                            <span className="sector">目标显示&nbsp;&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
+                                <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
+                                <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType===1?"人员报警":"车辆报警"}</span></div>
+                                <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
+                                <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>防区显示&nbsp;&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
+                                <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>目标显示&nbsp;&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
                             </div>
                             <div className="alarmImg">
                                 <div className="alarBg">

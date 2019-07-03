@@ -19,10 +19,19 @@
   width: 400px;
   margin-top: 2px;
   height: 250px;
+  position: relative;
 }
 .homePageModel .homePageModelLeft .homeageImg .homeImg #homeCanvas {
   width: 100%;
   height: 100%;
+  border: 1px solid #eeeeee;
+}
+.homePageModel .homePageModelLeft .homeageImg .homeImg .nodata {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: 34%;
+  left: 30%;
 }
 .homePageModel .homePageModelLeft .homeageImg .homeImg video {
   width: 96%;
@@ -32,11 +41,8 @@
 }
 .homePageModel .homePageModelLeft .nextHome {
   display: flex;
-  justify-content: flex-end;
+  float: right;
   margin: 9px 8px;
-  position: absolute;
-  bottom: 0;
-  right: 0;
 }
 .homePageModel .homePageModelLeft .nextHome .nextUp {
   color: #B4B4B4;

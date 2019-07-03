@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./index.less";
-import {Modal} from "antd";
+import {Modal,Row,Col} from "antd";
 import alarmBg from "../../style/ztt/imgs/alarmBg.png";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import pingmian from "../../style/ztt/imgs/pingmian.png";
@@ -64,7 +64,7 @@ class Index extends Component {
             data:{}
         }).then((res)=>{
             this.setState({
-                policeList:res.data
+                policeList:res.data.slice(0,6)
             })
         })
     };
@@ -242,20 +242,26 @@ class Index extends Component {
                     </div>
                 </div>
                 <div className="alarminfor">
-                    <div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><span className="alarminfornikNameBg"/></div>
-                    {
-                        this.state.policeList.map((v,i)=>(
-                            <div className="alarminfor-img" key={i}>
-                                <img src={v.picpath?v.picpath:defenceImg} alt="" className="policeImg"/>
-                                <div className="alarminforBg">
-                                    <span className="alarminforCirle"/>
-                                    <span className="alarminforFont">{v.name}</span>
-                                    <span className="alarminforVideo"/>
-                                </div>
-                                <img className="alarmVideoBtn" src={playBtn} onClick={()=>this.hanleWithdrawal(v.code)} />
-                            </div>
-                        ))
-                    }
+                    <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><span className="alarminfornikNameBg"/></div></a>
+                    <div className="gutter-example">
+                        <Row gutter={16}>
+                            {
+                                this.state.policeList.map((v,i)=>(
+                                    <Col className="gutter-row" span={4} key={i}>
+                                        <div className="gutter-box">
+                                            <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
+                                            <img className="alarmVideoBtn" src={playBtn} onClick={()=>this.hanleWithdrawal(v.code)} />
+                                            <div className="alarminforBg">
+                                                <span className="alarminforCirle"/>
+                                                <span className="alarminforFont">{v.name}</span>
+                                                <span className="alarminforVideo"/>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                ))
+                            }
+                        </Row>
+                    </div>
                 </div>
                 <div className="nodata"><img src={nodata} alt="" style={{width:"80px",height:"78px",display:this.state.policeList.length>0?"none":"block"}} /></div>
                 <Modal
