@@ -128,7 +128,7 @@ class HomePageModel extends Component{
     };
     //查看上下一条
     looknew=(text)=>{
-
+       
     };
     render() {
         return(
@@ -140,7 +140,7 @@ class HomePageModel extends Component{
                                     <canvas id="homeCanvas" width="400px" height="280px" style={{backgroundImage:'url('+v.picpath+')',backgroundSize:"100% 100%"}} alt=""/>
                                 </div>
                                 <div className="homeImg">
-                                    <video controls src={v.videopath?v.videopath:defenceImg} alt=""/>
+                                    <video controls src={v.videopath?v.videopath:defenceImg} poster={defenceImg} alt=""/>
                                 </div>
                             </div>
                             <p className="nextHome">

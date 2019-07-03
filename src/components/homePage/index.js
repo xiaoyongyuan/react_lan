@@ -7,6 +7,7 @@ import pingmian from "../../style/ztt/imgs/pingmian.png";
 import playBtn from "../../style/ztt/imgs/playBtn.png";
 import HomePageModel from "./HomePageModel";
 import axios from "../../axios/index";
+import nodata from "../../style/imgs/nodata.png";
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -98,7 +99,6 @@ class Index extends Component {
             visible:true,
             listCode:listCode
         });
-        console.log(listCode,"listCode11111111111")
     };
     handleOk=()=>{
         this.setState({
@@ -257,6 +257,7 @@ class Index extends Component {
                         ))
                     }
                 </div>
+                <div className="nodata"><img src={nodata} alt="" style={{width:"80px",height:"78px",display:this.state.policeList.length>0?"none":"block"}} /></div>
                 <Modal
                     visible={this.state.visible}
                     onOk={this.handleOk}

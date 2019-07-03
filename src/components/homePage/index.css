@@ -371,6 +371,11 @@
   color: #fff;
   font-size: 14px;
 }
+.homePage .nodata {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
 .homePage .alarminfor {
   margin: 12px 0 15px 0;
 }
