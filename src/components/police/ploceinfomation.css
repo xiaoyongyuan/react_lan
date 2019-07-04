@@ -263,6 +263,10 @@
   height: 360px;
   padding: 20px 20px 0 0;
 }
+.ploceinfomation .ploceinfomation-main .main-left .updown Button {
+  display: flex;
+  border: none;
+}
 .ploceinfomation .ploceinfomation-main .main-left .updown {
   height: 40px;
   display: flex;

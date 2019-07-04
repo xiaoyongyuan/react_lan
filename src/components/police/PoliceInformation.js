@@ -102,6 +102,7 @@ class PoliceInformation extends Component {
                             lastcode:res.data.lastcode
                         },()=>{
                             this.draw();
+                            console.log(this.state.lastcode?true:false)
                         })
                     }
                 })
@@ -389,10 +390,8 @@ class PoliceInformation extends Component {
                         </Row>
                         <Row>
                             <Col className="updown">
-                                <span>上一个</span>
-                                <div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} onClick={()=>this.hanleUper("uper")} /></div>
-                                <div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }} onClick={()=>this.hanleUper("next")} /></div>
-                                <span>下一个</span>
+                                <Button onClick={()=>this.hanleUper("uper")} disabled={this.state.lastcode?false:true}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
+                                <Button onClick={()=>this.hanleUper("next")} disabled={this.state.nextcode?false:true}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
                             </Col>
                         </Row>
                     </div>
