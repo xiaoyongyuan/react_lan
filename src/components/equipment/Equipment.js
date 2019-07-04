@@ -6,7 +6,6 @@ import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
 import addpic from "../../style/jhy/imgs/addpic.png";
-// import axios from "axios";
 import axios from "../../axios";
 const equipmentURL = window.equipmentURL;
 class Equipment extends Component {

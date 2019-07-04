@@ -2,34 +2,18 @@
   "use strict";
   //声明
   $.fn.initDefend = function(data) {
-    console.log("initDefend fun this", this);
     return new MyinitDefend(data, this);
   };
   var perwidth = 0;
   var MyinitDefend = function(data, that) {
     var me = this;
-    console.log("MyinitDefend fun this/me", this);
-    console.log("MyinitDefend fun------------- that", that);
-
     me.init(data, that);
     me.offsetleft = $(that).offset().left + 80; //此处that应该是 initDefend即demo1
   };
-  function getMytime(date) {
-    if (date.split(" ")[1] == "24:00:00") {
-      return 24;
-    } else {
-      var time = new Date(date.replace(/-/g, "/"));
-      if (time.getMinutes() > 10) {
-        return time.getHours() + 0.5;
-      } else {
-        return time.getHours();
-      }
-    }
-  }
+
   // 初始化
   MyinitDefend.prototype.init = function(data, that) {
     var me = this;
-    console.log("MyinitDefend init 中的 this/me", this);
     me.current = 0; //新增编号
     me.cando = true; //当前位置是否允许新增
     me.nowmove = -1; //当前向左向右拖动的序号
@@ -43,32 +27,25 @@
         timedata: [], //[{starttime:,endtime:},]
         data: [
           {
-            type: "星期一",
-            timeSlot: []
+            type: "星期一"
           },
           {
-            type: "星期二",
-            timeSlot: []
+            type: "星期二"
           },
           {
-            type: "星期三",
-            timeSlot: []
+            type: "星期三"
           },
           {
-            type: "星期四",
-            timeSlot: []
+            type: "星期四"
           },
           {
-            type: "星期五",
-            timeSlot: []
+            type: "星期五"
           },
           {
-            type: "星期六",
-            timeSlot: []
+            type: "星期六"
           },
           {
-            type: "星期日",
-            timeSlot: []
+            type: "星期日"
           }
         ]
       },
@@ -81,18 +58,7 @@
     var navwidth = me.opts.width - 90;
     me.perwidth = perwidth = navwidth / 48;
     $(that).css("width", boxwidth + "px");
-    var restime = me.opts.timedata; //[]
-    var timedata = me.opts.data; //[最终数据，格式]
-
-    //遍历每天的时间段，并添加到最终显示的时间数组中
-    $.each(restime, function(i, obj) {
-      var day = new Date(obj.starttime.replace(/-/g, "/")).getDay() - 1;
-      if (day == -1) day = 6;
-      timedata[day]["timeSlot"].push([
-        getMytime(obj.starttime),
-        getMytime(obj.endtime)
-      ]);
-    });
+    var timedata = me.opts.data;
 
     //绘制图表
     for (var i = 0; i < 7; i++) {
@@ -107,29 +73,8 @@
         str += '<div class="hour"><div class="halfhour"></div></div>';
       }
       str += '<div class="hour"></div></div><div class="bar">';
-      if (timedata.length == 0) {
-        str += "</div></div></div>";
-      } else {
-        for (var t = 0; t < timedata[i].timeSlot.length; t++) {
-          var left = (navwidth * timedata[i].timeSlot[t][0]) / 24;
-          var width =
-            (navwidth *
-              (timedata[i].timeSlot[t][1] - timedata[i].timeSlot[t][0])) /
-            24;
-          str +=
-            '<div class="item item' +
-            me.current +
-            '" style="left:' +
-            left +
-            "px;width:" +
-            width +
-            'px" data-num="' +
-            me.current +
-            '"></div>';
-          me.current++;
-        }
-        str += "</div></div></div>";
-      }
+      str += "</div></div></div>";
+      str += "</div></div></div>";
     }
 
     var $str = $(str);
@@ -145,7 +90,7 @@
         if (me.cando) {
           if ($(v).find(".item").length >= 3) {
             me.newcreate = false;
-            return false; //最多三个，
+            return false;
           }
           me.mousedown = true;
           me.newcreate = true;
@@ -173,35 +118,35 @@
       }
     });
   };
-  // MyinitDefend.prototype.getdata = function() {
-  //   var backdata = [[], [], [], [], [], [], []];
-  //   var weekdata = [];
-  //   $.each($(".weekday"), function(i, obj) {
-  //     console.log(i, obj, `星期${i + 1}`);
-  //     $(obj)[i].find(".item").map((obj1,j)=>{
-  //         var x = parseFloat($(obj1).css("left")) / perwidth;
-  //         var y = parseFloat($(obj1).css("width")) / perwidth + x;
-  //         var starttime =
-  //           Math.round(x) % 2 == 0
-  //             ? ("0" + Math.round(x) / 2).slice(-2) + ":00"
-  //             : ("0" + parseInt(Math.round(x) / 2)).slice(-2) + ":30";
-  //         var endtime =
-  //           Math.round(y) % 2 == 0
-  //             ? ("0" + Math.round(y) / 2).slice(-2) + ":00"
-  //             : ("0" + parseInt(Math.round(y) / 2)).slice(-2) + ":30";
-  //         console.log(j, obj1, "---------------");
+  MyinitDefend.prototype.getdata = function() {
+    function getReturn(item) {
+      var x = parseFloat($(item).css("left")) / perwidth;
+      var y = parseFloat($(item).css("width")) / perwidth + x;
+      var starttime =
+        Math.round(x) % 2 == 0
+          ? ("0" + Math.round(x) / 2).slice(-2) + ":00"
+          : ("0" + parseInt(Math.round(x) / 2)).slice(-2) + ":30";
+      var endtime =
+        Math.round(y) % 2 == 0
+          ? ("0" + Math.round(y) / 2).slice(-2) + ":00"
+          : ("0" + parseInt(Math.round(y) / 2)).slice(-2) + ":30";
+      return {
+        starttime: starttime,
+        endtime: endtime
+      };
+    }
+    var backdata = [];
 
-  //         const week = weekdata.push({
-  //           starttime: starttime,
-  //           endtime: endtime
-  //         });
-  //         console.log(backdata, weekdata, "fanhuis");
-  //     }),
+    for (let i = 0; i < $(".weekday").length; i++) {
+      let weekdata = [];
+      for (let j = 0; j < $($(".weekday")[i]).find(".item").length; j++) {
+        weekdata.push(getReturn($($(".weekday")[i]).find(".item")[j]));
+      }
+      backdata.push(weekdata);
+    }
 
-  //     // backdata[i].push(week);
-  //   });
-  //   return backdata;
-  // };
+    return backdata;
+  };
 
   function nearest(left) {
     var yu = left % perwidth;
@@ -234,7 +179,6 @@
     });
   }
   function fnmove(e, me) {
-    console.log("新建" + me.nowmove + me.left);
     me._curX = e.pageX;
     me._moveX = me._curX - me._startX;
     var item = ".item" + (me.current - 1);
@@ -248,89 +192,5 @@
       me.width = 0;
       $(item).css("width", 0);
     }
-  }
-
-  // function fnend(me, i) {
-  //   var width = me.width;
-  //   var left = me.left;
-  //   var item = ".item" + me.nowmove;
-  //   if (width == 0) {
-  //     $(item).remove();
-  //   } else {
-  //     $(item).css("width", nearest(width) + "px");
-  //     $(item).css("left", nearest(left) + "px");
-  //     var result = getResult(item);
-  //     var items = $(item)
-  //       .parent()
-  //       .find(".item");
-  //     if (result.length < items.length) {
-  //       $.each(items, function(i, obj) {
-  //         if (i < result.length) {
-  //           $(obj).css({
-  //             left: result[i][0] + "px",
-  //             width: result[i][1] + "px"
-  //           });
-  //         } else {
-  //           $(obj).remove();
-  //         }
-  //       });
-  //     }
-  //     me.width = 0;
-  //   }
-  //   //松手后才能修改值
-  // }
-
-  // function getResult(item) {
-  //   var array = [];
-  //   var arrayresult = [];
-  //   var $item = $(item)
-  //     .parent()
-  //     .find(".item");
-  //   $.each($item, function(i, obj) {
-  //     var left = parseFloat($(obj).css("left"));
-  //     var width = parseFloat($(obj).css("width"));
-  //     array.push([left, left + width]);
-  //   });
-  //   var sortarray = bubbleSort(array);
-  //   //var sortarray = array.sort();
-  //   var temp = sortarray[0];
-  //   console.log("排序后：");
-  //   console.log(sortarray);
-  //   for (var i = 0; i < sortarray.length; i++) {
-  //     if (!sortarray[i + 1]) {
-  //       arrayresult.push(temp);
-  //       break;
-  //     }
-  //     if (temp[1] < sortarray[i + 1][0]) {
-  //       arrayresult.push(temp);
-  //       temp = sortarray[i + 1];
-  //     } else {
-  //       if (temp[1] <= sortarray[i + 1][1]) {
-  //         temp = [temp[0], sortarray[i + 1][1]];
-  //       } else {
-  //         temp = [temp[0], temp[1]];
-  //       }
-  //     }
-  //   }
-  //   console.log("小仙女变身后：");
-  //   console.log(arrayresult);
-  //   var huanyuan = [];
-  //   for (var j = 0; j < arrayresult.length; j++) {
-  //     huanyuan.push([arrayresult[j][0], arrayresult[j][1] - arrayresult[j][0]]);
-  //   }
-  //   return huanyuan;
-  // }
-
-  function bubbleSort(array) {
-    // for (var unfix = array.length - 1; unfix > 0; unfix--) {
-    //   for (var i = 0; i < unfix; i++) {
-    //     if (array[i][0] > array[i + 1][0]) {
-    //       var temp = array[i];
-    //       array.splice(i, 1, array[i + 1]);
-    //       array.splice(i + 1, 1, temp);
-    //     }
-    //   }
-    // }
-    return array;
   }
 })(window.jQuery);

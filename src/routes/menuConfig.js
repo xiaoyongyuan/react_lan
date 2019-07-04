@@ -93,10 +93,6 @@ export default {
       component: "EquipSet"
     },
     {
-      key: "/main/setarea",
-      component: "Setarea"
-    },
-    {
       key: "/login",
       component: "Login"
     },
