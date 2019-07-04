@@ -122,18 +122,18 @@
     function getReturn(item) {
       var x = parseFloat($(item).css("left")) / perwidth;
       var y = parseFloat($(item).css("width")) / perwidth + x;
-      var starttime =
-        Math.round(x) % 2 == 0
-          ? ("0" + Math.round(x) / 2).slice(-2) + ":00"
-          : ("0" + parseInt(Math.round(x) / 2)).slice(-2) + ":30";
-      var endtime =
-        Math.round(y) % 2 == 0
-          ? ("0" + Math.round(y) / 2).slice(-2) + ":00"
-          : ("0" + parseInt(Math.round(y) / 2)).slice(-2) + ":30";
-      return {
-        starttime: starttime,
-        endtime: endtime
-      };
+      // var starttime =
+      //   Math.round(x) % 2 == 0
+      //     ? ("0" + Math.round(x) / 2).slice(-2) + ":00"
+      //     : ("0" + parseInt(Math.round(x) / 2)).slice(-2) + ":30";
+      // var endtime =
+      //   Math.round(y) % 2 == 0
+      //     ? ("0" + Math.round(y) / 2).slice(-2) + ":00"
+      //     : ("0" + parseInt(Math.round(y) / 2)).slice(-2) + ":30";
+      // return {
+      //   starttime: starttime,
+      //   endtime: endtime
+      // };
     }
     var backdata = [];
 

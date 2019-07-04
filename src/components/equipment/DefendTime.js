@@ -93,7 +93,7 @@ class DefendTime extends Component {
         return arrayresult;
       }
 
-      getResult(res);
+      // getResult(res);
 
       function getRecover(time) {
         var navwidth = 760 - 90;

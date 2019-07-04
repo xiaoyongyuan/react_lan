@@ -35,7 +35,7 @@ class EquipAdd extends Component {
       addOnly: true,
       addBackCode: "",
       equipData: {},
-      typeSelect: 0,
+      typeSelect: [0],
       defSelect: 1,
       src: "",
       cid: "",
@@ -49,6 +49,7 @@ class EquipAdd extends Component {
         [400, 208]
       ],
       newinitarea: [],
+      initareaMove: false,
       areaOne: [], //防区一
       areaTwo: [],
       areaThree: [],
@@ -85,6 +86,7 @@ class EquipAdd extends Component {
       })
       .then(res => {
         if (res.success) {
+          console.log(res.data, "list");
           this.setState(
             {
               equipData: res.data
@@ -619,6 +621,7 @@ class EquipAdd extends Component {
     });
   };
   handleTypeChange = cv => {
+    console.log(cv);
     this.setState({
       typeSelect: cv
     });
@@ -683,8 +686,6 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("1号防区删除成功");
-                moveswitch = false;
-                scopeswitch = false;
                 this.setState(
                   {
                     defOneAddBtn: false,
@@ -716,8 +717,6 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("2号防区删除成功");
-                moveswitch = false;
-                scopeswitch = false;
                 this.setState(
                   {
                     defTwoAddBtn: false,
@@ -749,8 +748,6 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("3号防区删除成功");
-                moveswitch = false;
-                scopeswitch = false;
                 this.setState(
                   {
                     defThreeAddBtn: false,
@@ -784,26 +781,32 @@ class EquipAdd extends Component {
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1,
-                field:
-                  JSON.stringify(this.state.initarea) ||
-                  JSON.stringify(this.state.newinitarea),
-                type: this.state.typeSelect
+                field: this.state.initareaMove
+                  ? JSON.stringify(this.state.newinitarea)
+                  : JSON.stringify(this.state.initarea),
+                type: JSON.stringify(this.state.typeSelect)
               }
             })
             .then(res => {
               if (res.success) {
                 message.success("1号防区添加成功");
-                moveswitch = false;
-                scopeswitch = false;
                 this.setState(
                   {
                     defOneAddBtn: true,
                     defOneDelBtn: false,
-                    defOneSubBtn: true,
-                    areaOne: this.state.initarea || this.state.newinitarea
+                    defOneSubBtn: true
+                    // areaOne: this.state.initarea || this.state.newinitarea
                   },
                   () => {
+                    this.state.initareaMove
+                      ? (this.state.areaOne = this.state.newinitarea)
+                      : (this.state.areaOne = this.state.initarea);
+
                     this.boundarydraw();
+                    this.forceUpdate();
+                    this.state.newinitarea = [];
+                    this.forceUpdate();
+                    window.Refresh();
                   }
                 );
               }
@@ -821,26 +824,31 @@ class EquipAdd extends Component {
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 2,
-                field:
-                  JSON.stringify(this.state.initarea) ||
-                  JSON.stringify(this.state.newinitarea),
-                type: this.state.typeSelect
+                field: this.state.initareaMove
+                  ? JSON.stringify(this.state.newinitarea)
+                  : JSON.stringify(this.state.initarea),
+                type: JSON.stringify(this.state.typeSelect)
               }
             })
             .then(res => {
               if (res.success) {
                 message.success("2号防区添加成功");
-                moveswitch = false;
-                scopeswitch = false;
                 this.setState(
                   {
                     defTwoAddBtn: true,
                     defTwoDelBtn: false,
-                    defTwoSubBtn: true,
-                    areaTwo: this.state.initarea || this.state.newinitarea
+                    defTwoSubBtn: true
+                    // areaTwo: this.state.initarea || this.state.newinitarea
                   },
                   () => {
+                    this.state.initareaMove
+                      ? (this.state.areaTwo = this.state.newinitarea)
+                      : (this.state.areaTwo = this.state.initarea);
                     this.boundarydraw();
+                    this.forceUpdate();
+                    this.state.newinitarea = [];
+                    this.forceUpdate();
+                    window.Refresh();
                   }
                 );
               }
@@ -858,26 +866,34 @@ class EquipAdd extends Component {
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 3,
-                field:
-                  JSON.stringify(this.state.initarea) ||
-                  JSON.stringify(this.state.newinitarea),
-                type: this.state.typeSelect
+                field: this.state.initareaMove
+                  ? JSON.stringify(this.state.newinitarea)
+                  : JSON.stringify(this.state.initarea),
+                type: JSON.stringify(this.state.typeSelect)
               }
             })
             .then(res => {
               if (res.success) {
                 message.success("3号防区添加成功");
-                moveswitch = false;
-                scopeswitch = false;
                 this.setState(
                   {
                     defThreeAddBtn: true,
                     defThreeDelBtn: false,
                     defThreeSubBtn: true,
-                    areaThree: this.state.initarea || this.state.newinitarea
+                    areaThree: this.state.initareaMove
+                      ? this.state.newinitarea
+                      : this.state.initarea
                   },
                   () => {
+                    this.state.initareaMove
+                      ? (this.state.areaThree = this.state.newinitarea)
+                      : (this.state.areaThree = this.state.initarea);
+
                     this.boundarydraw();
+                    this.forceUpdate();
+                    this.state.newinitarea = [];
+                    this.forceUpdate();
+                    window.Refresh();
                   }
                 );
               }
@@ -971,15 +987,6 @@ class EquipAdd extends Component {
     let pre = { x, y };
     return pre;
   };
-  // getarr = a => {
-  //   //取出最大最小值
-  //   let item = this.state.initarea;
-  //   var arr = [];
-  //   item.map((item, i) => {
-  //     arr.push(item[a]);
-  //   });
-  //   return { min: Math.min(...arr), max: Math.max(...arr) };
-  // };
   getarr = () => {
     //得出可移动的最小最大范围
     let arrX = [];
@@ -1033,7 +1040,9 @@ class EquipAdd extends Component {
       // this.setState({ initarea }, () => this.draw());
       var newinitarea = initarea;
       newinitarea[movedot - 1] = [getcoord.x, getcoord.y];
-      this.setState({ newinitarea: newinitarea }, () => this.draw(newinitarea));
+      this.setState({ newinitarea: newinitarea, initareaMove: true }, () =>
+        this.draw(newinitarea)
+      );
     } else if (scopeswitch) {
       //整体拖动
       const movepoint = this.state.movepoint;
@@ -1056,7 +1065,9 @@ class EquipAdd extends Component {
       initarea.map(el => {
         newinitarea.push([el[0] + x, el[1] + y]);
       });
-      this.setState({ newinitarea: newinitarea }, () => this.draw(newinitarea));
+      this.setState({ newinitarea: newinitarea, initareaMove: true }, () =>
+        this.draw(newinitarea)
+      );
     }
   };
 
