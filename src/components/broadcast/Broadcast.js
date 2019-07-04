@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Row,Col,Form,Button,Select,Modal} from "antd";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
+import nodata from "../../style/imgs/nodata.png";
 import "./broadcast.less";
 import axios from "../../axios/index";
 import Live from "../live/Live";
@@ -71,7 +72,8 @@ class Broadcast extends Component {
                 </Row>
                 <Row gutter={16} className="broContext">
                 {
-                    this.state.liveList.map((v,i)=>(
+                    this.state.liveList.length>0?
+                        [this.state.liveList.map((v,i)=>(
                         <Col xxl={4} xl={8} className="gutter-row">
                             <div className="gutter-box borderBot">
                                 <img className="videoImg" src={v.picpath?v.picpath:defenceImg} alt="" />
@@ -81,9 +83,9 @@ class Broadcast extends Component {
                                 </div>
                             </div>
                         </Col>
-                    ))
+                    ))]:[<div className="nodata"><img src={nodata} alt="" /></div>]
                 }
-                </Row>
+                </Row>vv
                 <Modal
                     title="直播"
                     visible={this.state.liveModel}

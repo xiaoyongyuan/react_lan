@@ -41,6 +41,14 @@
 .broadcast .broContext {
   padding: 20px 0;
 }
+.broadcast .broContext .nodata {
+  width: 100%;
+  text-align: center;
+}
+.broadcast .broContext .nodata img {
+  width: 70px;
+  height: 70px;
+}
 .broadcast .borderBot {
   position: relative;
 }
