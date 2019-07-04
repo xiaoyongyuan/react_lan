@@ -19,7 +19,6 @@ import "../../style/jhy/less/equipset.less";
 import "../../style/jhy/less/reset.less";
 
 import backdrop from "../../style/jhy/imgs/backdrop.png";
-import defarea from "../../style/jhy/imgs/defarea.png";
 const { TabPane } = Tabs;
 const { Option } = Select;
 const blue = "#5063ee";
@@ -40,7 +39,6 @@ class EquipAdd extends Component {
       defSelect: 1,
       src: "",
       cid: "",
-      clicknum: 0,
       presentlast: [],
       initarea: [
         [152, 188],
@@ -66,7 +64,6 @@ class EquipAdd extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props, "dddddddddd");
     if (this.props.query.code) {
       this.getOne();
     }
@@ -119,9 +116,7 @@ class EquipAdd extends Component {
   handleTabChange(activekey) {
     if (activekey === "1") {
       const equipData = this.state.equipData;
-      console.log(equipData, "详情");
       if (equipData.field && equipData.field[1]) {
-        console.log("1cunzai");
         this.setState(
           {
             defOneAddBtn: true,
@@ -161,8 +156,6 @@ class EquipAdd extends Component {
         );
       }
       if (equipData.field && equipData.field[1] && equipData.field[2]) {
-        console.log("1he2cunzai");
-
         this.setState(
           {
             defOneAddBtn: true,
@@ -259,6 +252,7 @@ class EquipAdd extends Component {
             area.lineTo(areaOne[0][0], areaOne[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -267,6 +261,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
     if (this.state.areaTwo.length > 0) {
@@ -283,6 +278,7 @@ class EquipAdd extends Component {
             area.lineTo(areaTwo[0][0], areaTwo[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -291,6 +287,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
     if (this.state.areaThree.length > 0) {
@@ -307,6 +304,7 @@ class EquipAdd extends Component {
             area.lineTo(areaThree[0][0], areaThree[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -315,6 +313,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
     if (this.state.areaOne.length > 0 && this.state.areaTwo.length > 0) {
@@ -331,6 +330,7 @@ class EquipAdd extends Component {
             area.lineTo(areaOne[0][0], areaOne[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -339,6 +339,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
       let areaTwo = this.state.areaTwo;
       area.strokeStyle = red;
@@ -353,6 +354,7 @@ class EquipAdd extends Component {
             area.lineTo(areaTwo[0][0], areaTwo[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -361,6 +363,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
     if (this.state.areaOne.length > 0 && this.state.areaThree.length > 0) {
@@ -377,6 +380,7 @@ class EquipAdd extends Component {
             area.lineTo(areaOne[0][0], areaOne[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -385,6 +389,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
       let areaThree = this.state.areaThree;
       area.strokeStyle = green;
@@ -399,6 +404,7 @@ class EquipAdd extends Component {
             area.lineTo(areaThree[0][0], areaThree[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -407,6 +413,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
     if (this.state.areaTwo.length > 0 && this.state.areaThree.length > 0) {
@@ -423,6 +430,7 @@ class EquipAdd extends Component {
             area.lineTo(areaTwo[0][0], areaTwo[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -431,6 +439,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
       let areaThree = this.state.areaThree;
       area.strokeStyle = green;
@@ -445,6 +454,7 @@ class EquipAdd extends Component {
             area.lineTo(areaThree[0][0], areaThree[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -453,6 +463,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
     if (
@@ -473,6 +484,7 @@ class EquipAdd extends Component {
             area.lineTo(areaOne[0][0], areaOne[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -481,6 +493,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
       let areaTwo = this.state.areaTwo;
       area.strokeStyle = red;
@@ -495,6 +508,7 @@ class EquipAdd extends Component {
             area.lineTo(areaTwo[0][0], areaTwo[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -503,6 +517,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
       let areaThree = this.state.areaThree;
       area.strokeStyle = green;
@@ -517,6 +532,7 @@ class EquipAdd extends Component {
             area.lineTo(areaThree[0][0], areaThree[0][1]);
           }
         }
+        return "";
       });
       area.stroke();
       area.fill();
@@ -525,6 +541,7 @@ class EquipAdd extends Component {
         area.fillStyle = "rgba(128, 100, 162, 0.7)";
         area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
         area.fill();
+        return "";
       });
     }
   };
@@ -536,7 +553,6 @@ class EquipAdd extends Component {
       {
         if (err) {
         } else {
-          console.log(fields, "67");
           axios
             .ajax({
               // baseURL: equipmentURL,
@@ -570,21 +586,19 @@ class EquipAdd extends Component {
   };
   handleChangeInfo = e => {
     e.preventDefault();
-    const { validateFields, resetFields } = this.props.form;
+    const { validateFields } = this.props.form;
 
     validateFields((err, fields) => {
       {
         if (err) {
-          console.log(err);
         } else {
-          console.log(fields, "errrrrreeeeeeeeeeeeee");
           axios
             .ajax({
               // baseURL: equipmentURL,
               method: "put",
               url: "http://192.168.1.197:8112/api/camera/update",
               data: {
-                code: this.state.addBackCode,
+                code: this.state.addBackCode || this.props.query.code,
                 name: fields.name,
                 ip: fields.ip,
                 authport: fields.authport,
@@ -605,7 +619,6 @@ class EquipAdd extends Component {
     });
   };
   handleTypeChange = cv => {
-    console.log(this.deftab, "tab");
     this.setState({
       typeSelect: cv
     });
@@ -670,6 +683,8 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("1号防区删除成功");
+                moveswitch = false;
+                scopeswitch = false;
                 this.setState(
                   {
                     defOneAddBtn: false,
@@ -701,6 +716,8 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("2号防区删除成功");
+                moveswitch = false;
+                scopeswitch = false;
                 this.setState(
                   {
                     defTwoAddBtn: false,
@@ -732,6 +749,8 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("3号防区删除成功");
+                moveswitch = false;
+                scopeswitch = false;
                 this.setState(
                   {
                     defThreeAddBtn: false,
@@ -757,7 +776,6 @@ class EquipAdd extends Component {
     switch (num) {
       case 1:
         {
-          console.log(this.state.newinitarea, "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
           axios
             .ajax({
               // baseURL: equipmentURL,
@@ -775,6 +793,8 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("1号防区添加成功");
+                moveswitch = false;
+                scopeswitch = false;
                 this.setState(
                   {
                     defOneAddBtn: true,
@@ -793,7 +813,6 @@ class EquipAdd extends Component {
         break;
       case 2:
         {
-          console.log(this.state.newinitarea, "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
           axios
             .ajax({
               // baseURL: equipmentURL,
@@ -811,6 +830,8 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("2号防区添加成功");
+                moveswitch = false;
+                scopeswitch = false;
                 this.setState(
                   {
                     defTwoAddBtn: true,
@@ -829,7 +850,6 @@ class EquipAdd extends Component {
         break;
       case 3:
         {
-          console.log(this.state.newinitarea, "xxxxxxxxxxxxxxxxxxxxxxxxxxxx");
           axios
             .ajax({
               // baseURL: equipmentURL,
@@ -847,6 +867,8 @@ class EquipAdd extends Component {
             .then(res => {
               if (res.success) {
                 message.success("3号防区添加成功");
+                moveswitch = false;
+                scopeswitch = false;
                 this.setState(
                   {
                     defThreeAddBtn: true,
@@ -875,8 +897,7 @@ class EquipAdd extends Component {
   };
 
   draw = (newdata, arc) => {
-    console.log("zhixing3tianjia");
-    //绘制默认的五边形
+    //绘制默认的六边形
     //绘制区域
     let item = newdata ? newdata : this.state.initarea;
     let ele = document.getElementById("cavcontainer");
@@ -995,9 +1016,6 @@ class EquipAdd extends Component {
   mouseup = () => {
     moveswitch = false;
     scopeswitch = false;
-    if (this.state.newinitarea) {
-      this.setState({ initarea: this.state.newinitarea }); //更新数组
-    }
   };
   mousemove = e => {
     e.preventDefault();

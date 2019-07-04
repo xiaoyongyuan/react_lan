@@ -11,8 +11,6 @@ import Live from "./live/Live";
 import Equipment from "./equipment/Equipment";
 //添加设备
 import EquipSet from "./equipment/EquipSet";
-//测试防区
-import Setarea from "./equipment/Setarea";
 //报警信息
 import PoliceInformation from "./police/PoliceInformation";
 //报警跟踪
@@ -45,6 +43,5 @@ export default {
   ElectronicMap,
   Operational,
   Login,
-  Setarea,
   Live
 };
