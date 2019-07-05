@@ -79,7 +79,7 @@ class EquipAdd extends Component {
       .ajax({
         // baseURL: equipmentURL,
         method: "get",
-        url: "http://192.168.1.197:8112/api/camera/getone?",
+        url: "http://192.168.1.163:8111/api/camera/getone?",
         data: {
           code: this.props.query.code
         }
@@ -559,7 +559,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "post",
-              url: "http://192.168.1.197:8112/api/camera/add",
+              url: "http://192.168.1.163:8111/api/camera/add",
               data: {
                 name: fields.name,
                 ip: fields.ip,
@@ -598,7 +598,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "put",
-              url: "http://192.168.1.197:8112/api/camera/update",
+              url: "http://192.168.1.163:8111/api/camera/update",
               data: {
                 code: this.state.addBackCode || this.props.query.code,
                 name: fields.name,
@@ -677,7 +677,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.197:8112/api/camera/fielddel",
+              url: "http://192.168.1.163:8111/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1
@@ -708,7 +708,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.197:8112/api/camera/fielddel",
+              url: "http://192.168.1.163:8111/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 2
@@ -739,7 +739,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.197:8112/api/camera/fielddel",
+              url: "http://192.168.1.163:8111/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 3
@@ -777,7 +777,7 @@ class EquipAdd extends Component {
             .ajax({
               // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.197:8112/api/camera/fieldadd",
+              url: "http://192.168.1.163:8111/api/camera/fieldadd",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1,

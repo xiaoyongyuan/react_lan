@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import $ from "jquery";
 import "../../style/jhy/less/defendTime.less";
-import "../../style/jhy/js/dfTime.js";
+// import "../../style/jhy/js/dfTime.js";
 import axios from "../../axios";
 import { Button, Row, Col } from "antd";
 class DefendTime extends Component {
@@ -10,120 +10,108 @@ class DefendTime extends Component {
     this.state = {};
   }
   componentDidMount() {
-    var def = $("#defend").initDefend({
-      width: 760
+    this.dataRecover();
+    var key = 0;
+    $("#tab").mousemove(function(e) {
+      if (1 == key && e.target.tagName == "TD") {
+        $(e.target)
+          .addClass("selected")
+          .css("background", "#32e8fe");
+      }
     });
-    $("#getData").click(function() {
-      var backdata = def.getdata();
-      $("#answer").html(JSON.stringify(backdata));
+    $("#tab").mousedown(function(e) {
+      key = 1;
+    });
+    $("#tab").mouseup(function(e) {
+      key = 0;
     });
 
     $("#submitData").click(function() {
-      // var backdata = def.getdata();
-      // axios
-      //   .ajax({
-      //     // baseURL: equipmentURL,
-      //     method: "get",
-      //     url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
-      //     data: { timelist: backdata}
-      //   })
-      //   .then(res => {
-      //     if (res.success) {
-      //     }
-      //   });
-      var res = [
-        [
-          { starttime: "07:00", endtime: "12:00" },
-          { starttime: "17:00", endtime: "22:30" },
-          { starttime: "14:00", endtime: "16:00" }
-        ],
-        [
-          { starttime: "13:00", endtime: "18:00" },
-          { starttime: "08:30", endtime: "11:30" }
-        ],
-        [{ starttime: "14:30", endtime: "21:00" }],
-        [],
-        [],
-        [],
-        []
-      ];
+      var backdata = [];
+      for (let i = 0; i < 7; i++) {
+        let weekdata = [];
 
-      function bubbleSort(array) {
-        for (var unfix = array.length - 1; unfix > 0; unfix--) {
-          for (var i = 0; i < unfix; i++) {
-            if (array[i][0] > array[i + 1][0]) {
-              var temp = array[i];
-              array.splice(i, 1, array[i + 1]);
-              array.splice(i + 1, 1, temp);
-            }
+        for (let j = 0; j < 48; j++) {
+          if ($($($(".tr")[i]).find(".td")[j]).hasClass("selected")) {
+            weekdata.push(j + 1);
           }
         }
-        return array;
+        backdata.push(`${weekdata}`);
       }
-
-      function getResult(array) {
-        var arrayresult = [];
-        var sortarray = bubbleSort(array);
-        var temp = sortarray[0];
-        console.log("排序后：");
-        console.log(sortarray);
-        for (var i = 0; i < sortarray.length; i++) {
-          if (!sortarray[i + 1]) {
-            arrayresult.push(temp);
-            break;
+      var timelist = {};
+      backdata.map((v, i) => {
+        timelist[i + 1] = v;
+      });
+      $("#result").html(backdata);
+      axios
+        .ajax({
+          // baseURL: equipmentURL,
+          method: "get",
+          url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
+          data: { timelist: timelist }
+        })
+        .then(res => {
+          if (res.success) {
           }
-          if (temp[1] < sortarray[i + 1][0]) {
-            arrayresult.push(temp);
-            temp = sortarray[i + 1];
-          } else {
-            if (temp[1] <= sortarray[i + 1][1]) {
-              temp = [temp[0], sortarray[i + 1][1]];
-            } else {
-              temp = [temp[0], temp[1]];
-            }
-          }
-        }
-        console.log("小仙女变身后：");
-        console.log(arrayresult);
-        // var huanyuan = [];
-        // for (var j = 0; j < arrayresult.length; j++) {
-        //   huanyuan.push([arrayresult[j][0], arrayresult[j][1] - arrayresult[j][0]]);
-        // }
-        // return huanyuan;
-        return arrayresult;
-      }
-
-      // getResult(res);
-
-      function getRecover(time) {
-        var navwidth = 760 - 90;
-        var perwidth = navwidth / 48;
-        const a = parseInt(time.split(":")[0] * perwidth * 2);
-        const b =
-          time.split(":")[1].indexOf("3") != -1 ? parseInt(perwidth) : 0;
-        return a + b;
-      }
-      var str;
-
-      for (var i = 0; i < 7; i++) {
-        for (var j = 0; j < res[i].length; j++) {
-          str = `<div class="item" style="left:${getRecover(
-            res[i][j].starttime
-          )}px;width:${getRecover(res[i][j].endtime) -
-            getRecover(res[i][j].starttime)}px" ></div >`;
-          $($(".weekday")[i])
-            .find(".bar")
-            .append($(str));
-        }
-      }
+        });
     });
 
     $("#deleteData").click(function() {
-      $(".weekday")
-        .find(".item")
-        .css("width", 0);
+      for (var h = 0; h < $(".td").length; h++) {
+        if ($($(".td")[h]).hasClass("selected")) {
+          $($(".td")[h])
+            .removeClass("selected")
+            .css("background", "#fff");
+        }
+      }
+    });
+    $(".delete").click(function(e) {
+      console.log(e);
+      // for (var g = 0; g < $(".tr").length; h++) {
+      //   if ($(".delete")[])
+      //   if ($($(".tr")[g]).find(".td").hasClass("selected")) {
+      //     $($(".td")[g])
+      //       .removeClass("selected")
+      //       .css("background", "#fff");
+      //   }
+      // }
     });
   }
+  renderTable = () => {
+    var cols = 49;
+    var rows = 7;
+    var htmlstr =
+      "<table  id='tab' style='border-collapse: separate; border-spacing: 0 30px;' width='600'>";
+    for (var i = 1; i <= rows; i++) {
+      htmlstr += "<tr class='tr'>";
+      for (var j = 1; j <= cols; j++) {
+        htmlstr += "<td class='td'></td>";
+      }
+      htmlstr += "</tr>";
+    }
+    htmlstr += "</table>";
+    return htmlstr;
+  };
+  dataRecover = () => {
+    var res = {
+      1: "",
+      2: "15,16,17,18,19",
+      3: "20,22,23,24,25",
+      4: "25,26,27,28,29,30,31,32",
+      5: "28,29",
+      6: "",
+      7: ""
+    };
+    var v;
+    for (v in res) {
+      res[v].split(",").map(m => {
+        console.log(m);
+        $($($(".tr")[v - 1]).find(".td")[m - 1])
+          .addClass("selected")
+          .css("background", "#32e8fe");
+      });
+    }
+  };
   render() {
     return (
       <div
@@ -134,12 +122,31 @@ class DefendTime extends Component {
           height: "100%"
         }}
       >
-        <div className="defend" id="defend" />
+        <Row>
+          <Col span={11}>
+            <div
+              className="defend"
+              id="defend"
+              dangerouslySetInnerHTML={{
+                __html: this.renderTable()
+              }}
+            />
+          </Col>
+          <Col span={1} className="deleteWrap">
+            <Button className="delete">删除</Button>
+            <Button className="delete">删除</Button>
+            <Button className="delete">删除</Button>
+            <Button className="delete">删除</Button>
+            <Button className="delete">删除</Button>
+            <Button className="delete">删除</Button>
+            <Button className="delete">删除</Button>
+          </Col>
+        </Row>
+
         <Row>
           <Col span={12} style={{ textAlign: "center" }}>
-            <Button id="getData">获得数据</Button>
             <Button id="deleteData" type="danger">
-              删除
+              删除全部
             </Button>
             <Button
               id="submitData"
@@ -150,7 +157,7 @@ class DefendTime extends Component {
             </Button>
           </Col>
         </Row>
-        <div id="answer" />
+        <div id="result" />
       </div>
     );
   }

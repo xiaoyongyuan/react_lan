@@ -27,7 +27,7 @@ class Equipment extends Component {
       .ajax({
         // baseURL: equipmentURL,
         method: "get",
-        url: "http://192.168.1.197:8112/api/camera/getlist",
+        url: "http://192.168.1.163:8111/api/camera/getlist",
         data: { page: this.state.page, pageSize: this.state.pagesize }
       })
       .then(res => {
