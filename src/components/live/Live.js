@@ -32,9 +32,9 @@ class Live extends Component {
                 width: 850,// 播放器宽度
                 height: 600,// 播放器高度
                 playbackRates: [1, 1.5, 2],
-                muted: true, //是否循环播放
-                loop : true, //是否静音
-                autoplay:true, //是否自动播放
+                muted: false, //是否静音
+                loop : true, //是否循环播放
+                autoplay:false, //是否自动播放
             }, function onPlayerReady() {
                 this.src({
                     src: 'rtmp://192.168.1.176/live/1000001',

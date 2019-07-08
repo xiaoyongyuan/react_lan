@@ -7,7 +7,6 @@ import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
 import addpic from "../../style/jhy/imgs/addpic.png";
 import axios from "../../axios";
-const equipmentURL = window.equipmentURL;
 class Equipment extends Component {
   constructor(props) {
     super(props);
@@ -117,8 +116,8 @@ class Equipment extends Component {
           onShowSizeChange={(current, size) => {
             this.pageSizeChange(current, size);
           }}
+          hideOnSinglePage={true}
           total={this.state.totalCount}
-          // hideOnSinglePage
           showSizeChanger
           showTotal={total => {
             return `共${total}条`;
