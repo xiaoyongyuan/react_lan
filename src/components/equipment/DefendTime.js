@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import $ from "jquery";
 import "../../style/jhy/less/defendTime.less";
-// import "../../style/jhy/js/dfTime.js";
 import axios from "../../axios";
 import { Button, Row, Col } from "antd";
 class DefendTime extends Component {
@@ -48,7 +47,15 @@ class DefendTime extends Component {
           // baseURL: equipmentURL,
           method: "get",
           url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
-          data: { timelist: timelist }
+          data: {
+            timelist: timelist,
+            code: this.props.query.code
+              ? this.props.query.code
+              : this.props.addBackCode,
+            cid: this.props.query.code
+              ? this.props.query.code
+              : this.props.addBackCode
+          }
         })
         .then(res => {
           if (res.success) {
@@ -65,16 +72,19 @@ class DefendTime extends Component {
         }
       }
     });
-    $(".delete").click(function(e) {
-      console.log(e);
-      // for (var g = 0; g < $(".tr").length; h++) {
-      //   if ($(".delete")[])
-      //   if ($($(".tr")[g]).find(".td").hasClass("selected")) {
-      //     $($(".td")[g])
-      //       .removeClass("selected")
-      //       .css("background", "#fff");
-      //   }
-      // }
+    $.each($(".delete"), function(k, v) {
+      $($(".delete")[k]).click(function() {
+        if (
+          $($("tr")[k])
+            .find(".td")
+            .hasClass("selected")
+        ) {
+          $($("tr")[k])
+            .find(".td")
+            .removeClass("selected")
+            .css("background", "#fff");
+        }
+      });
     });
   }
   renderTable = () => {
@@ -93,6 +103,7 @@ class DefendTime extends Component {
     return htmlstr;
   };
   dataRecover = () => {
+    // var res = this.props.equipData.timelist;
     var res = {
       1: "",
       2: "15,16,17,18,19",
@@ -105,7 +116,6 @@ class DefendTime extends Component {
     var v;
     for (v in res) {
       res[v].split(",").map(m => {
-        console.log(m);
         $($($(".tr")[v - 1]).find(".td")[m - 1])
           .addClass("selected")
           .css("background", "#32e8fe");

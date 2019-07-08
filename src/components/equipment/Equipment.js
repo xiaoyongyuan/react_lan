@@ -119,8 +119,8 @@ class Equipment extends Component {
             this.pageSizeChange(current, size);
           }}
           total={this.state.totalCount}
+          // hideOnSinglePage
           showSizeChanger
-          showQuickJumper
           showTotal={total => {
             return `共${total}条`;
           }}

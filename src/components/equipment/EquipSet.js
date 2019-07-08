@@ -1677,7 +1677,10 @@ class EquipAdd extends Component {
               }
               key="2"
             >
-              <DefTime />
+              <DefTime
+                addBackCode={this.state.addBackCode}
+                equipData={this.state.equipData}
+              />
             </TabPane>
           </Tabs>
         )}
