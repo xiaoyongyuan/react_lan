@@ -102,13 +102,11 @@ class PoliceInformation extends Component {
                             lastcode:res.data.lastcode
                         },()=>{
                             this.draw();
-                            console.log(this.state.lastcode?true:false)
                         })
                     }
                 })
             }
         }
-
     };
     //画围界
     draw=()=>{

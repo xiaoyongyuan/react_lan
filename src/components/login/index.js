@@ -23,7 +23,7 @@ class Login extends Component {
                         localStorage.setItem("token", res.data.token);
                         this.props.history.push("/main/index");
                     }else{
-                        message.warn('用户名或密码错误！')
+                        message.warn('用户名或密码错误！');
                     }
                 })
 
