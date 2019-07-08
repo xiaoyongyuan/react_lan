@@ -6,6 +6,7 @@ import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
 import addpic from "../../style/jhy/imgs/addpic.png";
+import nopic from "../../style/jhy/imgs/nopic.png";
 import axios from "../../axios";
 class Equipment extends Component {
   constructor(props) {
@@ -64,21 +65,35 @@ class Equipment extends Component {
             onClick={() => {
               this.addEquip();
             }}
-            style={{ cursor: "pointer" }}
+            style={{ marginBottom: "16px", cursor: "pointer", height: "25vh" }}
           >
-            <img src={addpic} alt="" />
+            <img
+              src={addpic}
+              alt=""
+              // style={{ display: "inline-block", width: "100%", height: "100%" }}
+            />
           </Col>
           {this.state.equipList.length > 0
             ? this.state.equipList.map((val, inx) => (
                 <Col
                   md={6}
-                  style={{ marginBottom: "16px" }}
+                  style={{ marginBottom: "16px", height: "25vh" }}
                   key={inx}
                   className="equipWrap"
                 >
-                  <Icon type="delete" className="deleteEquip" />
+                  {/* <Icon type="delete" className="deleteEquip" /> */}
                   <Card
-                    cover={<img alt="example" src={val.pic_min} />}
+                    cover={
+                      <img
+                        alt="example"
+                        src={val.pic_min ? val.pic_min : null}
+                        // style={{
+                        //   display: "inline-block",
+                        //   width: "100%",
+                        //   height: "auto"
+                        // }}
+                      />
+                    }
                     actions={[
                       <div className="extra">
                         <img src={onlinepic} alt="" />

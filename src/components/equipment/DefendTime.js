@@ -74,7 +74,7 @@ class DefendTime extends Component {
           method: "delete",
           url: window.g.loginURL + "/api/api/zworkingtime",
           data: {
-            cid: _this.props.code ? _this.props.code : _this.props.addBackCode
+            ids: _this.props.code ? _this.props.code : _this.props.addBackCode
           }
         })
         .then(res => {
@@ -100,6 +100,9 @@ class DefendTime extends Component {
             url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
             data: {
               code: _this.props.code
+                ? _this.props.code
+                : _this.props.addBackCode,
+              cid: _this.props.code
                 ? _this.props.code
                 : _this.props.addBackCode,
               deleteNum: k + 1
