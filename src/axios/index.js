@@ -58,8 +58,8 @@ export default class Axios {
     }
     static ajax(options){
         const biography={
-            account:'admin',
-            companycode:"1000001"
+            account:localStorage.getItem("account"),
+            companycode:localStorage.getItem("companycode")
         };
      /* let loading;
         if (options.isShowLoading !== false){

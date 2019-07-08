@@ -83,26 +83,28 @@ class PoliceInformation extends Component {
                     }
                 }).then((res)=>{
                     if(res.success){
-                        res.data.Malarm.fieldresult.map((v)=>{
-                            this.setState({
-                                tagType:v.tag
+                      if(res.data.Malarm && res.data){
+                            res.data.Malarm.fieldresult.map((v)=>{
+                               this.setState({
+                                   tagType:v.tag
+                               });
                             });
-                        });
-                        this.setState({
-                            alarm:res.data.Malarm,
-                            alarmImg:res.data.Malarm.picpath,
-                            malarminfo:res.data.Malarm.Malarminfo,
-                            fields:res.data.Malarm.field,
-                            fieldresult:res.data.Malarm.fieldresult,
-                            policeCode:res.data.Malarm.code,
-                            pic_width:res.data.Malarm.pic_width,
-                            pic_height:res.data.Malarm.pic_height,
-                            policeStatus:res.data.Malarm.status,
-                            nextcode:res.data.nextcode,
-                            lastcode:res.data.lastcode
-                        },()=>{
-                            this.draw();
-                        })
+                          this.setState({
+                              alarm:res.data.Malarm,
+                              alarmImg:res.data.Malarm.picpath,
+                              malarminfo:res.data.Malarm.Malarminfo,
+                              fields:res.data.Malarm.field,
+                              fieldresult:res.data.Malarm.fieldresult,
+                              policeCode:res.data.Malarm.code,
+                              pic_width:res.data.Malarm.pic_width,
+                              pic_height:res.data.Malarm.pic_height,
+                              policeStatus:res.data.Malarm.status,
+                              nextcode:res.data.nextcode,
+                              lastcode:res.data.lastcode
+                          },()=>{
+                              this.draw();
+                          })
+                      }
                     }
                 })
             }
@@ -244,7 +246,6 @@ class PoliceInformation extends Component {
     handleSubmitSelect=(e)=>{
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
-            console.log(values)
             if(!err){
                 this.setState({
                     scid:values.cid,
