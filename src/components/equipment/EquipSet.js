@@ -28,6 +28,7 @@ const maskcol = "rgba(204, 204, 204, 0.1)";
 var open = false;
 var moveswitch = false;
 var scopeswitch = false;
+
 class EquipAdd extends Component {
   constructor(props) {
     super(props);
@@ -77,9 +78,8 @@ class EquipAdd extends Component {
     const { setFieldsValue } = this.props.form;
     axios
       .ajax({
-        // baseURL: equipmentURL,
         method: "get",
-        url: "http://192.168.1.163:8111/api/camera/getone?",
+        url: window.g.loginURL + "/api/camera/getone?",
         data: {
           code: this.props.query.code
         }
@@ -557,9 +557,8 @@ class EquipAdd extends Component {
         } else {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "post",
-              url: "http://192.168.1.163:8111/api/camera/add",
+              url: window.g.loginURL + "/api/camera/add",
               data: {
                 name: fields.name,
                 ip: fields.ip,
@@ -596,9 +595,8 @@ class EquipAdd extends Component {
         } else {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "put",
-              url: "http://192.168.1.163:8111/api/camera/update",
+              url: window.g.loginURL + "/api/camera/update",
               data: {
                 code: this.state.addBackCode || this.props.query.code,
                 name: fields.name,
@@ -675,9 +673,8 @@ class EquipAdd extends Component {
         {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.163:8111/api/camera/fielddel",
+              url: window.g.loginURL + "/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1
@@ -706,9 +703,8 @@ class EquipAdd extends Component {
         {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.163:8111/api/camera/fielddel",
+              url: window.g.loginURL + "/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 2
@@ -737,9 +733,8 @@ class EquipAdd extends Component {
         {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.163:8111/api/camera/fielddel",
+              url: window.g.loginURL + "/api/camera/fielddel",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 3
@@ -775,9 +770,8 @@ class EquipAdd extends Component {
         {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.163:8111/api/camera/fieldadd",
+              url: window.g.loginURL + "/api/camera/fieldadd",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 1,
@@ -806,7 +800,6 @@ class EquipAdd extends Component {
                     this.forceUpdate();
                     this.state.newinitarea = [];
                     this.forceUpdate();
-                    window.Refresh();
                   }
                 );
               }
@@ -818,9 +811,8 @@ class EquipAdd extends Component {
         {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.197:8112/api/camera/fieldadd",
+              url: window.g.loginURL + "/api/camera/fieldadd",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 2,
@@ -848,7 +840,6 @@ class EquipAdd extends Component {
                     this.forceUpdate();
                     this.state.newinitarea = [];
                     this.forceUpdate();
-                    window.Refresh();
                   }
                 );
               }
@@ -860,9 +851,8 @@ class EquipAdd extends Component {
         {
           axios
             .ajax({
-              // baseURL: equipmentURL,
               method: "get",
-              url: "http://192.168.1.197:8112/api/camera/fieldadd",
+              url: window.g.loginURL + "/api/camera/fieldadd",
               data: {
                 code: this.state.addBackCode || this.state.equipData.code,
                 keys: 3,
@@ -893,7 +883,6 @@ class EquipAdd extends Component {
                     this.forceUpdate();
                     this.state.newinitarea = [];
                     this.forceUpdate();
-                    window.Refresh();
                   }
                 );
               }
@@ -1229,7 +1218,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your name!"
+                          message: "请输入摄像头名称!"
                         }
                       ]
                     })(<Input />)}
@@ -1293,7 +1282,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your ip!"
+                          message: "请输入IP地址!"
                         }
                       ]
                     })(<Input />)}
@@ -1303,7 +1292,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your authport!"
+                          message: "请输入管理端口!"
                         }
                       ]
                     })(<Input />)}
@@ -1313,7 +1302,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your ausername!"
+                          message: "请输入管理用户名!"
                         }
                       ]
                     })(<Input />)}
@@ -1323,7 +1312,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your apassword!"
+                          message: "请输入管理密码!"
                         }
                       ]
                     })(<Input />)}
@@ -1344,7 +1333,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your streamport!"
+                          message: "请输入视频流地址!"
                         }
                       ]
                     })(<Input />)}
@@ -1360,7 +1349,7 @@ class EquipAdd extends Component {
                       rules: [
                         {
                           required: true,
-                          message: "Please input your streamport!"
+                          message: "请输入视频传输协议!"
                         }
                       ]
                     })(<Input />)}
@@ -1440,7 +1429,7 @@ class EquipAdd extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your name!"
+                            message: "请输入摄像头名称!"
                           }
                         ]
                       })(<Input />)}
@@ -1504,7 +1493,7 @@ class EquipAdd extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your ip!"
+                            message: "请输入IP地址!"
                           }
                         ]
                       })(<Input />)}
@@ -1514,7 +1503,7 @@ class EquipAdd extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your authport!"
+                            message: "请输入管理端口!"
                           }
                         ]
                       })(<Input />)}
@@ -1524,7 +1513,7 @@ class EquipAdd extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your ausername!"
+                            message: "请输入管理用户名!"
                           }
                         ]
                       })(<Input />)}
@@ -1534,28 +1523,17 @@ class EquipAdd extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your apassword!"
+                            message: "请输入管理密码!"
                           }
                         ]
                       })(<Input />)}
                     </Form.Item>
-                    {/* <Form.Item label="摄像头厂家">
-                    {getFieldDecorator("vender", {
-                      initialValue: 1
-                    })(
-                      <Select>
-                        <Option key="1" value={1}>
-                          海康
-                        </Option>
-                      </Select>
-                    )}
-                  </Form.Item> */}
                     <Form.Item label="视频流地址">
                       {getFieldDecorator("streamport", {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your streamport!"
+                            message: "请输入视频流地址!"
                           }
                         ]
                       })(<Input />)}
@@ -1571,7 +1549,7 @@ class EquipAdd extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "Please input your streamport!"
+                            message: "请输入视频传输协议!"
                           }
                         ]
                       })(<Input />)}
@@ -1678,6 +1656,7 @@ class EquipAdd extends Component {
               key="2"
             >
               <DefTime
+                code={this.props.query.code}
                 addBackCode={this.state.addBackCode}
                 equipData={this.state.equipData}
               />
