@@ -9,6 +9,7 @@ class DefendTime extends Component {
     this.state = {};
   }
   componentDidMount() {
+    const _this = this;
     this.dataRecover();
     var key = 0;
     $("#tab").mousemove(function(e) {
@@ -37,6 +38,7 @@ class DefendTime extends Component {
         }
         backdata.push(`${weekdata}`);
       }
+      console.log(_this.props);
       var timelist = {};
       backdata.map((v, i) => {
         timelist[i + 1] = v;
@@ -44,17 +46,12 @@ class DefendTime extends Component {
       $("#result").html(backdata);
       axios
         .ajax({
-          // baseURL: equipmentURL,
-          method: "get",
-          url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
+          method: "put",
+          url: window.g.loginURL + "/api/workingTime/setWorkingTime",
           data: {
             timelist: timelist,
-            code: this.props.query.code
-              ? this.props.query.code
-              : this.props.addBackCode,
-            cid: this.props.query.code
-              ? this.props.query.code
-              : this.props.addBackCode
+            code: _this.props.code ? _this.props.code : _this.props.addBackCode,
+            cid: _this.props.code ? _this.props.code : _this.props.addBackCode
           }
         })
         .then(res => {
