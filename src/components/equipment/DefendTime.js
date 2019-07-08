@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import $ from "jquery";
 import "../../style/jhy/less/defendTime.less";
 import axios from "../../axios";
-import { Button, Row, Col } from "antd";
+import { Button, Row, Col, message } from "antd";
 class DefendTime extends Component {
   constructor(props) {
     super(props);
@@ -47,15 +47,13 @@ class DefendTime extends Component {
         }
         backdata.push(`${weekdata}`);
       }
-      console.log(_this.props);
       var timelist = {};
       backdata.map((v, i) => {
         timelist[i + 1] = v;
       });
-      $("#result").html(backdata);
       axios
         .ajax({
-          method: "put",
+          method: "post",
           url: window.g.loginURL + "/api/workingTime/setWorkingTime",
           data: {
             timelist: timelist,
@@ -65,11 +63,26 @@ class DefendTime extends Component {
         })
         .then(res => {
           if (res.success) {
+            message.success("布防时间提交成功");
           }
         });
     });
 
     $("#deleteData").click(function() {
+      axios
+        .ajax({
+          method: "delete",
+          url: window.g.loginURL + "/api/api/zworkingtime",
+          data: {
+            cid: _this.props.code ? _this.props.code : _this.props.addBackCode
+          }
+        })
+        .then(res => {
+          if (res.success) {
+            message.success("删除成功");
+          }
+        });
+
       for (var h = 0; h < $(".td").length; h++) {
         if ($($(".td")[h]).hasClass("selected")) {
           $($(".td")[h])
@@ -78,8 +91,25 @@ class DefendTime extends Component {
         }
       }
     });
-    $.each($(".delete"), function(k, v) {
+
+    $(".delete").each(function(k, v) {
       $($(".delete")[k]).click(function() {
+        axios
+          .ajax({
+            method: "delete",
+            url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
+            data: {
+              code: _this.props.code
+                ? _this.props.code
+                : _this.props.addBackCode,
+              deleteNum: k + 1
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("删除成功");
+            }
+          });
         if (
           $($("tr")[k])
             .find(".td")
@@ -109,16 +139,7 @@ class DefendTime extends Component {
     return htmlstr;
   };
   dataRecover = () => {
-    // var res = this.props.equipData.timelist;
-    var res = {
-      1: "",
-      2: "15,16,17,18,19",
-      3: "20,22,23,24,25",
-      4: "25,26,27,28,29,30,31,32",
-      5: "28,29",
-      6: "",
-      7: ""
-    };
+    var res = this.props.equipData.timelist;
     var v;
     for (v in res) {
       res[v].split(",").map(m => {
