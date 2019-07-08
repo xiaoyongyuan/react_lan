@@ -12,6 +12,15 @@ class DefendTime extends Component {
     const _this = this;
     this.dataRecover();
     var key = 0;
+    for (let i = 0; i < 7; i++) {
+      if (
+        $($($(".tr")[i]).find(".td")[48]).mousemove(function(e) {
+          key = 0;
+          return false;
+        })
+      ) {
+      }
+    }
     $("#tab").mousemove(function(e) {
       if (1 == key && e.target.tagName == "TD") {
         $(e.target)
