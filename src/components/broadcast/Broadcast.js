@@ -49,7 +49,7 @@ class Broadcast extends Component {
                 <Row className="title-broad">
                     <Col span={14}>直播功能</Col>
                     <Col span={10} className="condition">
-                        <Form layout="inline">
+                       {/* <Form layout="inline">
                             <Form.Item label="选择">
                                 {getFieldDecorator('username', {
                                     rules: [{ required: false, message: 'Please input your username!' }],
@@ -67,7 +67,7 @@ class Broadcast extends Component {
                                 <Button type="primary" className="resetBtn">重置</Button>
                                 <Button type="primary" className="stopBtn">全部停止</Button>
                             </Form.Item>
-                        </Form>
+                        </Form>*/}
                     </Col>
                 </Row>
                 <Row gutter={16} className="broContext">

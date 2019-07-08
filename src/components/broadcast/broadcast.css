@@ -19,6 +19,7 @@
   align-items: center;
   color: #00ffff;
   background: #142253;
+  padding: 14px 6px;
 }
 .broadcast .title-broad .sureBtn {
   border-radius: 1px;
@@ -51,6 +52,8 @@
 }
 .broadcast .borderBot {
   position: relative;
+  border: 1px solid #5a5555;
+  min-height: 15vh;
 }
 .broadcast .borderBot .videoBtn {
   width: 16%;
