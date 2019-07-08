@@ -211,6 +211,7 @@
   flex-direction: column;
   justify-content: center;
   width: 50%;
+  line-height: 26px;
   background: #fff;
   color: #2E4699;
   padding-left: 26px;
@@ -218,12 +219,13 @@
 .homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 50%;
+  line-height: 26px;
   background: #fff;
   margin-left: 4px;
   color: #2E4699;
-  padding-left: 26px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -400,6 +402,9 @@
 }
 .homePage .alarminfor .gutter-example .gutter-box {
   position: relative;
+  min-height: 14vh;
+  border: 1px solid #d0c9c9;
+  background: #EEEEEE;
 }
 .homePage .alarminfor .gutter-example .gutter-box .alarmVideoBtn {
   position: absolute;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Select,DatePicker,Button,Icon,Form,message,Pagination,Switch,Checkbox} from 'antd';
 import "./ploceinfomation.less";
-import test2 from "../../style/imgs/testl.png";
 import alarmcl from "../../style/imgs/alarmcl.png";
 import 'swiper/dist/css/swiper.min.css';
 import Swiper from 'swiper/dist/js/swiper.js'
@@ -482,8 +481,8 @@ class PoliceInformation extends Component {
                 <Row gutter={16}>
                     {
                         this.state.policeList.map((v,i)=>(
-                            <Col className="gutter-row" span={4} key={i}>
-                                <div className="gutter-box" onClick={()=>this.hanlePoliceDateil(v.code)}>
+                            <Col className="gutter-row " span={4} key={i}>
+                                <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code)}>
                                     <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
                                     <div className="policeBottom">
                                         <span className="policeCircle" /><span className="policeName">{v.name}</span>
