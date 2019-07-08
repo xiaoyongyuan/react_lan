@@ -1616,7 +1616,7 @@ class EquipAdd extends Component {
                       height="576px"
                       id="cavcontainer"
                       style={{
-                        backgroundImage: `url(${backdrop})`,
+                        backgroundImage: `url(${this.state.equipData.picpath})`,
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}
