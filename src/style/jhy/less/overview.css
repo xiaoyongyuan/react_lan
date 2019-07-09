@@ -6,8 +6,15 @@
 .overview .ant-card-head {
   border: 0;
 }
+.overview .ant-descriptions .ant-descriptions-item-label,
+.overview .ant-descriptions .ant-descriptions-item-content {
+  padding: 8px 12px;
+}
 .overview .ant-card-head-title {
   font-size: 20px;
+}
+.overview .ant-descriptions.bordered .ant-descriptions-item-label {
+  background-color: transparent;
 }
 .overview .cpu::before,
 .overview .physics::before,
@@ -30,19 +37,18 @@
   margin-right: 20px;
 }
 .overview .topwrap {
-  height: 36%;
-}
-.overview .topwrap .desc {
-  margin-top: 10px;
+  height: 38%;
 }
 .overview .topwrap .cpu .desc:first-of-type {
   color: #006cff;
+  margin-top: 50px;
 }
 .overview .topwrap .cpu .desc:first-of-type .bluedot {
   background: #006cff;
 }
 .overview .topwrap .cpu .desc:last-of-type {
   color: #dcdbe0;
+  margin-top: 10px;
 }
 .overview .topwrap .cpu .desc:last-of-type .graydot {
   background: #dcdbe0;
@@ -50,6 +56,7 @@
 .overview .topwrap .physics .desc:first-of-type,
 .overview .topwrap .disk .desc:first-of-type {
   color: #006cff;
+  margin-top: 40px;
 }
 .overview .topwrap .physics .desc:first-of-type .bluedot,
 .overview .topwrap .disk .desc:first-of-type .bluedot {
@@ -58,6 +65,7 @@
 .overview .topwrap .physics .desc:nth-of-type(2),
 .overview .topwrap .disk .desc:nth-of-type(2) {
   color: #ff7200;
+  margin-top: 10px;
 }
 .overview .topwrap .physics .desc:nth-of-type(2) .orangedot,
 .overview .topwrap .disk .desc:nth-of-type(2) .orangedot {
@@ -66,6 +74,7 @@
 .overview .topwrap .physics .desc:last-of-type,
 .overview .topwrap .disk .desc:last-of-type {
   color: #32e8fe;
+  margin-top: 10px;
 }
 .overview .topwrap .physics .desc:last-of-type .lightbluedot,
 .overview .topwrap .disk .desc:last-of-type .lightbluedot {
@@ -75,6 +84,25 @@
   margin-top: 20px;
   height: 20%;
 }
+.overview .midwrap .ossys .cpuval {
+  width: 40%;
+  margin-left: 30px;
+}
+.overview .midwrap .ossys .cpuval .ant-progress-outer {
+  padding-right: 0;
+}
+.overview .midwrap .ossys .cpuval .ant-progress-inner {
+  width: 100%;
+}
+.overview .midwrap .ossys .cpuval .ant-progress-inner .ant-progress-bg {
+  background: #006cff;
+  height: 26px !important;
+}
+.overview .midwrap .ossys .cpuval .ant-progress-text {
+  position: absolute;
+  left: 35%;
+  top: 25%;
+}
 .overview .midwrap .ossys .syslabel {
   display: inline-block;
   width: 25%;
@@ -83,21 +111,28 @@
   text-align: right;
 }
 .overview .midwrap .ossys .prog {
-  margin-left: 20px;
-  width: 60%;
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  text-align: center;
+  color: #fff;
+  margin-left: 30px;
+  background: #006cff;
+  width: 40%;
   position: relative;
 }
-.overview .midwrap .ossys .prog .ant-progress-inner {
-  height: 25px;
+.overview .botwrap .funset .alarmLabel {
+  padding: 5px 10px;
+  border-radius: 2px;
+  background: #f3f3f5;
+  color: #2c459a;
 }
-.overview .midwrap .ossys .prog .ant-progress-inner .ant-progress-bg {
-  background: #006cff;
-  height: 25px !important;
+.overview .botwrap .funset .alarmSound {
+  margin-left: 20px;
 }
-.overview .midwrap .ossys .prog .ant-progress-text {
-  position: absolute;
-  left: 35%;
-  top: 25%;
+.overview .botwrap .funset .ant-switch-checked {
+  background-color: #006cff;
 }
 .overview .botwrap .ant-list-split .ant-list-item {
   border: 1px solid #f0f0f0;
