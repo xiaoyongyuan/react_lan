@@ -63,16 +63,18 @@ class Equipment extends Component {
             style={{
               marginBottom: "16px",
               cursor: "pointer",
-              height: "25vh",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              border: "1px solid #efefef"
+              height: "25vh"
             }}
           >
-            <Icon type="plus" style={{ fontSize: "30px", color: "#2c459a" }} />
-            <div style={{ color: "#2c459a", marginTop: "10px" }}>添加设备</div>
+            <div className="addEquip">
+              <Icon
+                type="plus"
+                style={{ fontSize: "30px", color: "#2c459a" }}
+              />
+              <div style={{ color: "#2c459a", marginTop: "10px" }}>
+                添加设备
+              </div>
+            </div>
           </Col>
           {this.state.equipList.length > 0
             ? this.state.equipList.map((val, inx) => (
@@ -90,8 +92,9 @@ class Equipment extends Component {
                           ? `url(${
                               val.basemap
                             }) no-repeat center center / 100% 100% `
-                          : "#eee",
-                        position: "relative"
+                          : "#efefef",
+                        position: "relative",
+                        border: "1px solid #efefef"
                       }}
                     >
                       <p className="elli tit">

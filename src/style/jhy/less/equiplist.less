@@ -17,11 +17,13 @@
     white-space: nowrap;
   }
 
-  .mulelli {
-    display: webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
+  .addEquip {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #efefef
   }
 
   .equipWrap {
@@ -44,7 +46,7 @@
           width: 33%;
           border-right: 1px solid #e3e5eb;
           text-align: center;
-          font-size: 14px;
+          font-size: 15px;
           display: inline-flex;
           flex-direction: row;
           justify-content: center;
@@ -57,18 +59,18 @@
             height: 20px;
             display: inline-block;
             margin-right: 10px;
-            background: url('../imgs/online.png') no-repeat left center
+            background: url('../imgs/online.png') no-repeat left center/100%
           }
         }
 
         .extra:nth-of-type(2) {
 
           .expic {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             margin-right: 10px;
             display: inline-block;
-            background: url('../imgs/def.png') no-repeat left center
+            background: url('../imgs/def.png') no-repeat left center/100%
           }
         }
 
@@ -77,10 +79,10 @@
 
           .expic {
             display: inline-block;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             margin-right: 10px;
-            background: url('../imgs/set.png') no-repeat left center
+            background: url('../imgs/set.png') no-repeat left center/100%
           }
 
         }
@@ -94,7 +96,7 @@
         background: rgba(36, 52, 74, .8);
         color: #fff;
         width: 100%;
-        padding: 8px 4px;
+        padding: 8px;
 
         .titpoint {
           display: inline-block;
