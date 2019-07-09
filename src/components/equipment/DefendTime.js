@@ -56,8 +56,7 @@ class DefendTime extends Component {
           method: "post",
           url: window.g.loginURL + "/api/workingTime/setWorkingTime",
           data: {
-            timelist: timelist,
-            code: _this.props.code ? _this.props.code : _this.props.addBackCode,
+            zworkingtime: timelist,
             cid: _this.props.code ? _this.props.code : _this.props.addBackCode
           }
         })
@@ -99,9 +98,6 @@ class DefendTime extends Component {
             method: "delete",
             url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
             data: {
-              code: _this.props.code
-                ? _this.props.code
-                : _this.props.addBackCode,
               cid: _this.props.code
                 ? _this.props.code
                 : _this.props.addBackCode,

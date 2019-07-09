@@ -117,14 +117,15 @@ class Equipment extends Component {
                             : "未布防"}
                         </span>
                       </li>
-                      <li className="extra"  onClick={() => {
+                      <li
+                        className="extra"
+                        onClick={() => {
                           this.setEquip(val.code);
-                      }} style={{cursor:"pointer"}}
+                        }}
+                        style={{ cursor: "pointer" }}
                       >
                         <span className="expic" />
-                        <span>
-                          设置
-                        </span>
+                        <span>设置</span>
                       </li>
                     </ul>
                   </div>
