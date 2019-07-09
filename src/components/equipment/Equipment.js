@@ -117,7 +117,7 @@ class Equipment extends Component {
                             : "未布防"}
                         </span>
                       </li>
-                      <li className="extra">
+                      <li className="extra" style={{ cursor: "pointer" }}>
                         <span className="expic" />
                         <span
                           onClick={() => {

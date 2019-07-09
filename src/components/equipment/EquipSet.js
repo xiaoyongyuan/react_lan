@@ -1329,14 +1329,7 @@ class EquipAdd extends Component {
                     )}
                   </Form.Item> */}
                   <Form.Item label="视频流地址">
-                    {getFieldDecorator("streamport", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "请输入视频流地址!"
-                        }
-                      ]
-                    })(<Input />)}
+                    {getFieldDecorator("streamport", {})(<Input />)}
                   </Form.Item>
                   <Form.Item label="视频用户名">
                     {getFieldDecorator("vusername", {})(<Input />)}
@@ -1529,14 +1522,7 @@ class EquipAdd extends Component {
                       })(<Input />)}
                     </Form.Item>
                     <Form.Item label="视频流地址">
-                      {getFieldDecorator("streamport", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入视频流地址!"
-                          }
-                        ]
-                      })(<Input />)}
+                      {getFieldDecorator("streamport", {})(<Input />)}
                     </Form.Item>
                     <Form.Item label="视频用户名">
                       {getFieldDecorator("vusername", {})(<Input />)}
