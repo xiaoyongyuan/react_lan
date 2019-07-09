@@ -23,6 +23,8 @@ class PoliceInformation extends Component {
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
+            nextcode:"",
+            lastcode:""
         };
     }
     componentDidMount() {
@@ -82,6 +84,7 @@ class PoliceInformation extends Component {
                     }
                 }).then((res)=>{
                     if(res.success){
+                        console.log(res.data.nextcode?true:false,"0000")
                       if(res.data.Malarm && res.data){
                             res.data.Malarm.fieldresult.map((v)=>{
                                this.setState({
@@ -128,6 +131,8 @@ class PoliceInformation extends Component {
                     areafield.lineTo(parseInt(datafield[i][1][0] * xi), parseInt(datafield[i][1][1] * yi));
                     areafield.lineTo(parseInt(datafield[i][2][0] * xi), parseInt(datafield[i][2][1] * yi));
                     areafield.lineTo(parseInt(datafield[i][3][0] * xi), parseInt(datafield[i][3][1] * yi));
+                    areafield.lineTo(parseInt(datafield[i][4][0] * xi), parseInt(datafield[i][4][1] * yi));
+                    areafield.lineTo(parseInt(datafield[i][5][0] * xi), parseInt(datafield[i][5][1] * yi));
                     areafield.lineTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
                     areafield.stroke();
                     areafield.closePath();
@@ -388,8 +393,8 @@ class PoliceInformation extends Component {
                         </Row>
                         <Row>
                             <Col className="updown">
-                                <Button onClick={()=>this.hanleUper("uper")} disabled={this.state.lastcode?false:true}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
-                                <Button onClick={()=>this.hanleUper("next")} disabled={this.state.nextcode?false:true}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
+                                <Button onClick={()=>this.hanleUper("uper")} disabled={this.state.lastcode?true:false}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
+                                <Button onClick={()=>this.hanleUper("next")} disabled={this.state.nextcode?true:false}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
                             </Col>
                         </Row>
                     </div>

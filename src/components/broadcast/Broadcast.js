@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import {Row,Col,Form,Button,Select,Modal} from "antd";
+import {Row,Col,Modal} from "antd";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import nodata from "../../style/imgs/nodata.png";
 import "./broadcast.less";
 import axios from "../../axios/index";
-import Live from "../live/Live";
 import playBtn from "../../style/ztt/imgs/playBtn.png";
-const { Option } = Select;
+import Live from "../live/Live";
 class Broadcast extends Component {
     constructor(props) {
         super(props);
@@ -41,6 +40,11 @@ class Broadcast extends Component {
             liveModel:false
         })
     };
+    componentWillUnmount() {
+         if (this.player) {
+             this.player.dispose();
+         }
+    }
 
     render() {
         return(

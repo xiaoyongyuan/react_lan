@@ -20,7 +20,7 @@ class Main extends Component {
       <Layout className="main">
           <Header className="Header"><LayerHeader /></Header>
           <Layout>
-            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} className="Sider" width='220px' style={{height:" calc(100vh - 64px)"}}><LayerSider /></Sider>
+            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} className="Sider" width='220px' style={{height:"105vh"}}><LayerSider /></Sider>
             <Content className="Content" style={{padding:"14px"}}>
             {/*<LayerCrumb />*/}
               <MenuRoutes/>
