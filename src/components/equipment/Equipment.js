@@ -2,11 +2,6 @@ import { Card, Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
 import "../../style/jhy/less/equiplist.less";
 import "../../style/jhy/less/reset.less";
-import defpic from "../../style/jhy/imgs/def.png";
-import onlinepic from "../../style/jhy/imgs/online.png";
-import setpic from "../../style/jhy/imgs/set.png";
-import addpic from "../../style/jhy/imgs/addpic.png";
-// import nopic from "../../style/jhy/imgs/nopic.png";
 import axios from "../../axios";
 class Equipment extends Component {
   constructor(props) {
@@ -65,13 +60,19 @@ class Equipment extends Component {
             onClick={() => {
               this.addEquip();
             }}
-            style={{ marginBottom: "16px", cursor: "pointer", height: "25vh" }}
+            style={{
+              marginBottom: "16px",
+              cursor: "pointer",
+              height: "25vh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              border: "1px solid #efefef"
+            }}
           >
-            <img
-              src={addpic}
-              alt=""
-              // style={{ display: "inline-block", width: "100%", height: "100%" }}
-            />
+            <Icon type="plus" style={{ fontSize: "30px", color: "#2c459a" }} />
+            <div style={{ color: "#2c459a", marginTop: "10px" }}>添加设备</div>
           </Col>
           {this.state.equipList.length > 0
             ? this.state.equipList.map((val, inx) => (
@@ -81,30 +82,40 @@ class Equipment extends Component {
                   key={inx}
                   className="equipWrap"
                 >
-                  {/* <Icon type="delete" className="deleteEquip" /> */}
-                  <Card
-                    cover={
-                      <img
-                        alt="example"
-                        src={val.pic_min ? val.pic_min : null}
-                        // style={{
-                        //   display: "inline-block",
-                        //   width: "100%",
-                        //   height: "auto"
-                        // }}
-                      />
-                    }
-                    actions={[
-                      <div className="extra">
-                        <img src={onlinepic} alt="" />
+                  <div className="equipEle">
+                    <div
+                      style={{
+                        height: "82%",
+                        background: val.basemap
+                          ? `url(${
+                              val.basemap
+                            }) no-repeat center center / 100% 100% `
+                          : "#eee",
+                        position: "relative"
+                      }}
+                    >
+                      <p className="elli tit">
+                        <span className="titpoint" />
+                        {val.location}
+                      </p>
+                    </div>
+                    <ul className="extraWrap">
+                      <li className="extra">
+                        <span className="expic" />
                         <span>在线</span>
-                      </div>,
-                      <div className="extra">
-                        <img src={defpic} alt="" />
-                        <span>布防中</span>
-                      </div>,
-                      <div className="extra">
-                        <img src={setpic} alt="" />
+                      </li>
+                      <li className="extra">
+                        <span className="expic" />
+                        <span>
+                          {val.workingstatus === 1
+                            ? "布防中"
+                            : val.workingstatus === 0
+                            ? "休息中"
+                            : "未布防"}
+                        </span>
+                      </li>
+                      <li className="extra">
+                        <span className="expic" />
                         <span
                           onClick={() => {
                             this.setEquip(val.code);
@@ -112,14 +123,9 @@ class Equipment extends Component {
                         >
                           设置
                         </span>
-                      </div>
-                    ]}
-                  >
-                    <p className="elli tit">
-                      <span className="titpoint" />
-                      {val.location}
-                    </p>
-                  </Card>
+                      </li>
+                    </ul>
+                  </div>
                 </Col>
               ))
             : null}
