@@ -48,15 +48,22 @@ class DefendTime extends Component {
         backdata.push(`${weekdata}`);
       }
       var timelist = {};
-      backdata.map((v, i) => {
-        timelist[i + 1] = v;
-      });
+      timelist["1"] = backdata[0];
+      timelist["2"] = backdata[1];
+      timelist["3"] = backdata[2];
+      timelist["4"] = backdata[3];
+      timelist["5"] = backdata[4];
+      timelist["6"] = backdata[5];
+      timelist["7"] = backdata[6];
+
+      console.log(timelist);
+      const trantime = [timelist];
       axios
         .ajax({
           method: "post",
           url: window.g.loginURL + "/api/workingTime/setWorkingTime",
           data: {
-            zworkingtime: timelist,
+            timelist: trantime,
             cid: _this.props.code ? _this.props.code : _this.props.addBackCode
           }
         })
@@ -84,9 +91,7 @@ class DefendTime extends Component {
 
       for (var h = 0; h < $(".td").length; h++) {
         if ($($(".td")[h]).hasClass("selected")) {
-          $($(".td")[h])
-            .removeClass("selected")
-            .css("background", "#fff");
+          $($(".td")[h]).removeClass("selected");
         }
       }
     });
@@ -116,8 +121,7 @@ class DefendTime extends Component {
         ) {
           $($("tr")[k])
             .find(".td")
-            .removeClass("selected")
-            .css("background", "#fff");
+            .removeClass("selected");
         }
       });
     });
