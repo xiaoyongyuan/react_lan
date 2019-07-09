@@ -1,48 +1,93 @@
 import React, { Component } from "react";
 import ReactEcharts from "echarts-for-react";
-import echarts from "echarts";
-import { Row, Col, Card, Progress, Descriptions, List, Radio } from "antd";
+import {
+  Row,
+  Col,
+  Card,
+  Progress,
+  Descriptions,
+  List,
+  Radio,
+  Switch,
+  message
+} from "antd";
+import axios from "../../axios";
 import "../../style/jhy/less/overview.less";
 
 class Overview extends Component {
-  componentDidMount() {}
+  constructor(props) {
+    super(props);
+    this.state = {
+      datalist: {}
+    };
+  }
+
+  componentDidMount() {
+    this.getData();
+  }
+  getData = () => {
+    axios
+      .ajax({
+        method: "get",
+        url: window.g.loginURL + "/api/system/overview",
+        data: {}
+      })
+      .then(res => {
+        if (res.success) {
+          console.log(res);
+          this.setState({
+            datalist: res.data
+          });
+        }
+      });
+  };
   render() {
     const funconfig = [
       <Radio>云端同步服务器是否运行</Radio>,
       <Radio>删除服务器是否运行</Radio>,
       <Radio>直播服务器是否运行</Radio>
     ];
+    const datalist = this.state.datalist;
     const cpupie = {
-      tooltip: {
-        show: true
-      },
+      tooltip: {},
       series: [
         {
           type: "pie",
+          label: [],
           radius: ["50%", "80%"],
-          data: [{ value: 25, selected: true }, { value: 75 }]
+          data: [{ value: datalist.cpuUsed }, { value: datalist.cpuUnused }]
         }
       ],
       color: ["#006cff", "#dcdbe0"]
     };
     const physpie = {
+      tooltip: {},
       series: [
         {
           type: "pie",
           radius: ["50%", "80%"],
           label: [],
-          data: [{ value: 25 }, { value: 25 }, { value: 50 }]
+          data: [
+            { value: datalist.totalMemories },
+            { value: datalist.surplusMemories },
+            { value: datalist.usedMemories }
+          ]
         }
       ],
       color: ["#006cff", "#ff7200", "#32e8fe"]
     };
     const diskpie = {
+      tooltip: {},
       series: [
         {
           type: "pie",
           radius: ["50%", "80%"],
           label: [],
-          data: [{ value: 25 }, { value: 15 }, { value: 60 }]
+          data: [
+            { value: datalist.MaxDisksMemories },
+            { value: datalist.surplusDisksMemories },
+            { value: datalist.couldUseMemories }
+          ]
         }
       ],
       color: ["#006cff", "#ff7200", "#32e8fe"]
@@ -59,7 +104,7 @@ class Overview extends Component {
                       <ReactEcharts
                         id="cpuech"
                         option={cpupie}
-                        style={{ height: "180px" }}
+                        style={{ height: "190px" }}
                       />
                     </div>
                   </Col>
@@ -83,7 +128,7 @@ class Overview extends Component {
                     <div className="pie">
                       <ReactEcharts
                         option={physpie}
-                        style={{ height: "180px" }}
+                        style={{ height: "190px" }}
                       />
                     </div>
                   </Col>
@@ -111,7 +156,7 @@ class Overview extends Component {
                     <div className="pie">
                       <ReactEcharts
                         option={diskpie}
-                        style={{ height: "180px" }}
+                        style={{ height: "190px" }}
                       />
                     </div>
                   </Col>
@@ -135,83 +180,68 @@ class Overview extends Component {
           </Row>
         </div>
         <Row className="midwrap">
-          <Card
-            title="操作系统"
-            bordered={false}
-            // style={{ width: 300 }}
-            className="ossys"
-          >
+          <Card title="操作系统" bordered={false} className="ossys">
             <Row>
               <Col span={5}>
                 <span className="syslabel">总线程数</span>
-                <Progress
-                  percent={30}
-                  className="prog"
-                  format={percent => {
-                    return percent;
-                  }}
-                />
+                <span className="prog">73</span>
               </Col>
               <Col span={5}>
                 <span className="syslabel">CUP使用率</span>
                 <Progress
-                  percent={30}
-                  className="prog"
+                  percent={20}
                   format={percent => {
                     return percent;
                   }}
+                  className="cpuval"
                 />
               </Col>
               <Col span={5}>
                 <span className="syslabel">显存</span>
-                <Progress
-                  percent={30}
-                  className="prog"
-                  format={percent => {
-                    return percent;
-                  }}
-                />
+                <span className="prog">{datalist.videoRam}</span>
               </Col>
               <Col span={5}>
                 <span className="syslabel">空闲显存</span>
-                <Progress
-                  percent={30}
-                  className="prog"
-                  format={percent => {
-                    return percent;
-                  }}
-                />
+                <span className="prog">{datalist.freeVideoRam}</span>
               </Col>
             </Row>
           </Card>
         </Row>
         <Row className="botwrap">
           <Card title="功能设置" className="funset">
-            <Row gutter={16}>
+            <Row>
+              <label className="alarmLabel" htmlFor="alarmSound">
+                报警声音设置
+              </label>
+              <Switch id="报警声音设置" className="alarmSound" />
+            </Row>
+            <Row gutter={16} style={{ marginTop: "20px" }}>
               <Col span={6}>
                 <Descriptions bordered column={1}>
                   <Descriptions.Item label="系统持续运营时间">
-                    365天12小时
+                    {datalist.Runningtime}
                   </Descriptions.Item>
                   <Descriptions.Item label="一次算法处理警报数量">
-                    123456条
+                    {datalist.firstCalculationNum}
                   </Descriptions.Item>
                   <Descriptions.Item label="二次算法处理警报数量">
-                    23456条
+                    {datalist.secondCalculationNum}
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
               <Col span={6}>
                 <Descriptions bordered column={1}>
-                  <Descriptions.Item label="软件版本">V1.0.1</Descriptions.Item>
+                  <Descriptions.Item label="软件版本">
+                    {datalist.softVersion}
+                  </Descriptions.Item>
                   <Descriptions.Item label="一次算法版本">
-                    V1.0.1
+                    {datalist.firstCalculationVersion}
                   </Descriptions.Item>
                   <Descriptions.Item label="二次算法版本">
-                    V1.0.1
+                    {datalist.secondCalculationVersion}
                   </Descriptions.Item>
                   <Descriptions.Item label="SERVER版本">
-                    V1.0.1
+                    {datalist.SERVERVersion}
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
