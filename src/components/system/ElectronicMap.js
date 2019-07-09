@@ -1,44 +1,32 @@
 import React, { Component } from 'react';
 import "../../style/ztt/css/electronicMap.less";
-import {Button} from "antd";
-import pingmian from "../../style/ztt/imgs/pingmian.png";
+import {Map,Marker} from 'react-amap';
 class ElectronicMap extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            mapZoom: 13, //地图缩放等级 （zoom）
+            status: {
+                zoomEnable: true,
+                dragEnable: true,
+            },
+            mapCenter:[116.292329, 39.946996],//地图中心点
+            mapMake :[116.273961, 39.946338],//marker标记点
+        };
+    }
+    componentDidMount() {
+        this.setState({
+
+        })
+    }
+
     render() {
+        let {mapCenter, mapMake, mapZoom, mapKey, status} = this.state;
         return (
-            <div className="electronicMap">
-                <div className="showDraw">
-                    <div className="showDraw-title">傲科云服务器机房</div>
-                    <div className="showDrawImg">
-                        <img src={pingmian} alt=""/>
-                    </div>
-                </div>
-                <div className="drawing">
-                    <div className="Square">
-                        <span className="drawImg"/>
-                        <span>绘制功能</span>
-                    </div>
-                    <div className="segment">
-                        <span className="segmentImg"/>
-                        <span>线段绘制</span>
-                    </div>
-                    <div className="rectangle">
-                        <span className="rectangleImg"/>
-                        <span>矩形绘制</span>
-                    </div>
-                    <div className="camera">
-                        <span className="cameraImg"/>
-                        <span>摄像机绘制</span>
-                    </div>
-                    <div className="revoke">
-                        <div className="revokeLeft"><span /></div>
-                        <div className="revokeRight"><span /></div>
-                    </div>
-                    <div className="reBtn">
-                        <Button className="revokeBtn">重置</Button>
-                    </div>
-                    <div className="confirmBnt">确认</div>
-                </div>
-            </div>
+            <Map amapkey={mapKey} center={mapCenter} zoom={mapZoom} status={status}>
+                {/*marker标记点创建必有参数 （position中心点）*/}
+                <Marker position={mapMake}/>
+            </Map>
         );
     }
 }

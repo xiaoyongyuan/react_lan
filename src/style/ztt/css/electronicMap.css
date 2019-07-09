@@ -1,0 +1,20 @@
+.electronicMap {
+  position: relative;
+}
+.electronicMap .input-card {
+  position: absolute;
+  bottom: 1%;
+  right: 0;
+}
+.electronicMap .input-card .input-item {
+  height: 2.2rem;
+}
+.electronicMap .input-card .btn {
+  width: 6rem;
+  margin: 0 1rem 0 2rem;
+}
+.electronicMap .input-card .input-text {
+  width: 4rem;
+  margin-right: 1rem;
+}
+/*# sourceMappingURL=electronicMap.css.map */
