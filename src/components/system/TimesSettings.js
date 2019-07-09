@@ -36,7 +36,7 @@ class TimesSettings extends Component {
               <Form.Item label="时间">
                 {getFieldDecorator("time", {})(<Input />)}
               </Form.Item>
-              <Form.Item label=" ">
+              <Form.Item label=" " style={{ marginTop: "20px" }}>
                 <div className="optwrap">
                   <Button className="submit">确认</Button>
                   <Button className="cancle">取消</Button>

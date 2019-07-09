@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Icon, Button, Modal, Form, Input, Select } from "antd";
+import { Row, Icon, Button, Modal, Form, Input, Select, Divider } from "antd";
 import Etable from "../common/Etable";
 import axios from "../../axios/index";
 import "../../style/jhy/less/userinfo.less";
@@ -76,10 +76,13 @@ class UserInfo extends Component {
         dataIndex: "role",
         key: "opt",
         align: "center",
+        width: "18%",
         render: () => (
-          <div>
-              <span className="del">删除</span><span className="del">编辑</span>
-          </div>
+          <span>
+            <Button type="danger">删除</Button>
+            <Divider type="vertical" />
+            <Button type="primary">编辑</Button>
+          </span>
         )
       }
     ];
