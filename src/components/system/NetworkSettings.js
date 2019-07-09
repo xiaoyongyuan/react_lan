@@ -95,7 +95,7 @@ class NetworkSettings extends Component {
               </Form.Item>
               <Form.Item label=" ">
                 <div className="optwrap">
-                  <Button className="submit">确认</Button>
+                  <Button className="submit" type="primary">确认</Button>
                   <Button className="cancle">取消</Button>
                 </div>
               </Form.Item>
