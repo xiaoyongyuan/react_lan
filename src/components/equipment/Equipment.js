@@ -109,7 +109,7 @@ class Equipment extends Component {
                       </li>
                       <li className="extra">
                         <span className="expic" />
-                        <span>
+                        <span className="elli">
                           {val.workingstatus === 1
                             ? "布防中"
                             : val.workingstatus === 0
