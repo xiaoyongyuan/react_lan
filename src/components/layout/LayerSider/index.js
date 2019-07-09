@@ -40,13 +40,13 @@ class LayerSider extends Component {
     return data.map((el,i)=>{
       if(el.children&&el.children.length){
         return (
-          <SubMenu key={el.key} 
+          <SubMenu key={el.key}
             title={
               <span>
                 {el.icon && <Icon type={el.icon} />}
                 <span className="nav-text">{el.title}</span>
               </span>
-            } 
+            }
             onTitleClick={this.onTitleClick}>
             {_this.renderMenu(el.children)}
           </SubMenu>
@@ -55,7 +55,8 @@ class LayerSider extends Component {
       return (<Menu.Item key={el.key}><NavLink to={el.key}>
           {el.icon && <Icon type={el.icon} />}
           <span className="nav-text">{el.title}</span>
-        </NavLink></Menu.Item>)
+        </NavLink>
+      </Menu.Item>)
     })
   }
   render() {

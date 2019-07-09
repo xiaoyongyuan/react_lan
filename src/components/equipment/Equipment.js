@@ -6,7 +6,7 @@ import defpic from "../../style/jhy/imgs/def.png";
 import onlinepic from "../../style/jhy/imgs/online.png";
 import setpic from "../../style/jhy/imgs/set.png";
 import addpic from "../../style/jhy/imgs/addpic.png";
-import nopic from "../../style/jhy/imgs/nopic.png";
+// import nopic from "../../style/jhy/imgs/nopic.png";
 import axios from "../../axios";
 class Equipment extends Component {
   constructor(props) {

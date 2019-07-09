@@ -53,6 +53,16 @@ img {
   float: right;
   margin: 16px auto;
 }
+.ant-modal-close-x {
+  width: 38px!important;
+  height: 38px!important;
+  line-height: 38px!important;
+  color: #fff !important;
+}
+.ant-modal-close {
+  margin: 4px 4px;
+  background: #006ee2 !important;
+}
 .ant-table-tbody > tr:nth-child(odd) {
   background: #E0EEF7;
 }

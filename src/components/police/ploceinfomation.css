@@ -1,6 +1,11 @@
 .ploceinfomation {
   background-color: #f0f2f5;
 }
+.ploceinfomation .policeList {
+  min-height: 14vh;
+  border: 1px solid #d0c9c9;
+  background: #EEEEEE;
+}
 .ploceinfomation .ant-checkbox-wrapper {
   color: #fff;
 }

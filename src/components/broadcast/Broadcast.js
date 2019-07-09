@@ -32,18 +32,18 @@ class Broadcast extends Component {
         })
     };
     hanleLive=()=>{
-        this.setState({
+        /*this.setState({
             liveModel:true
-        })
+        });*/
+        // window.location.href="#/main/live";
     };
-    hanleLiveCancel=()=>{
+   /* hanleLiveCancel=()=>{
         this.setState({
             liveModel:false
         })
-    };
+    };*/
 
     render() {
-        const { getFieldDecorator} = this.props.form;
         return(
             <div className="broadcast">
                 <Row className="title-broad">
@@ -74,10 +74,10 @@ class Broadcast extends Component {
                 {
                     this.state.liveList.length>0?
                         [this.state.liveList.map((v,i)=>(
-                        <Col xxl={4} xl={8} className="gutter-row">
+                        <Col xxl={4} xl={8} className="gutter-row" key={i}>
                             <div className="gutter-box borderBot">
                                 <img className="videoImg" src={v.picpath?v.picpath:defenceImg} alt="" />
-                                <img className="videoBtn" src={playBtn} alt="" onClick={this.hanleLive} />
+                                <a href="#/main/live"><img className="videoBtn" src={playBtn} alt="" /></a>
                                 <div className="broadcastBott">
                                     <span className="broCircle"/><span className="broFont">{v.name}</span>
                                 </div>
@@ -85,8 +85,8 @@ class Broadcast extends Component {
                         </Col>
                     ))]:[<div className="nodata"><img src={nodata} alt="" /></div>]
                 }
-                </Row>vv
-                <Modal
+                </Row>
+               {/* <Modal
                     title="直播"
                     visible={this.state.liveModel}
                     width={900}
@@ -94,10 +94,10 @@ class Broadcast extends Component {
                     onCancel={this.hanleLiveCancel}
                 >
                     <Live />
-                </Modal>
+                </Modal>*/}
             </div>
         );
     }
 }
 
-export default Broadcast=Form.create({})(Broadcast);
+export default Broadcast;

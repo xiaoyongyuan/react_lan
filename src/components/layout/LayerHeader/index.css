@@ -51,4 +51,8 @@
   background-size: 100% 100%;
   margin-right: 20px;
 }
+.LayerHeader .headerRight .signout {
+  padding-left: 20px;
+  cursor: pointer;
+}
 /*# sourceMappingURL=index.css.map */

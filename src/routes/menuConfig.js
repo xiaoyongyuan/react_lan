@@ -98,7 +98,7 @@ export default {
     },
     {
       key: "/main/live",
-      component: "live"
+      component: "Live"
     }
   ]
 };

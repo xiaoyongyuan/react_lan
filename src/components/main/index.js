@@ -2,30 +2,33 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import LayerSider from './../layout/LayerSider';
 import LayerHeader from './../layout/LayerHeader';
-import LayerCrumb from './../layout/LayerCrumb';
 import MenuRoutes from '../../routes/MenuRoutes';
-
-
 import './index.less';
 const {Header, Footer, Sider, Content} = Layout;
 class Main extends Component {
+    state = {
+        collapsed: false,
+    };
+
+    onCollapse = collapsed => {
+        console.log(collapsed);
+        this.setState({ collapsed });
+    };
+
   render() {
     return (
-      <div className="Main">
-        <Layout>
+      <Layout className="main">
           <Header className="Header"><LayerHeader /></Header>
           <Layout>
-            <Sider className="Sider" width='220px'><LayerSider /></Sider>
-            <Content className="Content">
+            <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} className="Sider" width='220px' style={{height:" calc(100vh - 64px)"}}><LayerSider /></Sider>
+            <Content className="Content" style={{padding:"14px"}}>
             {/*<LayerCrumb />*/}
               <MenuRoutes/>
             </Content>
           </Layout>
-          <Footer className="Footer">Footer</Footer>
-        </Layout>
-      </div>
+          {/*<Footer className="Footer">Footer</Footer>*/}
+      </Layout>
     );
   }
 }
-
 export default Main;
