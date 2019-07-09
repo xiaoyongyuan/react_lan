@@ -42,7 +42,7 @@ class Login extends Component {
             <div className="logoBg" />
             <div className="loginFrame">
               <p>用户登录</p>
-                <Form className="logoForm" onClick={this.hanleSubmit}>
+                <Form className="logoForm" onSubmit={this.hanleSubmit}>
                     <Form.Item>
                         {getFieldDecorator('account', {
                             rules: [{ required: true, message: '请输入用户名/邮箱/手机号!' }],

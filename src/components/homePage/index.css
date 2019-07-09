@@ -215,6 +215,7 @@
   background: #fff;
   color: #2E4699;
   padding-left: 26px;
+  font-size: 15px;
 }
 .homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld {
   display: flex;
@@ -229,6 +230,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 15px;
 }
 .homePage .computerRoom .computerRoom-camera .fortification {
   height: 135px;

@@ -78,7 +78,7 @@ class UserInfo extends Component {
         align: "center",
         render: () => (
           <div>
-            <button>删除</button>|<button>编辑</button>
+              <span className="del">删除</span><span className="del">编辑</span>
           </div>
         )
       }

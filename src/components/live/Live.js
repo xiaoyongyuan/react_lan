@@ -37,7 +37,7 @@ class Live extends Component {
                 autoplay:false, //是否自动播放
             }, function onPlayerReady() {
                 this.src({
-                    src: 'rtmp://192.168.1.148/live/1000004',
+                    src: 'rtmp://192.168.1.176/live/1000020',
                     type:'rtmp/flv'
                 })
             });
