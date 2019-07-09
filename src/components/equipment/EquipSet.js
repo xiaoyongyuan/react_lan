@@ -797,9 +797,7 @@ class EquipAdd extends Component {
                       : (this.state.areaOne = this.state.initarea);
 
                     this.boundarydraw();
-                    this.forceUpdate();
                     this.state.newinitarea = [];
-                    this.forceUpdate();
                   }
                 );
               }
@@ -830,16 +828,13 @@ class EquipAdd extends Component {
                     defTwoAddBtn: true,
                     defTwoDelBtn: false,
                     defTwoSubBtn: true
-                    // areaTwo: this.state.initarea || this.state.newinitarea
                   },
                   () => {
                     this.state.initareaMove
                       ? (this.state.areaTwo = this.state.newinitarea)
                       : (this.state.areaTwo = this.state.initarea);
                     this.boundarydraw();
-                    this.forceUpdate();
                     this.state.newinitarea = [];
-                    this.forceUpdate();
                   }
                 );
               }
@@ -880,9 +875,7 @@ class EquipAdd extends Component {
                       : (this.state.areaThree = this.state.initarea);
 
                     this.boundarydraw();
-                    this.forceUpdate();
                     this.state.newinitarea = [];
-                    this.forceUpdate();
                   }
                 );
               }
@@ -1029,9 +1022,10 @@ class EquipAdd extends Component {
       // this.setState({ initarea }, () => this.draw());
       var newinitarea = initarea;
       newinitarea[movedot - 1] = [getcoord.x, getcoord.y];
-      this.setState({ newinitarea: newinitarea, initareaMove: true }, () =>
-        this.draw(newinitarea)
-      );
+      this.setState({ newinitarea: newinitarea }, () => {
+        this.draw(newinitarea);
+        this.state.initareaMove = true;
+      });
     } else if (scopeswitch) {
       //整体拖动
       const movepoint = this.state.movepoint;
@@ -1054,9 +1048,10 @@ class EquipAdd extends Component {
       initarea.map(el => {
         newinitarea.push([el[0] + x, el[1] + y]);
       });
-      this.setState({ newinitarea: newinitarea, initareaMove: true }, () =>
-        this.draw(newinitarea)
-      );
+      this.setState({ newinitarea: newinitarea }, () => {
+        this.draw(newinitarea);
+        this.state.initareaMove = true;
+      });
     }
   };
 
