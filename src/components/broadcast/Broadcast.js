@@ -32,16 +32,15 @@ class Broadcast extends Component {
         })
     };
     hanleLive=()=>{
-        /*this.setState({
+        this.setState({
             liveModel:true
-        });*/
-        // window.location.href="#/main/live";
+        });
     };
-   /* hanleLiveCancel=()=>{
+    hanleLiveCancel=()=>{
         this.setState({
             liveModel:false
         })
-    };*/
+    };
 
     render() {
         return(
@@ -77,7 +76,7 @@ class Broadcast extends Component {
                         <Col xxl={4} xl={8} className="gutter-row" key={i}>
                             <div className="gutter-box borderBot">
                                 <img className="videoImg" src={v.picpath?v.picpath:defenceImg} alt="" />
-                                <a href="#/main/live"><img className="videoBtn" src={playBtn} alt="" /></a>
+                                <img className="videoBtn" src={playBtn} alt="" onClick={this.hanleLive} />
                                 <div className="broadcastBott">
                                     <span className="broCircle"/><span className="broFont">{v.name}</span>
                                 </div>
@@ -86,7 +85,7 @@ class Broadcast extends Component {
                     ))]:[<div className="nodata"><img src={nodata} alt="" /></div>]
                 }
                 </Row>
-               {/* <Modal
+                <Modal
                     title="直播"
                     visible={this.state.liveModel}
                     width={900}
@@ -94,7 +93,7 @@ class Broadcast extends Component {
                     onCancel={this.hanleLiveCancel}
                 >
                     <Live />
-                </Modal>*/}
+                </Modal>
             </div>
         );
     }
