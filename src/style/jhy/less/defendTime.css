@@ -1,5 +1,4 @@
 .defendTime {
-  background-color: #e3e3e3;
   box-sizing: border-box;
 }
 .defendTime .selected {
@@ -14,49 +13,49 @@
   position: absolute;
   top: 30px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr:nth-of-type(2)::before {
   content: '星期二';
   position: absolute;
   top: 80px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr:nth-of-type(3)::before {
   content: '星期三';
   position: absolute;
   top: 130px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr:nth-of-type(4)::before {
   content: '星期四';
   position: absolute;
   top: 180px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr:nth-of-type(5)::before {
   content: '星期五';
   position: absolute;
   top: 230px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr:nth-of-type(6)::before {
   content: '星期六';
   position: absolute;
   top: 280px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr:last-of-type::before {
   content: '星期七';
   position: absolute;
   top: 330px;
   left: -60px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .tr :first-of-type .td::before {
   content: '1';
@@ -72,8 +71,8 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  border-top: 1px solid #d7d7d7;
-  border-bottom: 1px solid #d7d7d7;
+  border-top: 1px solid #cfcfcf;
+  border-bottom: 1px solid #cfcfcf;
 }
 .defendTime .td:first-of-type {
   border-left: 1px solid #d7d7d7;
@@ -100,91 +99,91 @@
   position: absolute;
   top: -28px;
   left: -5px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(5)::after {
   content: "2";
   position: absolute;
   top: -28px;
   left: -5px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(9)::after {
   content: "4";
   position: absolute;
   top: -28px;
   left: -5px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(13)::after {
   content: "6";
   position: absolute;
   top: -28px;
   left: -5px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(17)::after {
   content: "8";
   position: absolute;
   top: -28px;
   left: -5px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(21)::after {
   content: "10";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(25)::after {
   content: "12";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(29)::after {
   content: "14";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(33)::after {
   content: "16";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(37)::after {
   content: "18";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(41)::after {
   content: "20";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(45)::after {
   content: "22";
   position: absolute;
   top: -28px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(49)::after {
   content: "24";
   position: absolute;
   top: -26px;
   left: -10px;
-  color: #b9b5b5;
+  color: #595959;
 }
 .defendTime .td:nth-of-type(49)::before {
   content: none;
