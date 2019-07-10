@@ -8,6 +8,8 @@
   margin-right: 10px;
   position: relative;
   width: 100%;
+  display: flex;
+  align-items: center;
 }
 .homePageModel .homePageModelLeft .homeageImg {
   display: flex;

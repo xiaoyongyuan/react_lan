@@ -30,9 +30,10 @@ class Broadcast extends Component {
             }
         })
     };
-    hanleLive=()=>{
+    hanleLive=(videostreaming)=>{
         this.setState({
-            liveModel:true
+            liveModel:true,
+            videostreaming
         });
     };
     hanleLiveCancel=()=>{
@@ -80,7 +81,7 @@ class Broadcast extends Component {
                         <Col xxl={4} xl={8} className="gutter-row" key={i}>
                             <div className="gutter-box borderBot">
                                 <img className="videoImg" src={v.picpath?v.picpath:defenceImg} alt="" />
-                                <img className="videoBtn" src={playBtn} alt="" onClick={this.hanleLive} />
+                                <img className="videoBtn" src={playBtn} alt="" onClick={()=>this.hanleLive(v.videostreaming)} />
                                 <div className="broadcastBott">
                                     <span className="broCircle"/><span className="broFont">{v.name}</span>
                                 </div>
@@ -95,8 +96,10 @@ class Broadcast extends Component {
                     width={900}
                     footer={null}
                     onCancel={this.hanleLiveCancel}
+                    destroyOnClose={true}
+                    centered={true}
                 >
-                    <Live />
+                    <Live liveModel={this.state.liveModel} videostreaming={this.state.videostreaming} />
                 </Modal>
             </div>
         );

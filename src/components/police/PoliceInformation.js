@@ -19,12 +19,12 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:10,
+            pagesize:12,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
-            nextcode:"",
-            lastcode:""
+            policeListCode:'',
+            selectstatus:0
         };
     }
     componentDidMount() {
@@ -50,7 +50,7 @@ class PoliceInformation extends Component {
             cid:this.state.scid,
             status:this.state.selectstatus,
             pageindex:this.state.page,
-            pagesize:10,
+            pagesize:12,
             bdate:this.state.bdate,
             edate:this.state.edate
         };
@@ -84,7 +84,6 @@ class PoliceInformation extends Component {
                     }
                 }).then((res)=>{
                     if(res.success){
-                        console.log(res.data.nextcode?true:false,"0000")
                       if(res.data.Malarm && res.data){
                             res.data.Malarm.fieldresult.map((v)=>{
                                this.setState({
@@ -101,8 +100,8 @@ class PoliceInformation extends Component {
                               pic_width:res.data.Malarm.pic_width,
                               pic_height:res.data.Malarm.pic_height,
                               policeStatus:res.data.Malarm.status,
-                              nextcode:res.data.nextcode,
-                              lastcode:res.data.lastcode
+                              nextcode:res.data.Malarm.nextcode,
+                              lastcode:res.data.Malarm.lastcode
                           },()=>{
                               this.draw();
                           })
@@ -256,6 +255,7 @@ class PoliceInformation extends Component {
                     selectstatus:values.status,
                     bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):null,
                     edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):null,
+                    page:1,
                 },()=>{
                     this.handlePoliceList();
                 });
@@ -292,13 +292,14 @@ class PoliceInformation extends Component {
     };
     //上一个
     hanleUper=(text)=>{
+        console.log("last",this.state.lastcode,"next",this.state.nextcode)
         if(this.state.lastcode || this.state.nextcode){
             if(text==="uper"){
                 this.setState({
                     policeListCode:this.state.lastcode
                 },()=>{
                     this.getInfor();
-                })
+                });
             }else if(text==="next"){
                 this.setState({
                     policeListCode:this.state.nextcode
@@ -325,7 +326,7 @@ class PoliceInformation extends Component {
                                 initialValue:""
                             })(
                                 <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
-                                    <Option  value="">所有</Option>
+                                    <Option  value="">全部</Option>
                                     {
                                         this.state.equList.map((v,i)=>(
                                             <Option key={i} value={v.code}>{v.name}</Option>
@@ -337,11 +338,12 @@ class PoliceInformation extends Component {
                         <Form.Item>
                             <Form.Item label="报警状态">
                                 {getFieldDecorator('status',{
-                                    initialValue:""
+                                    initialValue:"-1"
                                 })(
                                     <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
-                                        <Option  value="">所有</Option>
-                                        <Option  value="1">警报</Option>
+                                        <Option  value="-1">全部</Option>
+                                        <Option  value="1">警情</Option>
+                                        <Option  value="0">未处理</Option>
                                         <Option  value="3">虚警</Option>
                                     </Select>
                                 )}
@@ -393,8 +395,8 @@ class PoliceInformation extends Component {
                         </Row>
                         <Row>
                             <Col className="updown">
-                                <Button onClick={()=>this.hanleUper("uper")} disabled={this.state.lastcode?true:false}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
-                                <Button onClick={()=>this.hanleUper("next")} disabled={this.state.nextcode?true:false}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
+                                <Button onClick={()=>this.hanleUper("uper")} ><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
+                                <Button onClick={()=>this.hanleUper("next")} ><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
                             </Col>
                         </Row>
                     </div>

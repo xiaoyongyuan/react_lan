@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import policeImg from "../../style/ztt/imgs/policeImg.png";
 import nodata from "../../style/imgs/nodata.png";
 import "./homeModel.less";
@@ -84,6 +83,8 @@ class HomePageModel extends Component{
                     areafield.lineTo(parseInt(datafield[i][1][0]*xi),parseInt(datafield[i][1][1]*yi));
                     areafield.lineTo(parseInt(datafield[i][2][0]*xi),parseInt(datafield[i][2][1]*yi));
                     areafield.lineTo(parseInt(datafield[i][3][0]*xi),parseInt(datafield[i][3][1]*yi));
+                    areafield.lineTo(parseInt(datafield[i][4][0]*xi),parseInt(datafield[i][4][1]*yi));
+                    areafield.lineTo(parseInt(datafield[i][5][0]*xi),parseInt(datafield[i][5][1]*yi));
                     areafield.lineTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
                     areafield.stroke();
                     areafield.closePath();
@@ -105,6 +106,18 @@ class HomePageModel extends Component{
             }
         }
     };
+    handleStatus=(status)=>{
+        switch (status) {
+            case 0:
+                return "未处理";
+            case 1:
+                return "警情";
+            case 3:
+                return "虚警";
+            default:
+                return;
+        }
+    }
     //控制显示围界与对象
     onChangeCumference=(checked,text)=>{
         this.setState({
@@ -133,7 +146,7 @@ class HomePageModel extends Component{
     render() {
         return(
                 this.state.homeDatail.map((v,i)=>(
-                    <div className="homePageModel">
+                    <div className="homePageModel" key={i}>
                         <div className="homePageModelLeft">
                             <div className="homeageImg">
                                 <div className="homeImg">
@@ -141,7 +154,7 @@ class HomePageModel extends Component{
                                     <img className="nodata" src={nodata} alt="" style={{display:v.picpath?"none":"block"}} />
                                 </div>
                                 <div className="homeImg">
-                                    <video controls="controls" autoplay="autoplay" src={v.videopath?v.videopath:defenceImg} alt=""/>
+                                    <video src={v.videopath} autoplay="autoplay" controls="controls" alt=""/>
                                 </div>
                             </div>
                             {/*<div className="nextHome">
@@ -156,8 +169,10 @@ class HomePageModel extends Component{
                                 <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
                                 <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType===1?"人员报警":"车辆报警"}</span></div>
                                 <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
+                                <div className="nameDevice"><span className="equName">报警状态</span><span className="equTimes">{this.handleStatus(v.status)}</span></div>
                                 <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>防区显示&nbsp;&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
                                 <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>目标显示&nbsp;&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
+
                             </div>
                             <div className="alarmImg">
                                 <div className="alarBg">

@@ -2,8 +2,21 @@ import React, { Component } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.min.css';
 import flash from "../../style/ztt/imgs/flash.png";
+import "./live.less";
 var ActiveXObject=window.ActiveXObject;
 class Live extends Component {
+    constructor(props){
+        super(props);
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.liveModel){
+            this.setState({
+                liveModel:nextProps.liveModel,
+            },()=>{
+                this.componentDidMount();
+            });
+        }
+    }
     componentDidMount() {
         //判断浏览器是否有flash插件
         var isIE=false;
@@ -25,6 +38,7 @@ class Live extends Component {
             console.log(e);
         }
         if(has_flash){
+            var _this=this;
             this.player = videojs('myvideo', {
                 preload: 'auto',// 预加载
                 bigPlayButton: {},// 大按钮
@@ -33,13 +47,15 @@ class Live extends Component {
                 height: 600,// 播放器高度
                 playbackRates: [1, 1.5, 2],
                 muted: false, //是否静音
-                loop : true, //是否循环播放
-                autoplay:false, //是否自动播放
+                loop : false, //是否循环播放
+                autoplay:true, //是否自动播放
             }, function onPlayerReady() {
-                this.src({
-                    src: 'rtmp://192.168.1.176/live/1000020',
-                    type:'rtmp/flv'
-                })
+                if(_this.props.videostreaming){
+                    this.src({
+                        src: _this.props.videostreaming,
+                        type:'rtmp/flv'
+                    })
+                }
             });
         }else{
             this.player = videojs('myvideo', {

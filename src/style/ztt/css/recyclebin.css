@@ -11,6 +11,14 @@
 .recycleBin .gutter-example {
   padding: 15px 15px;
 }
+.recycleBin .gutter-example .nodata {
+  width: 100%;
+  text-align: center;
+}
+.recycleBin .gutter-example .nodata img {
+  width: 70px;
+  height: 70px;
+}
 .recycleBin .gutter-example .gutter-row {
   margin: 15px 0;
 }
