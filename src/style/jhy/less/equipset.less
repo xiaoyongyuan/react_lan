@@ -1,6 +1,19 @@
 .equipset {
   height: 100%;
   padding: 30px;
+  position: relative;
+
+  .topbtn {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+
+    .ant-btn {
+      margin-left: 20px;
+    }
+  }
+
+
 
   .onlyadd {
     .baseinfo {
@@ -14,6 +27,27 @@
       margin-bottom: 20px;
       border-radius: 2px;
     }
+  }
+
+  .sliderWrap {
+    .ant-col .ant-form-item-control-wrapper .ant-col-sm-15 {
+      position: relative;
+    }
+
+    .thresholdset,
+    .frozentime {
+      display: inline-block;
+      width: 90%;
+    }
+  }
+
+
+
+  .sliderVal {
+    position: absolute;
+    display: inline-block;
+    width: 10%;
+    padding-left: 5px;
   }
 
   .definfo {
@@ -120,13 +154,7 @@
     height: 98%;
   }
 
-  .ant-tabs .ant-tabs-top-content {
-    // width: 90%;
-    // height: 90%;
-    // margin: 0 auto;
-    // padding: 20px;
-    // position: relative;
-  }
+
 
 
   .backdrop {
@@ -135,25 +163,6 @@
     height: auto;
   }
 
-  // .defsetwrap {
-  //   border: 1px solid #eeeeee;
-  //   background: #f8f8f8;
-
-  //   .defsetit {
-  //     .verhorcenter;
-  //     height: 40px;
-  //   }
-
-  //   .defset {
-  //     height: 40px;
-  //     border: 1px solid #eeeeee;
-  //     .verhorcenter;
-
-  //     .ant-radio-wrapper {
-  //       color: #243f97;
-  //     }
-  //   }
-  // }
 
   .defopt {
     height: 576px;

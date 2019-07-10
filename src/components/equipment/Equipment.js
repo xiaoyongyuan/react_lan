@@ -1,4 +1,4 @@
-import { Card, Col, Icon, Row, Pagination } from "antd";
+import { Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
 import "../../style/jhy/less/equiplist.less";
 import "../../style/jhy/less/reset.less";

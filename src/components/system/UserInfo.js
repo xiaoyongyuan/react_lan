@@ -1,7 +1,17 @@
 import React, { Component } from "react";
-import { Row, Icon, Button, Modal, Form, Input, Select, Divider } from "antd";
+import {
+  Row,
+  Icon,
+  Button,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Divider,
+  message
+} from "antd";
 import Etable from "../common/Etable";
-import axios from "../../axios/index";
+import axios from "axios";
 import "../../style/jhy/less/userinfo.less";
 const { Option } = Select;
 class UserInfo extends Component {
@@ -18,22 +28,27 @@ class UserInfo extends Component {
   };
   handleAdd = () => {
     this.props.form.validateFields((err, values) => {
+      console.log(values);
       if (!err) {
         this.setState({
           addModel: false
         });
-        axios
-          .ajax({
-            method: "post",
-            url: window.g.loginURL + "/api/autocode/auto",
-            data: {
-              user: values
-            }
-          })
-          .then(res => {
-            if (res.success) {
-            }
-          });
+        axios({
+          method: "post",
+          url: "http://192.168.1.176:8111/api/autocode/auto",
+          data: {
+            account: values.account,
+            emailaddress: values.emailaddress,
+            realname: values.realname,
+            utype: values.utype,
+            ifsys: values.account === "admin" ? 1 : 0,
+            companycode: 100000
+          }
+        }).then(res => {
+          if (res.success) {
+            message.success("添加用户成功");
+          }
+        });
       }
     });
   };
@@ -146,29 +161,29 @@ class UserInfo extends Component {
           footer={null}
         >
           <Form {...formlayout} onSubmit={this.handleAdd}>
-            <Form.Item label="公司编码" key="companycode">
-              {getFieldDecorator("companycode", {
+            <Form.Item label="账号" key="account">
+              {getFieldDecorator("account", {
                 rules: [
                   {
                     required: true,
-                    message: "请输入公司编码!"
+                    message: "请输入账号!"
                   }
                 ]
-              })(<Input />)}
+              })(<Input maxLength="10" />)}
             </Form.Item>
-            <Form.Item label="用户名" key="username">
-              {getFieldDecorator("account")(<Input />)}
+            <Form.Item label="用户名" key="realname">
+              {getFieldDecorator("realname")(<Input />)}
             </Form.Item>
-            <Form.Item label="昵称" key="nickname">
-              {getFieldDecorator("nickname")(<Input />)}
+            <Form.Item label="邮箱地址" key="emailaddress">
+              {getFieldDecorator("emailaddress")(<Input />)}
             </Form.Item>
             <Form.Item label="角色权限" key="role">
-              {getFieldDecorator("realname", {
-                initialValue: "0"
+              {getFieldDecorator("utype", {
+                initialValue: 1
               })(
                 <Select>
-                  <Option value="0">管理员</Option>
-                  <Option value="1">普通用户</Option>
+                  <Option value={1}>管理员</Option>
+                  <Option value={0}>普通用户</Option>
                 </Select>
               )}
             </Form.Item>
