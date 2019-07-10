@@ -13,16 +13,13 @@ class DefendTime extends Component {
     this.dataRecover();
     var key = 0;
     for (let i = 0; i < 7; i++) {
-      if (
-        $($($(".tr")[i]).find(".td")[48]).mousemove(function(e) {
-          key = 0;
-          return false;
-        })
-      ) {
-      }
+      $($($(".tr")[i]).find(".td")[48]).mousemove(function(e) {
+        key = 0;
+        return false;
+      });
     }
     $("#tab").mousemove(function(e) {
-      if (1 == key && e.target.tagName == "TD") {
+      if (1 === key && e.target.tagName === "TD") {
         $(e.target)
           .addClass("selected")
           .css("background", "#32e8fe");
@@ -149,6 +146,7 @@ class DefendTime extends Component {
         $($($(".tr")[v - 1]).find(".td")[m - 1])
           .addClass("selected")
           .css("background", "#32e8fe");
+        return "";
       });
     }
   };

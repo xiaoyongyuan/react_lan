@@ -8,8 +8,7 @@ import {
   Descriptions,
   List,
   Radio,
-  Switch,
-  message
+  Switch
 } from "antd";
 import axios from "../../axios";
 import "../../style/jhy/less/overview.less";
@@ -184,12 +183,12 @@ class Overview extends Component {
             <Row>
               <Col span={5}>
                 <span className="syslabel">总线程数</span>
-                <span className="prog">73</span>
+                <span className="prog">{datalist.TotalthreadNum}</span>
               </Col>
               <Col span={5}>
                 <span className="syslabel">CUP使用率</span>
                 <Progress
-                  percent={20}
+                  percent={parseInt(datalist.cpuUsed)}
                   format={percent => {
                     return percent;
                   }}
