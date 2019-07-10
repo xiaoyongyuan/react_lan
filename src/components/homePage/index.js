@@ -3,11 +3,13 @@ import "./index.less";
 import {Modal,Row,Col} from "antd";
 import alarmBg from "../../style/ztt/imgs/alarmBg.png";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
-import pingmian from "../../style/ztt/imgs/pingmian.png";
 import playBtn from "../../style/ztt/imgs/playBtn.png";
 import HomePageModel from "./HomePageModel";
 import axios from "../../axios/index";
 import nodata from "../../style/imgs/nodata.png";
+import 'swiper/dist/css/swiper.min.css';
+import Swiper from 'swiper/dist/js/swiper.js';
+import EchartsLegend from "./EchartsLegend";
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -19,6 +21,18 @@ class Index extends Component {
     }
     params={};
     componentDidMount() {
+        new Swiper(".swiper-container", {
+            loop: false, //循环
+            autoplay: {
+                //滑动后继续播放（不写官方默认暂停）
+                disableOnInteraction: false
+            }, //可选选项，自动滑动
+            slidesPerView: 5,
+            spaceBetween: 10,
+            observer: true,
+            observeParents: true,
+            observeSlideChildren: true,
+        });
         this.hanleBgColor1();
         this.hanleBgColor2();
         this.getList();
@@ -64,7 +78,7 @@ class Index extends Component {
             data:{}
         }).then((res)=>{
             this.setState({
-                policeList:res.data.slice(0,6)
+                policeList:res.data.slice(0,20)
             })
         })
     };
@@ -203,7 +217,7 @@ class Index extends Component {
                                 <p className="roomAlarm"><span className="statusImg2" /><span className="status2">无报警状态</span></p>
                                 <p className="roomAlarm"><span className="statusImg3" /><span className="status3">离线</span></p>
                             </div>
-                            <div className="computer"><img src={pingmian} alt=""/></div>
+                            <div className="computer"><EchartsLegend /></div>
                         </div>
 
                     </div>
@@ -245,21 +259,25 @@ class Index extends Component {
                     <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><span className="alarminfornikNameBg"/></div></a>
                     <div className="gutter-example">
                         <Row gutter={16}>
-                            {
-                                this.state.policeList.map((v,i)=>(
-                                    <Col className="gutter-row" span={4} key={i}>
-                                        <div className="gutter-box">
-                                            <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
-                                            <img className="alarmVideoBtn" src={playBtn} onClick={()=>this.hanleWithdrawal(v.code)} />
-                                            <div className="alarminforBg">
-                                                <span className="alarminforCirle"/>
-                                                <span className="alarminforFont">{v.name}</span>
-                                                <span className="alarminforVideo"/>
-                                            </div>
-                                        </div>
-                                    </Col>
-                                ))
-                            }
+                            <div className="swiper-container">
+                                <div className="swiper-wrapper">
+                                    {
+                                        this.state.policeList.map((v,i)=>(
+                                            <Col className="gutter-row" span={4} key={i}>
+                                                <div className="gutter-box">
+                                                    <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
+                                                    <img className="alarmVideoBtn" src={playBtn} onClick={()=>this.hanleWithdrawal(v.code)} />
+                                                    <div className="alarminforBg">
+                                                        <span className="alarminforCirle"/>
+                                                        <span className="alarminforFont">{v.name}</span>
+                                                        <span className="alarminforVideo"/>
+                                                    </div>
+                                                </div>
+                                            </Col>
+                                        ))
+                                    }
+                                </div>
+                            </div>
                         </Row>
                     </div>
                 </div>

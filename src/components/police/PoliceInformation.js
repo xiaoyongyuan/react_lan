@@ -19,7 +19,7 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:12,
+            pagesize:10,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
@@ -38,7 +38,7 @@ class PoliceInformation extends Component {
             spaceBetween: 10,
             observer: true,
             observeParents: true,
-            observeSlideChildren: true
+            observeSlideChildren: true,
         });
        this.hanleEquipment();
        this.hanleQuantity();
@@ -50,7 +50,7 @@ class PoliceInformation extends Component {
             cid:this.state.scid,
             status:this.state.selectstatus,
             pageindex:this.state.page,
-            pagesize:12,
+            pagesize:this.state.pagesize,
             bdate:this.state.bdate,
             edate:this.state.edate
         };
@@ -92,6 +92,7 @@ class PoliceInformation extends Component {
                             });
                           this.setState({
                               alarm:res.data.Malarm,
+                              alarmCid:res.data.Malarm.cid,
                               alarmImg:res.data.Malarm.picpath,
                               malarminfo:res.data.Malarm.Malarminfo,
                               fields:res.data.Malarm.field,
@@ -109,6 +110,23 @@ class PoliceInformation extends Component {
                     }
                 })
             }
+        }
+    };
+    //围界去重
+    hanleRemoval=(e)=>{
+        e.preventDefault();
+        if(this.state.alarmCid){
+            let ele = document.getElementById("canvasobj");
+            let canvsclent = ele.getBoundingClientRect();
+            let x=parseInt(e.clientX-canvsclent.left * (ele.width / canvsclent.width));
+            let y=parseInt(e.clientY-canvsclent.top*(ele.height / canvsclent.height));
+            console.log(x,y)
+            /*this.state.fieldresult.map((v)=>{
+                const x = 510 / this.state.pic_width, y = 278 / this.state.pic_height;
+                if(e.clientX<v.x*x && e.clientX<v.y*y){
+                    console.log(e.clientX,e.clientX)
+                }
+            });*/
         }
     };
     //画围界
@@ -290,6 +308,13 @@ class PoliceInformation extends Component {
             }
         })
     };
+    onShowSizeChange=(current, pageSize)=> {
+        this.setState({
+            pagesize:pageSize
+        },()=>{
+            this.handlePoliceList();
+        });
+    };
     //上一个
     hanleUper=(text)=>{
         console.log("last",this.state.lastcode,"next",this.state.nextcode)
@@ -367,7 +392,7 @@ class PoliceInformation extends Component {
                             <Col className="main-left-L" span={12}>
                                 <div className="img-up-fu">
                                     <div className="alarmImg">
-                                        <canvas id="canvasobj" width="510px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
+                                        <canvas id="canvasobj" onClick={this.hanleRemoval} width="510px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
                                         <img src={nodata} alt="" className="nodata" style={{display:this.state.alarmImg?"none":"block"}} />
                                     </div>
                                     <div className="img-up-fu-word">
@@ -429,6 +454,14 @@ class PoliceInformation extends Component {
                                 </Col>
                                 <Col className="equipName-right" span={16}>
                                     <span className="equipName-right-word">{this.state.alarm.atime}</span>
+                                </Col>
+                            </Row>
+                            <Row className="equipName">
+                                <Col className="equipName-left" span={8}>
+                                    报警状态
+                                </Col>
+                                <Col className="equipName-right" span={16}>
+                                    <span className="equipName-right-word">{this.state.alarm.name}</span>
                                 </Col>
                             </Row>
                             <Row className="showTaget">
@@ -502,7 +535,7 @@ class PoliceInformation extends Component {
                     }
                 </Row>
                 <div className="nodata"><img src={nodata} alt="" style={{width:"80px",height:"78px",display:this.state.policeList.length>0?"none":"block"}} /></div>
-                <div className="pagination"><Pagination hideOnSinglePage={true} defaultCurrent={this.state.page} current={this.state.page} total={this.state.totalcount} pageSize={this.state.pagesize} onChange={this.hanlePage} style={{display:this.state.policeList.length>0?"block":"none"}} /></div>
+                <div className="pagination"><Pagination showSizeChanger={true} hideOnSinglePage={true}  onShowSizeChange={this.onShowSizeChange} defaultCurrent={this.state.page} current={this.state.page} total={this.state.totalcount} pageSize={this.state.pagesize} onChange={this.hanlePage} style={{display:this.state.policeList.length>0?"block":"none"}} /></div>
             </div>
         );
     }
