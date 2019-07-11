@@ -151,28 +151,40 @@ class PoliceInformation extends Component {
             const datafield = this.state.fields;
             if (this.state.field && datafield.length) {
                 const xi = 510 / 704, yi = 278 / 576;
+                let areafield = ele.getContext("2d");
+
                 for(let i=0;i<datafield.length;i++){
-                    let obj={};
-                    var varname="var"+i;
-                    obj[varname] = "value"+i;
-                    console.log(obj)
+                  // console.log(datafield[i].pointList)
+                     areafield.lineWidth = 1;
+                     areafield.strokeStyle = '#f00';
+                    datafield[i].pointList.map((el, i) => {
+                         areafield.beginPath();
+                         areafield.moveTo(parseInt(datafield[i].pointList[i][0][0] * xi), parseInt(datafield[i].pointList[i][0][1] * yi));
+                         areafield.lineTo(parseInt(datafield[i].pointList[i][1][0] * xi), parseInt(datafield[i].pointList[i][1][1] * yi));
+                         areafield.lineTo(parseInt(datafield[i].pointList[i][2][0] * xi), parseInt(datafield[i].pointList[i][2][1] * yi));
+                         areafield.lineTo(parseInt(datafield[i].pointList[i][3][0] * xi), parseInt(datafield[i].pointList[i][3][1] * yi));
+                         areafield.lineTo(parseInt(datafield[i].pointList[i][4][0] * xi), parseInt(datafield[i].pointList[i][4][1] * yi));
+                         areafield.lineTo(parseInt(datafield[i].pointList[i][5][0] * xi), parseInt(datafield[i].pointList[i][5][1] * yi));
+                         areafield.lineTo(parseInt(datafield[i].pointList[i][0][0] * xi), parseInt(datafield[i].pointList[i][0][1] * yi));
+                         areafield.stroke();
+                         areafield.closePath();
+                         return '';
+                     })
                 }
-                /*let areafield = ele.getContext("2d");
-                area.lineWidth = 1;
-                areafield.strokeStyle = '#f00';*/
-               /* datafield.map((el, i) => {
-                    areafield.beginPath();
-                    areafield.moveTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
-                    areafield.lineTo(parseInt(datafield[i][1][0] * xi), parseInt(datafield[i][1][1] * yi));
-                    areafield.lineTo(parseInt(datafield[i][2][0] * xi), parseInt(datafield[i][2][1] * yi));
-                    areafield.lineTo(parseInt(datafield[i][3][0] * xi), parseInt(datafield[i][3][1] * yi));
-                    areafield.lineTo(parseInt(datafield[i][4][0] * xi), parseInt(datafield[i][4][1] * yi));
-                    areafield.lineTo(parseInt(datafield[i][5][0] * xi), parseInt(datafield[i][5][1] * yi));
-                    areafield.lineTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
-                    areafield.stroke();
-                    areafield.closePath();
-                    return '';
-                })*/
+
+               /*
+                  let obj={};
+                let dataMany="";
+               for(let i=0;i<datafield.length;i++){
+                    var varname="var";
+                    obj[varname] = "value"+i;
+                    dataMany=obj.var;
+                    dataMany=ele.getContext("2d");
+                    dataMany.rect(0,0,100,100);
+                    dataMany.fillStyle="#006cff";
+                    dataMany.stroke();
+                }*/
+
             }
             const objs = this.state.fieldresult;
             if (this.state.obj && objs.length) {
@@ -272,7 +284,7 @@ class PoliceInformation extends Component {
             pic_width:picImg.pic_width,
             pic_height:picImg.pic_height,
         },()=>{
-            this.draw();
+            //this.draw();
         })
     };
     //查看详情
@@ -323,7 +335,7 @@ class PoliceInformation extends Component {
         this.setState({
             [text]: checked,
         },()=>{
-            this.draw();
+            //this.draw();
         });
     };
     //自动更新
