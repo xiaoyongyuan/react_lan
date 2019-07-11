@@ -59,7 +59,7 @@ class HomePageModel extends Component{
                     policeStatus:res.data[0].status,
                     policeCode:res.data[0].code,
                 },()=>{
-                    this.draw();
+                    //this.draw();
                 })
             }
         })

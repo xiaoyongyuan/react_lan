@@ -103,7 +103,7 @@ class PoliceInformation extends Component {
                               nextcode:res.data.Malarm.nextcode,
                               lastcode:res.data.Malarm.lastcode
                           },()=>{
-                              this.draw();
+                              //this.draw();
                               this.updateStatus();
                           })
                       }
@@ -147,17 +147,19 @@ class PoliceInformation extends Component {
         let area = ele.getContext("2d");
         area.clearRect(0, 0, 704, 576);//清除之前的绘图
         area.lineWidth = 1;
-        /*let context = ele.getContext("2d");
-        context.fillStyle="#FF0000";
-        context.fillRect(0,0,150,75);*/
         if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length) {
                 const xi = 510 / 704, yi = 278 / 576;
-                let areafield = ele.getContext("2d");
+                for(let i=0;i<datafield.length;i++){
+                    let obj={};
+                    var varname="var"+i;
+                    obj[varname] = "value"+i;
+                    console.log(obj)
+                }
+                /*let areafield = ele.getContext("2d");
                 area.lineWidth = 1;
-                areafield.strokeStyle = '#f00';
-
+                areafield.strokeStyle = '#f00';*/
                /* datafield.map((el, i) => {
                     areafield.beginPath();
                     areafield.moveTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
