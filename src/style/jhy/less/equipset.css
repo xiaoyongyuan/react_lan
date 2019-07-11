@@ -1,6 +1,15 @@
 .equipset {
   height: 100%;
   padding: 30px;
+  position: relative;
+}
+.equipset .topbtn {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+}
+.equipset .topbtn .ant-btn {
+  margin-left: 20px;
 }
 .equipset .onlyadd .baseinfo {
   width: 250px;
@@ -12,6 +21,20 @@
   color: #fff;
   margin-bottom: 20px;
   border-radius: 2px;
+}
+.equipset .sliderWrap .ant-col .ant-form-item-control-wrapper .ant-col-sm-15 {
+  position: relative;
+}
+.equipset .sliderWrap .thresholdset,
+.equipset .sliderWrap .frozentime {
+  display: inline-block;
+  width: 90%;
+}
+.equipset .sliderVal {
+  position: absolute;
+  display: inline-block;
+  width: 10%;
+  padding-left: 5px;
 }
 .equipset .definfo {
   border: 1px solid #eeeeee;

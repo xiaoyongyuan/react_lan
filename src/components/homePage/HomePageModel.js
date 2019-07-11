@@ -60,6 +60,7 @@ class HomePageModel extends Component{
                     policeCode:res.data[0].code,
                 },()=>{
                     this.draw();
+                    this.policeStatus();
                 })
             }
         })
@@ -106,18 +107,26 @@ class HomePageModel extends Component{
             }
         }
     };
-    handleStatus=(status)=>{
-        switch (status) {
+    policeStatus=()=>{
+        let text='';
+        switch (this.state.policeStatus) {
             case 0:
-                return "未处理";
+                text="未处理";
+                break;
             case 1:
-                return "警情";
+                text="警情";
+                break;
             case 3:
-                return "虚警";
+                text="虚警";
+                break;
             default:
-                return;
+                text='未处理';
+                break;
         }
-    }
+        this.setState({
+            policeStatus:text,
+        })
+    };
     //控制显示围界与对象
     onChangeCumference=(checked,text)=>{
         this.setState({
@@ -138,7 +147,15 @@ class HomePageModel extends Component{
                 }
             }).then((res)=>{
                 if(res.success){
-                    message.info(res.msg);
+                    let policeStatus=this.state.policeStatus;
+                    policeStatus=status;
+                    this.setState({
+                        policeStatus:policeStatus
+                    },()=>{
+                        this.policeStatus();
+                        message.info(res.msg);
+                    })
+
                 }
             })
         }
@@ -169,7 +186,7 @@ class HomePageModel extends Component{
                                 <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
                                 <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType===1?"人员报警":"车辆报警"}</span></div>
                                 <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
-                                <div className="nameDevice"><span className="equName">报警状态</span><span className="equTimes">{this.handleStatus(v.status)}</span></div>
+                                <div className="nameDevice"><span className="equName">报警状态</span><span className="equTimes">{this.state.policeStatus}</span></div>
                                 <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>防区显示&nbsp;&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
                                 <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>目标显示&nbsp;&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
 
