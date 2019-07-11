@@ -8,6 +8,11 @@ class DefendTime extends Component {
     super(props);
     this.state = {};
   }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.equipData.timelist != nextProps.timelist) {
+      this.dataRecover();
+    }
+  }
   componentDidMount() {
     const _this = this;
     this.dataRecover();
@@ -42,18 +47,18 @@ class DefendTime extends Component {
             weekdata.push(j + 1);
           }
         }
+
         backdata.push(`${weekdata}`);
       }
       var timelist = {};
-      timelist["1"] = backdata[0];
-      timelist["2"] = backdata[1];
-      timelist["3"] = backdata[2];
-      timelist["4"] = backdata[3];
-      timelist["5"] = backdata[4];
-      timelist["6"] = backdata[5];
-      timelist["7"] = backdata[6];
+      timelist["1"] = backdata[0].replace(/\"/g, "'");
+      timelist["2"] = backdata[1].replace(/\"/g, "'");
+      timelist["3"] = backdata[2].replace(/\"/g, "'");
+      timelist["4"] = backdata[3].replace(/\"/g, "'");
+      timelist["5"] = backdata[4].replace(/\"/g, "'");
+      timelist["6"] = backdata[5].replace(/\"/g, "'");
+      timelist["7"] = backdata[6].replace(/\"/g, "'");
 
-      console.log(timelist);
       const trantime = [timelist];
       axios
         .ajax({
@@ -72,53 +77,78 @@ class DefendTime extends Component {
     });
 
     $("#deleteData").click(function() {
-      axios
-        .ajax({
-          method: "delete",
-          url: window.g.loginURL + "/api/api/zworkingtime",
-          data: {
-            ids: _this.props.code ? _this.props.code : _this.props.addBackCode
+      if (_this.props.equipData.timelist != null) {
+        axios
+          .ajax({
+            method: "delete",
+            url: window.g.loginURL + "/api/api/zworkingtime",
+            data: {
+              ids: _this.props.code ? _this.props.code : _this.props.addBackCode
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("删除成功");
+              for (var h = 0; h < $(".td").length; h++) {
+                if ($($(".td")[h]).hasClass("selected")) {
+                  $($(".td")[h])
+                    .removeClass("selected")
+                    .css("background", "#fff");
+                }
+              }
+            }
+          });
+      } else {
+        for (var h = 0; h < $(".td").length; h++) {
+          if ($($(".td")[h]).hasClass("selected")) {
+            $($(".td")[h])
+              .removeClass("selected")
+              .css("background", "#fff");
           }
-        })
-        .then(res => {
-          if (res.success) {
-            message.success("删除成功");
-          }
-        });
-
-      for (var h = 0; h < $(".td").length; h++) {
-        if ($($(".td")[h]).hasClass("selected")) {
-          $($(".td")[h]).removeClass("selected");
         }
       }
     });
 
     $(".delete").each(function(k, v) {
       $($(".delete")[k]).click(function() {
-        axios
-          .ajax({
-            method: "delete",
-            url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
-            data: {
-              cid: _this.props.code
-                ? _this.props.code
-                : _this.props.addBackCode,
-              deleteNum: k + 1
-            }
-          })
-          .then(res => {
-            if (res.success) {
-              message.success("删除成功");
-            }
-          });
-        if (
-          $($("tr")[k])
-            .find(".td")
-            .hasClass("selected")
-        ) {
-          $($("tr")[k])
-            .find(".td")
-            .removeClass("selected");
+        if (_this.props.equipData.timelist[k + 1]) {
+          axios
+            .ajax({
+              method: "delete",
+              url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
+              data: {
+                cid: _this.props.code
+                  ? _this.props.code
+                  : _this.props.addBackCode,
+                deleteNum: k + 1
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("删除成功");
+                if (
+                  $($("tr")[k])
+                    .find(".td")
+                    .hasClass("selected")
+                ) {
+                  $($("tr")[k])
+                    .find(".td")
+                    .removeClass("selected")
+                    .css("background", "#fff");
+                }
+              }
+            });
+        } else {
+          if (
+            $($("tr")[k])
+              .find(".td")
+              .hasClass("selected")
+          ) {
+            $($("tr")[k])
+              .find(".td")
+              .removeClass("selected")
+              .css("background", "#fff");
+          }
         }
       });
     });

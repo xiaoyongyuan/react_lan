@@ -63,7 +63,8 @@ class Equipment extends Component {
             style={{
               marginBottom: "16px",
               cursor: "pointer",
-              height: "25vh"
+              height: "25vh",
+              background: "#fff"
             }}
           >
             <div className="addEquip">
@@ -80,7 +81,11 @@ class Equipment extends Component {
             ? this.state.equipList.map((val, inx) => (
                 <Col
                   md={6}
-                  style={{ marginBottom: "16px", height: "25vh" }}
+                  style={{
+                    marginBottom: "16px",
+                    height: "25vh",
+                    background: "#fff"
+                  }}
                   key={inx}
                   className="equipWrap"
                 >
@@ -99,7 +104,7 @@ class Equipment extends Component {
                     >
                       <p className="elli tit">
                         <span className="titpoint" />
-                        {val.location}
+                        {val.name}
                       </p>
                     </div>
                     <ul className="extraWrap">

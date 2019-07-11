@@ -110,11 +110,11 @@ class Overview extends Component {
                   <Col span={8}>
                     <p className="desc">
                       <span className="dot bluedot" />
-                      CUP使用率
+                      CPU使用率
                     </p>
                     <p className="desc">
                       <span className="dot graydot" />
-                      CUP空闲率
+                      CPU空闲率
                     </p>
                   </Col>
                 </Row>
@@ -186,7 +186,7 @@ class Overview extends Component {
                 <span className="prog">{datalist.TotalthreadNum}</span>
               </Col>
               <Col span={5}>
-                <span className="syslabel">CUP使用率</span>
+                <span className="syslabel">CPU使用率</span>
                 <Progress
                   percent={parseInt(datalist.cpuUsed)}
                   format={percent => {
