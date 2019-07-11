@@ -24,6 +24,8 @@
 }
 .recycleBin .gutter-example .gutter-row .gutter-box {
   position: relative;
+  min-height: 20vh;
+  border: 1px solid #dcdcdc;
 }
 .recycleBin .gutter-example .gutter-row .gutter-box .recycleBg {
   position: absolute;
@@ -63,6 +65,7 @@
   padding: 14px 0;
   border-right: 1px solid #d5d8e0;
   font-size: 15px;
+  cursor: pointer;
 }
 .recycleBin .gutter-example .recycleBinBtn span:nth-child(2) {
   display: inline-block;
@@ -70,5 +73,6 @@
   text-align: center;
   color: #737988;
   font-size: 15px;
+  cursor: pointer;
 }
 /*# sourceMappingURL=recyclebin.css.map */

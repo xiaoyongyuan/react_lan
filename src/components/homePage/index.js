@@ -16,28 +16,25 @@ class Index extends Component {
       this.state = {
           fortification:"已布防",
           visible:false,
-          policeList:[]
+          policeList:[],
       };
     }
     params={};
     componentDidMount() {
-        new Swiper(".swiper-container", {
-            loop: false, //循环
-            autoplay: {
-                //滑动后继续播放（不写官方默认暂停）
-                disableOnInteraction: false
-            }, //可选选项，自动滑动
-            slidesPerView: 5,
-            spaceBetween: 10,
-            observer: true,
-            observeParents: true,
-            observeSlideChildren: true,
-        });
         this.hanleBgColor1();
         this.hanleBgColor2();
         this.getList();
         this.equipmentCount();
         this.policeCount();
+        new Swiper ('.swiper-container', {
+            loop:true,
+            slidesPerView: 3,
+            centeredSlides: true,
+            spaceBetween:10,
+            /*virtual: {
+                slides:this.state.policeList,
+            }*/
+        });
     }
     //设备数量
     equipmentCount=()=>{

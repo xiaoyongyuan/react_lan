@@ -80,7 +80,7 @@ class Broadcast extends Component {
                         [this.state.liveList.map((v,i)=>(
                         <Col xxl={4} xl={8} className="gutter-row" key={i}>
                             <div className="gutter-box borderBot">
-                                <img className="videoImg" src={v.picpath?v.picpath:defenceImg} alt="" />
+                                <img className="videoImg" src={v.basemap?v.basemap:defenceImg} alt="" />
                                 <img className="videoBtn" src={playBtn} alt="" onClick={()=>this.hanleLive(v.videostreaming)} />
                                 <div className="broadcastBott">
                                     <span className="broCircle"/><span className="broFont">{v.name}</span>
