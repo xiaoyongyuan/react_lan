@@ -59,7 +59,7 @@ class HomePageModel extends Component{
                     policeStatus:res.data[0].status,
                     policeCode:res.data[0].code,
                 },()=>{
-                    //this.draw();
+                    this.draw();
                 })
             }
         })
@@ -75,21 +75,23 @@ class HomePageModel extends Component{
             if(this.state.field && datafield.length){
                 const xi=400/704, yi=280/576;
                 let areafield = ele.getContext("2d");
-                area.lineWidth=1;
-                areafield.strokeStyle='#f00';
-                datafield.map((el,i)=>{
-                    areafield.beginPath();
-                    areafield.moveTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
-                    areafield.lineTo(parseInt(datafield[i][1][0]*xi),parseInt(datafield[i][1][1]*yi));
-                    areafield.lineTo(parseInt(datafield[i][2][0]*xi),parseInt(datafield[i][2][1]*yi));
-                    areafield.lineTo(parseInt(datafield[i][3][0]*xi),parseInt(datafield[i][3][1]*yi));
-                    areafield.lineTo(parseInt(datafield[i][4][0]*xi),parseInt(datafield[i][4][1]*yi));
-                    areafield.lineTo(parseInt(datafield[i][5][0]*xi),parseInt(datafield[i][5][1]*yi));
-                    areafield.lineTo(parseInt(datafield[i][0][0]*xi),parseInt(datafield[i][0][1]*yi));
-                    areafield.stroke();
-                    areafield.closePath();
-                    return '';
-                })
+                for(let i=0;i<datafield.length;i++){
+                    let list=datafield[i].pointList;
+                    for(let a=0;a<list.length;a++){
+                        areafield.lineWidth = 1;
+                        areafield.strokeStyle = '#f00';
+                        areafield.beginPath();
+                        areafield.moveTo(parseInt(list[0][0] * xi), parseInt(list[0][1] * yi));
+                        areafield.lineTo(parseInt(list[1][0] * xi), parseInt(list[1][1] * yi));
+                        areafield.lineTo(parseInt(list[2][0] * xi), parseInt(list[2][1] * yi));
+                        areafield.lineTo(parseInt(list[3][0] * xi), parseInt(list[3][1] * yi));
+                        areafield.lineTo(parseInt(list[4][0] * xi), parseInt(list[4][1] * yi));
+                        areafield.lineTo(parseInt(list[5][0] * xi), parseInt(list[5][1] * yi));
+                        areafield.lineTo(parseInt(list[0][0] * xi), parseInt(list[0][1] * yi));
+                        areafield.stroke();
+                        areafield.closePath();
+                    }
+                }
             }
             const objs=this.state.fieldresult;
             if(this.state.obj && objs.length){
@@ -123,7 +125,7 @@ class HomePageModel extends Component{
         this.setState({
             [text]: checked,
         },()=>{
-            //this.draw();
+            this.draw();
         });
     };
     //修改报警状态

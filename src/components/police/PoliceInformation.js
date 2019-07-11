@@ -103,7 +103,7 @@ class PoliceInformation extends Component {
                               nextcode:res.data.Malarm.nextcode,
                               lastcode:res.data.Malarm.lastcode
                           },()=>{
-                              //this.draw();
+                              this.draw();
                               this.updateStatus();
                           })
                       }
@@ -150,41 +150,25 @@ class PoliceInformation extends Component {
         if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length) {
-                const xi = 510 / 704, yi = 278 / 576;
+                const xi=400/704, yi=280/576;
                 let areafield = ele.getContext("2d");
-
                 for(let i=0;i<datafield.length;i++){
-                  // console.log(datafield[i].pointList)
-                     areafield.lineWidth = 1;
-                     areafield.strokeStyle = '#f00';
-                    datafield[i].pointList.map((el, i) => {
-                         areafield.beginPath();
-                         areafield.moveTo(parseInt(datafield[i].pointList[i][0][0] * xi), parseInt(datafield[i].pointList[i][0][1] * yi));
-                         areafield.lineTo(parseInt(datafield[i].pointList[i][1][0] * xi), parseInt(datafield[i].pointList[i][1][1] * yi));
-                         areafield.lineTo(parseInt(datafield[i].pointList[i][2][0] * xi), parseInt(datafield[i].pointList[i][2][1] * yi));
-                         areafield.lineTo(parseInt(datafield[i].pointList[i][3][0] * xi), parseInt(datafield[i].pointList[i][3][1] * yi));
-                         areafield.lineTo(parseInt(datafield[i].pointList[i][4][0] * xi), parseInt(datafield[i].pointList[i][4][1] * yi));
-                         areafield.lineTo(parseInt(datafield[i].pointList[i][5][0] * xi), parseInt(datafield[i].pointList[i][5][1] * yi));
-                         areafield.lineTo(parseInt(datafield[i].pointList[i][0][0] * xi), parseInt(datafield[i].pointList[i][0][1] * yi));
-                         areafield.stroke();
-                         areafield.closePath();
-                         return '';
-                     })
+                    let list=datafield[i].pointList;
+                    for(let a=0;a<list.length;a++){
+                        areafield.lineWidth = 1;
+                        areafield.strokeStyle = '#f00';
+                        areafield.beginPath();
+                        areafield.moveTo(parseInt(list[0][0] * xi), parseInt(list[0][1] * yi));
+                        areafield.lineTo(parseInt(list[1][0] * xi), parseInt(list[1][1] * yi));
+                        areafield.lineTo(parseInt(list[2][0] * xi), parseInt(list[2][1] * yi));
+                        areafield.lineTo(parseInt(list[3][0] * xi), parseInt(list[3][1] * yi));
+                        areafield.lineTo(parseInt(list[4][0] * xi), parseInt(list[4][1] * yi));
+                        areafield.lineTo(parseInt(list[5][0] * xi), parseInt(list[5][1] * yi));
+                        areafield.lineTo(parseInt(list[0][0] * xi), parseInt(list[0][1] * yi));
+                        areafield.stroke();
+                        areafield.closePath();
+                   }
                 }
-
-               /*
-                  let obj={};
-                let dataMany="";
-               for(let i=0;i<datafield.length;i++){
-                    var varname="var";
-                    obj[varname] = "value"+i;
-                    dataMany=obj.var;
-                    dataMany=ele.getContext("2d");
-                    dataMany.rect(0,0,100,100);
-                    dataMany.fillStyle="#006cff";
-                    dataMany.stroke();
-                }*/
-
             }
             const objs = this.state.fieldresult;
             if (this.state.obj && objs.length) {
@@ -269,7 +253,9 @@ class PoliceInformation extends Component {
                 if(res.success){
                     let oldPoilice=this.state.alarm;
                     oldPoilice.status=res.data.status;
-                    this.setState({oldPoilice});
+                    this.setState({oldPoilice},()=>{
+                        this.handlePoliceList();
+                    });
                     message.info("操作成功!")
                 }
             })
@@ -284,7 +270,7 @@ class PoliceInformation extends Component {
             pic_width:picImg.pic_width,
             pic_height:picImg.pic_height,
         },()=>{
-            //this.draw();
+            this.draw();
         })
     };
     //查看详情
@@ -335,7 +321,7 @@ class PoliceInformation extends Component {
         this.setState({
             [text]: checked,
         },()=>{
-            //this.draw();
+            this.draw();
         });
     };
     //自动更新
