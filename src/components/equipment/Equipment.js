@@ -63,11 +63,10 @@ class Equipment extends Component {
             style={{
               marginBottom: "16px",
               cursor: "pointer",
-              height: "25vh",
-              background: "#fff"
+              height: "25vh"
             }}
           >
-            <div className="addEquip">
+            <div className="addEquip" style={{ background: "#fff" }}>
               <Icon
                 type="plus"
                 style={{ fontSize: "30px", color: "#2c459a" }}

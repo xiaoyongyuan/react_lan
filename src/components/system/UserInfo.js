@@ -86,6 +86,8 @@ class UserInfo extends Component {
       addModel: false
     });
   };
+  delUser = code => {};
+  editUser = code => {};
   render() {
     const userlist = [
       {
@@ -126,7 +128,11 @@ class UserInfo extends Component {
         align: "center",
         width: "18%",
         render: (text, record) => {
-          if (text === 1 && record.ifsys === 1) {
+          if (
+            text === 0 &&
+            record.ifsys === 1 &&
+            localStorage.getItem("account" === record.account)
+          ) {
             return (
               <span>
                 <Button disabled={record.ifsys} type="danger">
@@ -145,14 +151,18 @@ class UserInfo extends Component {
             return (
               <span>
                 <Button
-                  disabled={this.state.loginUser === "admin"}
+                  // disabled={this.state.loginUser === "admin"}
+                  onClick={() => {
+                    this.delUser(record.code);
+                  }}
                   type="danger"
                 >
                   删除
                 </Button>
                 <Divider type="vertical" />
                 <Button
-                  disabled={this.state.loginUser === "admin"}
+                  // disabled={this.state.loginUser === "admin"}
+                  onClick={() => this.editUser(record.code)}
                   type="primary"
                 >
                   编辑
@@ -190,6 +200,57 @@ class UserInfo extends Component {
         <Etable dataSource={this.state.userdata} columns={userlist} />
         <Modal
           title="用户新增"
+          visible={this.state.addModel}
+          onCancel={this.handleCancel}
+          footer={null}
+        >
+          <Form {...formlayout} onSubmit={this.handleAdd}>
+            <Form.Item label="账号" key="account">
+              {getFieldDecorator("account", {
+                rules: [
+                  {
+                    required: true,
+                    message: "请输入账号!"
+                  }
+                ]
+              })(<Input maxLength={10} />)}
+            </Form.Item>
+            <Form.Item label="用户名" key="realname">
+              {getFieldDecorator("realname", {
+                rules: [
+                  {
+                    required: true,
+                    message: "请输入账号!"
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="邮箱地址" key="emailaddress">
+              {getFieldDecorator("emailaddress")(<Input />)}
+            </Form.Item>
+            <Form.Item label="角色权限" key="role">
+              {getFieldDecorator("utype", {
+                initialValue: 1
+              })(
+                <Select>
+                  <Option value={1}>管理员</Option>
+                  <Option value={0}>普通用户</Option>
+                </Select>
+              )}
+            </Form.Item>
+            <Form.Item
+              label=" "
+              colon={false}
+              wrapperCol={{ span: 4, push: 6 }}
+            >
+              <Button type="primary" htmlType="submit">
+                确定
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+        <Modal
+          title="用户编辑"
           visible={this.state.addModel}
           onCancel={this.handleCancel}
           footer={null}
