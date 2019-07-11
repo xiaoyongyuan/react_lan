@@ -129,7 +129,12 @@ class UserInfo extends Component {
         dataIndex: "utype",
         key: "role",
         align: "center",
-        render: text => (text === "0" ? "管理员" : "普通用户")
+        render: (text, record) =>
+          text === 0 && record.ifsys === 1
+            ? "超级管理员"
+            : text === 0 && record.ifsys === 0
+            ? "管理员"
+            : "普通用户"
       },
       {
         title: "操作",
