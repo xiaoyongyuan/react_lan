@@ -123,7 +123,7 @@ class HomePageModel extends Component{
         this.setState({
             [text]: checked,
         },()=>{
-            this.draw();
+            //this.draw();
         });
     };
     //修改报警状态
