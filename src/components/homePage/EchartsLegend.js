@@ -39,7 +39,9 @@ class EchartsLegend extends Component{
                     name: 'light',
                     type: 'scatter',
                     coordinateSystem: 'geo',
-                    data: [],
+                    data: [
+                        {name:"阿房工",value:[108.83,34.26]}
+                    ],
                     symbolSize: 15, //圈圈大小
                     label: {
                         normal: {

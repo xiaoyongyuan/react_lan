@@ -24,7 +24,7 @@ class PoliceInformation extends Component {
             obj:true, //是否显示报警对象
             checkedVal:false,
             policeListCode:'',
-            selectstatus:0
+            selectstatus:0,
         };
     }
     componentDidMount() {
@@ -100,16 +100,28 @@ class PoliceInformation extends Component {
                               policeCode:res.data.Malarm.code,
                               pic_width:res.data.Malarm.pic_width,
                               pic_height:res.data.Malarm.pic_height,
-                              policeStatus:res.data.Malarm.status,
                               nextcode:res.data.Malarm.nextcode,
                               lastcode:res.data.Malarm.lastcode
                           },()=>{
                               this.draw();
+                              this.updateStatus();
                           })
                       }
                     }
                 })
             }
+        }
+    };
+    updateStatus=(state)=>{
+        switch (state) {
+            case 0:
+                return"未处理";
+            case 1:
+                return "警情";
+            case 3:
+                return "虚警";
+            default:
+                return"未处理";
         }
     };
     //围界去重
@@ -135,6 +147,9 @@ class PoliceInformation extends Component {
         let area = ele.getContext("2d");
         area.clearRect(0, 0, 704, 576);//清除之前的绘图
         area.lineWidth = 1;
+        /*let context = ele.getContext("2d");
+        context.fillStyle="#FF0000";
+        context.fillRect(0,0,150,75);*/
         if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length) {
@@ -142,7 +157,8 @@ class PoliceInformation extends Component {
                 let areafield = ele.getContext("2d");
                 area.lineWidth = 1;
                 areafield.strokeStyle = '#f00';
-                datafield.map((el, i) => {
+
+               /* datafield.map((el, i) => {
                     areafield.beginPath();
                     areafield.moveTo(parseInt(datafield[i][0][0] * xi), parseInt(datafield[i][0][1] * yi));
                     areafield.lineTo(parseInt(datafield[i][1][0] * xi), parseInt(datafield[i][1][1] * yi));
@@ -154,7 +170,7 @@ class PoliceInformation extends Component {
                     areafield.stroke();
                     areafield.closePath();
                     return '';
-                })
+                })*/
             }
             const objs = this.state.fieldresult;
             if (this.state.obj && objs.length) {
@@ -237,8 +253,10 @@ class PoliceInformation extends Component {
                 }
             }).then((res)=>{
                 if(res.success){
-                    message.info(res.msg);
-                    this.handlePoliceList();
+                    let oldPoilice=this.state.alarm;
+                    oldPoilice.status=res.data.status;
+                    this.setState({oldPoilice});
+                    message.info("操作成功!")
                 }
             })
         }
@@ -268,11 +286,21 @@ class PoliceInformation extends Component {
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
             if(!err){
+                if(values.date && values.date.length){
+                    var oldTimestart = (new Date(values.date[0])).getTime()/1000;
+                    var oldTimeend = (new Date(values.date[1])).getTime()/1000;
+                    if(oldTimeend-oldTimestart<=604800) {
+                        this.setState({
+                            bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):null,
+                            edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):null,
+                        })
+                    }else{
+                        message.error('请选择七天以内的时间');
+                    }
+                }
                 this.setState({
                     scid:values.cid,
                     selectstatus:values.status,
-                    bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):null,
-                    edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):null,
                     page:1,
                 },()=>{
                     this.handlePoliceList();
@@ -317,7 +345,6 @@ class PoliceInformation extends Component {
     };
     //上一个
     hanleUper=(text)=>{
-        console.log("last",this.state.lastcode,"next",this.state.nextcode)
         if(this.state.lastcode || this.state.nextcode){
             if(text==="uper"){
                 this.setState({
@@ -363,7 +390,7 @@ class PoliceInformation extends Component {
                         <Form.Item>
                             <Form.Item label="报警状态">
                                 {getFieldDecorator('status',{
-                                    initialValue:"-1"
+                                    initialValue:"0"
                                 })(
                                     <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
                                         <Option  value="-1">全部</Option>
@@ -461,7 +488,7 @@ class PoliceInformation extends Component {
                                     报警状态
                                 </Col>
                                 <Col className="equipName-right" span={16}>
-                                    <span className="equipName-right-word">{this.state.alarm.name}</span>
+                                    <span className="equipName-right-word">{this.updateStatus(this.state.alarm.status?this.state.alarm.status:"")}</span>
                                 </Col>
                             </Row>
                             <Row className="showTaget">
