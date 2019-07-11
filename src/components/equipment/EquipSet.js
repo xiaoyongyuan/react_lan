@@ -12,7 +12,7 @@ import {
   Switch,
   message
 } from "antd";
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import DefTime from "./DefendTime";
 import axios from "../../axios/index";
 import "../../style/jhy/less/equipset.less";
@@ -79,7 +79,7 @@ class EquipAdd extends Component {
     axios
       .ajax({
         method: "get",
-        url: window.g.loginURL + "/api/camera/getone?",
+        url: window.g.loginURL + "/api/camera/getone",
         data: {
           code: this.props.query.code
         }
@@ -112,6 +112,94 @@ class EquipAdd extends Component {
               });
             }
           );
+        }
+      });
+  };
+  handleBack = () => {
+    window.location.href = "#/main/equipment";
+  };
+  handleUnlock = () => {
+    axios
+      .ajax({
+        method: "put",
+        url: window.g.loginURL + "/api/camera/update",
+        data: {
+          code: this.state.addBackCode || this.props.query.code,
+          cstatus: 1
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("已启用");
+          this.getOne();
+        }
+      });
+  };
+  handleStop = () => {
+    axios
+      .ajax({
+        method: "put",
+        url: window.g.loginURL + "/api/camera/update",
+        data: {
+          code: this.state.addBackCode || this.props.query.code,
+          if_cancel: 2
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("已停止服务");
+          this.getOne();
+        }
+      });
+  };
+  handleTwentyFour = () => {
+    axios
+      .ajax({
+        method: "put",
+        url: window.g.loginURL + "/api/camera/update",
+        data: {
+          code: this.state.addBackCode || this.props.query.code,
+          if_cancel: 1
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("24小时设防中");
+          this.getOne();
+        }
+      });
+  };
+  handleRecover = () => {
+    axios
+      .ajax({
+        method: "put",
+        url: window.g.loginURL + "/api/camera/update",
+        data: {
+          code: this.state.addBackCode || this.props.query.code,
+          if_cancel: 0
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("已恢复");
+          this.getOne();
+        }
+      });
+  };
+  handleDeviceDel = () => {
+    axios
+      .ajax({
+        method: "put",
+        url: window.g.loginURL + "/api/camera/update",
+        data: {
+          code: this.state.addBackCode || this.props.query.code,
+          ifdel: 0
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("已删除");
+          this.getOne();
         }
       });
   };
@@ -1189,7 +1277,7 @@ class EquipAdd extends Component {
     ];
     const formItemLayout = {
       labelCol: {
-        sm: { span: 4 }
+        sm: { span: 5 }
       },
       wrapperCol: {
         sm: { span: 10 }
@@ -1201,13 +1289,14 @@ class EquipAdd extends Component {
         {this.props.match.params.add === ":add" && this.state.addOnly === true && (
           <div className="onlyadd">
             <div className="baseinfo">基本信息</div>
-            <Row>
-              <Col span={14}>
-                <Form
-                  {...formItemLayout}
-                  key="addform"
-                  onSubmit={this.handleAdd}
-                >
+            <Form
+              {...formItemLayout}
+              key="changeform"
+              onSubmit={this.handleAdd}
+              className="formInfo"
+            >
+              <Row>
+                <Col span={8}>
                   <Form.Item label="摄像头名称">
                     {getFieldDecorator("name", {
                       rules: [
@@ -1218,6 +1307,8 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
+                </Col>
+                <Col span={8}>
                   <Form.Item label="摄像头类型">
                     {getFieldDecorator("ipctype", {
                       initialValue: "hikvision"
@@ -1244,6 +1335,23 @@ class EquipAdd extends Component {
                       </Select>
                     )}
                   </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
+                  <Form.Item label="IP地址">
+                    {getFieldDecorator("ip", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "请输入IP地址!"
+                        }
+                      ]
+                    })(<Input />)}
+                  </Form.Item>
+                </Col>
+
+                <Col span={8}>
                   <Form.Item label="场景">
                     {getFieldDecorator("scene", {
                       initialValue: "室外"
@@ -1258,6 +1366,23 @@ class EquipAdd extends Component {
                       </Select>
                     )}
                   </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
+                  <Form.Item label="管理端口">
+                    {getFieldDecorator("authport", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "请输入管理端口!"
+                        }
+                      ]
+                    })(<Input />)}
+                  </Form.Item>
+                </Col>
+
+                <Col span={8}>
                   <Form.Item label="场距">
                     {getFieldDecorator("fielddistance", {
                       initialValue: "10~20米"
@@ -1272,26 +1397,10 @@ class EquipAdd extends Component {
                       </Select>
                     )}
                   </Form.Item>
-                  <Form.Item label="IP地址">
-                    {getFieldDecorator("ip", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "请输入IP地址!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="管理端口">
-                    {getFieldDecorator("authport", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "请输入管理端口!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
                   <Form.Item label="管理用户名">
                     {getFieldDecorator("ausername", {
                       rules: [
@@ -1302,6 +1411,17 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label=" 是否强制报警">
+                    {getFieldDecorator("alarmtype", {
+                      initialValue: false
+                    })(<Switch />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
                   <Form.Item label="管理密码">
                     {getFieldDecorator("apassword", {
                       rules: [
@@ -1312,37 +1432,9 @@ class EquipAdd extends Component {
                       ]
                     })(<Input />)}
                   </Form.Item>
-                  {/* <Form.Item label="摄像头厂家">
-                    {getFieldDecorator("vender", {
-                      initialValue: 1
-                    })(
-                      <Select>
-                        <Option key="1" value={1}>
-                          海康
-                        </Option>
-                      </Select>
-                    )}
-                  </Form.Item> */}
-                  <Form.Item label="视频流地址">
-                    {getFieldDecorator("streamport", {})(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="视频用户名">
-                    {getFieldDecorator("vusername", {})(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="视频密码">
-                    {getFieldDecorator("vpassword", {})(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="视频传输协议">
-                    {getFieldDecorator("Protocol", {
-                      rules: [
-                        {
-                          required: true,
-                          message: "请输入视频传输协议!"
-                        }
-                      ]
-                    })(<Input />)}
-                  </Form.Item>
-                  <Form.Item label=" 设备智能分析阈值">
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="设备智能分析阈值" className="sliderWrap">
                     {getFieldDecorator("threshold", {
                       initialValue: 5
                     })(
@@ -1350,11 +1442,64 @@ class EquipAdd extends Component {
                         step={1}
                         min={1}
                         max={10}
+                        marks={{
+                          1: "1",
+                          10: "10"
+                        }}
+                        tooltipVisible={false}
                         className="thresholdset"
+                        onChange={value => this.handleThresholdChange(value)}
                       />
                     )}
+                    <span className="sliderVal">{this.state.threshold}</span>
                   </Form.Item>
-                  <Form.Item label=" 冷冻时间">
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
+                  <Form.Item label="视频流地址">
+                    {getFieldDecorator("streamport", {
+                      rules: [
+                        {
+                          required: true,
+                          message: "请输入视频流地址!"
+                        }
+                      ]
+                    })(<Input />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="视频传输协议">
+                    {getFieldDecorator("protocol", {
+                      initialValue: "rtsp"
+                    })(
+                      <Select>
+                        <Option key="1" value="rtsp">
+                          rtsp
+                        </Option>
+                        <Option key="2" value="其它">
+                          其它
+                        </Option>
+                      </Select>
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
+                  <Form.Item label="视频用户名">
+                    {getFieldDecorator("vusername", {})(<Input />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="视频密码">
+                    {getFieldDecorator("vpassword", {})(<Input />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={8}>
+                  <Form.Item label="冷冻时间" className="sliderWrap">
                     {getFieldDecorator("frozentime", {
                       initialValue: 5
                     })(
@@ -1362,287 +1507,427 @@ class EquipAdd extends Component {
                         step={1}
                         min={1}
                         max={10}
+                        marks={{
+                          1: "1",
+                          10: "10"
+                        }}
+                        tooltipVisible={false}
                         className="frozentime"
+                        onChange={value => this.handleFrozenChange(value)}
                       />
                     )}
+                    <span className="sliderVal">{this.state.frozentime}s</span>
                   </Form.Item>
-                  <Form.Item label=" 是否强制报警">
-                    {getFieldDecorator("alarmtype", {
-                      initialValue: false
-                    })(<Switch />)}
-                  </Form.Item>
+                </Col>
+                <Col span={8}>
                   <Form.Item label=" " colon={false}>
                     <Button type="primary" htmlType="submit">
                       确定
                     </Button>
                   </Form.Item>
-                </Form>
-              </Col>
-            </Row>
+                </Col>
+              </Row>
+            </Form>
           </div>
         )}
         {(this.state.addOnly === false || this.props.query.code) && (
-          <Tabs
-            defaultActiveKey="0"
-            type="card"
-            onChange={activekey => {
-              this.handleTabChange(activekey);
-            }}
-          >
-            <TabPane
-              tab={
-                <span
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <span className="info">基本信息</span>
-                </span>
-              }
-              key="0"
+          <Fragment>
+            <div className="topbtn">
+              <Button type="primary" onClick={() => this.handleBack()}>
+                返回
+              </Button>
+              <Button type="primary" onClick={() => this.handleUnlock()}>
+                启用
+              </Button>
+              <Button
+                type="danger"
+                disabled={
+                  this.state.equipData.cstatus === 0 ||
+                  this.state.equipData.if_cancel === 2
+                }
+                onClick={() => this.handleStop()}
+              >
+                停止服务
+              </Button>
+              <Button
+                type="primary"
+                disabled={
+                  this.state.equipData.cstatus === 0 ||
+                  this.state.equipData.if_cancel === 1
+                }
+                onClick={() => this.handleTwentyFour()}
+              >
+                24小时设防
+              </Button>
+              <Button
+                type="primary"
+                disabled={
+                  this.state.equipData.cstatus === 0 ||
+                  this.state.equipData.if_cancel === 0
+                }
+                onClick={() => this.handleRecover()}
+              >
+                恢复
+              </Button>
+
+              <Button type="danger" onClick={() => this.handleDeviceDel()}>
+                删除
+              </Button>
+            </div>
+            <Tabs
+              defaultActiveKey="0"
+              type="card"
+              onChange={activekey => {
+                this.handleTabChange(activekey);
+              }}
             >
-              <Row>
-                <Col span={14}>
-                  <Form
-                    {...formItemLayout}
-                    key="changeform"
-                    onSubmit={this.handleChangeInfo}
+              <TabPane
+                tab={
+                  <span
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
                   >
-                    <Form.Item label="摄像头名称">
-                      {getFieldDecorator("name", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入摄像头名称!"
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="摄像头类型">
-                      {getFieldDecorator("ipctype", {
-                        initialValue: "hikvision"
-                      })(
-                        <Select>
-                          <Option key="1" value="hikvision">
-                            海康威视
-                          </Option>
-                          <Option key="2" value="dahua">
-                            浙江大华
-                          </Option>
-                          <Option key="3" value="tiandy">
-                            天地伟业
-                          </Option>
-                          <Option key="4" value="uniview">
-                            浙江宇视
-                          </Option>
-                          <Option key="5" value="aebell">
-                            美电贝尔
-                          </Option>
-                          <Option key="6" value="other">
-                            其他
-                          </Option>
-                        </Select>
-                      )}
-                    </Form.Item>
-                    <Form.Item label="场景">
-                      {getFieldDecorator("scene", {
-                        initialValue: "室外"
-                      })(
-                        <Select>
-                          <Option key="1" value="室外">
-                            室外
-                          </Option>
-                          <Option key="2" value="室内">
-                            室内
-                          </Option>
-                        </Select>
-                      )}
-                    </Form.Item>
-                    <Form.Item label="场距">
-                      {getFieldDecorator("fielddistance", {
-                        initialValue: "10~20米"
-                      })(
-                        <Select>
-                          <Option key="1" value="10~20米">
-                            10~20米
-                          </Option>
-                          <Option key="2" value="20~40米">
-                            20~40米
-                          </Option>
-                        </Select>
-                      )}
-                    </Form.Item>
-                    <Form.Item label="IP地址">
-                      {getFieldDecorator("ip", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入IP地址!"
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="管理端口">
-                      {getFieldDecorator("authport", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入管理端口!"
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="管理用户名">
-                      {getFieldDecorator("ausername", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入管理用户名!"
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="管理密码">
-                      {getFieldDecorator("apassword", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入管理密码!"
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="视频流地址">
-                      {getFieldDecorator("streamport", {})(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="视频用户名">
-                      {getFieldDecorator("vusername", {})(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="视频密码">
-                      {getFieldDecorator("vpassword", {})(<Input />)}
-                    </Form.Item>
-                    <Form.Item label="视频传输协议">
-                      {getFieldDecorator("Protocol", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入视频传输协议!"
-                          }
-                        ]
-                      })(<Input />)}
-                    </Form.Item>
-                    <Form.Item label=" 设备智能分析阈值">
-                      {getFieldDecorator("threshold", {
-                        initialValue: 5
-                      })(
-                        <Slider
-                          step={1}
-                          min={1}
-                          max={10}
-                          className="thresholdset"
-                        />
-                      )}
-                    </Form.Item>
-                    <Form.Item label=" 冷冻时间">
-                      {getFieldDecorator("frozentime", {
-                        initialValue: 5
-                      })(
-                        <Slider
-                          step={1}
-                          min={1}
-                          max={10}
-                          className="frozentime"
-                        />
-                      )}
-                    </Form.Item>
-                    <Form.Item label=" 是否强制报警">
-                      {getFieldDecorator("alarmtype", {
-                        initialValue: false
-                      })(<Switch />)}
-                    </Form.Item>
-                    <Form.Item label=" " colon={false}>
-                      <Button type="primary" htmlType="submit">
-                        确定
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane
-              tab={
-                <span
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
+                    <span className="info">基本信息</span>
+                  </span>
+                }
+                key="0"
+              >
+                <Form
+                  {...formItemLayout}
+                  key="changeform"
+                  onSubmit={this.handleChangeInfo}
+                  className="formInfo"
                 >
-                  <span className="camera">防区设置</span>
-                </span>
-              }
-              key="1"
-            >
-              <Row gutter={16}>
-                <Col span={12}>
-                  <div className="cavwrap">
-                    <canvas
-                      width="704px"
-                      height="576px"
-                      id="cavcontainer"
-                      style={{
-                        backgroundImage: `url(${this.state.equipData.picpath})`,
-                        backgroundSize: "100% 100%"
-                      }}
-                      onMouseDown={e => this.mousedown(e)}
-                      onMouseUp={this.mouseup}
-                      onMouseMove={this.mousemove}
-                    />
-                  </div>
-                </Col>
-                <Col span={12}>
                   <Row>
-                    <Col span={11}>
-                      <List
-                        className="defopt"
-                        bordered
-                        dataSource={defopt}
-                        renderItem={item => <List.Item>{item}</List.Item>}
-                      />
+                    <Col span={8}>
+                      <Form.Item label="摄像头名称">
+                        {getFieldDecorator("name", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "请输入摄像头名称!"
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item label="摄像头类型">
+                        {getFieldDecorator("ipctype", {
+                          initialValue: "hikvision"
+                        })(
+                          <Select>
+                            <Option key="1" value="hikvision">
+                              海康威视
+                            </Option>
+                            <Option key="2" value="dahua">
+                              浙江大华
+                            </Option>
+                            <Option key="3" value="tiandy">
+                              天地伟业
+                            </Option>
+                            <Option key="4" value="uniview">
+                              浙江宇视
+                            </Option>
+                            <Option key="5" value="aebell">
+                              美电贝尔
+                            </Option>
+                            <Option key="6" value="other">
+                              其他
+                            </Option>
+                          </Select>
+                        )}
+                      </Form.Item>
                     </Col>
                   </Row>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane
-              tab={
-                <span
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  <span className="deftime">布防时间</span>
-                </span>
-              }
-              key="2"
-            >
-              <DefTime
-                code={this.props.query.code}
-                addBackCode={this.state.addBackCode}
-                equipData={this.state.equipData}
-              />
-            </TabPane>
-          </Tabs>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="IP地址">
+                        {getFieldDecorator("ip", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "请输入IP地址!"
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
+                    </Col>
+
+                    <Col span={8}>
+                      <Form.Item label="场景">
+                        {getFieldDecorator("scene", {
+                          initialValue: "室外"
+                        })(
+                          <Select>
+                            <Option key="1" value="室外">
+                              室外
+                            </Option>
+                            <Option key="2" value="室内">
+                              室内
+                            </Option>
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="管理端口">
+                        {getFieldDecorator("authport", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "请输入管理端口!"
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
+                    </Col>
+
+                    <Col span={8}>
+                      <Form.Item label="场距">
+                        {getFieldDecorator("fielddistance", {
+                          initialValue: "10~20米"
+                        })(
+                          <Select>
+                            <Option key="1" value="10~20米">
+                              10~20米
+                            </Option>
+                            <Option key="2" value="20~40米">
+                              20~40米
+                            </Option>
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="管理用户名">
+                        {getFieldDecorator("ausername", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "请输入管理用户名!"
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item label=" 是否强制报警">
+                        {getFieldDecorator("alarmtype", {
+                          initialValue: false
+                        })(<Switch />)}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="管理密码">
+                        {getFieldDecorator("apassword", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "请输入管理密码!"
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item
+                        label="设备智能分析阈值"
+                        className="sliderWrap"
+                      >
+                        {getFieldDecorator("threshold", {
+                          initialValue: 5
+                        })(
+                          <Slider
+                            step={1}
+                            min={1}
+                            max={10}
+                            marks={{
+                              1: "1",
+                              10: "10"
+                            }}
+                            tooltipVisible={false}
+                            className="thresholdset"
+                            onChange={value =>
+                              this.handleThresholdChange(value)
+                            }
+                          />
+                        )}
+                        <span className="sliderVal">
+                          {this.state.sliderChange
+                            ? this.state.threshold
+                            : this.state.equipData.threshold}
+                        </span>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="视频流地址">
+                        {getFieldDecorator("streamport", {
+                          rules: [
+                            {
+                              required: true,
+                              message: "请输入视频流地址!"
+                            }
+                          ]
+                        })(<Input />)}
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item label="视频传输协议">
+                        {getFieldDecorator("protocol", {
+                          initialValue: "rtsp"
+                        })(
+                          <Select>
+                            <Option key="1" value="rtsp">
+                              rtsp
+                            </Option>
+                            <Option key="2" value="其它">
+                              其它
+                            </Option>
+                          </Select>
+                        )}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="视频用户名">
+                        {getFieldDecorator("vusername", {})(<Input />)}
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item label="视频密码">
+                        {getFieldDecorator("vpassword", {})(<Input />)}
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={8}>
+                      <Form.Item label="冷冻时间" className="sliderWrap">
+                        {getFieldDecorator("frozentime", {
+                          initialValue: 5
+                        })(
+                          <Slider
+                            step={1}
+                            min={1}
+                            max={10}
+                            marks={{
+                              1: "1",
+                              10: "10"
+                            }}
+                            tooltipVisible={false}
+                            className="frozentime"
+                            onChange={value => this.handleFrozenChange(value)}
+                          />
+                        )}
+                        <span className="sliderVal">
+                          {this.state.sliderChange
+                            ? this.state.frozentime
+                            : this.state.equipData.frozentime}
+                          s
+                        </span>
+                      </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                      <Form.Item
+                        label=" "
+                        colon={false}
+                        style={{ textAlign: "center" }}
+                      >
+                        <Button type="primary" htmlType="submit">
+                          确定
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <span className="camera">防区设置</span>
+                  </span>
+                }
+                key="1"
+              >
+                <Row gutter={16}>
+                  <Col span={12}>
+                    <div className="cavwrap">
+                      <canvas
+                        width="704px"
+                        height="576px"
+                        id="cavcontainer"
+                        style={{
+                          backgroundImage: `url(${
+                            this.state.equipData.basemap
+                          })`,
+                          backgroundSize: "100% 100%"
+                        }}
+                        onMouseDown={e => this.mousedown(e)}
+                        onMouseUp={this.mouseup}
+                        onMouseMove={this.mousemove}
+                      />
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <Row>
+                      <Col span={11}>
+                        <List
+                          className="defopt"
+                          bordered
+                          dataSource={defopt}
+                          renderItem={item => <List.Item>{item}</List.Item>}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane
+                tab={
+                  <span
+                    style={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }}
+                  >
+                    <span className="deftime">布防时间</span>
+                  </span>
+                }
+                key="2"
+              >
+                <DefTime
+                  code={this.props.query.code}
+                  addBackCode={this.state.addBackCode}
+                  equipData={this.state.equipData}
+                />
+              </TabPane>
+            </Tabs>
+          </Fragment>
         )}
       </div>
     );

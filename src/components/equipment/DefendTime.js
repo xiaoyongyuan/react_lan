@@ -51,15 +51,15 @@ class DefendTime extends Component {
         backdata.push(`${weekdata}`);
       }
       var timelist = {};
-      timelist["1"] = backdata[0].replace(/\"/g, "'");
-      timelist["2"] = backdata[1].replace(/\"/g, "'");
-      timelist["3"] = backdata[2].replace(/\"/g, "'");
-      timelist["4"] = backdata[3].replace(/\"/g, "'");
-      timelist["5"] = backdata[4].replace(/\"/g, "'");
-      timelist["6"] = backdata[5].replace(/\"/g, "'");
-      timelist["7"] = backdata[6].replace(/\"/g, "'");
+      timelist["1"] = backdata[0];
+      timelist["2"] = backdata[1];
+      timelist["3"] = backdata[2];
+      timelist["4"] = backdata[3];
+      timelist["5"] = backdata[4];
+      timelist["6"] = backdata[5];
+      timelist["7"] = backdata[6];
 
-      const trantime = [timelist];
+      const trantime = [JSON.stringify(timelist).replace(/\"/g, "'")];
       axios
         .ajax({
           method: "post",

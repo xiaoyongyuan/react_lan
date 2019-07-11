@@ -8,7 +8,8 @@ import {
   Descriptions,
   List,
   Radio,
-  Switch
+  Switch,
+  message
 } from "antd";
 import axios from "../../axios";
 import "../../style/jhy/less/overview.less";
@@ -37,6 +38,22 @@ class Overview extends Component {
           this.setState({
             datalist: res.data
           });
+        }
+      });
+  };
+  handleAlarmSound = checked => {
+    axios
+      .ajax({
+        method: "get",
+        url: window.g.loginURL + "/api/system/alaVoiceSet",
+        data: {
+          flag: checked
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success(checked === true ? "报警声音开启" : "报警声音关闭");
+          this.getData();
         }
       });
   };
@@ -212,7 +229,11 @@ class Overview extends Component {
               <label className="alarmLabel" htmlFor="alarmSound">
                 报警声音设置
               </label>
-              <Switch id="报警声音设置" className="alarmSound" />
+              <Switch
+                id="alarmSound"
+                className="alarmSound"
+                onChange={checked => this.handleAlarmSound(checked)}
+              />
             </Row>
             <Row gutter={16} style={{ marginTop: "20px" }}>
               <Col span={6}>
