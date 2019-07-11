@@ -13,6 +13,7 @@ import {
 import Etable from "../common/Etable";
 import axios from "axios";
 import axiosW from "../../axios/index";
+import moment from "moment";
 import "../../style/jhy/less/userinfo.less";
 const { Option } = Select;
 class UserInfo extends Component {
@@ -74,6 +75,7 @@ class UserInfo extends Component {
           if (res.data.success) {
             message.success("添加用户成功");
             this.getUserData();
+            this.props.form.resetFields();
           }
         });
       } else {
@@ -92,8 +94,8 @@ class UserInfo extends Component {
     const userlist = [
       {
         title: "序号",
-        dataIndex: "code",
-        align: "center"
+        align: "center",
+        render: (text, record, index) => index + 1
       },
       {
         title: "账号",
@@ -113,13 +115,21 @@ class UserInfo extends Component {
       {
         title: "最近登录时间",
         dataIndex: "lastlogin",
-        align: "center"
+        align: "center",
+        render: text => {
+          if (text) {
+            return moment(text).format("YYYY-MM-DD HH:mm:ss");
+          } else {
+            return null;
+          }
+        }
       },
       {
         title: "角色权限",
         dataIndex: "utype",
         key: "role",
-        align: "center"
+        align: "center",
+        render: text => (text === "0" ? "管理员" : "普通用户")
       },
       {
         title: "操作",
