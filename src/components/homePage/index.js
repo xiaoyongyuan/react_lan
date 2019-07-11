@@ -261,9 +261,8 @@ class Index extends Component {
                                     {
                                         this.state.policeList.map((v,i)=>(
                                             <Col className="gutter-row" span={4} key={i}>
-                                                <div className="gutter-box">
+                                                <div className="gutter-box" onClick={()=>this.hanleWithdrawal(v.code)}>
                                                     <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
-                                                    <img className="alarmVideoBtn" src={playBtn} onClick={()=>this.hanleWithdrawal(v.code)} />
                                                     <div className="alarminforBg">
                                                         <span className="alarminforCirle"/>
                                                         <span className="alarminforFont">{v.name}</span>

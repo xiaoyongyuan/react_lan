@@ -59,7 +59,7 @@ class HomePageModel extends Component{
                     policeStatus:res.data[0].status,
                     policeCode:res.data[0].code,
                 },()=>{
-                    this.draw();
+                    //this.draw();
                 })
             }
         })
@@ -123,7 +123,7 @@ class HomePageModel extends Component{
         this.setState({
             [text]: checked,
         },()=>{
-            this.draw();
+            //this.draw();
         });
     };
     //修改报警状态

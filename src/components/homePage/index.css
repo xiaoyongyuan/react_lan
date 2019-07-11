@@ -383,6 +383,9 @@
 .homePage .alarminfor {
   margin: 12px 0 15px 0;
 }
+.homePage .alarminfor .gutter-box {
+  cursor: pointer;
+}
 .homePage .alarminfor .alarminfornikName {
   display: flex;
   justify-content: flex-end;
