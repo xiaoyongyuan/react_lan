@@ -91,6 +91,9 @@ class UserInfo extends Component {
   delUser = code => {};
   editUser = code => {};
   render() {
+    const ifsys = localStorage.getItem("ifsys");
+    const utype = localStorage.getItem("utype");
+    const account = localStorage.getItem("account");
     const userlist = [
       {
         title: "序号",
@@ -143,6 +146,46 @@ class UserInfo extends Component {
         align: "center",
         width: "18%",
         render: (text, record) => {
+          if (ifsys === 1) {
+            if (account === record.account) {
+              return null;
+            } else {
+              return (
+                <span>
+                  <Button type="danger">新增</Button>
+                  <Divider type="vertical" />
+                  <Button type="primary">编辑</Button>
+                  <Divider type="vertical" />
+                  <Button type="danger">删除</Button>
+                </span>
+              );
+            }
+          } else {
+            if (utype === 0) {
+              if (account == record.account) {
+                return (
+                  <span>
+                    <Button type="danger">新增</Button>
+                    <Divider type="vertical" />
+                    <Button type="primary">编辑</Button>
+                  </span>
+                );
+              } else {
+                return (
+                  <span>
+                    <Button type="danger">新增</Button>
+                    <Divider type="vertical" />
+                    <Button type="primary">编辑</Button>
+                    <Divider type="vertical" />
+                    <Button type="danger">删除</Button>
+                  </span>
+                );
+              }
+            } else {
+              return null;
+            }
+          }
+
           if (
             text === 0 &&
             record.ifsys === 1 &&
