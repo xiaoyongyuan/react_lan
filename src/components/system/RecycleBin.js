@@ -55,7 +55,7 @@ class RecycleBin extends Component{
         let beforeTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
         let mydate = moment(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
         let days=mydate.diff(beforeTime, 'day');
-        return days;
+        return 7-days;
     };
     render() {
         return (

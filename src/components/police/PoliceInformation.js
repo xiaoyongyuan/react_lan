@@ -19,12 +19,14 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:10,
+            pagesize:30,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
             policeListCode:'',
-            selectstatus:0,
+            selectstatus:0,//select默认选中的状态
+            selectPicture:0,
+            policeListIndex:0//初始化报警下标
         };
     }
     componentDidMount() {
@@ -43,7 +45,21 @@ class PoliceInformation extends Component {
        this.hanleEquipment();
        this.hanleQuantity();
        this.handlePoliceList();
+       this.hanleSelectStatus();
     }
+    //select选中
+    hanleSelectStatus=(status)=>{
+        switch (status) {
+            case 0:
+                return "未处理";
+            case 1:
+                return "警情";
+            case 3:
+                return "虚警";
+            default:
+                return "未处理";
+        }
+    };
     //报警列表
     handlePoliceList=()=>{
         let params={
@@ -253,9 +269,9 @@ class PoliceInformation extends Component {
                 if(res.success){
                     let oldPoilice=this.state.alarm;
                     oldPoilice.status=res.data.status;
-                    this.setState({oldPoilice},()=>{
-                        this.handlePoliceList();
-                    });
+                    let policeList=this.state.policeList;
+                    policeList[this.state.policeListIndex].status=res.data.status;
+                    this.setState({oldPoilice,policeList});
                     message.info("操作成功!")
                 }
             })
@@ -274,9 +290,11 @@ class PoliceInformation extends Component {
         })
     };
     //查看详情
-    hanlePoliceDateil=(code)=>{
+    hanlePoliceDateil=(code,index)=>{
         this.setState({
-            policeListCode:code
+            policeListCode:code,
+            policeListIndex:index,
+            selectPicture:index
         },()=>{
             this.getInfor();
         });
@@ -361,6 +379,12 @@ class PoliceInformation extends Component {
             }
         }
     };
+    hanleBorder=(index)=>{
+       if(this.state.selectPicture===index){
+
+       }
+
+    };
     disabledDate = (current) => {
         return current > moment().endOf('day');
     };
@@ -390,9 +414,9 @@ class PoliceInformation extends Component {
                         <Form.Item>
                             <Form.Item label="报警状态">
                                 {getFieldDecorator('status',{
-                                    initialValue:"0"
+                                    initialValue:this.hanleSelectStatus(this.state.selectstatus)
                                 })(
-                                    <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
+                                    <Select className="select-form" style={{width:120}}>
                                         <Option  value="-1">全部</Option>
                                         <Option  value="1">警情</Option>
                                         <Option  value="0">未处理</Option>
@@ -548,8 +572,8 @@ class PoliceInformation extends Component {
                 <Row gutter={16}>
                     {
                         this.state.policeList.map((v,i)=>(
-                            <Col className="gutter-row " span={4} key={i}>
-                                <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code)}>
+                            <Col className="gutter-row" xxl={4} xl={6} key={v.code} >
+                                <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
                                     <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
                                     <div className="policeBottom">
                                         <span className="policeCircle" /><span className="policeName">{v.name}</span>

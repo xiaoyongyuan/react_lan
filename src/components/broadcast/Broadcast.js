@@ -51,7 +51,7 @@ class Broadcast extends Component {
         return(
             <div className="broadcast">
                 <Row className="title-broad">
-                    <Col span={14}>直播功能</Col>
+                    <Col span={14}>视频直播</Col>
                     <Col span={10} className="condition">
                        {/* <Form layout="inline">
                             <Form.Item label="选择">

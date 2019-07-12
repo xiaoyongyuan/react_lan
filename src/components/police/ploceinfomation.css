@@ -1,6 +1,9 @@
 .ploceinfomation {
   background-color: #f0f2f5;
 }
+.ploceinfomation .selectBorder {
+  border: 1px solid #006cff;
+}
 .ploceinfomation .policeList {
   min-height: 14vh;
   border: 1px solid #d0c9c9;
