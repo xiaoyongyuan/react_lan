@@ -19,13 +19,13 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:30,
+            pagesize:20,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
             policeListCode:'',
             selectstatus:0,//select默认选中的状态
-            selectPicture:0,
+            selectPicture:0,//选中照片的下标
             policeListIndex:0//初始化报警下标
         };
     }
@@ -45,21 +45,7 @@ class PoliceInformation extends Component {
        this.hanleEquipment();
        this.hanleQuantity();
        this.handlePoliceList();
-       this.hanleSelectStatus();
     }
-    //select选中
-    hanleSelectStatus=(status)=>{
-        switch (status) {
-            case 0:
-                return "未处理";
-            case 1:
-                return "警情";
-            case 3:
-                return "虚警";
-            default:
-                return "未处理";
-        }
-    };
     //报警列表
     handlePoliceList=()=>{
         let params={
@@ -96,7 +82,8 @@ class PoliceInformation extends Component {
                     method:"get",
                     url:window.g.loginURL+"/api/alarm/alarminfo",
                     data:{
-                        code:this.state.policeListCode
+                        code:this.state.policeListCode,
+                        status:this.state.selectstatus,
                     }
                 }).then((res)=>{
                     if(res.success){
@@ -165,7 +152,7 @@ class PoliceInformation extends Component {
         area.lineWidth = 1;
         if(this.state.alarmImg){
             const datafield = this.state.fields;
-            if (this.state.field && datafield.length) {
+            if (this.state.field && datafield.length>0) {
                 const xi=400/704, yi=280/576;
                 let areafield = ele.getContext("2d");
                 for(let i=0;i<datafield.length;i++){
@@ -187,7 +174,7 @@ class PoliceInformation extends Component {
                 }
             }
             const objs = this.state.fieldresult;
-            if (this.state.obj && objs.length) {
+            if (this.state.obj && objs.length>0) {
                 //计算缩放比例
                 const x = 510 / this.state.pic_width, y = 278 / this.state.pic_height;
                 objs.map((el, i) => {
@@ -304,6 +291,7 @@ class PoliceInformation extends Component {
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
             if(!err){
+                console.log(values)
                 if(values.date && values.date.length){
                     var oldTimestart = (new Date(values.date[0])).getTime()/1000;
                     var oldTimeend = (new Date(values.date[1])).getTime()/1000;
@@ -320,6 +308,7 @@ class PoliceInformation extends Component {
                     scid:values.cid,
                     selectstatus:values.status,
                     page:1,
+                    selectPicture:0
                 },()=>{
                     this.handlePoliceList();
                 });
@@ -330,6 +319,7 @@ class PoliceInformation extends Component {
     hanlePage=(page)=>{
         this.setState({
             page:page,
+            selectPicture:0
         },()=>{
             this.handlePoliceList()
         })
@@ -356,7 +346,7 @@ class PoliceInformation extends Component {
     };
     onShowSizeChange=(current, pageSize)=> {
         this.setState({
-            pagesize:pageSize
+            pagesize:pageSize,
         },()=>{
             this.handlePoliceList();
         });
@@ -381,9 +371,8 @@ class PoliceInformation extends Component {
     };
     hanleBorder=(index)=>{
        if(this.state.selectPicture===index){
-
+           return "selectBorder";
        }
-
     };
     disabledDate = (current) => {
         return current > moment().endOf('day');
@@ -401,8 +390,8 @@ class PoliceInformation extends Component {
                             {getFieldDecorator('cid',{
                                 initialValue:""
                             })(
-                                <Select className="select-form" style={{width:120}} onChange={this.handleChange}>
-                                    <Option  value="">全部</Option>
+                                <Select className="select-form" style={{width:120}}>
+                                    <Option value="">全部</Option>
                                     {
                                         this.state.equList.map((v,i)=>(
                                             <Option key={i} value={v.code}>{v.name}</Option>
@@ -414,7 +403,7 @@ class PoliceInformation extends Component {
                         <Form.Item>
                             <Form.Item label="报警状态">
                                 {getFieldDecorator('status',{
-                                    initialValue:this.hanleSelectStatus(this.state.selectstatus)
+                                    initialValue:"0"
                                 })(
                                     <Select className="select-form" style={{width:120}}>
                                         <Option  value="-1">全部</Option>
@@ -572,14 +561,14 @@ class PoliceInformation extends Component {
                 <Row gutter={16}>
                     {
                         this.state.policeList.map((v,i)=>(
-                            <Col className="gutter-row" xxl={4} xl={6} key={v.code} >
-                                <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
-                                    <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
-                                    <div className="policeBottom">
-                                        <span className="policeCircle" /><span className="policeName">{v.name}</span>
-                                    </div>
-                                    <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
-                                    <span className="policeTimes">{v.atime}</span>
+                            <Col className={"gutter-row "+this.hanleBorder(i)} xxl={4} xl={6} key={i} >
+                                 <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
+                                       <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
+                                       <div className="policeBottom">
+                                           <span className="policeCircle" /><span className="policeName">{v.name}</span>
+                                       </div>
+                                       <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
+                                       <span className="policeTimes">{v.atime}</span>
                                 </div>
                             </Col>
                         ))

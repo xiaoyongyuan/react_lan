@@ -7,8 +7,6 @@ import playBtn from "../../style/ztt/imgs/playBtn.png";
 import HomePageModel from "./HomePageModel";
 import axios from "../../axios/index";
 import nodata from "../../style/imgs/nodata.png";
-import 'swiper/dist/css/swiper.min.css';
-import Swiper from 'swiper/dist/js/swiper.js';
 import EchartsLegend from "./EchartsLegend";
 class Index extends Component {
     constructor(props) {
@@ -26,15 +24,6 @@ class Index extends Component {
         this.getList();
         this.equipmentCount();
         this.policeCount();
-        new Swiper ('.swiper-container', {
-            loop:true,
-            slidesPerView: 3,
-            centeredSlides: true,
-            spaceBetween:10,
-            /*virtual: {
-                slides:this.state.policeList,
-            }*/
-        });
     }
     //设备数量
     equipmentCount=()=>{
@@ -75,7 +64,7 @@ class Index extends Component {
             data:{}
         }).then((res)=>{
             this.setState({
-                policeList:res.data.slice(0,20)
+                policeList:res.data.slice(0,6)
             })
         })
     };
@@ -121,6 +110,32 @@ class Index extends Component {
             visible:false
         });
         this.getList();
+    };
+    //报警背景颜色
+    hanlePoliceBg=(ststus)=>{
+        switch (ststus) {
+            case 0:
+                return "policeStatus unhanle";
+            case 1:
+                return "policeStatus policebg";
+            case 3:
+                return "policeStatus falsePolicebg";
+            default:
+                return;
+        }
+    };
+    //报警状态
+    hanleStatus=(ststus)=>{
+        switch (ststus) {
+            case 0:
+                return "未处理";
+            case 1:
+                return "警情";
+            case 3:
+                return "虚警";
+            default:
+                return;
+        }
     };
     //最后一次报警情况
     hanlelastAlarm=()=>{
@@ -256,24 +271,22 @@ class Index extends Component {
                     <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><span className="alarminfornikNameBg"/></div></a>
                     <div className="gutter-example">
                         <Row gutter={16}>
-                            <div className="swiper-container">
-                                <div className="swiper-wrapper">
-                                    {
-                                        this.state.policeList.map((v,i)=>(
-                                            <Col className="gutter-row" span={4} key={i}>
-                                                <div className="gutter-box" onClick={()=>this.hanleWithdrawal(v.code)}>
-                                                    <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
-                                                    <div className="alarminforBg">
-                                                        <span className="alarminforCirle"/>
-                                                        <span className="alarminforFont">{v.name}</span>
-                                                        <span className="alarminforVideo"/>
-                                                    </div>
-                                                </div>
-                                            </Col>
-                                        ))
-                                    }
-                                </div>
-                            </div>
+                            {
+                                this.state.policeList.map((v,i)=>(
+                                    <Col className="gutter-row" span={4} key={i}>
+                                        <div className="gutter-box" onClick={()=>this.hanleWithdrawal(v.code)}>
+                                            <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
+                                            <div className="alarminforBg">
+                                                <span className="alarminforCirle"/>
+                                                <span className="alarminforFont">{v.name}</span>
+                                                <span className="alarminforVideo"/>
+                                            </div>
+                                            <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
+                                            <span className="policeTimes">{v.atime}</span>
+                                        </div>
+                                    </Col>
+                                ))
+                            }
                         </Row>
                     </div>
                 </div>

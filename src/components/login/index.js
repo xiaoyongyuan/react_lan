@@ -19,10 +19,7 @@ class Login extends Component {
           .then(res => {
             if (res.success && res.data) {
               localStorage.setItem("account", res.data.datainfo.account);
-              localStorage.setItem(
-                "companycode",
-                res.data.datainfo.companycode
-              );
+              localStorage.setItem("companycode", res.data.datainfo.companycode);
               localStorage.setItem("ifsys", res.data.datainfo.ifsys);
               localStorage.setItem("utype", res.data.datainfo.utype);
               localStorage.setItem("token", res.data.token);

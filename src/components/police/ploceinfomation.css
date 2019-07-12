@@ -2,7 +2,7 @@
   background-color: #f0f2f5;
 }
 .ploceinfomation .selectBorder {
-  border: 1px solid #006cff;
+  border: 1px solid #006cff !important;
 }
 .ploceinfomation .policeList {
   min-height: 14vh;
@@ -496,7 +496,7 @@
 .ploceinfomation .gutter-row {
   background-color: #fff;
   padding: 20px 0;
-  border: 2px solid #F8F8F8;
+  border: 1px solid #F8F8F8;
 }
 .ploceinfomation .gutter-row .gutter-box {
   position: relative;

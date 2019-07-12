@@ -40,7 +40,7 @@
   margin-left: 16px;
 }
 .broadcast .broContext {
-  padding: 20px 0;
+  padding: 10px 20px;
 }
 .broadcast .broContext .nodata {
   width: 100%;
@@ -54,6 +54,7 @@
   position: relative;
   border: 1px solid #5a5555;
   min-height: 15vh;
+  margin: 10px 0;
 }
 .broadcast .borderBot .videoBtn {
   width: 16%;

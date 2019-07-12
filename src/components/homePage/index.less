@@ -1,7 +1,15 @@
 .homePage {
   display: flex;
   flex-direction: column;
-
+  .unhanle{
+    background-color: #006FE3;
+  }
+  .policebg{
+    background-color: #FF7200;
+  }
+  .falsePolicebg{
+    background-color: #B28750;
+  }
   .equNum {
     display: flex;
     justify-content: space-between;
@@ -31,6 +39,7 @@
 
         .equBer {
           font-size: 22px;
+          padding-right: 2px;
         }
 
         .equipName {
@@ -42,7 +51,6 @@
 
         .equipTotal {
           color: #385BD1;
-          letter-spacing: 1px;
         }
 
         .equipTotal-today {
@@ -68,6 +76,7 @@
 
         .equBer {
           font-size: 22px;
+          padding-right: 2px;
         }
 
         .equipName {
@@ -485,6 +494,36 @@
           left: 42%;
           width: 16%;
           cursor: pointer;
+        }
+        .policeStatus{
+          display: inline-block;
+          padding: 5px 10px;
+          color: #fff;
+          font-size: 13px;
+          border-bottom-right-radius: 20px;
+          border-top-right-radius:  20px;
+          position: absolute;
+          left: 0;
+          bottom: 70%;
+          .policeStatusCicle{
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+            margin-right: 5px;
+          }
+        }
+        .policeTimes{
+          display: inline-block;
+          position: absolute;
+          right: 0;
+          bottom: 50%;
+          background-color: rgba(10,51,73,0.8);
+          padding: 3px 10px;
+          color: #fff;
+          border-radius: 20px;
+          font-size: 12px;
         }
         .alarminforBg {
           position: absolute;

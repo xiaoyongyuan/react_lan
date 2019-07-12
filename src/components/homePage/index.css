@@ -2,6 +2,15 @@
   display: flex;
   flex-direction: column;
 }
+.homePage .unhanle {
+  background-color: #006FE3;
+}
+.homePage .policebg {
+  background-color: #FF7200;
+}
+.homePage .falsePolicebg {
+  background-color: #B28750;
+}
 .homePage .equNum {
   display: flex;
   justify-content: space-between;
@@ -30,6 +39,7 @@
 }
 .homePage .equNum .equ1 .equContext .equBer {
   font-size: 22px;
+  padding-right: 2px;
 }
 .homePage .equNum .equ1 .equContext .equipName {
   color: #354D9D;
@@ -39,7 +49,6 @@
 }
 .homePage .equNum .equ1 .equContext .equipTotal {
   color: #385BD1;
-  letter-spacing: 1px;
 }
 .homePage .equNum .equ1 .equContext .equipTotal-today {
   color: #FF7200;
@@ -61,6 +70,7 @@
 }
 .homePage .equNum .equ .equContext .equBer {
   font-size: 22px;
+  padding-right: 2px;
 }
 .homePage .equNum .equ .equContext .equipName {
   color: #354D9D;
@@ -417,6 +427,36 @@
   left: 42%;
   width: 16%;
   cursor: pointer;
+}
+.homePage .alarminfor .gutter-example .gutter-box .policeStatus {
+  display: inline-block;
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 13px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  position: absolute;
+  left: 0;
+  bottom: 70%;
+}
+.homePage .alarminfor .gutter-example .gutter-box .policeStatus .policeStatusCicle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  margin-right: 5px;
+}
+.homePage .alarminfor .gutter-example .gutter-box .policeTimes {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  bottom: 50%;
+  background-color: rgba(10, 51, 73, 0.8);
+  padding: 3px 10px;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 12px;
 }
 .homePage .alarminfor .gutter-example .gutter-box .alarminforBg {
   position: absolute;
