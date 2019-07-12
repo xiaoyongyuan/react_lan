@@ -196,6 +196,7 @@ class UserInfo extends Component {
             method: "post",
             url: "http://192.168.1.176:8111/api/system/setuser",
             data: {
+              code: this.state.currentRecordData.code,
               account: values.account,
               emailaddress: values.emailaddress,
               realname: values.realname,
@@ -218,25 +219,21 @@ class UserInfo extends Component {
     }
   };
 
-  delUser = code => {
-    // axios({
-    //   method: "post",
-    //   url: "http://192.168.1.176:8111/api/system/setuser",
-    //   data: {
-    //     account: values.account,
-    //     emailaddress: values.emailaddress,
-    //     realname: values.realname,
-    //     utype: values.utype,
-    //     ifsys: values.account === "admin" ? 1 : 0,
-    //     companycode: localStorage.getItem("companycode")
-    //   }
-    // }).then(res => {
-    //   if (res.data.success) {
-    //     message.success("删除用户成功");
-    //     this.getUserData();
-    //     form.resetFields();
-    //   }
-    // });
+  delUser = record => {
+    axios({
+      method: "post",
+      url: "http://192.168.1.176:8111/api/system/setuser",
+      data: {
+        code: record.code,
+        account: record.account,
+        ifdel: 1
+      }
+    }).then(res => {
+      if (res.data.success) {
+        message.success("删除用户成功");
+        this.getUserData();
+      }
+    });
   };
   render() {
     const ifsys = localStorage.getItem("ifsys");
@@ -247,27 +244,32 @@ class UserInfo extends Component {
         title: "序号",
         align: "center",
         key: "num",
+        width: "8%",
         render: (text, record, index) => index + 1
       },
       {
         title: "账号",
         dataIndex: "account",
+        width: "10%",
         align: "center"
       },
       {
         title: "用户名",
         dataIndex: "realname",
+        width: "10%",
         align: "center"
       },
       {
         title: "邮箱",
         dataIndex: "emailaddress",
+        width: "14%",
         align: "center"
       },
       {
         title: "最近登录时间",
         dataIndex: "lastlogin",
         align: "center",
+        width: "14%",
         render: text => {
           if (text) {
             return moment(text).format("YYYY-MM-DD HH:mm:ss");
@@ -281,6 +283,7 @@ class UserInfo extends Component {
         dataIndex: "utype",
         key: "role",
         align: "center",
+        width: "10%",
         render: (text, record) =>
           text === 0 && record.ifsys === 1
             ? "超级管理员"
@@ -293,7 +296,7 @@ class UserInfo extends Component {
         dataIndex: "utype",
         key: "opt",
         align: "center",
-        width: "18%",
+        width: "20%",
         render: (text, record) => {
           if (ifsys === "1") {
             if (account == record.account) {
@@ -319,7 +322,14 @@ class UserInfo extends Component {
                     编辑
                   </Button>
                   <Divider type="vertical" />
-                  <Button type="danger">删除</Button>
+                  <Button
+                    type="danger"
+                    onClick={() => {
+                      this.delUser(record);
+                    }}
+                  >
+                    删除
+                  </Button>
                 </span>
               );
             }
@@ -328,15 +338,6 @@ class UserInfo extends Component {
               if (account == record.account) {
                 return (
                   <span>
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        this.showModel("add");
-                      }}
-                    >
-                      新增
-                    </Button>
-                    <Divider type="vertical" />
                     <Button
                       type="dashed"
                       onClick={() => {
@@ -368,7 +369,14 @@ class UserInfo extends Component {
                       编辑
                     </Button>
                     <Divider type="vertical" />
-                    <Button type="danger">删除</Button>
+                    <Button
+                      type="danger"
+                      onClick={() => {
+                        this.delUser(record);
+                      }}
+                    >
+                      删除
+                    </Button>
                   </span>
                 );
               }
