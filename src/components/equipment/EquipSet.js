@@ -42,12 +42,12 @@ class EquipAdd extends Component {
       cid: "",
       presentlast: [],
       initarea: [
-        [152, 188],
-        [108, 95],
-        [552, 188],
-        [240, 299],
-        [278, 340],
-        [400, 208]
+        [195, 364],
+        [197, 252],
+        [307, 192],
+        [412, 264],
+        [412, 369],
+        [303, 433]
       ],
       newinitarea: [],
       initareaMove: false,
@@ -1277,7 +1277,7 @@ class EquipAdd extends Component {
     ];
     const formItemLayout = {
       labelCol: {
-        sm: { span: 5 }
+        sm: { span: 6 }
       },
       wrapperCol: {
         sm: { span: 10 }
