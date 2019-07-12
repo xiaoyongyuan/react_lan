@@ -19,16 +19,24 @@ const { Option } = Select;
 
 const FormModal = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
-    componentDidMount() {
-      const { currentRecordData, form } = this.props;
-      form.setFields({
-        account: currentRecordData.account ? currentRecordData.account : "",
-        realname: currentRecordData.realname ? currentRecordData.realname : "",
-        emailaddress: currentRecordData.emailaddress
-          ? currentRecordData.emailaddress
-          : "",
-        utype: currentRecordData.utype ? currentRecordData.utype : 0
-      });
+    componentDidUpdate(prevProps) {
+      if (prevProps.currentRecordData != this.props.currentRecordData) {
+        const { form } = this.props;
+        const nextData = this.props.currentRecordData;
+        form.setFieldsValue({
+          account: nextData.account != null ? nextData.account : ""
+        });
+        form.setFieldsValue({
+          realname: nextData.realname != null ? nextData.realname : ""
+        });
+        form.setFieldsValue({
+          emailaddress:
+            nextData.emailaddress != null ? nextData.emailaddress : ""
+        });
+        form.setFieldsValue({
+          utype: nextData.utype != null ? nextData.utype : 0
+        });
+      }
     }
 
     render() {
@@ -60,7 +68,7 @@ const FormModal = Form.create({ name: "form_in_modal" })(
                     message: "请输入账号!"
                   }
                 ]
-              })(<Input maxLength={10} readOnly={title === "编辑"} />)}
+              })(<Input maxLength={10} disabled={title === "编辑"} />)}
             </Form.Item>
             <Form.Item label="用户名" key="realname">
               {getFieldDecorator("realname", {
@@ -131,11 +139,14 @@ class UserInfo extends Component {
         title: "新增"
       });
     } else {
-      this.setState({
-        visible: true,
-        title: "编辑",
-        currentRecordData: opt
-      });
+      this.setState(
+        {
+          title: "编辑",
+          currentRecordData: opt,
+          visible: true
+        },
+        () => {}
+      );
     }
   };
   handleCancel = () => {
@@ -207,7 +218,26 @@ class UserInfo extends Component {
     }
   };
 
-  // delUser = code => {};
+  delUser = code => {
+    // axios({
+    //   method: "post",
+    //   url: "http://192.168.1.176:8111/api/system/setuser",
+    //   data: {
+    //     account: values.account,
+    //     emailaddress: values.emailaddress,
+    //     realname: values.realname,
+    //     utype: values.utype,
+    //     ifsys: values.account === "admin" ? 1 : 0,
+    //     companycode: localStorage.getItem("companycode")
+    //   }
+    // }).then(res => {
+    //   if (res.data.success) {
+    //     message.success("删除用户成功");
+    //     this.getUserData();
+    //     form.resetFields();
+    //   }
+    // });
+  };
   render() {
     const ifsys = localStorage.getItem("ifsys");
     const utype = localStorage.getItem("utype");
