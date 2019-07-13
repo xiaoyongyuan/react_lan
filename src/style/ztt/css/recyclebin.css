@@ -11,6 +11,10 @@
 .recycleBin .gutter-example {
   padding: 15px 15px;
 }
+.recycleBin .gutter-example .pagination {
+  text-align: center;
+  padding: 16px 0;
+}
 .recycleBin .gutter-example .nodata {
   width: 100%;
   text-align: center;

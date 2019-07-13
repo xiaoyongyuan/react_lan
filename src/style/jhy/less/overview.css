@@ -3,6 +3,16 @@
   background: #f8f8f8;
   padding: 30px;
 }
+.overview .elli {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.overview .vcenter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 .overview .ant-card-head {
   border: 0;
 }

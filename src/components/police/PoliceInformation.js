@@ -49,10 +49,10 @@ class PoliceInformation extends Component {
     //报警列表
     handlePoliceList=()=>{
         let params={
-            cid:this.state.scid,
             status:this.state.selectstatus,
             pageindex:this.state.page,
             pagesize:this.state.pagesize,
+            cid:this.state.scid,
             bdate:this.state.bdate,
             edate:this.state.edate
         };
@@ -82,6 +82,9 @@ class PoliceInformation extends Component {
                     method:"get",
                     url:window.g.loginURL+"/api/alarm/alarminfo",
                     data:{
+                        cid:this.state.scid,
+                        bdate:this.state.bdate,
+                        edate:this.state.edate,
                         code:this.state.policeListCode,
                         status:this.state.selectstatus,
                     }

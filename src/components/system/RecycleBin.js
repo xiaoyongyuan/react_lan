@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "../../style/ztt/css/recyclebin.less";
-import {Row,Col,message,Modal} from "antd";
+import {Row,Col,message,Modal,Pagination} from "antd";
 import alarmBg from "../../style/ztt/imgs/alarmBg.png";
 import axios from "../../axios/index";
 import nodata from "../../style/imgs/nodata.png";
@@ -10,7 +10,9 @@ class RecycleBin extends Component{
     constructor(props){
         super(props);
         this.state= {
-            recycList: []
+            recycList: [],
+            page:1,
+            pagesize:10
         };
     }
     componentDidMount() {
@@ -21,12 +23,15 @@ class RecycleBin extends Component{
             method:"get",
             url:window.g.loginURL+"/api/camera/getlist",
             data:{
-                ifdel:1
+                ifdel:1,
+                pagesize:this.state.pagesize,
+                pageindex:this.state.page
             }
         }).then((res)=>{
             if(res.success){
                 this.setState({
-                    recycList:res.data
+                    recycList:res.data,
+                    totalcount:res.totalcount
                 })
             }
         })
@@ -40,7 +45,7 @@ class RecycleBin extends Component{
                     method:"put",
                     url:window.g.loginURL+"/api/camera/update",
                     data:{
-                        ifdel:1,
+                        ifdel:0,
                         code:recoveryCode
                     }
                 }).then((res)=>{
@@ -56,6 +61,11 @@ class RecycleBin extends Component{
         let mydate = moment(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
         let days=mydate.diff(beforeTime, 'day');
         return 7-days;
+    };
+    hanlePage=(page)=>{
+        this.setState({page},()=>{
+            this.getList();
+        })
     };
     render() {
         return (
@@ -81,6 +91,7 @@ class RecycleBin extends Component{
                             ))]:[<div className="nodata"><img src={nodata} alt="" /></div>]
                         }
                     </Row>
+                    <Pagination hideOnSinglePage={true}  defaultCurrent={this.state.page} current={this.state.page} total={this.state.totalcount} pageSize={this.state.pagesize} onChange={this.hanlePage} total={this.state.totalcount} className="pagination" style={{display:this.state.recycList.length>0?"block":"none"}} />
                 </div>
             </div>
         );

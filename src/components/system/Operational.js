@@ -2,10 +2,48 @@ import React, { Component } from 'react';
 import {Form,Button,Input,Select,DatePicker } from "antd";
 import "../../style/ztt/css/operational.css";
 import Etable from "../common/Etable";
+import axios from "../../axios/index";
 import moment from 'moment';
 const { Option } = Select;
 const {RangePicker } = DatePicker;
 class Operational extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            operationList:[],
+            operationTypeList:[]
+        };
+    }
+    componentDidMount() {
+        this.getList();
+        this.operationType();
+    }
+    getList=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/logs/getlist",
+            data:{}
+        }).then((res)=>{
+            this.setState({
+                operationList:res.data
+            })
+        })
+    };
+    operationType=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/logs/gettypelist",
+            data:{}
+        }).then((res)=>{
+            let TypeList=[];
+           for(var a in res.data){
+               TypeList.push({code:a,name:res.data[a]})
+           }
+            this.setState({
+                operationTypeList:TypeList
+            })
+        })
+    };
     disabledDate=(current)=> {
         return current && current < moment().endOf('day');
     }
@@ -30,31 +68,47 @@ class Operational extends Component{
             disabledMinutes: () => this.range(0, 31),
             disabledSeconds: () => [55, 56],
         };
-    }
+    };
+    handleSubmit=()=>{
+
+    };
     render() {
         const { getFieldDecorator} = this.props.form;
         const columns=[
             {
                 title: 'ID',
-                dataIndex: 'index',
+                dataIndex: 'code',
                 render: (text, record,index) => (index+1),
                 sorter: (a, b) => a.age - b.age,
+                align:"center"
             },
             {
                 title: '用户名',
-                dataIndex: 'name',
+                dataIndex: 'uid',
+                render: (record)=>{
+                    return(
+                        <div>
+                            {record.uid}
+                        </div>
+                    )
+                },
+                align:"center"
             },
             {
-                title: '最近登时间',
-                dataIndex: 'times',
+                title: '操作时间',
+                dataIndex: 'createon',
+                render: (text) => (moment(text).format('YYYY-MM-DD HH:mm:ss')),
+                align:"center"
             },
             {
                 title: '操作类型',
-                dataIndex: 'types',
+                dataIndex: 'handletype',
+                align:"center"
             },
             {
                 title: '操作信息',
-                dataIndex: 'context',
+                dataIndex: 'handlememo',
+                align:"center"
             }
         ];
         return (
@@ -62,27 +116,27 @@ class Operational extends Component{
                 <div className="formLin">
                     <Form layout="inline" onSubmit={this.handleSubmit} >
                         <Form.Item label="操作类型">
-                            {getFieldDecorator('username', {
+                            {getFieldDecorator('handletype', {
                                 rules: [{ required: false, message: 'Please input your username!' }],
-                                initialValue:"0"
+                                initialValue:" "
                             })(
-                                <Select>
-                                    <Option value="0">全部</Option>
-                                    <Option value="1">全部</Option>
+                                <Select style={{width:120}}>
+                                    <Option value=" ">全部</Option>
+                                    {
+                                        this.state.operationTypeList.map((v,i)=>(
+                                            <Option value={v.code}>{v.name}</Option>
+                                        ))
+                                    }
                                 </Select>,
                             )}
                         </Form.Item>
                         <Form.Item label="用户名">
-                            {getFieldDecorator('password', {
-                                rules: [{ required: false, message: 'Please input your Password!' }],
-                            })(
+                            {getFieldDecorator('uid')(
                                 <Input/>,
                             )}
                         </Form.Item>
                         <Form.Item label="操作时间">
-                            {getFieldDecorator('password', {
-                                rules: [{ required: false, message: 'Please input your Password!' }],
-                            })(
+                            {getFieldDecorator('data')(
                                 <RangePicker
                                     disabledDate={this.disabledDate}
                                     disabledTime={this.disabledRangeTime}
@@ -102,6 +156,7 @@ class Operational extends Component{
                 <Etable
                     bordered
                     columns={columns}
+                    dataSource={this.state.operationList}
                 />
             </div>
         );

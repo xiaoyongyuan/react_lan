@@ -143,7 +143,7 @@ class HomePageModel extends Component{
                     let oldAlarm=this.state.homeDatail;
                     oldAlarm[0].status=res.data.status;
                     this.setState({oldAlarm});
-                    message.info("操作成功!")
+                    message.info("操作成功!");
                 }
             })
         }
@@ -185,8 +185,12 @@ class HomePageModel extends Component{
                                     <span>报警处理</span>
                                 </div>
                                 <div className="policeBtn">
-                                    <Button type="primary" onClick={()=>this.hanlePoliceStatus("1")}>警情</Button>
-                                    <Button type="primary" onClick={()=>this.hanlePoliceStatus("3")}>虚警</Button>
+                                    <Button type="primary" onClick={()=>this.hanlePoliceStatus("1")} >警情</Button>
+                                    <Button type="primary" onClick={()=>this.hanlePoliceStatus("3")} >虚警</Button>
+                                  {/* <div style={{display:this.state.ifstatus || this.state.falsestatus?"inlineBlock":"none"}}>
+                                       <p className="handler"><span className="hanleTime">处理时间</span><span className="hanleName">2019-7-13</span></p>
+                                       <p className="handler"><span className="hanleTime">处&nbsp;&nbsp;理&nbsp;人</span><span className="hanleName">李四</span></p>
+                                   </div>*/}
                                 </div>
                             </div>
                         </div>

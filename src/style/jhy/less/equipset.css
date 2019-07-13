@@ -8,17 +8,17 @@
   background: #f8f8f8;
 }
 .equipset .topbtn {
-  position: absolute;
-  top: 30px;
-  right: 20px;
-  z-index: 100;
+  margin-bottom: 20px;
 }
 .equipset .topbtn .ant-btn {
   margin-left: 20px;
 }
+.equipset .topbtn .ant-btn:first-child {
+  margin-left: 0;
+}
 .equipset .onlyadd .baseinfo {
   width: 250px;
-  line-height: 50px;
+  line-height: 40px;
   text-align: center;
   padding: 0 16px;
   background: #006fe4;
@@ -94,12 +94,12 @@
   align-items: center;
 }
 .equipset .ant-tabs-nav-container {
-  height: 50px !important;
+  height: 40px !important;
 }
 .equipset .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab {
   color: #646464 !important;
   background: #e5e5e5 !important;
-  height: 50px;
+  height: 40px;
   width: 250px;
   text-align: center;
 }
@@ -112,7 +112,7 @@
   padding-left: 60px;
 }
 .equipset .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active {
-  height: 50px;
+  height: 40px;
   color: #fff !important;
   background: #006fe4 !important;
 }
