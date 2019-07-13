@@ -212,9 +212,11 @@ class Overview extends Component {
                   className="cpuval"
                 />
               </Col>
-              <Col span={6} className="vjcenter">
-                <span className="syslabel">显存</span>
-                <span className="prog">{datalist.videoRam}</span>
+              <Col span={5} className="vjcenter">
+                <span style={{ width: "20%" }}>显存</span>
+                <span className="prog" style={{ width: "50%" }}>
+                  {datalist.videoRam}
+                </span>
               </Col>
               <Col span={6} className="vjcenter">
                 <span className="syslabel">空闲显存</span>
