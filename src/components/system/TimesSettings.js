@@ -30,7 +30,7 @@ class TimesSettings extends Component {
             <Form {...formItemLayout} colon={false}>
               <Form.Item>
                 <Row>
-                  <Col span={6}>
+                  <Col span={8}>
                     {getFieldDecorator("autoGettime", {
                       initialValue: "auto"
                     })(

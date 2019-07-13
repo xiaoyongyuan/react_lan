@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Row, Col, Form, Radio, Button, Input } from "antd";
+import { Row, Col, Form, Radio, Button, Input, message } from "antd";
+import axios from "../../axios/index";
 import "../../style/jhy/less/netset.less";
 
 const NetOneForm = Form.create({})(
@@ -7,7 +8,8 @@ const NetOneForm = Form.create({})(
     constructor(props) {
       super(props);
       this.state = {
-        isDisable: false
+        isDisable: false,
+        type: 0
       };
     }
     render() {
@@ -23,26 +25,25 @@ const NetOneForm = Form.create({})(
       return (
         <Form {...formItemLayout} colon={false} onSubmit={this.props.onSub}>
           <Form.Item>
-            {getFieldDecorator("autoGetIp", {})(
-              <Radio
-                value="auto"
-                checked={this.state.isDisable}
-                onClick={() => this.setState({ isDisable: true })}
-              >
-                自动获取IP地址
-              </Radio>
-            )}
+            <Radio
+              value="1"
+              checked={this.state.isDisable}
+              onClick={() => {
+                this.setState({ type: 1, isDisable: true });
+                this.props.onReset();
+              }}
+            >
+              自动获取IP地址
+            </Radio>
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator("useUnderIP", {})(
-              <Radio
-                value="hand"
-                checked={!this.state.isDisable}
-                onClick={() => this.setState({ isDisable: false })}
-              >
-                使用下面的IP地址
-              </Radio>
-            )}
+            <Radio
+              value="0"
+              checked={!this.state.isDisable}
+              onClick={() => this.setState({ type: 0, isDisable: false })}
+            >
+              使用下面的IP地址
+            </Radio>
           </Form.Item>
           <Form.Item label="IP号">
             {getFieldDecorator("ip", {})(
@@ -50,22 +51,22 @@ const NetOneForm = Form.create({})(
             )}
           </Form.Item>
           <Form.Item label="子网编码">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("zwym", {})(
               <Input disabled={this.state.isDisable} />
             )}
           </Form.Item>
           <Form.Item label="默认网关">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("mrwg", {})(
               <Input disabled={this.state.isDisable} />
             )}
           </Form.Item>
           <Form.Item label="DNS1">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("dns1", {})(
               <Input disabled={this.state.isDisable} />
             )}
           </Form.Item>
           <Form.Item label="DNS2">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("dns2", {})(
               <Input disabled={this.state.isDisable} />
             )}
           </Form.Item>
@@ -92,7 +93,8 @@ const NetTwoForm = Form.create({})(
     constructor(props) {
       super(props);
       this.state = {
-        isDisableTwo: false
+        isDisableTwo: false,
+        type: 0
       };
     }
     render() {
@@ -109,26 +111,25 @@ const NetTwoForm = Form.create({})(
       return (
         <Form {...formItemLayout} colon={false} onSubmit={this.props.onSub}>
           <Form.Item>
-            {getFieldDecorator("autoGetIp", {})(
-              <Radio
-                value="auto"
-                checked={this.state.isDisableTwo}
-                onClick={() => this.setState({ isDisableTwo: true })}
-              >
-                自动获取IP地址
-              </Radio>
-            )}
+            <Radio
+              value="1"
+              checked={this.state.isDisableTwo}
+              onClick={() => {
+                this.setState({ type: 1, isDisableTwo: true });
+                this.props.onReset();
+              }}
+            >
+              自动获取IP地址
+            </Radio>
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator("useUnderIP", {})(
-              <Radio
-                value="hand"
-                checked={!this.state.isDisableTwo}
-                onClick={() => this.setState({ isDisableTwo: false })}
-              >
-                使用下面的IP地址
-              </Radio>
-            )}
+            <Radio
+              value="0"
+              checked={!this.state.isDisableTwo}
+              onClick={() => this.setState({ type: 0, isDisableTwo: false })}
+            >
+              使用下面的IP地址
+            </Radio>
           </Form.Item>
           <Form.Item label="IP号">
             {getFieldDecorator("ip", {})(
@@ -136,22 +137,22 @@ const NetTwoForm = Form.create({})(
             )}
           </Form.Item>
           <Form.Item label="子网编码">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("zwym", {})(
               <Input disabled={this.state.isDisableTwo} />
             )}
           </Form.Item>
           <Form.Item label="默认网关">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("mrwg", {})(
               <Input disabled={this.state.isDisableTwo} />
             )}
           </Form.Item>
           <Form.Item label="DNS1">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("dns1", {})(
               <Input disabled={this.state.isDisableTwo} />
             )}
           </Form.Item>
           <Form.Item label="DNS2">
-            {getFieldDecorator("ip", {})(
+            {getFieldDecorator("dns2", {})(
               <Input disabled={this.state.isDisableTwo} />
             )}
           </Form.Item>
@@ -177,10 +178,61 @@ const NetTwoForm = Form.create({})(
 class NetworkSettings extends Component {
   handleSub(type) {
     if (type === "one") {
-      const { validateFields } = this.form1.props.form;
-      validateFields((err, values) => {});
+      const { validateFields, resetFields } = this.form1.props.form;
+      validateFields((err, values) => {
+        if (!err) {
+          axios
+            .ajax({
+              method: "get",
+              url: "http://192.168.1.176:8111/api/system/ipset",
+              data: {
+                id: 1,
+                type: this.form1.state.type,
+                ip: values.ip,
+                zwym: values.zwym,
+                mrwg: values.mrwg,
+                dns: values.dns1
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("网卡一配置成功");
+                // resetFields();
+              }
+            });
+        } else {
+          message.error(err);
+          return;
+        }
+      });
     } else {
-      const { validateFields } = this.form2.props.form;
+      const { validateFields, resetFields } = this.form2.props.form;
+      validateFields((err, values) => {
+        if (!err) {
+          axios
+            .ajax({
+              method: "get",
+              url: "http://192.168.1.176:8111/api/system/ipset",
+              data: {
+                id: 0,
+                type: this.form2.state.type,
+                ip: values.ip,
+                zwym: values.zwym,
+                mrwg: values.mrwg,
+                dns: values.dns1
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("网卡二配置成功");
+                // resetFields();
+              }
+            });
+        } else {
+          message.error(err);
+          return;
+        }
+      });
     }
   }
   handleReset(type) {
