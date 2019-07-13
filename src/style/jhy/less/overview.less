@@ -9,10 +9,12 @@
     white-space: nowrap;
   }
 
-  .vcenter {
+  .vjcenter {
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
   }
 
   .ant-card-head {
@@ -126,6 +128,7 @@
 
         .ant-progress-inner {
           width: 100%;
+          background: #dcdbe0;
 
           .ant-progress-bg {
             background: #006cff;
@@ -142,10 +145,10 @@
 
       .syslabel {
         display: inline-block;
-        width: 25%;
+        width: 40%;
         font-size: 16px;
         color: #2c459a;
-        text-align: right;
+        text-align: left;
       }
 
       .prog {
