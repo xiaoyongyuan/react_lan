@@ -125,11 +125,11 @@ class Overview extends Component {
                     </div>
                   </Col>
                   <Col span={8}>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot bluedot" />
                       CPU使用率
                     </p>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot graydot" />
                       CPU空闲率
                     </p>
@@ -149,15 +149,15 @@ class Overview extends Component {
                     </div>
                   </Col>
                   <Col span={8}>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot bluedot" />
                       总物理内存
                     </p>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot orangedot" />
                       剩余物理内存
                     </p>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot lightbluedot" />
                       已使用物理内存
                     </p>
@@ -177,15 +177,15 @@ class Overview extends Component {
                     </div>
                   </Col>
                   <Col span={8}>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot bluedot" />
                       可使用内存
                     </p>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot orangedot" />
                       剩余内存
                     </p>
-                    <p className="desc">
+                    <p className="desc elli">
                       <span className="dot lightbluedot" />
                       最大可使用内存
                     </p>
@@ -198,12 +198,12 @@ class Overview extends Component {
         <Row className="midwrap">
           <Card title="操作系统" bordered={false} className="ossys">
             <Row>
-              <Col span={5}>
-                <span className="syslabel">总线程数</span>
+              <Col span={6} className="vcenter">
+                <span className="syslabel elli">总线程数</span>
                 <span className="prog">{datalist.TotalthreadNum}</span>
               </Col>
-              <Col span={5}>
-                <span className="syslabel">CPU使用率</span>
+              <Col span={6} className="vcenter">
+                <span className="syslabel elli">CPU使用率</span>
                 <Progress
                   percent={parseInt(datalist.cpuUsed)}
                   format={percent => {
@@ -212,12 +212,12 @@ class Overview extends Component {
                   className="cpuval"
                 />
               </Col>
-              <Col span={5}>
+              <Col span={6} className="vcenter">
                 <span className="syslabel">显存</span>
                 <span className="prog">{datalist.videoRam}</span>
               </Col>
-              <Col span={5}>
-                <span className="syslabel">空闲显存</span>
+              <Col span={6} className="vcenter">
+                <span className="syslabel elli">空闲显存</span>
                 <span className="prog">{datalist.freeVideoRam}</span>
               </Col>
             </Row>
@@ -265,7 +265,7 @@ class Overview extends Component {
                   </Descriptions.Item>
                 </Descriptions>
               </Col>
-              <Col span={4}>
+              <Col span={5}>
                 <List
                   // style={{ width: "90%" }}
                   dataSource={funconfig}

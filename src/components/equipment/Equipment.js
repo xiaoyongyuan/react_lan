@@ -82,13 +82,12 @@ class Equipment extends Component {
                   md={6}
                   style={{
                     marginBottom: "16px",
-                    height: "25vh",
-                    background: "#fff"
+                    height: "25vh"
                   }}
                   key={inx}
                   className="equipWrap"
                 >
-                  <div className="equipEle">
+                  <div className="equipEle" style={{ background: "#fff" }}>
                     <div
                       style={{
                         height: "82%",
@@ -122,7 +121,7 @@ class Equipment extends Component {
                         </span>
                       </li>
                       <li
-                        className="extra"
+                        className="extra elli"
                         onClick={() => {
                           this.setEquip(val.code);
                         }}
