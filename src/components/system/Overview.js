@@ -198,12 +198,12 @@ class Overview extends Component {
         <Row className="midwrap">
           <Card title="操作系统" bordered={false} className="ossys">
             <Row>
-              <Col span={6} className="vcenter">
-                <span className="syslabel elli">总线程数</span>
+              <Col span={6} className="vjcenter">
+                <span className="syslabel">总线程数</span>
                 <span className="prog">{datalist.TotalthreadNum}</span>
               </Col>
-              <Col span={6} className="vcenter">
-                <span className="syslabel elli">CPU使用率</span>
+              <Col span={6} className="vjcenter">
+                <span className="syslabel">CPU使用率</span>
                 <Progress
                   percent={parseInt(datalist.cpuUsed)}
                   format={percent => {
@@ -212,12 +212,12 @@ class Overview extends Component {
                   className="cpuval"
                 />
               </Col>
-              <Col span={6} className="vcenter">
+              <Col span={6} className="vjcenter">
                 <span className="syslabel">显存</span>
                 <span className="prog">{datalist.videoRam}</span>
               </Col>
-              <Col span={6} className="vcenter">
-                <span className="syslabel elli">空闲显存</span>
+              <Col span={6} className="vjcenter">
+                <span className="syslabel">空闲显存</span>
                 <span className="prog">{datalist.freeVideoRam}</span>
               </Col>
             </Row>

@@ -36,6 +36,9 @@ class EquipSet extends Component {
       addOnly: true,
       addBackCode: "",
       equipData: {},
+      disabledStopSer: false,
+      disabled24: false,
+      disabledRecover: false,
       typeSelect: [0],
       defSelect: 1,
       src: "",
@@ -87,6 +90,30 @@ class EquipSet extends Component {
       .then(res => {
         if (res.success) {
           console.log(res.data, "list");
+          if (res.data.cstatus === 0) {
+            this.setState({
+              disabledStopSer: true,
+              disabled24: true,
+              disabledRecover: true
+            });
+          } else if (res.data.cstatus === 1) {
+            if (res.data.if_cancel === 1) {
+              this.setState({
+                disabledStopSer: false,
+                disabledRecover: false
+              });
+            } else if (res.data.if_cancel === 0) {
+              this.setState({
+                disabledStopSer: false,
+                disabled24: false
+              });
+            } else if (res.data.if_cancel === 2) {
+              this.setState({
+                disabledRecover: false,
+                disabled24: false
+              });
+            }
+          }
           this.setState(
             {
               equipData: res.data
@@ -193,13 +220,13 @@ class EquipSet extends Component {
         url: window.g.loginURL + "/api/camera/update",
         data: {
           code: this.state.addBackCode || this.props.query.code,
-          ifdel: 0
+          ifdel: 1
         }
       })
       .then(res => {
         if (res.success) {
           message.success("已删除");
-          this.getOne();
+          window.location.href = "#/main/equipment";
         }
       });
   };
@@ -1420,12 +1447,14 @@ class EquipSet extends Component {
                   </Row>
                 </Col>
                 <Col span={10}>
-                  <Form.Item label="视频用户名">
-                    {getFieldDecorator("vusername", {})(<Input />)}
-                  </Form.Item>
-                  <Form.Item label="视频密码">
-                    {getFieldDecorator("vpassword", {})(<Input />)}
-                  </Form.Item>
+                  <Row style={{ marginBottom: "20px" }}>
+                    <Form.Item label="视频用户名">
+                      {getFieldDecorator("vusername", {})(<Input />)}
+                    </Form.Item>
+                    <Form.Item label="视频密码">
+                      {getFieldDecorator("vpassword", {})(<Input />)}
+                    </Form.Item>
+                  </Row>
                   <Form.Item label="场景">
                     {getFieldDecorator("scene", {
                       initialValue: "室外"
@@ -1518,10 +1547,7 @@ class EquipSet extends Component {
                 返回
               </Button>
               <Button
-                disabled={
-                  this.state.equipData.cstatus === 1 ||
-                  this.state.equipData.field == null
-                }
+                disabled={this.state.equipData.cstatus === 1}
                 type="primary"
                 onClick={() => this.handleUnlock()}
               >
@@ -1529,30 +1555,21 @@ class EquipSet extends Component {
               </Button>
               <Button
                 type="danger"
-                disabled={
-                  this.state.equipData.cstatus === 0 ||
-                  this.state.equipData.if_cancel === 2
-                }
+                disabled={this.state.disabledStopSer}
                 onClick={() => this.handleStop()}
               >
                 停止服务
               </Button>
               <Button
                 type="primary"
-                disabled={
-                  this.state.equipData.cstatus === 0 ||
-                  this.state.equipData.if_cancel === 1
-                }
+                disabled={this.state.disabled24}
                 onClick={() => this.handleTwentyFour()}
               >
                 24小时设防
               </Button>
               <Button
                 type="primary"
-                disabled={
-                  this.state.equipData.cstatus === 0 ||
-                  this.state.equipData.if_cancel === 0
-                }
+                disabled={this.state.disabledRecover}
                 onClick={() => this.handleRecover()}
               >
                 恢复
@@ -1699,12 +1716,14 @@ class EquipSet extends Component {
                       </Row>
                     </Col>
                     <Col span={10}>
-                      <Form.Item label="视频用户名">
-                        {getFieldDecorator("vusername", {})(<Input />)}
-                      </Form.Item>
-                      <Form.Item label="视频密码">
-                        {getFieldDecorator("vpassword", {})(<Input />)}
-                      </Form.Item>
+                      <Row style={{ marginBottom: "20px" }}>
+                        <Form.Item label="视频用户名">
+                          {getFieldDecorator("vusername", {})(<Input />)}
+                        </Form.Item>
+                        <Form.Item label="视频密码">
+                          {getFieldDecorator("vpassword", {})(<Input />)}
+                        </Form.Item>
+                      </Row>
                       <Form.Item label="场景">
                         {getFieldDecorator("scene", {
                           initialValue: "室外"
