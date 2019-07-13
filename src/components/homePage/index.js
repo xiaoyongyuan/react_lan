@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./index.less";
-import {Modal,Row,Col} from "antd";
+import {Modal,Row,Col,Icon} from "antd";
 import alarmBg from "../../style/ztt/imgs/alarmBg.png";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import playBtn from "../../style/ztt/imgs/playBtn.png";
@@ -268,7 +268,7 @@ class Index extends Component {
                     </div>
                 </div>
                 <div className="alarminfor">
-                    <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><span className="alarminfornikNameBg"/></div></a>
+                    <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><Icon className="iconRight" type="double-right" /></div></a>
                     <div className="gutter-example">
                         <Row gutter={16}>
                             {

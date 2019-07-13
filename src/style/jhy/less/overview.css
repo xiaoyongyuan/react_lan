@@ -8,10 +8,12 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.overview .vcenter {
+.overview .vjcenter {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 }
 .overview .ant-card-head {
   border: 0;
@@ -103,6 +105,7 @@
 }
 .overview .midwrap .ossys .cpuval .ant-progress-inner {
   width: 100%;
+  background: #dcdbe0;
 }
 .overview .midwrap .ossys .cpuval .ant-progress-inner .ant-progress-bg {
   background: #006cff;
@@ -115,10 +118,10 @@
 }
 .overview .midwrap .ossys .syslabel {
   display: inline-block;
-  width: 25%;
+  width: 40%;
   font-size: 16px;
   color: #2c459a;
-  text-align: right;
+  text-align: left;
 }
 .overview .midwrap .ossys .prog {
   display: inline-block;

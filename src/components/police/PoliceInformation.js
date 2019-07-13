@@ -294,11 +294,11 @@ class PoliceInformation extends Component {
         e.preventDefault();
         this.props.form.validateFields((err,values)=>{
             if(!err){
-                console.log(values)
                 if(values.date && values.date.length){
-                    var oldTimestart = (new Date(values.date[0])).getTime()/1000;
-                    var oldTimeend = (new Date(values.date[1])).getTime()/1000;
-                    if(oldTimeend-oldTimestart<=604800) {
+                    let beforeTime = moment(values.date[0]).format('YYYY-MM-DD HH:mm:ss');
+                    let mydate = moment(moment(values.date[1]).format('YYYY-MM-DD HH:mm:ss'));
+                    let days=mydate.diff(beforeTime, 'day');
+                    if(days<=7) {
                         this.setState({
                             bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):null,
                             edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):null,

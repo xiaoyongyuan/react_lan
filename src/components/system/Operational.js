@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Form,Button,Input,Select,DatePicker } from "antd";
+import {Form,Button,Input,Select,DatePicker,message } from "antd";
 import "../../style/ztt/css/operational.css";
 import Etable from "../common/Etable";
 import axios from "../../axios/index";
@@ -11,9 +11,13 @@ class Operational extends Component{
         super(props);
         this.state={
             operationList:[],
-            operationTypeList:[]
+            operationTypeList:[],
         };
     }
+    param={
+        pagesize:10,
+        pageindex:1
+    };
     componentDidMount() {
         this.getList();
         this.operationType();
@@ -22,10 +26,11 @@ class Operational extends Component{
         axios.ajax({
             method:"get",
             url:window.g.loginURL+"/api/logs/getlist",
-            data:{}
+            data:this.param
         }).then((res)=>{
             this.setState({
-                operationList:res.data
+                operationList:res.data,
+                totalcount:res.totalcount
             })
         })
     };
@@ -44,33 +49,41 @@ class Operational extends Component{
             })
         })
     };
-    disabledDate=(current)=> {
-        return current && current < moment().endOf('day');
-    }
-    range=(start, end) =>{
-        const result = [];
-        for (let i = start; i < end; i++) {
-            result.push(i);
-        }
-        return result;
-    }
-
-    disabledRangeTime=(_, type)=> {
-        if (type === 'start') {
-            return {
-                disabledHours: () => this.range(0, 60).splice(4, 20),
-                disabledMinutes: () => this.range(30, 60),
-                disabledSeconds: () => [55, 56],
-            };
-        }
-        return {
-            disabledHours: () => this.range(0, 60).splice(20, 4),
-            disabledMinutes: () => this.range(0, 31),
-            disabledSeconds: () => [55, 56],
-        };
+    disabledDate = (current) => {
+        return current > moment().endOf('day');
     };
-    handleSubmit=()=>{
-
+    handleSubmit=(e)=>{
+        e.preventDefault();
+        this.props.form.validateFields((err,values)=>{
+            if(values.times && values.times.length){
+                let beforeTime = moment(values.times[0]).format('YYYY-MM-DD HH:mm:ss');
+                let mydate = moment(moment(values.times[1]).format('YYYY-MM-DD HH:mm:ss'));
+                let days=mydate.diff(beforeTime, 'day');
+                if(days<=1){
+                    this.param.bdate=values.times && values.times.length?values.times[0].format("YYYY-MM-DD HH:00:00"):null;
+                    this.param.edate=values.times && values.times.length?values.times[1].format("YYYY-MM-DD HH:00:00"):null;
+                }else{
+                    message.info("请选择24小时以内的时间");
+                }
+            }
+            this.param.handletype=values.handletype;
+            this.param.realname=values.realname;
+            this.param.pageindex=1;
+           this.getList();
+        })
+    };
+    handleType=(type)=>{
+        let name='';
+        this.state.operationTypeList.map((v)=>{
+           if(v.code===type){
+               name=v.name;
+           }
+        });
+        return name;
+    };
+    changePage=(page)=>{
+        this.param.pageindex=page;
+        this.getList();
     };
     render() {
         const { getFieldDecorator} = this.props.form;
@@ -85,11 +98,9 @@ class Operational extends Component{
             {
                 title: '用户名',
                 dataIndex: 'uid',
-                render: (record)=>{
+                render: (record,text) => {
                     return(
-                        <div>
-                            {record.uid}
-                        </div>
+                        <div>{text.uid}&nbsp;&nbsp;/&nbsp;&nbsp;{text.realname}</div>
                     )
                 },
                 align:"center"
@@ -103,6 +114,11 @@ class Operational extends Component{
             {
                 title: '操作类型',
                 dataIndex: 'handletype',
+                render: (record,text) => {
+                    return (
+                        <div>{this.handleType(text.handletype)}</div>
+                    )
+                },
                 align:"center"
             },
             {
@@ -118,10 +134,10 @@ class Operational extends Component{
                         <Form.Item label="操作类型">
                             {getFieldDecorator('handletype', {
                                 rules: [{ required: false, message: 'Please input your username!' }],
-                                initialValue:" "
+                                initialValue:"all"
                             })(
                                 <Select style={{width:120}}>
-                                    <Option value=" ">全部</Option>
+                                    <Option value="all">全部</Option>
                                     {
                                         this.state.operationTypeList.map((v,i)=>(
                                             <Option value={v.code}>{v.name}</Option>
@@ -131,19 +147,15 @@ class Operational extends Component{
                             )}
                         </Form.Item>
                         <Form.Item label="用户名">
-                            {getFieldDecorator('uid')(
+                            {getFieldDecorator('realname')(
                                 <Input/>,
                             )}
                         </Form.Item>
                         <Form.Item label="操作时间">
-                            {getFieldDecorator('data')(
+                            {getFieldDecorator('times')(
                                 <RangePicker
                                     disabledDate={this.disabledDate}
-                                    disabledTime={this.disabledRangeTime}
-                                    showTime={{
-                                        hideDisabledOptions: true,
-                                        defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
-                                    }}
+                                    showTime={{ format: 'YYYY-MM-DD HH:mm:ss' }}
                                     format="YYYY-MM-DD HH:mm:ss"
                                 />
                             )}
@@ -157,6 +169,13 @@ class Operational extends Component{
                     bordered
                     columns={columns}
                     dataSource={this.state.operationList}
+                    pagination={{
+                        defaultPageSize:this.param.pagesize,
+                        current:this.param.pageindex,
+                        total:this.state.totalcount,
+                        onChange:this.changePage,
+                        hideOnSinglePage:true
+                    }}
                 />
             </div>
         );

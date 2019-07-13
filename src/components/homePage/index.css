@@ -403,14 +403,11 @@
 }
 .homePage .alarminfor .alarminfornikName .alarminfornikName-title {
   color: #066fff;
-  margin-right: 15px;
+  margin-right: 7px;
+  font-size: 15px;
 }
-.homePage .alarminfor .alarminfornikName .alarminfornikNameBg {
-  width: 24px;
-  height: 14px;
-  background: url("../../style/ztt/imgs/next.png");
-  background-size: 100% 100%;
-  cursor: pointer;
+.homePage .alarminfor .alarminfornikName .iconRight {
+  color: #066fff;
 }
 .homePage .alarminfor .gutter-example {
   margin-top: 16px;
