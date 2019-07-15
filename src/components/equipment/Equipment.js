@@ -92,9 +92,10 @@ class Equipment extends Component {
                       style={{
                         height: "82%",
                         background: val.basemap
-                          ? `url(${
-                              val.basemap
-                            }) no-repeat center center / 100% 100% `
+                          ? "url(" +
+                            `${val.basemap}`.split(".jpg")[0] +
+                            `?t=${Date.parse(new Date())}.jpg` +
+                            ")  no-repeat center center / 100% 100% "
                           : "#efefef",
                         position: "relative",
                         border: "1px solid #efefef"

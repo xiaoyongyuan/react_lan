@@ -41,6 +41,9 @@ class EquipSet extends Component {
       disabledRecover: true,
       typeSelect: [0],
       defSelect: 1,
+      sliderChange: false,
+      threshold: 5,
+      frozentime: 5,
       src: "",
       cid: "",
       presentlast: [],
@@ -661,6 +664,12 @@ class EquipSet extends Component {
         return "";
       });
     }
+  };
+  handleThresholdChange = val => {
+    this.setState({ sliderChange: true, threshold: val });
+  };
+  handleFrozenChange = val => {
+    this.setState({ sliderChange: true, frozentime: val });
   };
   handleAdd = e => {
     e.preventDefault();
@@ -1518,7 +1527,7 @@ class EquipSet extends Component {
                         onChange={value => this.handleFrozenChange(value)}
                       />
                     )}
-                    <span className="sliderVal">{this.state.frozentime}s</span>
+                    <span className="sliderVal">{this.state.frozentime}</span>
                   </Form.Item>
                   <Form.Item label=" 是否强制报警">
                     {getFieldDecorator("alarmtype", {
@@ -1788,7 +1797,10 @@ class EquipSet extends Component {
                           />
                         )}
                         <span className="sliderVal">
-                          {this.state.frozentime}s
+                          {this.state.sliderChange
+                            ? this.state.frozentime
+                            : this.state.equipData.frozentime}
+                          s
                         </span>
                       </Form.Item>
                       <Form.Item label=" 是否强制报警">
@@ -1819,7 +1831,9 @@ class EquipSet extends Component {
                           />
                         )}
                         <span className="sliderVal">
-                          {this.state.threshold}
+                          {this.state.sliderChange
+                            ? this.state.threshold
+                            : this.state.equipData.threshold}
                         </span>
                       </Form.Item>
                       <Form.Item
@@ -1858,7 +1872,11 @@ class EquipSet extends Component {
                       height="576px"
                       id="cavcontainer"
                       style={{
-                        backgroundImage: `url(${this.state.equipData.basemap})`,
+                        backgroundImage:
+                          "url(" +
+                          `${this.state.equipData.basemap}`.split(".jpg")[0] +
+                          `?t=${Date.parse(new Date())}.jpg` +
+                          ")",
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}

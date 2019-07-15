@@ -2,11 +2,239 @@ import React, { Component } from "react";
 import $ from "jquery";
 import "../../style/jhy/less/defendTime.less";
 import axios from "../../axios";
-import { Button, Row, Col, message } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  message,
+  Icon,
+  Modal,
+  Form,
+  Checkbox,
+  Radio
+} from "antd";
+const CheckboxGroup = Checkbox.Group;
+const dayOptions = [
+  { label: "星期一", value: 1 },
+  { label: "星期二", value: 2 },
+  { label: "星期三", value: 3 },
+  { label: "星期四", value: 4 },
+  { label: "星期五", value: 5 },
+  { label: "星期六", value: 6 },
+  { label: "星期七", value: 7 }
+];
+const FormModal = Form.create()(
+  class extends React.Component {
+    state = {
+      checkedList: [],
+      indeterminate: true,
+      checkAll: false,
+      radioSelect: false
+    };
+    componentDidMount() {
+      if (this.state.checkedList.length > 0) {
+        this.setState({
+          radioSelect: false
+        });
+      }
+    }
+
+    onChange = checkedList => {
+      if (checkedList.length > 0) {
+        this.setState({
+          radioSelect: false
+        });
+      }
+      this.setState({
+        checkedList,
+        indeterminate:
+          !!checkedList.length && checkedList.length < dayOptions.length,
+        checkAll: checkedList.length === dayOptions.length
+      });
+    };
+    onCheckAllChange = e => {
+      const checkedList = [];
+      dayOptions.map(val => {
+        checkedList.push(val.value);
+      });
+
+      if (e.target.checked) {
+        this.props.form.setFieldsValue({
+          days: checkedList
+        });
+        this.setState({
+          radioSelect: false
+        });
+      } else {
+        this.props.form.setFieldsValue({
+          days: []
+        });
+      }
+
+      this.setState({
+        checkedList: e.target.checked ? checkedList : [],
+        indeterminate: false,
+        checkAll: e.target.checked
+      });
+    };
+
+    render() {
+      const { visible, onCancel, onOk, form, btnNum } = this.props;
+      const { getFieldDecorator } = form;
+      const day = {
+        1: "一",
+        2: "二",
+        3: "三",
+        4: "四",
+        5: "五",
+        6: "六",
+        7: "七"
+      };
+      const selectLabel = (
+        <span>
+          复制星期{day[btnNum]}的布防时间到...
+          <Checkbox
+            indeterminate={this.state.indeterminate}
+            onChange={this.onCheckAllChange}
+            checked={this.state.checkAll}
+            style={{ marginLeft: "20px" }}
+          >
+            全选
+          </Checkbox>
+        </span>
+      );
+      const title = (
+        <span>
+          <Icon
+            type="question-circle"
+            style={{ color: "#fbb937", marginRight: "20px" }}
+          />
+          确定进行以下操作吗?
+        </span>
+      );
+      return (
+        <Modal
+          visible={visible}
+          onCancel={onCancel}
+          onOk={onOk}
+          title={title}
+          mask={false}
+        >
+          <Form layout="vertical">
+            <Form.Item label={selectLabel} key="days">
+              {getFieldDecorator("days", {
+                initialValue: [btnNum]
+              })(
+                <CheckboxGroup options={dayOptions} onChange={this.onChange} />
+              )}
+            </Form.Item>
+            <Form.Item label=" " key="delete">
+              <Radio
+                checked={this.state.radioSelect}
+                onClick={() => {
+                  this.setState(
+                    {
+                      radioSelect: !this.state.radioSelect
+                    },
+                    () => {
+                      if (this.state.radioSelect) {
+                        this.props.form.setFieldsValue({ days: [] });
+                        this.setState({
+                          indeterminate: false,
+                          checkAll: false
+                        });
+                      }
+                    }
+                  );
+                }}
+              >
+                清除当前设定
+              </Radio>
+            </Form.Item>
+          </Form>
+        </Modal>
+      );
+    }
+  }
+);
 class DefendTime extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      visible: false,
+      btnNum: "",
+      currentData: []
+    };
+  }
+  onShow() {
+    this.setState({
+      visible: true
+    });
+  }
+  onCancel() {
+    this.setState({
+      visible: false
+    });
+  }
+  onOk() {
+    const { getFieldsValue } = this.form.props.form;
+    this.setState({
+      visible: false
+    });
+
+    if (this.form.state.radioSelect) {
+      if (
+        this.props.equipData.timelist &&
+        this.props.equipData.timelist[this.state.btnNum]
+      ) {
+        axios
+          .ajax({
+            method: "delete",
+            url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
+            data: {
+              cid: this.props.code ? this.props.code : this.props.addBackCode,
+              deleteNum: this.state.btnNum
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("删除成功");
+              if (
+                $($("tr")[this.state.btnNum - 1])
+                  .find(".td")
+                  .hasClass("selected")
+              ) {
+                $($("tr")[this.state.btnNum - 1])
+                  .find(".td")
+                  .removeClass("selected")
+                  .css("background", "#fff");
+              }
+            }
+          });
+      } else {
+        if (
+          $($("tr")[this.state.btnNum - 1])
+            .find(".td")
+            .hasClass("selected")
+        ) {
+          $($("tr")[this.state.btnNum - 1])
+            .find(".td")
+            .removeClass("selected")
+            .css("background", "#fff");
+        }
+      }
+    } else {
+      if (getFieldsValue().days && this.state.currentData.length > 0) {
+        getFieldsValue().days.map((g, h) => {
+          this.state.currentData.map((m, n) => {
+            $($($(".tr")[g - 1]).find(".td")[m - 1])
+              .addClass("selected")
+              .css("background", "#32e8fe");
+            return "";
+          });
+        });
+      }
+    }
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.equipData.timelist != nextProps.timelist) {
@@ -59,7 +287,7 @@ class DefendTime extends Component {
       timelist["6"] = backdata[5];
       timelist["7"] = backdata[6];
 
-      const trantime = [JSON.stringify(timelist).replace(/\"/g, "'")];
+      const trantime = "[" + JSON.stringify(timelist).replace(/\"/g, "'") + "]";
       axios
         .ajax({
           method: "post",
@@ -111,45 +339,20 @@ class DefendTime extends Component {
 
     $(".delete").each(function(k, v) {
       $($(".delete")[k]).click(function() {
-        if (_this.props.equipData.timelist[k + 1]) {
-          axios
-            .ajax({
-              method: "delete",
-              url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
-              data: {
-                cid: _this.props.code
-                  ? _this.props.code
-                  : _this.props.addBackCode,
-                deleteNum: k + 1
-              }
-            })
-            .then(res => {
-              if (res.success) {
-                message.success("删除成功");
-                if (
-                  $($("tr")[k])
-                    .find(".td")
-                    .hasClass("selected")
-                ) {
-                  $($("tr")[k])
-                    .find(".td")
-                    .removeClass("selected")
-                    .css("background", "#fff");
-                }
-              }
-            });
-        } else {
-          if (
-            $($("tr")[k])
-              .find(".td")
-              .hasClass("selected")
-          ) {
-            $($("tr")[k])
-              .find(".td")
-              .removeClass("selected")
-              .css("background", "#fff");
-          }
-        }
+        const currentData = [];
+        $($("tr")[k])
+          .find(".td")
+          .each((m, n) => {
+            if ($(n).hasClass("selected")) {
+              currentData.push(m + 1);
+            }
+          });
+
+        _this.setState({
+          visible: true,
+          btnNum: k + 1,
+          currentData: currentData
+        });
       });
     });
   }
@@ -201,31 +404,53 @@ class DefendTime extends Component {
             />
           </Col>
           <Col xl={{ span: 2 }} xxl={{ span: 1 }} className="deleteWrap">
-            <Button className="delete">删除</Button>
-            <Button className="delete">删除</Button>
-            <Button className="delete">删除</Button>
-            <Button className="delete">删除</Button>
-            <Button className="delete">删除</Button>
-            <Button className="delete">删除</Button>
-            <Button className="delete">删除</Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
           </Col>
         </Row>
 
         <Row>
           <Col span={12} style={{ textAlign: "center" }}>
             <Button id="deleteData" type="danger">
-              删除全部
+              清除全部
             </Button>
             <Button
               id="submitData"
               type="primary"
               style={{ marginLeft: "200px" }}
             >
-              确定
+              保存并应用
             </Button>
           </Col>
         </Row>
         <div id="result" />
+        <Button onClick={() => this.onShow()}> ceshi</Button>
+        <FormModal
+          visible={this.state.visible}
+          onCancel={() => this.onCancel()}
+          onOk={() => this.onOk()}
+          btnNum={this.state.btnNum}
+          wrappedComponentRef={form => (this.form = form)}
+        />
       </div>
     );
   }
