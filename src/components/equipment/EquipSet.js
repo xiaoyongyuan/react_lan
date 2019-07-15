@@ -36,9 +36,9 @@ class EquipSet extends Component {
       addOnly: true,
       addBackCode: "",
       equipData: {},
-      disabledStopSer: false,
-      disabled24: false,
-      disabledRecover: false,
+      disabledStopSer: true,
+      disabled24: true,
+      disabledRecover: true,
       typeSelect: [0],
       defSelect: 1,
       src: "",
@@ -800,92 +800,104 @@ class EquipSet extends Component {
   handleDefDelete = num => {
     switch (num) {
       case 1:
-        {
-          axios
-            .ajax({
-              method: "get",
-              url: window.g.loginURL + "/api/camera/fielddel",
-              data: {
-                code: this.state.addBackCode || this.state.equipData.code,
-                keys: 1
-              }
-            })
-            .then(res => {
-              if (res.success) {
-                message.success("1号防区删除成功");
-                this.setState(
-                  {
-                    defOneAddBtn: false,
-                    defOneDelBtn: true,
-                    defOneSubBtn: false,
-                    areaOne: []
-                  },
-                  () => {
-                    this.boundarydraw();
-                  }
-                );
-              }
-            });
+        if (this.state.equipData.field[1]) {
+          {
+            axios
+              .ajax({
+                method: "get",
+                url: window.g.loginURL + "/api/camera/fielddel",
+                data: {
+                  code: this.state.addBackCode || this.state.equipData.code,
+                  keys: 1
+                }
+              })
+              .then(res => {
+                if (res.success) {
+                  message.success("1号防区删除成功");
+                  this.setState(
+                    {
+                      defOneAddBtn: false,
+                      defOneDelBtn: true,
+                      defOneSubBtn: false,
+                      areaOne: []
+                    },
+                    () => {
+                      this.boundarydraw();
+                    }
+                  );
+                }
+              });
+          }
+        } else {
+          this.clearCanvas();
         }
 
         break;
       case 2:
-        {
-          axios
-            .ajax({
-              method: "get",
-              url: window.g.loginURL + "/api/camera/fielddel",
-              data: {
-                code: this.state.addBackCode || this.state.equipData.code,
-                keys: 2
-              }
-            })
-            .then(res => {
-              if (res.success) {
-                message.success("2号防区删除成功");
-                this.setState(
-                  {
-                    defTwoAddBtn: false,
-                    defTwoDelBtn: true,
-                    defTwoSubBtn: false,
-                    areaTwo: []
-                  },
-                  () => {
-                    this.boundarydraw();
-                  }
-                );
-              }
-            });
+        if (this.state.equipData.field[2]) {
+          {
+            axios
+              .ajax({
+                method: "get",
+                url: window.g.loginURL + "/api/camera/fielddel",
+                data: {
+                  code: this.state.addBackCode || this.state.equipData.code,
+                  keys: 2
+                }
+              })
+              .then(res => {
+                if (res.success) {
+                  message.success("2号防区删除成功");
+                  this.setState(
+                    {
+                      defTwoAddBtn: false,
+                      defTwoDelBtn: true,
+                      defTwoSubBtn: false,
+                      areaTwo: []
+                    },
+                    () => {
+                      this.boundarydraw();
+                    }
+                  );
+                }
+              });
+          }
+        } else {
+          this.clearCanvas();
         }
 
         break;
       case 3:
-        {
-          axios
-            .ajax({
-              method: "get",
-              url: window.g.loginURL + "/api/camera/fielddel",
-              data: {
-                code: this.state.addBackCode || this.state.equipData.code,
-                keys: 3
-              }
-            })
-            .then(res => {
-              if (res.success) {
-                message.success("3号防区删除成功");
-                this.setState(
-                  {
-                    defThreeAddBtn: false,
-                    defThreeDelBtn: true,
-                    defThreeSubBtn: false,
-                    areaThree: []
-                  },
-                  () => {
-                    this.boundarydraw();
-                  }
-                );
-              }
-            });
+        if (this.state.equipData.field[3]) {
+          {
+            axios
+              .ajax({
+                method: "get",
+                url: window.g.loginURL + "/api/camera/fielddel",
+                data: {
+                  code: this.state.addBackCode || this.state.equipData.code,
+                  keys: 3
+                }
+              })
+              .then(res => {
+                if (res.success) {
+                  message.success("3号防区删除成功");
+                  this.setState(
+                    {
+                      defThreeAddBtn: false,
+                      defThreeDelBtn: true,
+                      defThreeSubBtn: false,
+                      areaThree: []
+                    },
+                    () => {
+                      this.boundarydraw();
+                    }
+                  );
+                }
+              });
+          }
+        } else {
+          this.clearCanvas();
         }
 
         break;
@@ -1021,7 +1033,13 @@ class EquipSet extends Component {
   opendraw = () => {
     //开始绘制，打开开关
     open = true;
+    this.setState({ newinitarea: [] });
     this.draw();
+  };
+  clearCanvas = () => {
+    let ele = document.getElementById("cavcontainer");
+    let area = ele.getContext("2d");
+    area.clearRect(0, 0, 704, 576);
   };
 
   draw = (newdata, arc) => {
@@ -1315,7 +1333,7 @@ class EquipSet extends Component {
           </Button>
         </span>
       </div>,
-      <Button className="again" onClick={this.getBaseMapAnew}>
+      <Button type="dashed" className="again" onClick={this.getBaseMapAnew}>
         重新获取底图
       </Button>
     ];
@@ -1833,36 +1851,32 @@ class EquipSet extends Component {
                 }
                 key="1"
               >
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <div className="cavwrap">
-                      <canvas
-                        width="704px"
-                        height="576px"
-                        id="cavcontainer"
-                        style={{
-                          backgroundImage: `url(${
-                            this.state.equipData.basemap
-                          })`,
-                          backgroundSize: "100% 100%"
-                        }}
-                        onMouseDown={e => this.mousedown(e)}
-                        onMouseUp={this.mouseup}
-                        onMouseMove={this.mousemove}
-                      />
-                    </div>
-                  </Col>
-                  <Col span={12}>
-                    <Row>
-                      <Col span={11}>
-                        <List
-                          className="defopt"
-                          bordered
-                          dataSource={defopt}
-                          renderItem={item => <List.Item>{item}</List.Item>}
-                        />
-                      </Col>
-                    </Row>
+                <Row>
+                  <div className="cavwrap">
+                    <canvas
+                      width="704px"
+                      height="576px"
+                      id="cavcontainer"
+                      style={{
+                        backgroundImage: `url(${this.state.equipData.basemap})`,
+                        backgroundSize: "100% 100%"
+                      }}
+                      onMouseDown={e => this.mousedown(e)}
+                      onMouseUp={this.mouseup}
+                      onMouseMove={this.mousemove}
+                    />
+                  </div>
+                  <Col
+                    xl={{ span: 7 }}
+                    xxl={{ span: 6 }}
+                    style={{ marginLeft: "20px" }}
+                  >
+                    <List
+                      className="defopt"
+                      bordered
+                      dataSource={defopt}
+                      renderItem={item => <List.Item>{item}</List.Item>}
+                    />
                   </Col>
                 </Row>
               </TabPane>

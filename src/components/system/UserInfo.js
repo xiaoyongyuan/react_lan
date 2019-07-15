@@ -283,7 +283,7 @@ class UserInfo extends Component {
         dataIndex: "utype",
         key: "role",
         align: "center",
-        width: "10%",
+        width: "12%",
         render: (text, record) =>
           text === 0 && record.ifsys === 1
             ? "超级管理员"
@@ -296,7 +296,7 @@ class UserInfo extends Component {
         dataIndex: "utype",
         key: "opt",
         align: "center",
-        width: "20%",
+        width: "16%",
         render: (text, record) => {
           if (ifsys === "1") {
             if (account == record.account) {
@@ -304,14 +304,6 @@ class UserInfo extends Component {
             } else {
               return (
                 <span>
-                  <Button
-                    type="primary"
-                    onClick={() => {
-                      this.showModel("add");
-                    }}
-                  >
-                    新增
-                  </Button>
                   <Divider type="vertical" />
                   <Button
                     type="dashed"
@@ -352,15 +344,6 @@ class UserInfo extends Component {
                 return (
                   <span>
                     <Button
-                      type="primary"
-                      onClick={() => {
-                        this.showModel("add");
-                      }}
-                    >
-                      新增
-                    </Button>
-                    <Divider type="vertical" />
-                    <Button
                       type="dashed"
                       onClick={() => {
                         this.showModel(record);
@@ -390,6 +373,17 @@ class UserInfo extends Component {
 
     return (
       <div className="userInfo">
+        <Row>
+          <Button
+            type="primary"
+            onClick={() => {
+              this.showModel("add");
+            }}
+          >
+            <Icon type="plus" />
+            新增用户
+          </Button>
+        </Row>
         <FormModal
           wrappedComponentRef={formRef => (this.formRef = formRef)}
           visible={this.state.visible}
@@ -398,7 +392,11 @@ class UserInfo extends Component {
           title={this.state.title}
           currentRecordData={this.state.currentRecordData}
         />
-        <Etable dataSource={this.state.userdata} columns={userlist} />
+        <Etable
+          dataSource={this.state.userdata}
+          columns={userlist}
+          style={{ marginTop: "20px" }}
+        />
       </div>
     );
   }

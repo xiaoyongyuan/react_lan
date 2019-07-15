@@ -191,7 +191,7 @@ class DefendTime extends Component {
         }}
       >
         <Row>
-          <Col span={11}>
+          <Col xl={{ span: 16 }} xxl={{ span: 11 }}>
             <div
               className="defend"
               id="defend"
@@ -200,7 +200,7 @@ class DefendTime extends Component {
               }}
             />
           </Col>
-          <Col span={1} className="deleteWrap">
+          <Col xl={{ span: 2 }} xxl={{ span: 1 }} className="deleteWrap">
             <Button className="delete">删除</Button>
             <Button className="delete">删除</Button>
             <Button className="delete">删除</Button>
