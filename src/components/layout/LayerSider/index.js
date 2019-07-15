@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Menu,Icon } from 'antd';
 import MenuConfig from './../../../routes/menuConfig';
+import { withRouter } from 'react-router-dom';
 import './index.less';
 
 const SubMenu = Menu.SubMenu;
@@ -10,7 +11,8 @@ class LayerSider extends Component {
     super(props);
     this.state = {
         currentKey:'', //当前页面
-        menuTreeNode: []
+        menuTreeNode: [],
+        selectedKey:''
     }
   }
   componentWillMount(){
@@ -20,9 +22,10 @@ class LayerSider extends Component {
     })
   }
   onTitleClick=(key,dom)=>{
-    console.log(key,dom)
-  }
+	    console.log(key,dom)
+  };
   handleClick = ({ item, key }) => {
+      console.log(key,item,"0000")
         if (key == this.state.currentKey) {
             return false;
         }
@@ -62,7 +65,7 @@ class LayerSider extends Component {
   render() {
     return (
       <div className="LayerSider">
-        <Menu mode="inline" onClick={this.handleClick}>
+        <Menu mode="inline" onClick={this.handleClick} selectedKeys={[this.props.history.location.pathname]}>
           { this.state.menuTreeNode }
         </Menu>      
       </div>
@@ -70,4 +73,4 @@ class LayerSider extends Component {
   }
 }
 
-export default LayerSider;
+export default withRouter(LayerSider);

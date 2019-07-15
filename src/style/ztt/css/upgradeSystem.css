@@ -12,11 +12,11 @@
   color: #6D727E;
 }
 .upgradeSystem .upLoadCon .upBtn {
-  width: 260px;
+  width: 130px;
   height: 30px;
   background-color: #4B96FC;
   color: #fff;
   border: none;
-  margin: 10px 0;
+  margin: 20px 0 0 120px;
 }
 /*# sourceMappingURL=upgradeSystem.css.map */

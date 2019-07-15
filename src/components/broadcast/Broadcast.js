@@ -101,6 +101,7 @@ class Broadcast extends Component {
                     onCancel={this.hanleLiveCancel}
                     destroyOnClose={true}
                     centered={true}
+                    maskClosable={false}
                 >
                     <Live liveModel={this.state.liveModel} videostreaming={this.state.videostreaming} />
                 </Modal>

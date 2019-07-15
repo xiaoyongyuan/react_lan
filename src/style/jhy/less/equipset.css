@@ -133,6 +133,10 @@
   width: 100%;
   height: auto;
 }
+.equipset .cavwrap {
+  display: inline-block;
+  float: left;
+}
 .equipset .defopt {
   height: 576px;
   border: 1px solid #eeeeee;
@@ -148,12 +152,6 @@
 }
 .equipset .defopt .optbtn .ant-btn {
   margin-left: 10px;
-}
-.equipset .ant-list-bordered .ant-list-item {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
 }
 .equipset .defopt::before,
 .equipset .defopt::after {
@@ -171,5 +169,9 @@
   border-color: transparent #eeeeee transparent transparent;
   left: -24px;
   top: 40px;
+}
+.equipset .again {
+  display: inline-block;
+  margin: 20% auto;
 }
 /*# sourceMappingURL=equipset.css.map */

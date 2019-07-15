@@ -139,7 +139,7 @@ class Operational extends Component{
                                 <Select style={{width:120}}>
                                     <Option value="all">全部</Option>
                                     {
-                                        this.state.operationTypeList.map((v,i)=>(
+                                        this.state.operationTypeList.map((v)=>(
                                             <Option value={v.code}>{v.name}</Option>
                                         ))
                                     }

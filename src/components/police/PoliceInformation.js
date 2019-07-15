@@ -25,8 +25,9 @@ class PoliceInformation extends Component {
             checkedVal:false,
             policeListCode:'',
             selectstatus:0,//select默认选中的状态
-            selectPicture:0,//选中照片的下标
-            policeListIndex:0//初始化报警下标
+            policeListIndex:0,//初始化报警下标
+            nextcode:"",//下一个
+            lastcode:"",//上一个
         };
     }
     componentDidMount() {
@@ -281,10 +282,10 @@ class PoliceInformation extends Component {
     };
     //查看详情
     hanlePoliceDateil=(code,index)=>{
+        console.log(code)
         this.setState({
             policeListCode:code,
             policeListIndex:index,
-            selectPicture:index
         },()=>{
             this.getInfor();
         });
@@ -311,7 +312,6 @@ class PoliceInformation extends Component {
                     scid:values.cid,
                     selectstatus:values.status,
                     page:1,
-                    selectPicture:0
                 },()=>{
                     this.handlePoliceList();
                 });
@@ -322,7 +322,6 @@ class PoliceInformation extends Component {
     hanlePage=(page)=>{
         this.setState({
             page:page,
-            selectPicture:0
         },()=>{
             this.handlePoliceList()
         })
@@ -358,24 +357,14 @@ class PoliceInformation extends Component {
     };
     //上一个
     hanleUper=(text)=>{
-        if(this.state.lastcode || this.state.nextcode){
-            if(text==="uper"){
-                this.setState({
-                    policeListCode:this.state.lastcode
-                },()=>{
-                    this.getInfor();
-                });
-            }else if(text==="next"){
-                this.setState({
-                    policeListCode:this.state.nextcode
-                },()=>{
-                    this.getInfor();
-                })
-            }
-        }
+        this.setState({
+            policeListCode:this.state[text]
+        },()=>{
+            this.getInfor();
+        })
     };
     hanleBorder=(index)=>{
-       if(this.state.selectPicture===index){
+       if(this.state.policeCode===index){
            return "selectBorder";
        }
     };
@@ -466,8 +455,8 @@ class PoliceInformation extends Component {
                         </Row>
                         <Row>
                             <Col className="updown">
-                                <Button onClick={()=>this.hanleUper("uper")} ><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
-                                <Button onClick={()=>this.hanleUper("next")} ><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
+                                <Button onClick={()=>this.hanleUper("lastcode")} disabled={this.state.lastcode?false:true}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
+                                <Button onClick={()=>this.hanleUper("nextcode")} disabled={this.state.nextcode?false:true}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
                             </Col>
                         </Row>
                     </div>
@@ -567,7 +556,7 @@ class PoliceInformation extends Component {
                 <Row gutter={16}>
                     {
                         this.state.policeList.map((v,i)=>(
-                            <Col className={"gutter-row "+this.hanleBorder(i)} xxl={4} xl={6} key={i} >
+                            <Col className={"gutter-row "+this.hanleBorder(v.code)} xxl={4} xl={6} key={i} >
                                  <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
                                        <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
                                        <div className="policeBottom">

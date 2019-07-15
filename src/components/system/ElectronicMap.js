@@ -5,12 +5,12 @@ class ElectronicMap extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            mapZoom: 13, //地图缩放等级 （zoom）
+            mapZoom: 12, //地图缩放等级 （zoom）
             status: {
                 zoomEnable: true,
                 dragEnable: true,
             },
-            mapCenter:[116.292329, 39.946996],//地图中心点
+            mapCenter:[108.946465,34.381835],//地图中心点
             mapMake :[116.273961, 39.946338],//marker标记点
         };
     }
