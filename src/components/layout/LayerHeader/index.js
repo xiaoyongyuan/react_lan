@@ -32,7 +32,6 @@ class LayerHeader extends Component {
       <div className="LayerHeader">
           <div className="headerLeft">
               <div className="logo" />
-              <div className="logoFont" />
               <div className="secant" />
               <div className="logo-title">A.I.视频警戒系统</div>
           </div>

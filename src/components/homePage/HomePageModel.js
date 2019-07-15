@@ -73,7 +73,7 @@ class HomePageModel extends Component{
         if(this.state.picpathImg){
             const datafield=this.state.fields;
             if(this.state.field && datafield.length){
-                const xi=400/704, yi=280/576;
+                const xi=510/704, yi=278/576;
                 let areafield = ele.getContext("2d");
                 for(let i=0;i<datafield.length;i++){
                     let list=datafield[i].pointList;

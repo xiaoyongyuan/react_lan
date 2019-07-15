@@ -118,7 +118,7 @@
 }
 .overview .midwrap .ossys .syslabel {
   display: inline-block;
-  width: 40%;
+  width: 34%;
   font-size: 16px;
   color: #2c459a;
   text-align: left;
@@ -130,7 +130,7 @@
   border-radius: 15px;
   text-align: center;
   color: #fff;
-  margin-left: 30px;
+  margin-left: 20px;
   background: #006cff;
   width: 40%;
   position: relative;

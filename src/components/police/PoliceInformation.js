@@ -156,7 +156,7 @@ class PoliceInformation extends Component {
         if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length>0) {
-                const xi=400/704, yi=280/576;
+                const xi=510/704, yi=278/576;
                 let areafield = ele.getContext("2d");
                 for(let i=0;i<datafield.length;i++){
                     let list=datafield[i].pointList;
@@ -341,9 +341,11 @@ class PoliceInformation extends Component {
             checkedVal:e.target.checked
         },()=>{
             if(this.state.checkedVal){
-                this.timer=setInterval(()=>this.handlePoliceList(),2000);
+                this.timer=setInterval(()=>this.handlePoliceList(),3000);
+                this.updateNum=setInterval(()=>this.hanleQuantity(),3000);
             }else{
                 clearInterval(this.timer);
+                clearInterval(this.updateNum);
             }
         })
     };
@@ -382,6 +384,7 @@ class PoliceInformation extends Component {
     };
     componentWillUnmount() {
         clearInterval(this.timer);
+        clearInterval(this.updateNum);
     }
     render() {
         const {getFieldDecorator}=this.props.form;
@@ -557,7 +560,7 @@ class PoliceInformation extends Component {
                     </Col>
                     <Col span={12} className="zdupdate-col">
                         <div className="zdupdate">
-                            <div className="zdupdate-word">自动更新&nbsp;<Checkbox  onChange={this.hanleUpdate} /></div>
+                            <div className="zdupdate-word">自动更新&nbsp;<Checkbox checked={this.state.checkedVal} onChange={this.hanleUpdate} /></div>
                         </div>
                     </Col>
                 </Row>
