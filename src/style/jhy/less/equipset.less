@@ -24,16 +24,16 @@
 
 
   .onlyadd {
-    .baseinfo {
+    .baseInfo {
       width: 250px;
       line-height: 40px;
       text-align: center;
       padding: 0 16px;
-      background: #006fe4;
       border: 1px solid #006fe4;
       color: #fff;
       margin-bottom: 20px;
       border-radius: 2px;
+      background: #006fe4;
     }
   }
 
@@ -133,6 +133,11 @@
     text-align: center;
 
 
+    .baseInfo {
+      background: url('../imgs/baseinfonot.png') no-repeat 4px;
+      padding-left: 60px;
+    }
+
     .camera {
       background: url('../imgs/cameranot.png') no-repeat 4px;
       padding-left: 60px;
@@ -148,6 +153,11 @@
     height: 40px;
     color: #fff !important;
     background: #006fe4 !important;
+
+    .baseInfo {
+      background: url('../imgs/baseinfo.png') no-repeat 4px;
+      padding-left: 60px;
+    }
 
     .camera {
       background: url('../imgs/camera.png') no-repeat 4px;
@@ -184,19 +194,34 @@
     border-radius: 5px;
     background: #f8f8f8;
 
-    .optlabel,
-    .optbtn {
-      display: inline-block;
-    }
+    .listItemWrap {
+      width: 100%;
+
+      .optlabel,
+      .optbtn {
+        padding: 8px 0;
+      }
+
+      .optlabel {
+        border-bottom: 1px solid #e8e8e8;
+
+      }
 
 
-    .optbtn {
-      margin-left: 30px;
 
-      .ant-btn {
-        margin-left: 10px;
+      .optbtn {
+
+        .ant-btn {
+          margin-left: 10px;
+        }
+
+        .ant-btn:first-of-type {
+          margin-left: 0;
+        }
       }
     }
+
+
 
   }
 
@@ -230,10 +255,6 @@
 
 
 
-  .again {
-    display: inline-block;
-    margin: 20% auto;
-  }
 
 
 

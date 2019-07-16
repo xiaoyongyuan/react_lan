@@ -21,7 +21,7 @@ const dayOptions = [
   { label: "星期四", value: 4 },
   { label: "星期五", value: 5 },
   { label: "星期六", value: 6 },
-  { label: "星期七", value: 7 }
+  { label: "星期日", value: 7 }
 ];
 const FormModal = Form.create()(
   class extends React.Component {
@@ -88,7 +88,7 @@ const FormModal = Form.create()(
         4: "四",
         5: "五",
         6: "六",
-        7: "七"
+        7: "日"
       };
       const selectLabel = (
         <span>
@@ -163,7 +163,9 @@ class DefendTime extends Component {
     this.state = {
       visible: false,
       btnNum: "",
-      currentData: []
+      currentData: [],
+      subData: "",
+      subBtn: false
     };
   }
   onShow() {
@@ -256,6 +258,32 @@ class DefendTime extends Component {
         $(e.target)
           .addClass("selected")
           .css("background", "#32e8fe");
+        var backdata = [];
+        for (let i = 0; i < 7; i++) {
+          let weekdata = [];
+
+          for (let j = 0; j < 48; j++) {
+            if ($($($(".tr")[i]).find(".td")[j]).hasClass("selected")) {
+              weekdata.push(j + 1);
+            }
+          }
+
+          backdata.push(`${weekdata}`);
+        }
+        var timelist = {};
+        timelist["1"] = backdata[0];
+        timelist["2"] = backdata[1];
+        timelist["3"] = backdata[2];
+        timelist["4"] = backdata[3];
+        timelist["5"] = backdata[4];
+        timelist["6"] = backdata[5];
+        timelist["7"] = backdata[6];
+
+        const trantime =
+          "[" + JSON.stringify(timelist).replace(/\"/g, "'") + "]";
+        _this.setState({
+          subData: trantime
+        });
       }
     });
     $("#tab").mousedown(function(e) {
@@ -288,20 +316,26 @@ class DefendTime extends Component {
       timelist["7"] = backdata[6];
 
       const trantime = "[" + JSON.stringify(timelist).replace(/\"/g, "'") + "]";
-      axios
-        .ajax({
-          method: "post",
-          url: window.g.loginURL + "/api/workingTime/setWorkingTime",
-          data: {
-            timelist: trantime,
-            cid: _this.props.code ? _this.props.code : _this.props.addBackCode
-          }
-        })
-        .then(res => {
-          if (res.success) {
-            message.success("布防时间提交成功");
-          }
-        });
+      if (_this.state.subData != _this.props.equipData.timelist) {
+        axios
+          .ajax({
+            method: "post",
+            url: window.g.loginURL + "/api/workingTime/setWorkingTime",
+            data: {
+              timelist: trantime,
+              cid: _this.props.code ? _this.props.code : _this.props.addBackCode
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              _this.setState({
+                subBtn: true,
+                subData: trantime
+              });
+              message.success("布防时间提交成功");
+            }
+          });
+      }
     });
 
     $("#deleteData").click(function() {
@@ -355,6 +389,13 @@ class DefendTime extends Component {
         });
       });
     });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.subData != this.state.subData) {
+      this.setState({
+        subBtn: false
+      });
+    }
   }
   renderTable = () => {
     var cols = 49;
@@ -437,13 +478,12 @@ class DefendTime extends Component {
               id="submitData"
               type="primary"
               style={{ marginLeft: "200px" }}
+              disabled={this.state.subBtn}
             >
               保存并应用
             </Button>
           </Col>
         </Row>
-        <div id="result" />
-        <Button onClick={() => this.onShow()}> ceshi</Button>
         <FormModal
           visible={this.state.visible}
           onCancel={() => this.onCancel()}

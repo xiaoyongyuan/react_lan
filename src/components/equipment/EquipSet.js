@@ -10,7 +10,9 @@ import {
   Slider,
   Checkbox,
   Switch,
-  message
+  message,
+  Radio,
+  Icon
 } from "antd";
 import React, { Component, Fragment } from "react";
 import DefTime from "./DefendTime";
@@ -36,11 +38,14 @@ class EquipSet extends Component {
       addOnly: true,
       addBackCode: "",
       equipData: {},
+      unlock: true,
       disabledStopSer: true,
       disabled24: true,
       disabledRecover: true,
-      typeSelect: [0],
-      defSelect: 1,
+      oneTypeSelect: [0],
+      twoTypeSelect: [0],
+      threeTypeSelect: [0],
+      defSelect: "zero",
       sliderChange: false,
       threshold: 5,
       frozentime: 5,
@@ -60,25 +65,21 @@ class EquipSet extends Component {
       areaOne: [], //防区一
       areaTwo: [],
       areaThree: [],
-      defOneAddBtn: false,
-      defTwoAddBtn: false,
-      defThreeAddBtn: false,
+      defOneAddBtn: true,
+      defTwoAddBtn: true,
+      defThreeAddBtn: true,
       defOneDelBtn: true,
       defTwoDelBtn: true,
       defThreeDelBtn: true,
-      defOneSubBtn: false,
-      defTwoSubBtn: false,
-      defThreeSubBtn: false
+      defOneSubBtn: true,
+      defTwoSubBtn: true,
+      defThreeSubBtn: true
     };
   }
   componentDidMount() {
     if (this.props.query.code) {
       this.getOne();
     }
-    document.body.onmouseup = function() {
-      moveswitch = false;
-      scopeswitch = false;
-    };
   }
   getOne = () => {
     const { setFieldsValue } = this.props.form;
@@ -94,12 +95,20 @@ class EquipSet extends Component {
         if (res.success) {
           console.log(res.data, "list");
           if (res.data.cstatus === 0) {
+            if (res.data.field) {
+              this.setState({
+                unlock: false
+              });
+            }
             this.setState({
               disabledStopSer: true,
               disabled24: true,
               disabledRecover: true
             });
           } else if (res.data.cstatus === 1) {
+            this.setState({
+              unlock: true
+            });
             if (res.data.if_cancel === 1) {
               this.setState({
                 disabledStopSer: false,
@@ -235,13 +244,21 @@ class EquipSet extends Component {
   };
   handleTabChange(activekey) {
     if (activekey === "1") {
+      //   this.setState({
+      //      defOneAddBtn: true,
+      // defTwoAddBtn: true,
+      // defThreeAddBtn: true,
+      // defOneDelBtn: true,
+      // defTwoDelBtn: true,
+      // defThreeDelBtn: true,
+      // defOneSubBtn: true,
+      // defTwoSubBtn: true,
+      // defThreeSubBtn: true
+      //   })
       const equipData = this.state.equipData;
       if (equipData.field && equipData.field[1]) {
         this.setState(
           {
-            defOneAddBtn: true,
-            defOneDelBtn: false,
-            defOneSubBtn: true,
             areaOne: equipData.field[1].pointList
           },
           () => {
@@ -252,9 +269,6 @@ class EquipSet extends Component {
       if (equipData.field && equipData.field[2]) {
         this.setState(
           {
-            defTwoAddBtn: true,
-            defTwoDelBtn: false,
-            defTwoSubBtn: true,
             areaTwo: equipData.field[2].pointList
           },
           () => {
@@ -265,9 +279,6 @@ class EquipSet extends Component {
       if (equipData.field && equipData.field[3]) {
         this.setState(
           {
-            defThreeAddBtn: true,
-            defThreeDelBtn: false,
-            defThreeSubBtn: true,
             areaThree: equipData.field[3].pointList
           },
           () => {
@@ -278,13 +289,7 @@ class EquipSet extends Component {
       if (equipData.field && equipData.field[1] && equipData.field[2]) {
         this.setState(
           {
-            defOneAddBtn: true,
-            defOneDelBtn: false,
-            defOneSubBtn: true,
             areaOne: equipData.field[1].pointList,
-            defTwoAddBtn: true,
-            defTowDelBtn: false,
-            defTwoSubBtn: true,
             areaTwo: equipData.field[2].pointList
           },
           () => {
@@ -295,13 +300,7 @@ class EquipSet extends Component {
       if (equipData.field && equipData.field[1] && equipData.field[3]) {
         this.setState(
           {
-            defOneAddBtn: true,
-            defOneDelBtn: false,
-            defOneSubBtn: true,
             areaOne: equipData.field[1].pointList,
-            defThreeAddBtn: true,
-            defThreeDelBtn: false,
-            defThreeSubBtn: true,
             areaThree: equipData.field[3].pointList
           },
           () => {
@@ -312,13 +311,7 @@ class EquipSet extends Component {
       if (equipData.field && equipData.field[2] && equipData.field[3]) {
         this.setState(
           {
-            defTwoAddBtn: true,
-            defTwoDelBtn: false,
-            defTwoSubBtn: true,
             areaTwo: equipData.field[2].pointList,
-            defThreeAddBtn: true,
-            defThreeDelBtn: false,
-            defThreeSubBtn: true,
             areaThree: equipData.field[3].pointList
           },
           () => {
@@ -334,17 +327,8 @@ class EquipSet extends Component {
       ) {
         this.setState(
           {
-            defOneAddBtn: true,
-            defOneDelBtn: false,
-            defOneSubBtn: true,
             areaOne: equipData.field[1].pointList,
-            defTwoAddBtn: true,
-            defTwoDelBtn: false,
-            defTwoSubBtn: true,
             areaTwo: equipData.field[2].pointList,
-            defThreeAddBtn: true,
-            defThreeDelBtn: false,
-            defThreeSubBtn: true,
             areaThree: equipData.field[3].pointList
           },
           () => {
@@ -354,317 +338,6 @@ class EquipSet extends Component {
       }
     }
   }
-  boundarydraw = () => {
-    let ele = document.getElementById("cavcontainer");
-    let area = ele.getContext("2d");
-    area.clearRect(0, 0, 704, 576);
-    if (this.state.areaOne.length > 0) {
-      let areaOne = this.state.areaOne;
-      area.strokeStyle = blue;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaOne[0][0], areaOne[0][1]);
-      areaOne.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaOne[i][0], areaOne[i][1]);
-          if (i === 5) {
-            area.lineTo(areaOne[0][0], areaOne[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaOne.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-    if (this.state.areaTwo.length > 0) {
-      let areaTwo = this.state.areaTwo;
-      area.strokeStyle = red;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
-      areaTwo.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
-          if (i === 5) {
-            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaTwo.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-    if (this.state.areaThree.length > 0) {
-      let areaThree = this.state.areaThree;
-      area.strokeStyle = green;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaThree[0][0], areaThree[0][1]);
-      areaThree.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaThree[i][0], areaThree[i][1]);
-          if (i === 5) {
-            area.lineTo(areaThree[0][0], areaThree[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaThree.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-    if (this.state.areaOne.length > 0 && this.state.areaTwo.length > 0) {
-      let areaOne = this.state.areaOne;
-      area.strokeStyle = blue;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaOne[0][0], areaOne[0][1]);
-      areaOne.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaOne[i][0], areaOne[i][1]);
-          if (i === 5) {
-            area.lineTo(areaOne[0][0], areaOne[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaOne.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-      let areaTwo = this.state.areaTwo;
-      area.strokeStyle = red;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
-      areaTwo.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
-          if (i === 5) {
-            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaTwo.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-    if (this.state.areaOne.length > 0 && this.state.areaThree.length > 0) {
-      let areaOne = this.state.areaOne;
-      area.strokeStyle = blue;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaOne[0][0], areaOne[0][1]);
-      areaOne.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaOne[i][0], areaOne[i][1]);
-          if (i === 5) {
-            area.lineTo(areaOne[0][0], areaOne[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaOne.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-      let areaThree = this.state.areaThree;
-      area.strokeStyle = green;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaThree[0][0], areaThree[0][1]);
-      areaThree.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaThree[i][0], areaThree[i][1]);
-          if (i === 5) {
-            area.lineTo(areaThree[0][0], areaThree[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaThree.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-    if (this.state.areaTwo.length > 0 && this.state.areaThree.length > 0) {
-      let areaTwo = this.state.areaTwo;
-      area.strokeStyle = red;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
-      areaTwo.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
-          if (i === 5) {
-            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaTwo.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-      let areaThree = this.state.areaThree;
-      area.strokeStyle = green;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaThree[0][0], areaThree[0][1]);
-      areaThree.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaThree[i][0], areaThree[i][1]);
-          if (i === 5) {
-            area.lineTo(areaThree[0][0], areaThree[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaThree.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-    if (
-      this.state.areaOne.length > 0 &&
-      this.state.areaTwo.length > 0 &&
-      this.state.areaThree.length > 0
-    ) {
-      let areaOne = this.state.areaOne;
-      area.strokeStyle = blue;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaOne[0][0], areaOne[0][1]);
-      areaOne.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaOne[i][0], areaOne[i][1]);
-          if (i === 5) {
-            area.lineTo(areaOne[0][0], areaOne[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaOne.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-      let areaTwo = this.state.areaTwo;
-      area.strokeStyle = red;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaTwo[0][0], areaTwo[0][1]);
-      areaTwo.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaTwo[i][0], areaTwo[i][1]);
-          if (i === 5) {
-            area.lineTo(areaTwo[0][0], areaTwo[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaTwo.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-      let areaThree = this.state.areaThree;
-      area.strokeStyle = green;
-      area.fillStyle = maskcol;
-      area.lineWidth = 2;
-      area.beginPath();
-      area.moveTo(areaThree[0][0], areaThree[0][1]);
-      areaThree.map((elx, i) => {
-        if (i > 0) {
-          area.lineTo(areaThree[i][0], areaThree[i][1]);
-          if (i === 5) {
-            area.lineTo(areaThree[0][0], areaThree[0][1]);
-          }
-        }
-        return "";
-      });
-      area.stroke();
-      area.fill();
-      areaThree.map(val => {
-        area.beginPath();
-        area.fillStyle = "rgba(128, 100, 162, 0.7)";
-        area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
-        area.fill();
-        return "";
-      });
-    }
-  };
   handleThresholdChange = val => {
     this.setState({ sliderChange: true, threshold: val });
   };
@@ -742,59 +415,493 @@ class EquipSet extends Component {
       }
     });
   };
-  handleTypeChange = cv => {
-    console.log(cv);
-    this.setState({
-      typeSelect: cv
-    });
+  boundarydraw = type => {
+    let ele = document.getElementById("cavcontainer");
+    let area = ele.getContext("2d");
+    area.clearRect(0, 0, 704, 576);
+    if (type === "one") {
+      if (this.state.areaOne.length > 0) {
+        let areaOne = this.state.areaOne;
+        area.strokeStyle = blue;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaOne[0][0], areaOne[0][1]);
+        areaOne.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaOne[i][0], areaOne[i][1]);
+            if (i === 5) {
+              area.lineTo(areaOne[0][0], areaOne[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaOne.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+    } else if (type === "two") {
+      if (this.state.areaTwo.length > 0) {
+        let areaTwo = this.state.areaTwo;
+        area.strokeStyle = red;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+        areaTwo.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+            if (i === 5) {
+              area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaTwo.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+    } else if (type === "three") {
+      if (this.state.areaThree.length > 0) {
+        let areaThree = this.state.areaThree;
+        area.strokeStyle = green;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaThree[0][0], areaThree[0][1]);
+        areaThree.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaThree[i][0], areaThree[i][1]);
+            if (i === 5) {
+              area.lineTo(areaThree[0][0], areaThree[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaThree.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+    } else {
+      if (this.state.areaOne.length > 0) {
+        let areaOne = this.state.areaOne;
+        area.strokeStyle = blue;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaOne[0][0], areaOne[0][1]);
+        areaOne.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaOne[i][0], areaOne[i][1]);
+            if (i === 5) {
+              area.lineTo(areaOne[0][0], areaOne[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaOne.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+      if (this.state.areaTwo.length > 0) {
+        let areaTwo = this.state.areaTwo;
+        area.strokeStyle = red;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+        areaTwo.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+            if (i === 5) {
+              area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaTwo.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+      if (this.state.areaThree.length > 0) {
+        let areaThree = this.state.areaThree;
+        area.strokeStyle = green;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaThree[0][0], areaThree[0][1]);
+        areaThree.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaThree[i][0], areaThree[i][1]);
+            if (i === 5) {
+              area.lineTo(areaThree[0][0], areaThree[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaThree.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+      if (this.state.areaOne.length > 0 && this.state.areaTwo.length > 0) {
+        let areaOne = this.state.areaOne;
+        area.strokeStyle = blue;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaOne[0][0], areaOne[0][1]);
+        areaOne.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaOne[i][0], areaOne[i][1]);
+            if (i === 5) {
+              area.lineTo(areaOne[0][0], areaOne[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaOne.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+        let areaTwo = this.state.areaTwo;
+        area.strokeStyle = red;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+        areaTwo.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+            if (i === 5) {
+              area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaTwo.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+      if (this.state.areaOne.length > 0 && this.state.areaThree.length > 0) {
+        let areaOne = this.state.areaOne;
+        area.strokeStyle = blue;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaOne[0][0], areaOne[0][1]);
+        areaOne.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaOne[i][0], areaOne[i][1]);
+            if (i === 5) {
+              area.lineTo(areaOne[0][0], areaOne[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaOne.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+        let areaThree = this.state.areaThree;
+        area.strokeStyle = green;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaThree[0][0], areaThree[0][1]);
+        areaThree.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaThree[i][0], areaThree[i][1]);
+            if (i === 5) {
+              area.lineTo(areaThree[0][0], areaThree[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaThree.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+      if (this.state.areaTwo.length > 0 && this.state.areaThree.length > 0) {
+        let areaTwo = this.state.areaTwo;
+        area.strokeStyle = red;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+        areaTwo.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+            if (i === 5) {
+              area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaTwo.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+        let areaThree = this.state.areaThree;
+        area.strokeStyle = green;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaThree[0][0], areaThree[0][1]);
+        areaThree.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaThree[i][0], areaThree[i][1]);
+            if (i === 5) {
+              area.lineTo(areaThree[0][0], areaThree[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaThree.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+      if (
+        this.state.areaOne.length > 0 &&
+        this.state.areaTwo.length > 0 &&
+        this.state.areaThree.length > 0
+      ) {
+        let areaOne = this.state.areaOne;
+        area.strokeStyle = blue;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaOne[0][0], areaOne[0][1]);
+        areaOne.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaOne[i][0], areaOne[i][1]);
+            if (i === 5) {
+              area.lineTo(areaOne[0][0], areaOne[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaOne.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+        let areaTwo = this.state.areaTwo;
+        area.strokeStyle = red;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaTwo[0][0], areaTwo[0][1]);
+        areaTwo.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaTwo[i][0], areaTwo[i][1]);
+            if (i === 5) {
+              area.lineTo(areaTwo[0][0], areaTwo[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaTwo.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+        let areaThree = this.state.areaThree;
+        area.strokeStyle = green;
+        area.fillStyle = maskcol;
+        area.lineWidth = 2;
+        area.beginPath();
+        area.moveTo(areaThree[0][0], areaThree[0][1]);
+        areaThree.map((elx, i) => {
+          if (i > 0) {
+            area.lineTo(areaThree[i][0], areaThree[i][1]);
+            if (i === 5) {
+              area.lineTo(areaThree[0][0], areaThree[0][1]);
+            }
+          }
+          return "";
+        });
+        area.stroke();
+        area.fill();
+        areaThree.map(val => {
+          area.beginPath();
+          area.fillStyle = "rgba(128, 100, 162, 0.7)";
+          area.arc(val[0], val[1], 10, 0, 2 * Math.PI);
+          area.fill();
+          return "";
+        });
+      }
+    }
   };
-  getBaseMapAnew = () => {
-    axios
-      .ajax({
-        method: "get",
-        url: window.g.loginURL + "/api/camera/getbasemap",
-        data: {
-          code: this.state.addBackCode || this.state.equipData.code
-        }
-      })
-      .then(res => {
-        if (res.success) {
-          message.info(res.msg);
-        }
-      });
-  };
+
   handleDefSelect = num => {
     switch (num) {
+      case 0:
+        {
+          this.setState({
+            defSelect: "zero",
+            defOneAddBtn: true,
+            defTwoAddBtn: true,
+            defThreeAddBtn: true,
+            defOneDelBtn: true,
+            defTwoDelBtn: true,
+            defThreeDelBtn: true,
+            defOneSubBtn: true,
+            defTwoSubBtn: true,
+            defThreeSubBtn: true
+          });
+          this.boundarydraw();
+        }
+
+        break;
       case 1:
         {
-          this.defone.style.background = "#f2f2c7";
-          this.deftwo.style.background = "none";
-          this.defthree.style.background = "none";
           this.setState({
-            defSelect: 1
+            defSelect: "one",
+            defTwoAddBtn: true,
+            defThreeAddBtn: true,
+            defTwoDelBtn: true,
+            defThreeDelBtn: true,
+            defTwoSubBtn: true,
+            defThreeSubBtn: true
           });
+          if (this.state.equipData.field && this.state.equipData.field[1]) {
+            this.setState({
+              defOneDelBtn: false
+            });
+          } else {
+            this.setState({
+              defOneAddBtn: false,
+              defOneSubBtn: false
+            });
+          }
+          this.boundarydraw("one");
         }
 
         break;
       case 2:
         {
-          this.defone.style.background = "none";
-          this.deftwo.style.background = "#f2f2c7";
-          this.defthree.style.background = "none";
           this.setState({
-            defSelect: 2
+            defSelect: "two",
+            defOneAddBtn: true,
+            defThreeAddBtn: true,
+            defOneDelBtn: true,
+            defThreeDelBtn: true,
+            defOneSubBtn: true,
+            defThreeSubBtn: true
           });
+          if (this.state.equipData.field && this.state.equipData.field[2]) {
+            this.setState({
+              defTwoDelBtn: false
+            });
+          } else {
+            this.setState({
+              defTwoAddBtn: false,
+              defTwoSubBtn: false
+            });
+          }
+          this.boundarydraw("two");
         }
 
         break;
       case 3:
         {
-          this.defone.style.background = "none";
-          this.deftwo.style.background = "none";
-          this.defthree.style.background = "#f2f2c7";
           this.setState({
-            defSelect: 3
+            defSelect: "three",
+            defOneAddBtn: true,
+            defTwoAddBtn: true,
+            defOneDelBtn: true,
+            defTwoDelBtn: true,
+            defOneSubBtn: true,
+            defTwoSubBtn: true
           });
+          if (this.state.equipData.field && this.state.equipData.field[3]) {
+            this.setState({
+              defThreeDelBtn: false
+            });
+          } else {
+            this.setState({
+              defThreeAddBtn: false,
+              defThreeSubBtn: false
+            });
+          }
+          this.boundarydraw("three");
         }
 
         break;
@@ -803,13 +910,30 @@ class EquipSet extends Component {
         break;
     }
   };
-  handleDefAdd = () => {
+  handleTypeChange = (cv, num) => {
+    if (num === 1) {
+      this.setState({
+        oneTypeSelect: cv
+      });
+    } else if (num === 2) {
+      this.setState({
+        twoTypeSelect: cv
+      });
+    } else if (num === 3) {
+      this.setState({
+        threeTypeSelect: cv
+      });
+    }
+  };
+  handleDefAdd = (e = e || window.event) => {
+    e.stopPropagation();
+    e.cancelBubble = true;
     this.opendraw();
   };
   handleDefDelete = num => {
     switch (num) {
       case 1:
-        if (this.state.equipData.field[1]) {
+        if (this.state.equipData.field && this.state.equipData.field[1]) {
           {
             axios
               .ajax({
@@ -831,7 +955,7 @@ class EquipSet extends Component {
                       areaOne: []
                     },
                     () => {
-                      this.boundarydraw();
+                      this.clearCanvas();
                     }
                   );
                 }
@@ -843,7 +967,7 @@ class EquipSet extends Component {
 
         break;
       case 2:
-        if (this.state.equipData.field[2]) {
+        if (this.state.equipData.field && this.state.equipData.field[2]) {
           {
             axios
               .ajax({
@@ -865,7 +989,7 @@ class EquipSet extends Component {
                       areaTwo: []
                     },
                     () => {
-                      this.boundarydraw();
+                      this.clearCanvas();
                     }
                   );
                 }
@@ -877,7 +1001,7 @@ class EquipSet extends Component {
 
         break;
       case 3:
-        if (this.state.equipData.field[3]) {
+        if (this.state.equipData.field && this.state.equipData.field[3]) {
           {
             axios
               .ajax({
@@ -899,7 +1023,7 @@ class EquipSet extends Component {
                       areaThree: []
                     },
                     () => {
-                      this.boundarydraw();
+                      this.clearCanvas();
                     }
                   );
                 }
@@ -929,7 +1053,7 @@ class EquipSet extends Component {
                 field: this.state.initareaMove
                   ? JSON.stringify(this.state.newinitarea)
                   : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(this.state.typeSelect)
+                type: JSON.stringify(this.state.oneTypeSelect)
               }
             })
             .then(res => {
@@ -947,7 +1071,7 @@ class EquipSet extends Component {
                       ? (this.state.areaOne = this.state.newinitarea)
                       : (this.state.areaOne = this.state.initarea);
 
-                    this.boundarydraw();
+                    this.boundarydraw("one");
                     this.state.newinitarea = [];
                   }
                 );
@@ -968,7 +1092,7 @@ class EquipSet extends Component {
                 field: this.state.initareaMove
                   ? JSON.stringify(this.state.newinitarea)
                   : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(this.state.typeSelect)
+                type: JSON.stringify(this.state.twoTypeSelect)
               }
             })
             .then(res => {
@@ -984,7 +1108,7 @@ class EquipSet extends Component {
                     this.state.initareaMove
                       ? (this.state.areaTwo = this.state.newinitarea)
                       : (this.state.areaTwo = this.state.initarea);
-                    this.boundarydraw();
+                    this.boundarydraw("two");
                     this.state.newinitarea = [];
                   }
                 );
@@ -1005,7 +1129,7 @@ class EquipSet extends Component {
                 field: this.state.initareaMove
                   ? JSON.stringify(this.state.newinitarea)
                   : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(this.state.typeSelect)
+                type: JSON.stringify(this.state.threeTypeSelect)
               }
             })
             .then(res => {
@@ -1025,7 +1149,7 @@ class EquipSet extends Component {
                       ? (this.state.areaThree = this.state.newinitarea)
                       : (this.state.areaThree = this.state.initarea);
 
-                    this.boundarydraw();
+                    this.boundarydraw("three");
                     this.state.newinitarea = [];
                   }
                 );
@@ -1039,11 +1163,25 @@ class EquipSet extends Component {
         break;
     }
   };
+  getBaseMapAnew = () => {
+    axios
+      .ajax({
+        method: "get",
+        url: window.g.loginURL + "/api/camera/getbasemap",
+        data: {
+          code: this.state.addBackCode || this.state.equipData.code
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.info(res.msg);
+        }
+      });
+  };
   opendraw = () => {
     //开始绘制，打开开关
     open = true;
-    this.setState({ newinitarea: [] });
-    this.draw();
+    this.draw(this.state.initarea);
   };
   clearCanvas = () => {
     let ele = document.getElementById("cavcontainer");
@@ -1051,10 +1189,10 @@ class EquipSet extends Component {
     area.clearRect(0, 0, 704, 576);
   };
 
-  draw = (newdata, arc) => {
+  draw = newdata => {
     //绘制默认的六边形
     //绘制区域
-    let item = newdata ? newdata : this.state.initarea;
+    let item = newdata;
     let ele = document.getElementById("cavcontainer");
     let area = ele.getContext("2d");
     area.clearRect(0, 0, 704, 576);
@@ -1073,7 +1211,6 @@ class EquipSet extends Component {
     });
     area.stroke();
     area.fill();
-    if (arc) return;
     item.map(val => {
       area.beginPath();
       area.fillStyle = "rgba(128, 100, 162, 0.7)";
@@ -1218,26 +1355,62 @@ class EquipSet extends Component {
       { label: "车辆类型", value: 1 }
     ];
     const defopt = [
-      <div style={{ width: "100%" }}>
-        <span className="optlabel">检测类型</span>
-        <span style={{ marginLeft: "40px" }}>
-          <Checkbox.Group
-            options={checkType}
-            defaultValue={[0]}
-            onChange={cv => this.handleTypeChange(cv)}
+      <div
+        ref={defzero => {
+          this.defzero = defzero;
+        }}
+        onClick={() => {
+          this.handleDefSelect(0);
+        }}
+        className="listItemWrap"
+      >
+        <Radio value="zero" checked={this.state.defSelect === "zero"}>
+          总览
+        </Radio>
+        <span style={{ marginLeft: "30px" }}>
+          提示:未添加防区为黄色
+          <span
+            style={{
+              display: "inline-block",
+              width: "10px",
+              height: "10px",
+              background: "#ff0",
+              borderRadius: "5px",
+              marginLeft: "5px"
+            }}
           />
         </span>
       </div>,
-      <div
-        ref={defone => {
-          this.defone = defone;
-        }}
-        onClick={() => {
-          this.handleDefSelect(1);
-        }}
-      >
-        <span className="optlabel">一号防区</span>
-        <span className="optbtn">
+      <div className="listItemWrap">
+        <div
+          className="optlabel"
+          ref={defone => {
+            this.defone = defone;
+          }}
+          onClick={() => {
+            this.handleDefSelect(1);
+          }}
+        >
+          <Radio
+            value="one"
+            checked={this.state.defSelect === "one"}
+            style={{ color: `${blue}` }}
+          >
+            一号防区
+          </Radio>
+        </div>
+        <div className="optlabel" style={{ width: "100%" }}>
+          <span>检测类型</span>
+          <span style={{ marginLeft: "40px" }}>
+            <Checkbox.Group
+              options={checkType}
+              defaultValue={this.state.oneTypeSelect}
+              onChange={cv => this.handleTypeChange(cv, 1)}
+            />
+          </span>
+        </div>
+
+        <div className="optbtn">
           <Button
             onClick={() => {
               this.handleDefAdd();
@@ -1264,18 +1437,38 @@ class EquipSet extends Component {
           >
             提交
           </Button>
-        </span>
+        </div>
       </div>,
-      <div
-        ref={deftwo => {
-          this.deftwo = deftwo;
-        }}
-        onClick={() => {
-          this.handleDefSelect(2);
-        }}
-      >
-        <span className="optlabel">二号防区</span>
-        <span className="optbtn">
+      <div className="listItemWrap">
+        <div
+          className="optlabel"
+          ref={deftwo => {
+            this.deftwo = deftwo;
+          }}
+          onClick={() => {
+            this.handleDefSelect(2);
+          }}
+        >
+          <Radio
+            value="two"
+            checked={this.state.defSelect === "two"}
+            style={{ color: `${red}` }}
+          >
+            二号防区
+          </Radio>
+        </div>
+        <div className="optlabel" style={{ width: "100%" }}>
+          <span>检测类型</span>
+          <span style={{ marginLeft: "40px" }}>
+            <Checkbox.Group
+              options={checkType}
+              defaultValue={[0]}
+              onChange={cv => this.handleTypeChange(cv, 2)}
+            />
+          </span>
+        </div>
+
+        <div className="optbtn">
           <Button
             onClick={() => {
               this.handleDefAdd();
@@ -1302,18 +1495,38 @@ class EquipSet extends Component {
           >
             提交
           </Button>
-        </span>
+        </div>
       </div>,
-      <div
-        ref={defthree => {
-          this.defthree = defthree;
-        }}
-        onClick={() => {
-          this.handleDefSelect(3);
-        }}
-      >
-        <span className="optlabel">三号防区</span>
-        <span className="optbtn">
+      <div className="listItemWrap">
+        <div
+          className="optlabel"
+          ref={defthree => {
+            this.defthree = defthree;
+          }}
+          onClick={() => {
+            this.handleDefSelect(3);
+          }}
+        >
+          <Radio
+            value="three"
+            checked={this.state.defSelect === "three"}
+            style={{ color: `${green}` }}
+          >
+            三号防区
+          </Radio>
+        </div>
+        <div className="optlabel" style={{ width: "100%" }}>
+          <span>检测类型</span>
+          <span style={{ marginLeft: "40px" }}>
+            <Checkbox.Group
+              options={checkType}
+              defaultValue={[0]}
+              onChange={cv => this.handleTypeChange(cv, 3)}
+            />
+          </span>
+        </div>
+
+        <div className="optbtn">
           <Button
             onClick={() => {
               this.handleDefAdd();
@@ -1340,11 +1553,15 @@ class EquipSet extends Component {
           >
             提交
           </Button>
-        </span>
+        </div>
       </div>,
-      <Button type="dashed" className="again" onClick={this.getBaseMapAnew}>
-        重新获取底图
-      </Button>
+      <div className="listItemWrap">
+        <div className="optbtn">
+          <Button type="dashed" className="again" onClick={this.getBaseMapAnew}>
+            重新获取底图
+          </Button>
+        </div>
+      </div>
     ];
     const formItemLayout = {
       labelCol: {
@@ -1359,7 +1576,7 @@ class EquipSet extends Component {
       <div className="equipset">
         {this.props.match.params.add === ":add" && this.state.addOnly === true && (
           <div className="onlyadd">
-            <div className="baseinfo">基本信息</div>
+            <div className="baseInfo">基本信息</div>
             <Form
               {...formItemLayout}
               key="changeform"
@@ -1574,7 +1791,7 @@ class EquipSet extends Component {
                 返回
               </Button>
               <Button
-                disabled={this.state.equipData.cstatus === 1}
+                disabled={this.state.unlock}
                 type="primary"
                 onClick={() => this.handleUnlock()}
               >
@@ -1624,7 +1841,7 @@ class EquipSet extends Component {
                       justifyContent: "center"
                     }}
                   >
-                    <span className="info">基本信息</span>
+                    <span className="baseInfo">基本信息</span>
                   </span>
                 }
                 key="0"
@@ -1873,10 +2090,11 @@ class EquipSet extends Component {
                       id="cavcontainer"
                       style={{
                         backgroundImage:
-                          "url(" +
-                          `${this.state.equipData.basemap}`.split(".jpg")[0] +
-                          `?t=${Date.parse(new Date())}.jpg` +
-                          ")",
+                          // "url(" +
+                          // `${this.state.equipData.basemap}`.split(".jpg")[0] +
+                          // `?t=${Date.parse(new Date())}.jpg` +
+                          // ")",
+                          'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}

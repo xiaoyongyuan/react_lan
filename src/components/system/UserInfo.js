@@ -88,8 +88,8 @@ const FormModal = Form.create({ name: "form_in_modal" })(
                 initialValue: 0
               })(
                 <Select>
-                  <Option value={0}>管理员</Option>
-                  <Option value={1}>普通用户</Option>
+                  <Option value={0} key="0">管理员</Option>
+                  <Option value={1} key="1">普通用户</Option>
                 </Select>
               )}
             </Form.Item>
@@ -179,9 +179,12 @@ class UserInfo extends Component {
               message.success("添加用户成功");
               this.getUserData();
               form.resetFields();
+            }else{
+               message.error(res.data.msg);
             }
           });
         } else {
+
           message.error(err);
           return;
         }
@@ -209,6 +212,8 @@ class UserInfo extends Component {
               message.success("编辑用户成功");
               this.getUserData();
               form.resetFields();
+            }else{
+               message.error(res.data.msg);
             }
           });
         } else {
@@ -304,9 +309,7 @@ class UserInfo extends Component {
             } else {
               return (
                 <span>
-                  <Divider type="vertical" />
                   <Button
-                    type="dashed"
                     onClick={() => {
                       this.showModel(record);
                     }}
@@ -331,7 +334,6 @@ class UserInfo extends Component {
                 return (
                   <span>
                     <Button
-                      type="dashed"
                       onClick={() => {
                         this.showModel(record);
                       }}
@@ -340,11 +342,12 @@ class UserInfo extends Component {
                     </Button>
                   </span>
                 );
+              }else if(record.ifsys===1){
+return null
               } else {
                 return (
                   <span>
                     <Button
-                      type="dashed"
                       onClick={() => {
                         this.showModel(record);
                       }}
