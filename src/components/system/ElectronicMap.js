@@ -1,33 +1,109 @@
 import React, { Component } from 'react';
 import "../../style/ztt/css/electronicMap.less";
-import {Map,Marker} from 'react-amap';
 class ElectronicMap extends Component{
-    constructor(props) {
-        super(props);
+    constructor (props) {
+        super (props);
         this.state = {
-            mapZoom: 12, //地图缩放等级 （zoom）
-            status: {
-                zoomEnable: true,
-                dragEnable: true,
-            },
-            mapCenter:[108.946465,34.381835],//地图中心点
-            mapMake :[116.273961, 39.946338],//marker标记点
-        };
+            searchContent:'',
+        }
     }
     componentDidMount() {
-        this.setState({
+        const _this = this;
+        let content = _this.refs.container;
+        let map = new window.AMap.Map(content,{
+            resizeEnable:true,
+            zoom:14
+        });
+        var mouseTool = new window.AMap.MouseTool(map);
+        //监听draw事件可获取画好的覆盖物
+        var overlays = [];
+        var LatitudeArr=[];
+        mouseTool.on('draw',function(e){
+            overlays.push(e.obj);
+            let polygonItem = e.obj;
+           /* let path = polygonItem.getPath();//取得绘制的多边形的每一个点坐标
+            path.map((v)=>{
+                LatitudeArr.push([v.lng,v.lat])
+            });
+            console.log(LatitudeArr)*/
+        });
 
-        })
+        function draw(type){
+            switch(type){
+                case 'marker':{
+                    mouseTool.marker({});
+                    break;
+                }
+                case 'polyline':{
+                    mouseTool.polyline({
+                        strokeColor:'#c3742b'
+                    });
+                    break;
+                }
+                case 'polygon':{
+                    mouseTool.polygon({
+                        fillColor:'#afb8ff',
+                        strokeColor:'#8a59fb'
+                    });
+                    break;
+                }
+                case 'rectangle':{
+                    mouseTool.rectangle({
+                        fillColor:'#ffafaf',
+                        strokeColor:'#d87474'
+                    });
+                    break;
+                }
+                case 'circle':{
+                    mouseTool.circle({
+                        fillColor:'#5acafb',
+                        strokeColor:'#3fa7d3'
+                    });
+                    break;
+                }
+            }
+        }
+        var radios = document.getElementsByName('func');
+        for(var i=0;i<radios.length;i+=1){
+            radios[i].onchange = function(e){
+                draw(e.target.value)
+            }
+        }
+        draw('marker');
+        document.getElementById('clear').onclick = function(){
+            map.remove(overlays);
+            overlays = [];
+        };
+        document.getElementById('close').onclick = function(){
+            mouseTool.close(true);//关闭，并清除覆盖物
+            for(var i=0;i<radios.length;i+=1){
+                radios[i].checked = false;
+            }
+        }
     }
-
     render() {
-        let {mapCenter, mapMake, mapZoom, mapKey, status} = this.state;
         return (
-            <Map amapkey={mapKey} center={mapCenter} zoom={mapZoom} status={status}>
-                {/*marker标记点创建必有参数 （position中心点）*/}
-                <Marker position={mapMake}/>
-            </Map>
-        );
+            <div className="electronicMap">
+                <div className="container" ref="container"></div>
+                <div className='info'>操作说明：圆和矩形通过拖拽来绘制，其他覆盖物通过点击来绘制</div>
+                <div className="input-card">
+                    <div className="input-item">
+                        <input type="radio" name='func' value='marker'/><span className="input-text">画点</span>
+                        <input type="radio" name='func' value='polyline'/><span className="input-text">画折线</span>
+                        <input type="radio" name='func' value='polygon'/>
+                        <span className="input-text" >画多边形</span>
+                    </div>
+                    <div className="input-item">
+                        <input type="radio" name='func' value='rectangle'/><span className="input-text">画矩形</span>
+                        <input type="radio" name='func' value='circle'/><span className="input-text">画圆</span>
+                    </div>
+                    <div className="input-item">
+                        <input id="clear" type="button" className="btn" value="清除"/>
+                        <input id="close" type="button" className="btn" value="关闭绘图"/>
+                    </div>
+                </div>
+            </div>
+        )
     }
 }
 export default ElectronicMap;
