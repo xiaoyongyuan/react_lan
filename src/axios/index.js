@@ -103,7 +103,14 @@ export default class Axios {
                     }else{
                         reject(response.msg);
                     }
-                });
+                }, error => {
+                    console.log(error);
+                    // 执行失败的回调函数
+                })
+                .catch(function (error) {
+                    reject(error);
+                   console.log(error)
+                })
 
         })
     }

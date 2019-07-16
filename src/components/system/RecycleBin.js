@@ -37,7 +37,7 @@ class RecycleBin extends Component{
         })
     };
     //恢复
-    hanleRecovery=(recoveryCode)=>{
+    hanleRecovery=(recoveryCode,index)=>{
         confirm({
             content: '确认恢复该设备吗？',
             onOk() {
@@ -50,6 +50,9 @@ class RecycleBin extends Component{
                     }
                 }).then((res)=>{
                     if(res.success){
+                        let recycList=this.state.recycList;
+                        recycList[index]=recycList;
+                        this.setState({recycList});
                         message.info(res.msg)
                     }
                 })
@@ -84,7 +87,7 @@ class RecycleBin extends Component{
                                         </div>
                                     </div>
                                     <div className="recycleBinBtn">
-                                        <span onClick={()=>this.hanleRecovery(v.code)}>恢复</span>
+                                        <span onClick={()=>this.hanleRecovery(v.code,i)}>恢复</span>
                                         <span>{this.hanleEliminate(v.deltime)}天后清除</span>
                                     </div>
                                 </Col>

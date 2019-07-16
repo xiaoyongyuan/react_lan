@@ -104,7 +104,7 @@ class PoliceInformation extends Component {
                               malarminfo:res.data.Malarm.Malarminfo,
                               fields:res.data.Malarm.field,
                               fieldresult:res.data.Malarm.fieldresult,
-                              policeCode:res.data.Malarm.code,
+                              policeListCode:res.data.Malarm.code,
                               pic_width:res.data.Malarm.pic_width,
                               pic_height:res.data.Malarm.pic_height,
                               nextcode:res.data.Malarm.nextcode,
@@ -248,12 +248,17 @@ class PoliceInformation extends Component {
     };
     //修改报警状态
     hanlePoliceStatus=(status)=>{
-        if(this.state.policeCode){
+        if(this.state.policeListCode){
+            this.state.policeList.map((v,i)=>{
+                if(v.code===this.state.policeListCode){
+                    this.setState({policeListIndex:i})
+                }
+            });
             axios.ajax({
                 method:"get",
                 url:window.g.loginURL+"/api/alarm/setalastatus",
                 data:{
-                    acode:this.state.policeCode,
+                    acode:this.state.policeListCode,
                     status:status
                 }
             }).then((res)=>{
@@ -282,7 +287,6 @@ class PoliceInformation extends Component {
     };
     //查看详情
     hanlePoliceDateil=(code,index)=>{
-        console.log(code)
         this.setState({
             policeListCode:code,
             policeListIndex:index,
@@ -364,7 +368,7 @@ class PoliceInformation extends Component {
         })
     };
     hanleBorder=(index)=>{
-       if(this.state.policeCode===index){
+       if(this.state.policeListCode===index){
            return "selectBorder";
        }
     };

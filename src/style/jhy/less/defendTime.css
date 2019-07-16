@@ -217,5 +217,6 @@
 .defendTime .deleteWrap .delete {
   margin-top: 19px;
   color: red;
+  display: block;
 }
 /*# sourceMappingURL=defendTime.css.map */
