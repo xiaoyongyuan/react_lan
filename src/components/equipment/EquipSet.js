@@ -12,7 +12,7 @@ import {
   Switch,
   message,
   Radio,
-  Icon
+  Modal
 } from "antd";
 import React, { Component, Fragment } from "react";
 import DefTime from "./DefendTime";
@@ -20,7 +20,6 @@ import axios from "../../axios/index";
 import "../../style/jhy/less/equipset.less";
 import "../../style/jhy/less/reset.less";
 
-import backdrop from "../../style/jhy/imgs/backdrop.png";
 const { TabPane } = Tabs;
 const { Option } = Select;
 const blue = "#5063ee";
@@ -30,7 +29,7 @@ const maskcol = "rgba(204, 204, 204, 0.1)";
 var open = false;
 var moveswitch = false;
 var scopeswitch = false;
-
+const { confirm } = Modal;
 class EquipSet extends Component {
   constructor(props) {
     super(props);
@@ -226,35 +225,30 @@ class EquipSet extends Component {
       });
   };
   handleDeviceDel = () => {
-    axios
-      .ajax({
-        method: "put",
-        url: window.g.loginURL + "/api/camera/update",
-        data: {
-          code: this.state.addBackCode || this.props.query.code,
-          ifdel: 1
-        }
-      })
-      .then(res => {
-        if (res.success) {
-          message.success("已删除");
-          window.location.href = "#/main/equipment";
-        }
-      });
+    const _this = this;
+    confirm({
+      title: "确认删除该设备吗?",
+      onOk() {
+        axios
+          .ajax({
+            method: "put",
+            url: window.g.loginURL + "/api/camera/update",
+            data: {
+              code: _this.state.addBackCode || _this.props.query.code,
+              ifdel: 1
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("已删除");
+              window.location.href = "#/main/equipment";
+            }
+          });
+      }
+    });
   };
   handleTabChange(activekey) {
     if (activekey === "1") {
-      //   this.setState({
-      //      defOneAddBtn: true,
-      // defTwoAddBtn: true,
-      // defThreeAddBtn: true,
-      // defOneDelBtn: true,
-      // defTwoDelBtn: true,
-      // defThreeDelBtn: true,
-      // defOneSubBtn: true,
-      // defTwoSubBtn: true,
-      // defThreeSubBtn: true
-      //   })
       const equipData = this.state.equipData;
       if (equipData.field && equipData.field[1]) {
         this.setState(
@@ -351,10 +345,12 @@ class EquipSet extends Component {
     validateFields((err, fields) => {
       {
         if (err) {
+          message.error(err);
         } else {
           axios
             .ajax({
               method: "post",
+              // url:"http://192.168.1.163:8111/api/camera/add",
               url: window.g.loginURL + "/api/camera/add",
               data: {
                 name: fields.name,
@@ -389,6 +385,7 @@ class EquipSet extends Component {
     validateFields((err, fields) => {
       {
         if (err) {
+          message.error(err);
         } else {
           axios
             .ajax({
@@ -813,96 +810,88 @@ class EquipSet extends Component {
   handleDefSelect = num => {
     switch (num) {
       case 0:
-        {
-          this.setState({
-            defSelect: "zero",
-            defOneAddBtn: true,
-            defTwoAddBtn: true,
-            defThreeAddBtn: true,
-            defOneDelBtn: true,
-            defTwoDelBtn: true,
-            defThreeDelBtn: true,
-            defOneSubBtn: true,
-            defTwoSubBtn: true,
-            defThreeSubBtn: true
-          });
-          this.boundarydraw();
-        }
+        this.setState({
+          defSelect: "zero",
+          defOneAddBtn: true,
+          defTwoAddBtn: true,
+          defThreeAddBtn: true,
+          defOneDelBtn: true,
+          defTwoDelBtn: true,
+          defThreeDelBtn: true,
+          defOneSubBtn: true,
+          defTwoSubBtn: true,
+          defThreeSubBtn: true
+        });
+        this.boundarydraw();
 
         break;
       case 1:
-        {
+        this.setState({
+          defSelect: "one",
+          defTwoAddBtn: true,
+          defThreeAddBtn: true,
+          defTwoDelBtn: true,
+          defThreeDelBtn: true,
+          defTwoSubBtn: true,
+          defThreeSubBtn: true
+        });
+        if (this.state.equipData.field && this.state.equipData.field[1]) {
           this.setState({
-            defSelect: "one",
-            defTwoAddBtn: true,
-            defThreeAddBtn: true,
-            defTwoDelBtn: true,
-            defThreeDelBtn: true,
-            defTwoSubBtn: true,
-            defThreeSubBtn: true
+            defOneDelBtn: false
           });
-          if (this.state.equipData.field && this.state.equipData.field[1]) {
-            this.setState({
-              defOneDelBtn: false
-            });
-          } else {
-            this.setState({
-              defOneAddBtn: false,
-              defOneSubBtn: false
-            });
-          }
-          this.boundarydraw("one");
+        } else {
+          this.setState({
+            defOneAddBtn: false,
+            defOneSubBtn: false
+          });
         }
+        this.boundarydraw("one");
 
         break;
       case 2:
-        {
+        this.setState({
+          defSelect: "two",
+          defOneAddBtn: true,
+          defThreeAddBtn: true,
+          defOneDelBtn: true,
+          defThreeDelBtn: true,
+          defOneSubBtn: true,
+          defThreeSubBtn: true
+        });
+        if (this.state.equipData.field && this.state.equipData.field[2]) {
           this.setState({
-            defSelect: "two",
-            defOneAddBtn: true,
-            defThreeAddBtn: true,
-            defOneDelBtn: true,
-            defThreeDelBtn: true,
-            defOneSubBtn: true,
-            defThreeSubBtn: true
+            defTwoDelBtn: false
           });
-          if (this.state.equipData.field && this.state.equipData.field[2]) {
-            this.setState({
-              defTwoDelBtn: false
-            });
-          } else {
-            this.setState({
-              defTwoAddBtn: false,
-              defTwoSubBtn: false
-            });
-          }
-          this.boundarydraw("two");
+        } else {
+          this.setState({
+            defTwoAddBtn: false,
+            defTwoSubBtn: false
+          });
         }
+        this.boundarydraw("two");
 
         break;
       case 3:
-        {
+        this.setState({
+          defSelect: "three",
+          defOneAddBtn: true,
+          defTwoAddBtn: true,
+          defOneDelBtn: true,
+          defTwoDelBtn: true,
+          defOneSubBtn: true,
+          defTwoSubBtn: true
+        });
+        if (this.state.equipData.field && this.state.equipData.field[3]) {
           this.setState({
-            defSelect: "three",
-            defOneAddBtn: true,
-            defTwoAddBtn: true,
-            defOneDelBtn: true,
-            defTwoDelBtn: true,
-            defOneSubBtn: true,
-            defTwoSubBtn: true
+            defThreeDelBtn: false
           });
-          if (this.state.equipData.field && this.state.equipData.field[3]) {
-            this.setState({
-              defThreeDelBtn: false
-            });
-          } else {
-            this.setState({
-              defThreeAddBtn: false,
-              defThreeSubBtn: false
-            });
-          }
-          this.boundarydraw("three");
+        } else {
+          this.setState({
+            defThreeAddBtn: false,
+            defThreeSubBtn: false
+          });
         }
+        this.boundarydraw("three");
 
         break;
 
@@ -925,42 +914,43 @@ class EquipSet extends Component {
       });
     }
   };
-  handleDefAdd = (e = e || window.event) => {
-    e.stopPropagation();
-    e.cancelBubble = true;
+  handleDefAdd = e => {
+    if (e.stopPropagation()) {
+      e.stopPropagation();
+    } else {
+      window.event.cancelBubble = true;
+    }
     this.opendraw();
   };
   handleDefDelete = num => {
     switch (num) {
       case 1:
         if (this.state.equipData.field && this.state.equipData.field[1]) {
-          {
-            axios
-              .ajax({
-                method: "get",
-                url: window.g.loginURL + "/api/camera/fielddel",
-                data: {
-                  code: this.state.addBackCode || this.state.equipData.code,
-                  keys: 1
-                }
-              })
-              .then(res => {
-                if (res.success) {
-                  message.success("1号防区删除成功");
-                  this.setState(
-                    {
-                      defOneAddBtn: false,
-                      defOneDelBtn: true,
-                      defOneSubBtn: false,
-                      areaOne: []
-                    },
-                    () => {
-                      this.clearCanvas();
-                    }
-                  );
-                }
-              });
-          }
+          axios
+            .ajax({
+              method: "get",
+              url: window.g.loginURL + "/api/camera/fielddel",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 1
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("1号防区删除成功");
+                this.setState(
+                  {
+                    defOneAddBtn: false,
+                    defOneDelBtn: true,
+                    defOneSubBtn: false,
+                    areaOne: []
+                  },
+                  () => {
+                    this.clearCanvas();
+                  }
+                );
+              }
+            });
         } else {
           this.clearCanvas();
         }
@@ -968,33 +958,31 @@ class EquipSet extends Component {
         break;
       case 2:
         if (this.state.equipData.field && this.state.equipData.field[2]) {
-          {
-            axios
-              .ajax({
-                method: "get",
-                url: window.g.loginURL + "/api/camera/fielddel",
-                data: {
-                  code: this.state.addBackCode || this.state.equipData.code,
-                  keys: 2
-                }
-              })
-              .then(res => {
-                if (res.success) {
-                  message.success("2号防区删除成功");
-                  this.setState(
-                    {
-                      defTwoAddBtn: false,
-                      defTwoDelBtn: true,
-                      defTwoSubBtn: false,
-                      areaTwo: []
-                    },
-                    () => {
-                      this.clearCanvas();
-                    }
-                  );
-                }
-              });
-          }
+          axios
+            .ajax({
+              method: "get",
+              url: window.g.loginURL + "/api/camera/fielddel",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 2
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("2号防区删除成功");
+                this.setState(
+                  {
+                    defTwoAddBtn: false,
+                    defTwoDelBtn: true,
+                    defTwoSubBtn: false,
+                    areaTwo: []
+                  },
+                  () => {
+                    this.clearCanvas();
+                  }
+                );
+              }
+            });
         } else {
           this.clearCanvas();
         }
@@ -1002,33 +990,31 @@ class EquipSet extends Component {
         break;
       case 3:
         if (this.state.equipData.field && this.state.equipData.field[3]) {
-          {
-            axios
-              .ajax({
-                method: "get",
-                url: window.g.loginURL + "/api/camera/fielddel",
-                data: {
-                  code: this.state.addBackCode || this.state.equipData.code,
-                  keys: 3
-                }
-              })
-              .then(res => {
-                if (res.success) {
-                  message.success("3号防区删除成功");
-                  this.setState(
-                    {
-                      defThreeAddBtn: false,
-                      defThreeDelBtn: true,
-                      defThreeSubBtn: false,
-                      areaThree: []
-                    },
-                    () => {
-                      this.clearCanvas();
-                    }
-                  );
-                }
-              });
-          }
+          axios
+            .ajax({
+              method: "get",
+              url: window.g.loginURL + "/api/camera/fielddel",
+              data: {
+                code: this.state.addBackCode || this.state.equipData.code,
+                keys: 3
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("3号防区删除成功");
+                this.setState(
+                  {
+                    defThreeAddBtn: false,
+                    defThreeDelBtn: true,
+                    defThreeSubBtn: false,
+                    areaThree: []
+                  },
+                  () => {
+                    this.clearCanvas();
+                  }
+                );
+              }
+            });
         } else {
           this.clearCanvas();
         }
@@ -1081,81 +1067,77 @@ class EquipSet extends Component {
 
         break;
       case 2:
-        {
-          axios
-            .ajax({
-              method: "get",
-              url: window.g.loginURL + "/api/camera/fieldadd",
-              data: {
-                code: this.state.addBackCode || this.state.equipData.code,
-                keys: 2,
-                field: this.state.initareaMove
-                  ? JSON.stringify(this.state.newinitarea)
-                  : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(this.state.twoTypeSelect)
-              }
-            })
-            .then(res => {
-              if (res.success) {
-                message.success("2号防区添加成功");
-                this.setState(
-                  {
-                    defTwoAddBtn: true,
-                    defTwoDelBtn: false,
-                    defTwoSubBtn: true
-                  },
-                  () => {
-                    this.state.initareaMove
-                      ? (this.state.areaTwo = this.state.newinitarea)
-                      : (this.state.areaTwo = this.state.initarea);
-                    this.boundarydraw("two");
-                    this.state.newinitarea = [];
-                  }
-                );
-              }
-            });
-        }
+        axios
+          .ajax({
+            method: "get",
+            url: window.g.loginURL + "/api/camera/fieldadd",
+            data: {
+              code: this.state.addBackCode || this.state.equipData.code,
+              keys: 2,
+              field: this.state.initareaMove
+                ? JSON.stringify(this.state.newinitarea)
+                : JSON.stringify(this.state.initarea),
+              type: JSON.stringify(this.state.twoTypeSelect)
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("2号防区添加成功");
+              this.setState(
+                {
+                  defTwoAddBtn: true,
+                  defTwoDelBtn: false,
+                  defTwoSubBtn: true
+                },
+                () => {
+                  this.state.initareaMove
+                    ? (this.state.areaTwo = this.state.newinitarea)
+                    : (this.state.areaTwo = this.state.initarea);
+                  this.boundarydraw("two");
+                  this.state.newinitarea = [];
+                }
+              );
+            }
+          });
 
         break;
       case 3:
-        {
-          axios
-            .ajax({
-              method: "get",
-              url: window.g.loginURL + "/api/camera/fieldadd",
-              data: {
-                code: this.state.addBackCode || this.state.equipData.code,
-                keys: 3,
-                field: this.state.initareaMove
-                  ? JSON.stringify(this.state.newinitarea)
-                  : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(this.state.threeTypeSelect)
-              }
-            })
-            .then(res => {
-              if (res.success) {
-                message.success("3号防区添加成功");
-                this.setState(
-                  {
-                    defThreeAddBtn: true,
-                    defThreeDelBtn: false,
-                    defThreeSubBtn: true,
-                    areaThree: this.state.initareaMove
-                      ? this.state.newinitarea
-                      : this.state.initarea
-                  },
-                  () => {
-                    this.state.initareaMove
-                      ? (this.state.areaThree = this.state.newinitarea)
-                      : (this.state.areaThree = this.state.initarea);
+        axios
+          .ajax({
+            method: "get",
+            url: window.g.loginURL + "/api/camera/fieldadd",
+            data: {
+              code: this.state.addBackCode || this.state.equipData.code,
+              keys: 3,
+              field: this.state.initareaMove
+                ? JSON.stringify(this.state.newinitarea)
+                : JSON.stringify(this.state.initarea),
+              type: JSON.stringify(this.state.threeTypeSelect)
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("3号防区添加成功");
+              this.setState(
+                {
+                  defThreeAddBtn: true,
+                  defThreeDelBtn: false,
+                  defThreeSubBtn: true,
+                  areaThree: this.state.initareaMove
+                    ? this.state.newinitarea
+                    : this.state.initarea
+                },
+                () => {
+                  this.state.initareaMove
+                    ? (this.state.areaThree = this.state.newinitarea)
+                    : (this.state.areaThree = this.state.initarea);
 
-                    this.boundarydraw("three");
-                    this.state.newinitarea = [];
-                  }
-                );
-              }
-            });
-        }
+                  this.boundarydraw("three");
+                  this.state.newinitarea = [];
+                }
+              );
+            }
+          });
 
         break;
 
@@ -1356,9 +1338,6 @@ class EquipSet extends Component {
     ];
     const defopt = [
       <div
-        ref={defzero => {
-          this.defzero = defzero;
-        }}
         onClick={() => {
           this.handleDefSelect(0);
         }}
@@ -1384,9 +1363,6 @@ class EquipSet extends Component {
       <div className="listItemWrap">
         <div
           className="optlabel"
-          ref={defone => {
-            this.defone = defone;
-          }}
           onClick={() => {
             this.handleDefSelect(1);
           }}
@@ -1442,9 +1418,6 @@ class EquipSet extends Component {
       <div className="listItemWrap">
         <div
           className="optlabel"
-          ref={deftwo => {
-            this.deftwo = deftwo;
-          }}
           onClick={() => {
             this.handleDefSelect(2);
           }}
@@ -1500,9 +1473,6 @@ class EquipSet extends Component {
       <div className="listItemWrap">
         <div
           className="optlabel"
-          ref={defthree => {
-            this.defthree = defthree;
-          }}
           onClick={() => {
             this.handleDefSelect(3);
           }}

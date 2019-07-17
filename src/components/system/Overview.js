@@ -18,7 +18,10 @@ class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      datalist: {}
+      datalist: {},
+      syscheck: false,
+      servcheck: false,
+      playcheck: false
     };
   }
 
@@ -34,7 +37,6 @@ class Overview extends Component {
       })
       .then(res => {
         if (res.success) {
-          console.log(res);
           this.setState({
             datalist: res.data
           });
@@ -59,9 +61,30 @@ class Overview extends Component {
   };
   render() {
     const funconfig = [
-      <Radio>云端同步服务器是否运行</Radio>,
-      <Radio>删除服务器是否运行</Radio>,
-      <Radio>直播服务器是否运行</Radio>
+      <Radio
+        checked={this.state.syscheck}
+        onClick={() => {
+          this.setState({ syscheck: !this.state.syscheck });
+        }}
+      >
+        云端同步服务器是否运行
+      </Radio>,
+      <Radio
+        checked={this.state.servcheck}
+        onClick={() => {
+          this.setState({ servcheck: !this.state.servcheck });
+        }}
+      >
+        删除服务器是否运行
+      </Radio>,
+      <Radio
+        checked={this.state.playcheck}
+        onClick={() => {
+          this.setState({ playcheck: !this.state.playcheck });
+        }}
+      >
+        直播服务器是否运行
+      </Radio>
     ];
     const datalist = this.state.datalist;
     const cpupie = {
