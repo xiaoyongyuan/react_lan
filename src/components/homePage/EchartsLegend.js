@@ -64,7 +64,7 @@ class EchartsLegend extends Component{
         return(
             <ReactEcharts
                 option={option}
-                style={{ height: "50vh" }}
+                style={{width:"60%", height:"60vh"}}
             />
         );
     }

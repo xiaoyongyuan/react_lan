@@ -1,5 +1,17 @@
 .Login{
   background: #fff;
+  @media screen and(max-width: 1600px){
+    .loginFrame{
+      width: 23%!important;
+      position: absolute!important;
+      top: 30%!important;
+      left: 60%!important;
+      padding: 28px 38px!important;
+    }
+    .login-title{
+      width: 20%!important;
+    }
+  }
   .ant-input-affix-wrapper{
     height: 40px;
   }
@@ -12,19 +24,19 @@
     position: relative;
     .logoBg{
       width: 100%;
-      height: 60vh;
-      background: url("../../style/imgs/login.png") no-repeat left 50%;
-      background-size: 100% 100%;
+      height: 74vh;
+      background: url("../../style/imgs/login.png") center no-repeat ;
+      background-size: 100%;
     }
     .loginFrame{
       position: absolute;
       top: 32%;
-      left: 61%;
-      width: 21%;
+      left: 62%;
+      width: 19%;
       min-height: 34vh;
       background: #fff;
       box-shadow: 0px 0px 10px rgba(34, 34, 34, 0.1);
-      padding: 30px 50px;
+      padding: 28px 48px;
       .logoForm{
         padding-top: 30px;
         .logoBtn{
@@ -33,6 +45,7 @@
           background:#006CFF;
           border: none;
           border-radius: 1px;
+          margin-top: 26px;
         }
       }
     }

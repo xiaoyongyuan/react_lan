@@ -89,27 +89,19 @@ export default class Axios {
                     }*/
                     if(response&&response.status===200){
                         const res=response.data;
-                        if(res.success===0){resolve(res)}
-                        if(res.success===1){
+                        if(res.success===0){
+                            if(res.msg.type==='401'){
+                                reject(res.msg);
+                                window.location.href='#/login';
+                            }
+                        }else if(res.success===1){
                             resolve(res)
-                        }else if(res.success==='401' || res.success==='402'){
-                            message.error(res.msg);
-                            reject(response.msg);
-                            window.location.href='#/login';
                         }else{
-                            message.error(res.msg);
-                            //window.location.href='#/login';
+                            message.error(res.msg.info);
                         }
                     }else{
                         reject(response.msg);
                     }
-                }, error => {
-                    console.log(error);
-                    // 执行失败的回调函数
-                })
-                .catch(function (error) {
-                    reject(error);
-                   console.log(error)
                 })
 
         })

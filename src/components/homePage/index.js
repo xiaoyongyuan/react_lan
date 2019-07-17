@@ -15,9 +15,11 @@ class Index extends Component {
           fortification:"已布防",
           visible:false,
           policeList:[],
+          closeBtn:false
       };
     }
     params={};
+
     componentDidMount() {
         this.hanleBgColor1();
         this.hanleBgColor2();
@@ -137,6 +139,11 @@ class Index extends Component {
                 return;
         }
     };
+    hanleClose=()=>{
+        this.setState({
+            closeBtn:true
+        })
+    };
     //最后一次报警情况
     hanlelastAlarm=()=>{
       if(this.state.fortification==="已布防"){
@@ -151,7 +158,7 @@ class Index extends Component {
                       <div className="alarmVideoBottom">
                           <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
                       </div>
-                      <img className="alarmVideoBtn" src={playBtn}/>
+                      <img className="alarmVideoBtn" src={playBtn} />
                   </div>
               </div>
           )
@@ -167,7 +174,7 @@ class Index extends Component {
                      <div className="alarmVideoBottom">
                          <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
                      </div>
-                     <img className="alarmVideoBtn" src={playBtn}/>
+                     <img className="alarmVideoBtn" src={playBtn} />
                  </div>
              </div>
          )
@@ -220,8 +227,8 @@ class Index extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="computerRoom">
-                    <div className="computerRoom-context">
+                <div className="computerRoom" >
+                    <div className="computerRoom-context" >
                         <div className="computerRoom-title">傲科云科技服务器机房</div>
                         <div className="computerRoomStatus">
                             <div className="RoomStatusLeft">
@@ -229,13 +236,13 @@ class Index extends Component {
                                 <p className="roomAlarm"><span className="statusImg2" /><span className="status2">无报警状态</span></p>
                                 <p className="roomAlarm"><span className="statusImg3" /><span className="status3">离线</span></p>
                             </div>
-                            <div className="computer"><EchartsLegend /></div>
+                            <div className="computer"><EchartsLegend  /></div>
                         </div>
 
                     </div>
                     <div className="computerRoom-camera">
                         <div className="video-camera">
-                            <span className="videoImg"/><span className="videoName">机房智能摄像机</span>
+                            <span className="videoCameraName"><span className="videoImg"/><span className="videoName">机房智能摄像机</span></span><Icon type="close" onClick={this.hanleClose} className="close"/>
                         </div>
                         <div className="eqiIp">
                             <div className="eqiIp-context">
