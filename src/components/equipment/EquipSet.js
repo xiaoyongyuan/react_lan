@@ -915,9 +915,10 @@ class EquipSet extends Component {
     }
   };
   handleDefAdd = e => {
-    if (e.stopPropagation()) {
+    var e = e || window.event;
+    if (e.stopPropagation) {
       e.stopPropagation();
-    } else {
+    } else if (window.event) {
       window.event.cancelBubble = true;
     }
     this.opendraw();
@@ -1235,7 +1236,14 @@ class EquipSet extends Component {
         el[1] - 10 <= dot.y &&
         dot.y <= el[1] + 10
       ) {
+        this.setState({
+          ex: true
+        });
         return i + 1;
+      } else {
+        this.setState({
+          ex: false
+        });
       }
     }
   };
@@ -1267,15 +1275,15 @@ class EquipSet extends Component {
 
   mousedown = e => {
     //鼠标按下，判断是需要单点还是整体拖动
-    e.preventDefault();
+    // e.preventDefault();
     if (!open) return;
     let getcord = this.getcoord(e);
-    const ex = this.dotrim(getcord); //是否为单点范围内
+    const ex = this.dotrim(getcord); //是否为单点范围内的第几个点
     const scope = this.PointInPoly(getcord); //是否在图形内
-    if (ex) {
+    if (this.state.ex) {
       moveswitch = true;
       this.setState({ movedot: ex });
-    } else if (scope && !ex) {
+    } else if (scope && !this.state.ex) {
       //在图形内但不在单点范围内
       scopeswitch = true;
       this.setState({ movescope: this.getarr(), movepoint: getcord }); //可移动范围和初始点
@@ -1286,7 +1294,7 @@ class EquipSet extends Component {
     scopeswitch = false;
   };
   mousemove = e => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!open) {
       return;
     }
@@ -1301,9 +1309,8 @@ class EquipSet extends Component {
       // this.setState({ initarea }, () => this.draw());
       var newinitarea = initarea;
       newinitarea[movedot - 1] = [getcoord.x, getcoord.y];
-      this.setState({ newinitarea: newinitarea }, () => {
+      this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
         this.draw(newinitarea);
-        this.state.initareaMove = true;
       });
     } else if (scopeswitch) {
       //整体拖动
@@ -1327,9 +1334,8 @@ class EquipSet extends Component {
       initarea.map(el => {
         newinitarea.push([el[0] + x, el[1] + y]);
       });
-      this.setState({ newinitarea: newinitarea }, () => {
+      this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
         this.draw(newinitarea);
-        this.state.initareaMove = true;
       });
     }
   };
@@ -2071,8 +2077,8 @@ class EquipSet extends Component {
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}
-                      onMouseUp={this.mouseup}
-                      onMouseMove={this.mousemove}
+                      onMouseUp={() => this.mouseup()}
+                      onMouseMove={() => this.mousemove()}
                     />
                   </div>
                   <Col
