@@ -14,8 +14,10 @@ import Etable from "../common/Etable";
 import axios from "axios";
 import axiosW from "../../axios/index";
 import moment from "moment";
+import Utils from "../../utils/utils";
 import "../../style/jhy/less/userinfo.less";
 const { Option } = Select;
+const { confirm } = Modal;
 
 const FormModal = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
@@ -85,11 +87,15 @@ const FormModal = Form.create({ name: "form_in_modal" })(
             </Form.Item>
             <Form.Item label="角色权限" key="role">
               {getFieldDecorator("utype", {
-                initialValue: 0
+                initialValue: 1
               })(
                 <Select>
-                  <Option value={0} key="0">管理员</Option>
-                  <Option value={1} key="1">普通用户</Option>
+                  <Option value={0} key="0">
+                    管理员
+                  </Option>
+                  <Option value={1} key="1">
+                    普通用户
+                  </Option>
                 </Select>
               )}
             </Form.Item>
@@ -108,9 +114,15 @@ class UserInfo extends Component {
       visible: false,
       type: "",
       title: "",
-      currentRecordData: {}
+      currentRecordData: {},
+      pagination: {}
     };
   }
+  params = {
+    pageindex: 1,
+    pagesize: 10
+  };
+
   componentDidMount() {
     this.getUserData();
   }
@@ -118,16 +130,22 @@ class UserInfo extends Component {
     axiosW
       .ajax({
         method: "get",
-        url: "http://192.168.1.176:8111/api/system/userlist",
-        // url: window.g.loginURL + "/api/system/userlist",
+        // url: "http://192.168.1.163:8111/api/system/userlist",
+        url: window.g.loginURL + "/api/system/userlist",
         data: {
-          code: this.props.query.code
+          pagesize: 10,
+          code: this.props.query.code,
+          pageindex: this.params.pageindex
         }
       })
       .then(res => {
         if (res.success) {
           this.setState({
-            userdata: res.data
+            userdata: res.data,
+            pagination: Utils.pagination(res, current => {
+              this.params.pageindex = current;
+              this.getUserData();
+            })
           });
         }
       });
@@ -150,6 +168,8 @@ class UserInfo extends Component {
     }
   };
   handleCancel = () => {
+    const { form } = this.formRef.props;
+    form.resetFields();
     this.setState({
       visible: false
     });
@@ -165,7 +185,11 @@ class UserInfo extends Component {
           });
           axios({
             method: "post",
-            url: "http://192.168.1.176:8111/api/autocode/auto",
+            // url: "http://192.168.1.176:8111/api/autocode/auto",
+            url: window.g.loginURL + "/api/autocode/auto",
+            headers: {
+              AUTHORIZATION: "Bearer " + localStorage.getItem("token")
+            },
             data: {
               account: values.account,
               emailaddress: values.emailaddress,
@@ -179,12 +203,11 @@ class UserInfo extends Component {
               message.success("添加用户成功");
               this.getUserData();
               form.resetFields();
-            }else{
-               message.error(res.data.msg);
+            } else {
+              message.error(res.data.msg);
             }
           });
         } else {
-
           message.error(err);
           return;
         }
@@ -197,7 +220,11 @@ class UserInfo extends Component {
           });
           axios({
             method: "post",
-            url: "http://192.168.1.176:8111/api/system/setuser",
+            // url: "http://192.168.1.163:8111/api/system/setuser",
+            url: window.g.loginURL + "/api/system/setuser",
+            headers: {
+              AUTHORIZATION: "Bearer " + localStorage.getItem("token")
+            },
             data: {
               code: this.state.currentRecordData.code,
               account: values.account,
@@ -212,8 +239,8 @@ class UserInfo extends Component {
               message.success("编辑用户成功");
               this.getUserData();
               form.resetFields();
-            }else{
-               message.error(res.data.msg);
+            } else {
+              message.error(res.data.msg);
             }
           });
         } else {
@@ -225,18 +252,31 @@ class UserInfo extends Component {
   };
 
   delUser = record => {
-    axios({
-      method: "post",
-      url: "http://192.168.1.176:8111/api/system/setuser",
-      data: {
-        code: record.code,
-        account: record.account,
-        ifdel: 1
-      }
-    }).then(res => {
-      if (res.data.success) {
-        message.success("删除用户成功");
-        this.getUserData();
+    const _this = this;
+    confirm({
+      title: "确认删除该设备吗?",
+      onOk() {
+        axios({
+          method: "post",
+          // url: "http://192.168.1.176:8111/api/system/setuser",
+          url: window.g.loginURL + "/api/system/setuser",
+          headers: {
+            AUTHORIZATION: "Bearer " + localStorage.getItem("token")
+          },
+          data: {
+            code: record.code,
+            account: record.account,
+            ifdel: 1
+          }
+        }).then(res => {
+          console.log(res);
+          if (res.data.success) {
+            message.success("删除用户成功");
+            _this.getUserData();
+          } else {
+            message.error(res.data.msg);
+          }
+        });
       }
     });
   };
@@ -310,6 +350,7 @@ class UserInfo extends Component {
               return (
                 <span>
                   <Button
+                    type="primary"
                     onClick={() => {
                       this.showModel(record);
                     }}
@@ -318,7 +359,7 @@ class UserInfo extends Component {
                   </Button>
                   <Divider type="vertical" />
                   <Button
-                    type="danger"
+                    type="primary"
                     onClick={() => {
                       this.delUser(record);
                     }}
@@ -334,6 +375,7 @@ class UserInfo extends Component {
                 return (
                   <span>
                     <Button
+                      type="primary"
                       onClick={() => {
                         this.showModel(record);
                       }}
@@ -342,12 +384,13 @@ class UserInfo extends Component {
                     </Button>
                   </span>
                 );
-              }else if(record.ifsys===1){
-return null
+              } else if (record.ifsys === 1) {
+                return null;
               } else {
                 return (
                   <span>
                     <Button
+                      type="primary"
                       onClick={() => {
                         this.showModel(record);
                       }}
@@ -356,7 +399,7 @@ return null
                     </Button>
                     <Divider type="vertical" />
                     <Button
-                      type="danger"
+                      type="primary"
                       onClick={() => {
                         this.delUser(record);
                       }}
@@ -398,6 +441,7 @@ return null
         <Etable
           dataSource={this.state.userdata}
           columns={userlist}
+          pagination={this.state.pagination}
           style={{ marginTop: "20px" }}
         />
       </div>

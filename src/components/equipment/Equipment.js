@@ -1,5 +1,6 @@
 import { Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
+import Utils from "../../utils/utils";
 import "../../style/jhy/less/equiplist.less";
 import "../../style/jhy/less/reset.less";
 import axios from "../../axios";
@@ -8,11 +9,13 @@ class Equipment extends Component {
     super(props);
     this.state = {
       equipList: [],
-      totalCount: 0,
-      page: 1,
-      pagesize: 10
+      totalCount: 0
     };
   }
+  params = {
+    pageindex: 1,
+    pagesize: 12
+  };
   componentDidMount() {
     this.getList();
   }
@@ -22,27 +25,23 @@ class Equipment extends Component {
       .ajax({
         method: "get",
         url: window.g.loginURL + "/api/camera/getlist",
-        data: { page: this.state.page, pageSize: this.state.pagesize }
+        data: {
+          pagesize: 12,
+          pageindex: this.params.pageindex
+        }
       })
       .then(res => {
         if (res.success) {
           this.setState({
             equipList: res.data,
-            totalCount: res.totalcount
+            totalCount: res.totalcount,
+            pagination: Utils.pagination(res, current => {
+              this.params.pageindex = current;
+              this.getUserData();
+            })
           });
         }
       });
-  };
-  pageChange = (page, pagesize) => {
-    this.setState({
-      page: page,
-      pagesize: pagesize
-    });
-  };
-  pageSizeChange = (current, size) => {
-    this.setState({
-      pagesize: size
-    });
   };
 
   addEquip = () => {
@@ -137,21 +136,12 @@ class Equipment extends Component {
               ))
             : null}
         </Row>
-        <Pagination
-          onChange={(page, pagesize) => {
-            this.pageChange(page, pagesize);
-          }}
-          onShowSizeChange={(current, size) => {
-            this.pageSizeChange(current, size);
-          }}
-          hideOnSinglePage={true}
-          total={this.state.totalCount}
-          showSizeChanger
-          showTotal={total => {
-            return `共${total}条`;
-          }}
-          className="pagination"
-        />
+        <div className="paginationWrap">
+          <Pagination
+            pagination={this.state.pagination}
+            className="pagination"
+          />
+        </div>
       </div>
     );
   }

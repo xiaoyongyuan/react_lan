@@ -27,7 +27,7 @@ const FormModal = Form.create()(
   class extends React.Component {
     state = {
       checkedList: [],
-      indeterminate: true,
+      // indeterminate: true,
       checkAll: false,
       radioSelect: false
     };
@@ -47,8 +47,8 @@ const FormModal = Form.create()(
       }
       this.setState({
         checkedList,
-        indeterminate:
-          !!checkedList.length && checkedList.length < dayOptions.length,
+        // indeterminate:
+        //   !!checkedList.length && checkedList.length < dayOptions.length,
         checkAll: checkedList.length === dayOptions.length
       });
     };
@@ -73,7 +73,7 @@ const FormModal = Form.create()(
 
       this.setState({
         checkedList: e.target.checked ? checkedList : [],
-        indeterminate: false,
+        // indeterminate: false,
         checkAll: e.target.checked
       });
     };
@@ -94,7 +94,7 @@ const FormModal = Form.create()(
         <span>
           复制星期{day[btnNum]}的布防时间到...
           <Checkbox
-            indeterminate={this.state.indeterminate}
+            // indeterminate={this.state.indeterminate}
             onChange={this.onCheckAllChange}
             checked={this.state.checkAll}
             style={{ marginLeft: "20px" }}
@@ -140,7 +140,7 @@ const FormModal = Form.create()(
                       if (this.state.radioSelect) {
                         this.props.form.setFieldsValue({ days: [] });
                         this.setState({
-                          indeterminate: false,
+                          // indeterminate: false,
                           checkAll: false
                         });
                       }
@@ -192,6 +192,7 @@ class DefendTime extends Component {
         axios
           .ajax({
             method: "delete",
+            // url: "http://192.168.1.163:8111/api/api/deleteOneWorkingTime",
             url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
             data: {
               cid: this.props.code ? this.props.code : this.props.addBackCode,
@@ -320,6 +321,7 @@ class DefendTime extends Component {
         axios
           .ajax({
             method: "post",
+            // url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
             url: window.g.loginURL + "/api/workingTime/setWorkingTime",
             data: {
               timelist: trantime,
@@ -344,6 +346,7 @@ class DefendTime extends Component {
           .ajax({
             method: "delete",
             url: window.g.loginURL + "/api/api/zworkingtime",
+            // url: "http://192.168.1.163:8111/api/api/zworkingtime",
             data: {
               ids: _this.props.code ? _this.props.code : _this.props.addBackCode
             }
