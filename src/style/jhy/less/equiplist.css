@@ -86,8 +86,12 @@
   border-radius: 5px;
   margin: 0 10px;
 }
-.equip .pagination {
-  width: 100%;
+.equip .paginationWrap {
+  width: 96%;
+  position: absolute;
+  bottom: 0;
+}
+.equip .paginationWrap .pagination {
   padding: 8px 0;
   text-align: center;
 }

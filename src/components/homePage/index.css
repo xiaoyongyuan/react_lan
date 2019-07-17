@@ -134,6 +134,9 @@
   .homePage .computerRoom .computerRoom-context {
     height: 85.5vh !important;
   }
+  .homePage .computerRoom .RoomStatusLeft {
+    width: 24%!important;
+  }
 }
 .homePage .computerRoom .computerRoom-context {
   width: 100%;
@@ -141,7 +144,7 @@
   height: 61vh;
 }
 .homePage .computerRoom .computerRoom-context .RoomStatusLeft {
-  width: 30%;
+  width: 20%;
 }
 .homePage .computerRoom .computerRoom-context .computerRoomStatus {
   display: flex;
@@ -245,8 +248,13 @@
   line-height: 26px;
   background: #fff;
   color: #2E4699;
-  padding-left: 26px;
+  padding-left: 20px;
   font-size: 15px;
+}
+.homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld:nth-child(1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld {
   display: flex;
@@ -258,9 +266,6 @@
   background: #fff;
   margin-left: 4px;
   color: #2E4699;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 15px;
 }
 .homePage .computerRoom .computerRoom-camera .fortification {
@@ -371,9 +376,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo video {
+  width: 100%;
 }
 .homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo {
-  width: 60%;
+  width: 63%;
   padding: 10px 0;
   position: relative;
 }

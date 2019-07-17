@@ -152,13 +152,16 @@
       .computerRoom-context {
         height: 85.5vh!important;
       }
+      .RoomStatusLeft{
+        width: 24%!important;
+      }
     }
     .computerRoom-context {
       width: 100%;
       background: #fff;
       height: 61vh;
       .RoomStatusLeft {
-        width: 30%;
+        width: 20%;
       }
       .computerRoomStatus {
         display: flex;
@@ -222,7 +225,6 @@
         margin: 15px 55px;
       }
     }
-
     .computerRoom-camera {
       width: 22%;
       position: absolute;
@@ -267,7 +269,6 @@
         flex-direction: row;
         height: 70px;
         margin-bottom: 3px;
-
         .eqiIp-context {
           display: flex;
           flex-direction: column;
@@ -276,10 +277,14 @@
           line-height: 26px;
           background: #fff;
           color: #2E4699;
-          padding-left: 26px;
+          padding-left: 20px;
           font-size: 15px;
         }
-
+        .eqiIp-UHanld:nth-child(1){
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
         .eqiIp-UHanld {
           display: flex;
           flex-direction: column;
@@ -290,9 +295,6 @@
           background: #fff;
           margin-left: 4px;
           color: #2E4699;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           font-size: 15px;
         }
       }
@@ -423,9 +425,12 @@
           flex-direction: column;
           align-items: center;
           justify-content: center;
-
+          cursor: pointer;
+          .alarmVideo video{
+            width: 100%;
+          }
           .alarmVideo {
-            width: 60%;
+            width: 63%;
             padding: 10px 0;
             position: relative;
 
