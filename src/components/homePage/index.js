@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import "./index.less";
 import {Modal,Row,Col,Icon} from "antd";
-import alarmBg from "../../style/ztt/imgs/alarmBg.png";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
-import playBtn from "../../style/ztt/imgs/playBtn.png";
 import HomePageModel from "./HomePageModel";
 import axios from "../../axios/index";
 import nodata from "../../style/imgs/nodata.png";
-import EchartsLegend from "./EchartsLegend";
+import ReactEcharts from "echarts-for-react";
+import mqwl from "../../style/ztt/json/lenged";
+import echarts from "echarts";
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -15,7 +15,8 @@ class Index extends Component {
           fortification:"已布防",
           visible:false,
           policeList:[],
-          closeBtn:false
+          closeBtn:false,
+          cameraList:[]
       };
     }
     componentDidMount() {
@@ -24,7 +25,96 @@ class Index extends Component {
         this.getList();
         this.equipmentCount();
         this.policeCount();
+        this.hanleCamera();
     }
+    option=()=>{
+        echarts.registerMap('xicheng', mqwl);
+        let equipmentList=[];
+        this.state.cameraList.map((v)=>{
+            if(v.lat && v.lng){
+                equipmentList.push({value:[v.lng,v.lat],name:v.name})
+            }
+        });
+        const option = {
+            geo: {
+                map: 'xicheng',
+                roam: false,
+                aspectScale:.8, //长宽比
+                zoom:1.2, //当前视角的缩放比例
+                //取消鼠标移入地图上的文字
+                label: {
+                    emphasis: {
+                        show: false
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        //          color: '#ddd',
+                        borderColor: 'rgba(147, 235, 248, 1)',
+                        borderWidth: 1,
+                        areaColor: "#35425F",
+                        shadowColor: 'rgba(128, 217, 248, 1)',
+                        // shadowColor: 'rgba(255, 255, 255, 1)',
+                        shadowOffsetX: -2,
+                        shadowOffsetY: 2,
+                        shadowBlur: 10
+                    },
+                    emphasis:{
+                        areaColor:"#35425F" //悬浮时的颜色
+                    },
+                }
+            },
+            series:[
+                {
+                    name: 'light',
+                    type: 'scatter',
+                    coordinateSystem: 'geo',
+                    data: equipmentList,
+                    symbolSize: 15, //圈圈大小
+                    label: {
+                        normal: {
+                            formatter: '{b}',
+                            position: 'right',
+                            show: true  //字体显示
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#f4258e'
+                        }
+                    }
+                }
+            ]
+        };
+        return option;
+    };
+    onByModelClick=(e)=>{
+        this.state.cameraList.map((v)=>{
+            if (e.componentType === "series") {
+                if(e.data.name===v.name){
+                    axios.ajax({
+                        method:"get",
+                        url:window.g.loginURL+"/api/camera/getone",
+                        data:{code:v.code}
+                    }).then((res)=>{
+                        if(res.success){
+                            this.setState({
+                                closeBtn:true,
+                                camName:res.data.name,
+                                camIp:res.data.ip,
+                                camImg:res.data.fileip+res.data.picpath,
+                                camVideo:res.data.fileip+res.data.videopath,
+                                camFieldnum:res.data.fieldnum
+                            })
+                        }
+                    })
+                }
+            }
+        });
+    };
+    onClickByModel = {
+        click: this.onByModelClick
+    };
     //设备数量
     equipmentCount=()=>{
         axios.ajax({
@@ -66,6 +156,17 @@ class Index extends Component {
             this.setState({
                 policeList:res.data.slice(0,6)
             })
+        })
+    };
+    hanleCamera=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/camera/getlist",
+            data:{}
+        }).then((res)=>{
+           this.setState({
+               cameraList:res.data
+           })
         })
     };
     hanleDefence=(params)=>{
@@ -142,42 +243,35 @@ class Index extends Component {
             closeBtn:false
         })
     };
-    hanleMap=()=>{
-        this.setState({
-            closeBtn:true
-        })
-    };
     //最后一次报警情况
     hanlelastAlarm=()=>{
       if(this.state.fortification==="已布防"){
           return(
               <div className="alarmImg">
-                  <div className="alarmVideo"><img src={defenceImg} alt=""/>
+                  <div className="alarmVideo"><img src={this.state.camImg?this.state.camImg:defenceImg} alt=""/>
                       <div className="alarmVideoBottom">
-                          <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
+                          <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
                       </div>
                   </div>
-                  <div className="alarmVideo"><img src={defenceImg} alt=""/>
-                      <div className="alarmVideoBottom">
-                          <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
-                      </div>
-                      <img className="alarmVideoBtn" src={playBtn} />
+                  <div className="alarmVideo"><video controls="controls" autoplay="autoplay" src={this.state.camVideo?this.state.camVideo:defenceImg}/>
+                      {/*<div className="alarmVideoBottom">
+                          <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
+                      </div>*/}
                   </div>
               </div>
           )
       }else{
          return(
              <div className="alarmImg">
-                 <div className="alarmVideo"><img src={alarmBg} alt=""/>
+                 <div className="alarmVideo"><img src={this.state.camImg?this.state.camImg:defenceImg} alt=""/>
                      <div className="alarmVideoBottom">
-                         <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
+                         <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
                      </div>
                  </div>
-                 <div className="alarmVideo"><img src={alarmBg} alt=""/>
-                     <div className="alarmVideoBottom">
-                         <span className="alarmVideoCircle"/><span className="alarmVideoName">新机房2号门</span>
-                     </div>
-                     <img className="alarmVideoBtn" src={playBtn} />
+                 <div className="alarmVideo"><video controls="controls" autoplay="autoplay" src={this.state.camVideo?this.state.camVideo:defenceImg}/>
+                    {/* <div className="alarmVideoBottom">
+                         <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
+                     </div>*/}
                  </div>
              </div>
          )
@@ -239,22 +333,28 @@ class Index extends Component {
                                 <p className="roomAlarm"><span className="statusImg2" /><span className="status2">无报警状态</span></p>
                                 <p className="roomAlarm"><span className="statusImg3" /><span className="status3">离线</span></p>
                             </div>
-                            <div className="computer" onClick={this.hanleMap} ><EchartsLegend /></div>
+                            <div className="computer">
+                                <ReactEcharts
+                                    option={this.option(this.state.cameraList)}
+                                    onEvents={this.onClickByModel}
+                                    style={{width:"80%", height:"60vh"}}
+                                />
+                            </div>
                         </div>
 
                     </div>
                     <div className="computerRoom-camera" style={{display:this.state.closeBtn?"block":"none"}}>
                         <div className="video-camera">
-                            <span className="videoCameraName"><span className="videoImg"/><span className="videoName">机房智能摄像机</span></span><Icon type="close" onClick={this.hanleClose} className="close"/>
+                            <span className="videoCameraName"><span className="videoImg"/><span className="videoName">{this.state.camName}</span></span><Icon type="close" onClick={this.hanleClose} className="close"/>
                         </div>
                         <div className="eqiIp">
                             <div className="eqiIp-context">
                                 <span>设备IP</span>
-                                <span>192.168.0.23</span>
+                                <span>{this.state.camIp}</span>
                             </div>
                             <div className="eqiIp-UHanld">
-                                <span>此设备未处理报警数</span>
-                                <span>45</span>
+                                <span>未处理报警数</span>
+                                <span>{this.state.camFieldnum}</span>
                             </div>
                         </div>
                         <div className="fortification">

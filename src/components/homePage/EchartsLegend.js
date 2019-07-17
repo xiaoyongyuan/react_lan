@@ -2,9 +2,33 @@ import React,{Component} from "react";
 import ReactEcharts from "echarts-for-react";
 import echarts from "echarts";
 import mqwl from "../../style/ztt/json/lenged";
+import axios from "../../axios/index";
 class EchartsLegend extends Component{
-    render() {
+    constructor(props){
+        super(props);
+        this.state={
+
+        };
+    }
+    componentDidMount() {
+        let closeBtn=this.props.closeBtn;
+    }
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.closeBtn){
+            this.setState({
+                closeBtn:true
+            })
+        }
+    }
+
+    option=(cameraList)=>{
         echarts.registerMap('xicheng', mqwl);
+        let equipmentList=[];
+        cameraList.map((v)=>{
+            if(v.lat && v.lng){
+                equipmentList.push({value:[v.lng,v.lat],name:v.name})
+            }
+        });
         const option = {
             geo: {
                 map: 'xicheng',
@@ -39,18 +63,13 @@ class EchartsLegend extends Component{
                     name: 'light',
                     type: 'scatter',
                     coordinateSystem: 'geo',
-                    data: [
-                        {name:"阿房工",value:[108.83,34.26]}
-                    ],
+                    data: equipmentList,
                     symbolSize: 15, //圈圈大小
                     label: {
                         normal: {
                             formatter: '{b}',
                             position: 'right',
-                            show: false  //字体显示
-                        },
-                        emphasis: {
-                            show: false
+                            show: true  //字体显示
                         }
                     },
                     itemStyle: {
@@ -61,9 +80,33 @@ class EchartsLegend extends Component{
                 }
             ]
         };
+        return option;
+    };
+    onByModelClick=(e)=>{
+        this.props.cameraList.map((v)=>{
+            if (e.componentType === "series") {
+                if(e.data.name===v.name){
+                    axios.ajax({
+                        method:"get",
+                        url:window.g.loginURL+"/api/camera/getone",
+                        data:{code:v.code}
+                    }).then((res)=>{
+                       this.setState({
+
+                       })
+                    })
+                }
+            }
+        });
+    };
+    onClickByModel = {
+        click: this.onByModelClick
+    };
+    render() {
         return(
             <ReactEcharts
-                option={option}
+                option={this.option(this.props.cameraList)}
+                onEvents={this.onClickByModel}
                 style={{width:"60%", height:"60vh"}}
             />
         );

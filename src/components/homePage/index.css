@@ -134,6 +134,9 @@
   .homePage .computerRoom .computerRoom-context {
     height: 85.5vh !important;
   }
+  .homePage .computerRoom .RoomStatusLeft {
+    width: 24%!important;
+  }
 }
 .homePage .computerRoom .computerRoom-context {
   width: 100%;
@@ -141,7 +144,7 @@
   height: 61vh;
 }
 .homePage .computerRoom .computerRoom-context .RoomStatusLeft {
-  width: 30%;
+  width: 20%;
 }
 .homePage .computerRoom .computerRoom-context .computerRoomStatus {
   display: flex;
@@ -193,38 +196,7 @@
   font-size: 18px;
   margin: 15px 55px;
 }
-@-webkit-keyframes fadeInOut {
-  0% {
-    left: 500px;
-    bottom: 50px;
-  }
-  25% {
-    left: 500px;
-    height: 130px;
-    bottom: 50px;
-  }
-  50% {
-    left: 500px;
-    height: 160px;
-    bottom: 50px;
-  }
-  75% {
-    left: 500px;
-    height: 190px;
-    bottom: 50px;
-  }
-  100% {
-    left: 500px;
-    height: 210px;
-    bottom: 50px;
-  }
-}
 .homePage .computerRoom .computerRoom-camera {
-  -webkit-animation-name: fadeInOut;
-  -webkit-animation-timing-function: ease-in-out;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-duration: 12s;
-  -webkit-animation-direction: alternate;
   width: 22%;
   position: absolute;
   right: 0;
@@ -276,8 +248,13 @@
   line-height: 26px;
   background: #fff;
   color: #2E4699;
-  padding-left: 26px;
+  padding-left: 20px;
   font-size: 15px;
+}
+.homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld:nth-child(1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .homePage .computerRoom .computerRoom-camera .eqiIp .eqiIp-UHanld {
   display: flex;
@@ -289,9 +266,6 @@
   background: #fff;
   margin-left: 4px;
   color: #2E4699;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
   font-size: 15px;
 }
 .homePage .computerRoom .computerRoom-camera .fortification {
@@ -402,9 +376,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+}
+.homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo video {
+  width: 100%;
 }
 .homePage .computerRoom .computerRoom-camera .lastAlarm .alarmImg .alarmVideo {
-  width: 60%;
+  width: 63%;
   padding: 10px 0;
   position: relative;
 }
