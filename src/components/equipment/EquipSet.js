@@ -1044,6 +1044,7 @@ class EquipSet extends Component {
             })
             .then(res => {
               if (res.success) {
+                open = false;
                 message.success("1号防区添加成功");
                 this.setState(
                   {
@@ -1082,6 +1083,7 @@ class EquipSet extends Component {
           })
           .then(res => {
             if (res.success) {
+              open = false;
               message.success("2号防区添加成功");
               this.setState(
                 {
@@ -1117,6 +1119,7 @@ class EquipSet extends Component {
           })
           .then(res => {
             if (res.success) {
+              open = false;
               message.success("3号防区添加成功");
               this.setState(
                 {
@@ -2060,11 +2063,11 @@ class EquipSet extends Component {
                       id="cavcontainer"
                       style={{
                         backgroundImage:
-                          // "url(" +
-                          // `${this.state.equipData.basemap}`.split(".jpg")[0] +
-                          // `?t=${Date.parse(new Date())}.jpg` +
-                          // ")",
-                          'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
+                          "url(" +
+                          `${this.state.equipData.basemap}`.split(".jpg")[0] +
+                          `?t=${Date.parse(new Date())}.jpg` +
+                          ")",
+                        // 'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}
@@ -2106,6 +2109,7 @@ class EquipSet extends Component {
                   code={this.props.query.code}
                   addBackCode={this.state.addBackCode}
                   equipData={this.state.equipData}
+                  getOne={this.getOne}
                 />
               </TabPane>
             </Tabs>

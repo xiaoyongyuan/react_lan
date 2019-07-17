@@ -115,7 +115,7 @@ const FormModal = Form.create()(
       return (
         <Modal
           visible={visible}
-          onCancel={onCancel}
+          afterClose={this.afterClose}
           onOk={onOk}
           title={title}
           mask={false}
@@ -202,6 +202,7 @@ class DefendTime extends Component {
           .then(res => {
             if (res.success) {
               message.success("删除成功");
+              this.props.getOne();
               if (
                 $($("tr")[this.state.btnNum - 1])
                   .find(".td")
@@ -229,10 +230,28 @@ class DefendTime extends Component {
     } else {
       if (getFieldsValue().days && this.state.currentData.length > 0) {
         getFieldsValue().days.map((g, h) => {
+          if (
+            this.props.equipData.timelist &&
+            this.props.equipData.timelist[g] &&
+            this.props.equipData.timelist[g].split(",").length > 0
+          ) {
+            if (
+              $($("tr")[g - 1])
+                .find(".td")
+                .hasClass("selected") &&
+              g != this.state.btnNum
+            ) {
+              $($("tr")[g - 1])
+                .find(".td")
+                .removeClass("selected")
+                .css("background", "#fff");
+            }
+          }
           this.state.currentData.map((m, n) => {
             $($($(".tr")[g - 1]).find(".td")[m - 1])
               .addClass("selected")
               .css("background", "#32e8fe");
+
             return "";
           });
         });
@@ -335,6 +354,7 @@ class DefendTime extends Component {
                 subData: trantime
               });
               message.success("布防时间提交成功");
+              _this.props.getOne();
             }
           });
       }
@@ -353,7 +373,8 @@ class DefendTime extends Component {
           })
           .then(res => {
             if (res.success) {
-              message.success("删除成功");
+              message.success("成功删除全部");
+              this.props.getOne();
               for (var h = 0; h < $(".td").length; h++) {
                 if ($($(".td")[h]).hasClass("selected")) {
                   $($(".td")[h])
