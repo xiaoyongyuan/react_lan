@@ -130,7 +130,7 @@ class UserInfo extends Component {
     axiosW
       .ajax({
         method: "get",
-        // url: "http://192.168.1.176:8111/api/system/userlist",
+        // url: "http://192.168.1.163:8111/api/system/userlist",
         url: window.g.loginURL + "/api/system/userlist",
         data: {
           pagesize: 10,
@@ -187,6 +187,9 @@ class UserInfo extends Component {
             method: "post",
             // url: "http://192.168.1.176:8111/api/autocode/auto",
             url: window.g.loginURL + "/api/autocode/auto",
+            headers: {
+              AUTHORIZATION: "Bearer " + localStorage.getItem("token")
+            },
             data: {
               account: values.account,
               emailaddress: values.emailaddress,
@@ -217,8 +220,11 @@ class UserInfo extends Component {
           });
           axios({
             method: "post",
-            url: "http://192.168.1.163:8111/api/system/setuser",
-            // url: window.g.loginURL + "/api/system/setuser",
+            // url: "http://192.168.1.163:8111/api/system/setuser",
+            url: window.g.loginURL + "/api/system/setuser",
+            headers: {
+              AUTHORIZATION: "Bearer " + localStorage.getItem("token")
+            },
             data: {
               code: this.state.currentRecordData.code,
               account: values.account,
@@ -254,6 +260,9 @@ class UserInfo extends Component {
           method: "post",
           // url: "http://192.168.1.176:8111/api/system/setuser",
           url: window.g.loginURL + "/api/system/setuser",
+          headers: {
+            AUTHORIZATION: "Bearer " + localStorage.getItem("token")
+          },
           data: {
             code: record.code,
             account: record.account,
