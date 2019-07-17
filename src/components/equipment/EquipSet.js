@@ -1393,8 +1393,8 @@ class EquipSet extends Component {
 
         <div className="optbtn">
           <Button
-            onClick={() => {
-              this.handleDefAdd();
+            onClick={e => {
+              this.handleDefAdd(e);
             }}
             disabled={this.state.defOneAddBtn}
           >
@@ -1448,8 +1448,8 @@ class EquipSet extends Component {
 
         <div className="optbtn">
           <Button
-            onClick={() => {
-              this.handleDefAdd();
+            onClick={e => {
+              this.handleDefAdd(e);
             }}
             disabled={this.state.defTwoAddBtn}
           >
@@ -1503,8 +1503,8 @@ class EquipSet extends Component {
 
         <div className="optbtn">
           <Button
-            onClick={() => {
-              this.handleDefAdd();
+            onClick={e => {
+              this.handleDefAdd(e);
             }}
             disabled={this.state.defThreeAddBtn}
           >
