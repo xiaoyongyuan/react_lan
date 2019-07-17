@@ -18,8 +18,6 @@ class Index extends Component {
           closeBtn:false
       };
     }
-    params={};
-
     componentDidMount() {
         this.hanleBgColor1();
         this.hanleBgColor2();
@@ -141,6 +139,11 @@ class Index extends Component {
     };
     hanleClose=()=>{
         this.setState({
+            closeBtn:false
+        })
+    };
+    hanleMap=()=>{
+        this.setState({
             closeBtn:true
         })
     };
@@ -236,11 +239,11 @@ class Index extends Component {
                                 <p className="roomAlarm"><span className="statusImg2" /><span className="status2">无报警状态</span></p>
                                 <p className="roomAlarm"><span className="statusImg3" /><span className="status3">离线</span></p>
                             </div>
-                            <div className="computer"><EchartsLegend  /></div>
+                            <div className="computer" onClick={this.hanleMap} ><EchartsLegend /></div>
                         </div>
 
                     </div>
-                    <div className="computerRoom-camera">
+                    <div className="computerRoom-camera" style={{display:this.state.closeBtn?"block":"none"}}>
                         <div className="video-camera">
                             <span className="videoCameraName"><span className="videoImg"/><span className="videoName">机房智能摄像机</span></span><Icon type="close" onClick={this.hanleClose} className="close"/>
                         </div>

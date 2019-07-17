@@ -222,8 +222,19 @@
         margin: 15px 55px;
       }
     }
-
+    @-webkit-keyframes fadeInOut {
+      0%   {left:500px; bottom:50px;}
+      25%  {left:500px;height:130px;bottom:50px;}
+      50%  {left:500px; height:160px;bottom:50px;}
+      75%  {left:500px;height:190px; bottom:50px;}
+      100% {left:500px; height:210px;bottom:50px;}
+    }
     .computerRoom-camera {
+      -webkit-animation-name: fadeInOut;
+      -webkit-animation-timing-function: ease-in-out;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-duration: 12s;
+      -webkit-animation-direction: alternate;
       width: 22%;
       position: absolute;
       right: 0;
