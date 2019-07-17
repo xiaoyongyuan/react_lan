@@ -915,11 +915,13 @@ class EquipSet extends Component {
     }
   };
   handleDefAdd = e => {
-    if (e.stopPropagation()) {
-      e.stopPropagation();
-    } else {
-      window.event.cancelBubble = true;
-    }
+    // const ev=e||window.event;
+    // if (ev.stopPropagation) {
+    //   ev.stopPropagation();
+    // } else if(window.event) {
+    //   window.event.cancelBubble = true;
+    // }
+    e.stopPropagation();
     this.opendraw();
   };
   handleDefDelete = num => {
