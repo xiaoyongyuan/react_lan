@@ -17,16 +17,16 @@
 .equipset .topbtn .ant-btn:first-child {
   margin-left: 0;
 }
-.equipset .onlyadd .baseinfo {
+.equipset .onlyadd .baseInfo {
   width: 250px;
   line-height: 40px;
   text-align: center;
   padding: 0 16px;
-  background: #006fe4;
   border: 1px solid #006fe4;
   color: #fff;
   margin-bottom: 20px;
   border-radius: 2px;
+  background: #006fe4;
 }
 .equipset .sliderWrap .ant-col .ant-form-item-control-wrapper .ant-col-sm-15 {
   position: relative;
@@ -104,6 +104,10 @@
   width: 250px;
   text-align: center;
 }
+.equipset .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab .baseInfo {
+  background: url('../imgs/baseinfonot.png') no-repeat 4px;
+  padding-left: 60px;
+}
 .equipset .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab .camera {
   background: url('../imgs/cameranot.png') no-repeat 4px;
   padding-left: 60px;
@@ -116,6 +120,10 @@
   height: 40px;
   color: #fff !important;
   background: #006fe4 !important;
+}
+.equipset .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active .baseInfo {
+  background: url('../imgs/baseinfo.png') no-repeat 4px;
+  padding-left: 60px;
 }
 .equipset .ant-tabs.ant-tabs-card .ant-tabs-card-bar .ant-tabs-tab-active .camera {
   background: url('../imgs/camera.png') no-repeat 4px;
@@ -143,15 +151,21 @@
   border-radius: 5px;
   background: #f8f8f8;
 }
-.equipset .defopt .optlabel,
-.equipset .defopt .optbtn {
-  display: inline-block;
+.equipset .defopt .listItemWrap {
+  width: 100%;
 }
-.equipset .defopt .optbtn {
-  margin-left: 30px;
+.equipset .defopt .listItemWrap .optlabel,
+.equipset .defopt .listItemWrap .optbtn {
+  padding: 8px 0;
 }
-.equipset .defopt .optbtn .ant-btn {
+.equipset .defopt .listItemWrap .optlabel {
+  border-bottom: 1px solid #e8e8e8;
+}
+.equipset .defopt .listItemWrap .optbtn .ant-btn {
   margin-left: 10px;
+}
+.equipset .defopt .listItemWrap .optbtn .ant-btn:first-of-type {
+  margin-left: 0;
 }
 .equipset .defopt::before,
 .equipset .defopt::after {
@@ -169,9 +183,5 @@
   border-color: transparent #eeeeee transparent transparent;
   left: -24px;
   top: 40px;
-}
-.equipset .again {
-  display: inline-block;
-  margin: 20% auto;
 }
 /*# sourceMappingURL=equipset.css.map */

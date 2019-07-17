@@ -82,41 +82,27 @@ export default class Axios {
           options.method === "post" || options.method === "put"
             ? Object.assign(options.data, biography)
             : null
-      })
-        .then(
-          response => {
-            /*  if (options.isShowLoading !== false) {
+      }).then(response => {
+        /*  if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
                         loading.style.display = 'none';
                     }*/
-            if (response && response.status === 200) {
-              const res = response.data;
-              if (res.success === 0) {
-                resolve(res);
-              }
-              if (res.success === 1) {
-                resolve(res);
-              } else if (res.success === "401" || res.success === "402") {
-                message.error(res.msg);
-                reject(response.msg);
-                window.location.href = "#/login";
-              } else {
-                message.error(res.msg);
-                //window.location.href='#/login';
-              }
-            } else {
-              reject(response.msg);
+        if (response && response.status === 200) {
+          const res = response.data;
+          if (res.success === 0) {
+            if (res.msg.type === "401") {
+              reject(res.msg);
+              window.location.href = "#/login";
             }
-          },
-          error => {
-            console.log(error);
-            // 执行失败的回调函数
+          } else if (res.success === 1) {
+            resolve(res);
+          } else {
+            message.error(res.msg.info);
           }
-        )
-        .catch(function(error) {
-          reject(error);
-          console.log(error);
-        });
+        } else {
+          reject(response.msg);
+        }
+      });
     });
   }
 }
