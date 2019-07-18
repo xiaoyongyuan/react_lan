@@ -204,11 +204,13 @@ class UserInfo extends Component {
               this.getUserData();
               form.resetFields();
             } else {
+              form.resetFields();
               message.error(res.data.msg);
             }
           });
         } else {
           message.error(err);
+          form.resetFields();
           return;
         }
       });
@@ -254,7 +256,7 @@ class UserInfo extends Component {
   delUser = record => {
     const _this = this;
     confirm({
-      title: "确认删除该设备吗?",
+      title: "确认删除该用户吗?",
       onOk() {
         axios({
           method: "post",

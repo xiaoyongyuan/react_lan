@@ -55,7 +55,6 @@ class Overview extends Component {
       .then(res => {
         if (res.success) {
           message.success(checked === true ? "报警声音开启" : "报警声音关闭");
-          this.getData();
         }
       });
   };

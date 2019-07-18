@@ -915,12 +915,13 @@ class EquipSet extends Component {
     }
   };
   handleDefAdd = e => {
-    var e = e || window.event;
-    if (e.stopPropagation) {
-      e.stopPropagation();
-    } else if (window.event) {
-      window.event.cancelBubble = true;
-    }
+    // const ev = e || window.event;
+    // if (ev.stopPropagation) {
+    //   ev.stopPropagation();
+    // } else if (window.event) {
+    //   window.event.cancelBubble = true;
+    // }
+    e.stopPropagation();
     this.opendraw();
   };
   handleDefDelete = num => {
@@ -1397,8 +1398,8 @@ class EquipSet extends Component {
 
         <div className="optbtn">
           <Button
-            onClick={() => {
-              this.handleDefAdd();
+            onClick={e => {
+              this.handleDefAdd(e);
             }}
             disabled={this.state.defOneAddBtn}
           >
@@ -1452,8 +1453,8 @@ class EquipSet extends Component {
 
         <div className="optbtn">
           <Button
-            onClick={() => {
-              this.handleDefAdd();
+            onClick={e => {
+              this.handleDefAdd(e);
             }}
             disabled={this.state.defTwoAddBtn}
           >
@@ -1507,8 +1508,8 @@ class EquipSet extends Component {
 
         <div className="optbtn">
           <Button
-            onClick={() => {
-              this.handleDefAdd();
+            onClick={e => {
+              this.handleDefAdd(e);
             }}
             disabled={this.state.defThreeAddBtn}
           >
@@ -2069,11 +2070,11 @@ class EquipSet extends Component {
                       id="cavcontainer"
                       style={{
                         backgroundImage:
-                          "url(" +
-                          `${this.state.equipData.basemap}`.split(".jpg")[0] +
-                          `?t=${Date.parse(new Date())}.jpg` +
-                          ")",
-                        // 'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
+                          // "url(" +
+                          // `${this.state.equipData.basemap}`.split(".jpg")[0] +
+                          // `?t=${Date.parse(new Date())}.jpg` +
+                          // ")",
+                          'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}
