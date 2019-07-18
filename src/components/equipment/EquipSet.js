@@ -170,6 +170,9 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("已启用");
           this.getOne();
+        } else {
+          message.success(res.msg);
+
         }
       });
   };
@@ -187,6 +190,9 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("已停止服务");
           this.getOne();
+        } else {
+          message.success(res.msg);
+
         }
       });
   };
@@ -204,6 +210,9 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("24小时设防中");
           this.getOne();
+        }else{
+          message.success(res.msg);
+
         }
       });
   };
@@ -221,6 +230,9 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("已恢复");
           this.getOne();
+        } else {
+          message.success(res.msg);
+
         }
       });
   };
@@ -242,6 +254,9 @@ class EquipSet extends Component {
             if (res.success) {
               message.success("已删除");
               window.location.href = "#/main/equipment";
+            } else {
+              message.success(res.msg);
+
             }
           });
       }
@@ -957,7 +972,7 @@ class EquipSet extends Component {
             .then(res => {
               if (res.success) {
                 message.success("1号防区删除成功");
-                this.getOne()
+                this.getOne();
                 this.clearCanvas();
                 this.setState(
                   {
@@ -966,9 +981,7 @@ class EquipSet extends Component {
                     defOneSubBtn: false,
                     areaOne: []
                   },
-                  () => {
-                   
-                  }
+                  () => {}
                 );
               }
             });
@@ -1000,8 +1013,7 @@ class EquipSet extends Component {
                     defTwoSubBtn: false,
                     areaTwo: []
                   },
-                  () => {
-                  }
+                  () => {}
                 );
               }
             });
@@ -1033,8 +1045,7 @@ class EquipSet extends Component {
                     defThreeSubBtn: false,
                     areaThree: []
                   },
-                  () => {
-                  }
+                  () => {}
                 );
               }
             });
@@ -2127,7 +2138,8 @@ class EquipSet extends Component {
                           // `${this.state.equipData.basemap}`.split(".jpg")[0] +
                           // `?t=${Date.parse(new Date())}.jpg` +
                           // ")",
-                          'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
+                          "url(" + `${this.state.equipData.basemap}` + ")",
+                        // 'url("http://192.168.1.176:8112/1000001/channel/1000028.jpg")',
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}

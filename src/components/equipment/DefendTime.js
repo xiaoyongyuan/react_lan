@@ -468,38 +468,53 @@ class DefendTime extends Component {
         }}
       >
         <Row>
-          <Col xl={{ span: 16 }} xxl={{ span: 11 }}>
+          <Col xl={{ span: 19 }} xxl={{ span: 14 }}>
             <div
               className="defend"
               id="defend"
+              style={{
+                display: "inline-block",
+                width: "700px"
+              }}
               dangerouslySetInnerHTML={{
                 __html: this.renderTable()
               }}
             />
+            <div
+              className="deleteWrap"
+              style={{
+                marginLeft: "20px",
+                position: "absolute",
+                display: "inline-block"
+              }}
+            >
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+              <Button className="delete">
+                <Icon type="setting" />
+              </Button>
+            </div>
           </Col>
-          <Col xl={{ span: 2 }} xxl={{ span: 1 }} className="deleteWrap">
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-            <Button className="delete">
-              <Icon type="setting" />
-            </Button>
-          </Col>
+
+          {/* <Col xl={{ span: 2 }} xxl={{ span: 1 }} className="deleteWrap">
+            
+          </Col> */}
         </Row>
 
         <Row>
