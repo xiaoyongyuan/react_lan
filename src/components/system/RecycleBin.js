@@ -10,9 +10,9 @@ class RecycleBin extends Component{
     constructor(props){
         super(props);
         this.state= {
-            recycList: [],
             page:1,
-            pagesize:10
+            pagesize:10,
+            recycList:[],
         };
     }
     componentDidMount() {
@@ -37,7 +37,8 @@ class RecycleBin extends Component{
         })
     };
     //恢复
-    hanleRecovery=(recoveryCode,index)=>{
+    hanleRecovery=(recoveryCode)=>{
+        const _this=this;
         confirm({
             content: '确认恢复该设备吗？',
             onOk() {
@@ -50,10 +51,8 @@ class RecycleBin extends Component{
                     }
                 }).then((res)=>{
                     if(res.success){
-                        let recycList=this.state.recycList;
-                        recycList[index]=recycList;
-                        this.setState({recycList});
-                        message.info(res.msg)
+                        message.info(res.msg);
+                        _this.getList();
                     }
                 })
             }
