@@ -51,7 +51,7 @@
   color: #595959;
 }
 .defendTime .tr:last-of-type::before {
-  content: '星期七';
+  content: '星期日';
   position: absolute;
   top: 330px;
   left: -60px;

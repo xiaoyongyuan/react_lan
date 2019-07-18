@@ -21,26 +21,6 @@ const { confirm } = Modal;
 
 const FormModal = Form.create({ name: "form_in_modal" })(
   class extends React.Component {
-    componentDidUpdate(prevProps) {
-      if (prevProps.currentRecordData != this.props.currentRecordData) {
-        const { form } = this.props;
-        const nextData = this.props.currentRecordData;
-        form.setFieldsValue({
-          account: nextData.account != null ? nextData.account : ""
-        });
-        form.setFieldsValue({
-          realname: nextData.realname != null ? nextData.realname : ""
-        });
-        form.setFieldsValue({
-          emailaddress:
-            nextData.emailaddress != null ? nextData.emailaddress : ""
-        });
-        form.setFieldsValue({
-          utype: nextData.utype != null ? nextData.utype : 0
-        });
-      }
-    }
-
     render() {
       const { visible, onCancel, onCreate, form, title } = this.props;
       const { getFieldDecorator } = form;
@@ -83,7 +63,13 @@ const FormModal = Form.create({ name: "form_in_modal" })(
               })(<Input />)}
             </Form.Item>
             <Form.Item label="邮箱地址" key="emailaddress">
-              {getFieldDecorator("emailaddress")(<Input />)}
+              {getFieldDecorator("emailaddress",{
+                  rules:[{
+                    required: false,
+                    pattern:new RegExp('^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$',"g"),
+                    message:"请输入正确的邮箱号!",
+                  }]
+              })(<Input />)}
             </Form.Item>
             <Form.Item label="角色权限" key="role">
               {getFieldDecorator("utype", {
@@ -157,14 +143,26 @@ class UserInfo extends Component {
         title: "新增"
       });
     } else {
-      this.setState(
-        {
+      this.setState({
           title: "编辑",
           currentRecordData: opt,
           visible: true
-        },
-        () => {}
-      );
+      });
+        axiosW.ajax({
+            method:"get",
+            url:window.g.loginURL + "/api/system/userlist",
+            data: {
+                code:opt.code
+            }
+        }).then((res)=>{
+            const { form } = this.formRef.props;
+            form.setFieldsValue({
+                account:res.data.account,
+                realname:res.data.realname,
+                emailaddress:res.data.emailaddress,
+                utype:res.data.utype,
+            });
+        })
     }
   };
   handleCancel = () => {
@@ -220,6 +218,7 @@ class UserInfo extends Component {
           this.setState({
             visible: false
           });
+          console.log(values)
           axios({
             method: "post",
             // url: "http://192.168.1.163:8111/api/system/setuser",
