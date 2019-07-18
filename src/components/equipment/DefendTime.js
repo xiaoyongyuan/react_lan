@@ -117,6 +117,7 @@ const FormModal = Form.create()(
           visible={visible}
           afterClose={this.afterClose}
           onOk={onOk}
+          onCancel={onCancel}
           title={title}
           mask={false}
         >
@@ -172,8 +173,15 @@ class DefendTime extends Component {
     this.setState({
       visible: true
     });
+    if (!this.state.subBtn) {
+      this.setState({
+        subBtn: true
+      });
+    }
   }
   onCancel() {
+    const { resetFields } = this.form.props.form;
+    resetFields();
     this.setState({
       visible: false
     });
@@ -374,7 +382,7 @@ class DefendTime extends Component {
           .then(res => {
             if (res.success) {
               message.success("成功删除全部");
-              this.props.getOne();
+              _this.props.getOne();
               for (var h = 0; h < $(".td").length; h++) {
                 if ($($(".td")[h]).hasClass("selected")) {
                   $($(".td")[h])

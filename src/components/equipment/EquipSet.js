@@ -1041,7 +1041,11 @@ class EquipSet extends Component {
                 field: this.state.initareaMove
                   ? JSON.stringify(this.state.newinitarea)
                   : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(this.state.oneTypeSelect)
+                type: JSON.stringify(
+                  this.state.oneTypeSelect.length > 0
+                    ? this.state.oneTypeSelect.join(",")
+                    : [1].join(",")
+                )
               }
             })
             .then(res => {
@@ -1080,7 +1084,11 @@ class EquipSet extends Component {
               field: this.state.initareaMove
                 ? JSON.stringify(this.state.newinitarea)
                 : JSON.stringify(this.state.initarea),
-              type: JSON.stringify(this.state.twoTypeSelect)
+              type: JSON.stringify(
+                this.state.twoTypeSelect.length > 0
+                  ? this.state.oneTypeSelect.join(",")
+                  : [1].join(",")
+              )
             }
           })
           .then(res => {
@@ -1116,7 +1124,11 @@ class EquipSet extends Component {
               field: this.state.initareaMove
                 ? JSON.stringify(this.state.newinitarea)
                 : JSON.stringify(this.state.initarea),
-              type: JSON.stringify(this.state.threeTypeSelect)
+              type: JSON.stringify(
+                this.state.threeTypeSelect.length > 0
+                  ? this.state.oneTypeSelect.join(",")
+                  : [1].join(",")
+              )
             }
           })
           .then(res => {
@@ -1237,14 +1249,7 @@ class EquipSet extends Component {
         el[1] - 10 <= dot.y &&
         dot.y <= el[1] + 10
       ) {
-        this.setState({
-          ex: true
-        });
         return i + 1;
-      } else {
-        this.setState({
-          ex: false
-        });
       }
     }
   };
@@ -1276,15 +1281,15 @@ class EquipSet extends Component {
 
   mousedown = e => {
     //鼠标按下，判断是需要单点还是整体拖动
-    // e.preventDefault();
+    e.preventDefault();
     if (!open) return;
     let getcord = this.getcoord(e);
     const ex = this.dotrim(getcord); //是否为单点范围内的第几个点
     const scope = this.PointInPoly(getcord); //是否在图形内
-    if (this.state.ex) {
+    if (ex) {
       moveswitch = true;
       this.setState({ movedot: ex });
-    } else if (scope && !this.state.ex) {
+    } else if (scope && !ex) {
       //在图形内但不在单点范围内
       scopeswitch = true;
       this.setState({ movescope: this.getarr(), movepoint: getcord }); //可移动范围和初始点
@@ -1295,7 +1300,7 @@ class EquipSet extends Component {
     scopeswitch = false;
   };
   mousemove = e => {
-    // e.preventDefault();
+    e.preventDefault();
     if (!open) {
       return;
     }
@@ -2078,8 +2083,8 @@ class EquipSet extends Component {
                         backgroundSize: "100% 100%"
                       }}
                       onMouseDown={e => this.mousedown(e)}
-                      onMouseUp={() => this.mouseup()}
-                      onMouseMove={() => this.mousemove()}
+                      onMouseUp={e => this.mouseup(e)}
+                      onMouseMove={e => this.mousemove(e)}
                     />
                   </div>
                   <Col
