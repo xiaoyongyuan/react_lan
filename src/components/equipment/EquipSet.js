@@ -900,18 +900,35 @@ class EquipSet extends Component {
     }
   };
   handleTypeChange = (cv, num) => {
+    console.log(cv, "cv");
+
     if (num === 1) {
-      this.setState({
-        oneTypeSelect: cv
-      });
+      this.setState(
+        {
+          oneTypeSelect: cv
+        },
+        () => {
+          console.log("res", cv);
+        }
+      );
     } else if (num === 2) {
-      this.setState({
-        twoTypeSelect: cv
-      });
+      this.setState(
+        {
+          twoTypeSelect: cv
+        },
+        () => {
+          console.log("res", cv);
+        }
+      );
     } else if (num === 3) {
-      this.setState({
-        threeTypeSelect: cv
-      });
+      this.setState(
+        {
+          threeTypeSelect: cv
+        },
+        () => {
+          console.log("res", cv);
+        }
+      );
     }
   };
   handleDefAdd = e => {
@@ -940,6 +957,8 @@ class EquipSet extends Component {
             .then(res => {
               if (res.success) {
                 message.success("1号防区删除成功");
+                this.getOne()
+                this.clearCanvas();
                 this.setState(
                   {
                     defOneAddBtn: false,
@@ -948,7 +967,7 @@ class EquipSet extends Component {
                     areaOne: []
                   },
                   () => {
-                    this.clearCanvas();
+                   
                   }
                 );
               }
@@ -972,6 +991,8 @@ class EquipSet extends Component {
             .then(res => {
               if (res.success) {
                 message.success("2号防区删除成功");
+                this.clearCanvas();
+                this.getOne();
                 this.setState(
                   {
                     defTwoAddBtn: false,
@@ -980,7 +1001,6 @@ class EquipSet extends Component {
                     areaTwo: []
                   },
                   () => {
-                    this.clearCanvas();
                   }
                 );
               }
@@ -1004,6 +1024,8 @@ class EquipSet extends Component {
             .then(res => {
               if (res.success) {
                 message.success("3号防区删除成功");
+                this.clearCanvas();
+                this.getOne();
                 this.setState(
                   {
                     defThreeAddBtn: false,
@@ -1012,7 +1034,6 @@ class EquipSet extends Component {
                     areaThree: []
                   },
                   () => {
-                    this.clearCanvas();
                   }
                 );
               }
@@ -1031,6 +1052,19 @@ class EquipSet extends Component {
     switch (num) {
       case 1:
         {
+          var oneType;
+          if (this.state.oneTypeSelect == `${[]}`) {
+            oneType = 0;
+          } else if (this.state.oneTypeSelect == `${[0]}`) {
+            oneType = 0;
+          } else if (this.state.oneTypeSelect == `${[1]}`) {
+            oneType = 1;
+          } else if (
+            this.state.oneTypeSelect == `${[0, 1]}` ||
+            this.state.oneTypeSelect == `${[1, 0]}`
+          ) {
+            oneType = 2;
+          }
           axios
             .ajax({
               method: "get",
@@ -1041,11 +1075,7 @@ class EquipSet extends Component {
                 field: this.state.initareaMove
                   ? JSON.stringify(this.state.newinitarea)
                   : JSON.stringify(this.state.initarea),
-                type: JSON.stringify(
-                  this.state.oneTypeSelect.length > 0
-                    ? this.state.oneTypeSelect.join(",")
-                    : [1].join(",")
-                )
+                type: oneType
               }
             })
             .then(res => {
@@ -1074,6 +1104,19 @@ class EquipSet extends Component {
 
         break;
       case 2:
+        var twoType;
+        if (this.state.twoTypeSelect == `${[]}`) {
+          twoType = 0;
+        } else if (this.state.twoTypeSelect == `${[0]}`) {
+          twoType = 0;
+        } else if (this.state.twoTypeSelect == `${[1]}`) {
+          twoType = 1;
+        } else if (
+          this.state.twoTypeSelect == `${[0, 1]}` ||
+          this.state.twoTypeSelect == `${[1, 0]}`
+        ) {
+          twoType = 2;
+        }
         axios
           .ajax({
             method: "get",
@@ -1084,11 +1127,7 @@ class EquipSet extends Component {
               field: this.state.initareaMove
                 ? JSON.stringify(this.state.newinitarea)
                 : JSON.stringify(this.state.initarea),
-              type: JSON.stringify(
-                this.state.twoTypeSelect.length > 0
-                  ? this.state.oneTypeSelect.join(",")
-                  : [1].join(",")
-              )
+              type: twoType
             }
           })
           .then(res => {
@@ -1114,6 +1153,19 @@ class EquipSet extends Component {
 
         break;
       case 3:
+        var threeType;
+        if (this.state.threeTypeSelect == `${[]}`) {
+          threeType = 0;
+        } else if (this.state.threeTypeSelect == `${[0]}`) {
+          threeType = 0;
+        } else if (this.state.threeTypeSelect == `${[1]}`) {
+          threeType = 1;
+        } else if (
+          this.state.threeTypeSelect == `${[0, 1]}` ||
+          this.state.threeTypeSelect == `${[1, 0]}`
+        ) {
+          threeType = 2;
+        }
         axios
           .ajax({
             method: "get",
@@ -1124,11 +1176,7 @@ class EquipSet extends Component {
               field: this.state.initareaMove
                 ? JSON.stringify(this.state.newinitarea)
                 : JSON.stringify(this.state.initarea),
-              type: JSON.stringify(
-                this.state.threeTypeSelect.length > 0
-                  ? this.state.oneTypeSelect.join(",")
-                  : [1].join(",")
-              )
+              type: threeType
             }
           })
           .then(res => {

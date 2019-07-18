@@ -187,7 +187,7 @@ class DefendTime extends Component {
     });
   }
   onOk() {
-    const { getFieldsValue } = this.form.props.form;
+    const { getFieldsValue, resetFields } = this.form.props.form;
     this.setState({
       visible: false
     });
@@ -265,6 +265,7 @@ class DefendTime extends Component {
         });
       }
     }
+    resetFields();
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.equipData.timelist != nextProps.timelist) {
