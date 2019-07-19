@@ -94,6 +94,7 @@ export default class Axios {
               reject(res.msg);
               window.location.href = "#/login";
             }
+            message.error(res.msg);
           } else if (res.success === 1) {
             resolve(res);
           } else {
