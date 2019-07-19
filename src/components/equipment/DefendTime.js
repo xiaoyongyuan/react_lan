@@ -257,21 +257,23 @@ class DefendTime extends Component {
           }
         })
         .then(res => {
-          if (res.success) {
-            _this.setState(
-              {
-                subBtn: true
-                // subData: trantime
-              },
-              () => {
-                // console.log(_this.state.subData, "提交改变data9999");
-              }
-            );
-            message.success("布防时间提交成功");
-            _this.props.getOne();
-          } else {
-            message.error(res.msg);
-          }
+          console.log(res, "ppppppppppp");
+          // if (res.success) {
+          //   _this.setState(
+          //     {
+          //       subBtn: true
+          //       // subData: trantime
+          //     },
+          //     () => {
+          //       // console.log(_this.state.subData, "提交改变data9999");
+          //     }
+          //   );
+          //   message.success("布防时间提交成功");
+          //   _this.props.getOne();
+          // } else {
+          //   alert(2);
+          //   message.error(res.msg);
+          // }
         });
     });
 
@@ -420,58 +422,33 @@ class DefendTime extends Component {
     } else {
       if (getFieldsValue().days && this.state.currentData.length > 0) {
         getFieldsValue().days.map((g, h) => {
+          console.log(g, h, "days");
           if (
             this.props.equipData.timelist &&
-            this.props.equipData.timelist[h] != ""
+            this.props.equipData.timelist[g] != ""
           ) {
-            if (this.props.equipData.timelist[h].indexOf(",")) {
-              if (
-                $($("tr")[g])
-                  .find(".td")
-                  .hasClass("selected") &&
-                h != this.state.btnNum
-              ) {
-                $($("tr")[g])
-                  .find(".td")
-                  .removeClass("selected")
-                  .css("background", "#fff");
-              }
-              this.state.currentData.map((m, n) => {
-                $($($(".tr")[g]).find(".td")[n - 1])
-                  .addClass("selected")
-                  .css("background", "#32e8fe");
-
-                return "";
-              });
-            } else {
-              if (
-                $(
-                  $($(".tr")[g]).find(".td")[
-                    parseInt(this.props.equipData.timelist[h]) - 1
-                  ]
-                ).hasClass("selected") &&
-                h != this.state.btnNum
-              ) {
-                $(
-                  $($(".tr")[g]).find(".td")[
-                    parseInt(this.props.equipData.timelist[h]) - 1
-                  ]
-                )
-                  .removeClass("selected")
-                  .css("background", "#fff");
-              }
-
-              this.state.currentData.map((m, n) => {
-                $($($(".tr")[g]).find(".td")[n - 1])
-                  .addClass("selected")
-                  .css("background", "#32e8fe");
-
-                return "";
-              });
+            console.log(this.props.equipData.timelist[g], "youshuju ");
+            if (
+              $($("tr")[g - 1])
+                .find(".td")
+                .hasClass("selected") &&
+              g != this.state.btnNum
+            ) {
+              $($("tr")[g - 1])
+                .find(".td")
+                .removeClass("selected")
+                .css("background", "#fff");
             }
+            this.state.currentData.map((m, n) => {
+              $($($(".tr")[g - 1]).find(".td")[m - 1])
+                .addClass("selected")
+                .css("background", "#32e8fe");
+
+              return "";
+            });
           } else {
             this.state.currentData.map((m, n) => {
-              $($($(".tr")[g]).find(".td")[n - 1])
+              $($($(".tr")[g - 1]).find(".td")[m - 1])
                 .addClass("selected")
                 .css("background", "#32e8fe");
 
@@ -502,7 +479,7 @@ class DefendTime extends Component {
   dataRecover = data => {
     var v;
     for (v in data) {
-      if (data[v].indexOf(",")) {
+      if (data[v].indexOf(",") != -1) {
         data[v].split(",").map(m => {
           $($($(".tr")[v - 1]).find(".td")[m - 1])
             .addClass("selected")
@@ -510,8 +487,8 @@ class DefendTime extends Component {
           return;
         });
       } else {
-        if (data[v] != " ") {
-          $($($(".tr")[v - 1]).find(".td")[parseInt(data[v])])
+        if (data[v] != "") {
+          $($($(".tr")[v - 1]).find(".td")[parseInt(data[v]) - 1])
             .addClass("selected")
             .css("background", "#32e8fe");
         }

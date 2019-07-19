@@ -17,6 +17,7 @@ import PoliceInformation from "./police/PoliceInformation";
 // import AlarmTracking from "./police/AlarmTracking";
 //系统
 import Overview from "./system/Overview";
+import SysReset from "./system/SysReset";
 import UserInfo from "./system/UserInfo";
 import NetworkSettings from "./system/NetworkSettings";
 import TimesSettings from "./system/TimesSettings";
@@ -34,6 +35,7 @@ export default {
   Equipment,
   EquipSet,
   Overview,
+  SysReset,
   UserInfo,
   NetworkSettings,
   TimesSettings,
