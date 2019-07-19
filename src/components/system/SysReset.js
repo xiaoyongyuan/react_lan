@@ -43,18 +43,18 @@ class SysReset extends Component {
         }
       });
   };
-  handleAlarmSound = checked => {
+  reset = () => {
     axios
       .ajax({
         method: "get",
-        url: window.g.loginURL + "/api/system/alaVoiceSet",
-        data: {
-          flag: checked
-        }
+        url: window.g.loginURL + "/api/redisinfo/setinfo",
+        data: {}
       })
       .then(res => {
         if (res.success) {
-          message.success(checked === true ? "报警声音开启" : "报警声音关闭");
+          message.success("重置系统成功,请重启服务器");
+        } else {
+          message.error("重置系统失败,请联系管理员");
         }
       });
   };
@@ -251,6 +251,7 @@ class SysReset extends Component {
           <Card title="功能设置" className="funset">
             <Row>
               <Button
+                onClick={() => this.reset()}
                 className="reset"
                 type="primary"
                 style={{ float: "right", marginRight: "20px" }}
