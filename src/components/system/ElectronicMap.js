@@ -17,20 +17,14 @@ class ElectronicMap extends Component{
         var mouseTool = new window.AMap.MouseTool(map);
         //监听draw事件可获取画好的覆盖物
         var overlays = [];
-        var LatitudeArr=[];
         mouseTool.on('draw',function(e){
             overlays.push(e.obj);
             let polygonItem = e.obj;
-           /* let path = polygonItem.getPath();//取得绘制的多边形的每一个点坐标
-            path.map((v)=>{
-                LatitudeArr.push([v.lng,v.lat])
-            });
-            console.log(LatitudeArr)*/
-        });
 
+        });
         function draw(type){
             switch(type){
-                case 'marker':{
+               /* case 'marker':{
                     mouseTool.marker({});
                     break;
                 }
@@ -39,7 +33,7 @@ class ElectronicMap extends Component{
                         strokeColor:'#c3742b'
                     });
                     break;
-                }
+                }*/
                 case 'polygon':{
                     mouseTool.polygon({
                         fillColor:'#afb8ff',
@@ -54,19 +48,19 @@ class ElectronicMap extends Component{
                     });
                     break;
                 }
-                case 'circle':{
+               /* case 'circle':{
                     mouseTool.circle({
                         fillColor:'#5acafb',
                         strokeColor:'#3fa7d3'
                     });
                     break;
-                }
+                }*/
             }
         }
         var radios = document.getElementsByName('func');
         for(var i=0;i<radios.length;i+=1){
             radios[i].onchange = function(e){
-                draw(e.target.value)
+                draw(e.target.value);
             }
         }
         draw('marker');
@@ -88,14 +82,11 @@ class ElectronicMap extends Component{
                 <div className='info'>操作说明：圆和矩形通过拖拽来绘制，其他覆盖物通过点击来绘制</div>
                 <div className="input-card">
                     <div className="input-item">
-                        <input type="radio" name='func' value='marker'/><span className="input-text">画点</span>
-                        <input type="radio" name='func' value='polyline'/><span className="input-text">画折线</span>
-                        <input type="radio" name='func' value='polygon'/>
-                        <span className="input-text" >画多边形</span>
-                    </div>
-                    <div className="input-item">
+                       {/* <input type="radio" name='func' value='marker'/><span className="input-text">画点</span>
+                        <input type="radio" name='func' value='polyline'/><span className="input-text">画折线</span>*/}
+                        <input type="radio" name='func' value='polygon'/><span className="input-text" >画多边形</span>
                         <input type="radio" name='func' value='rectangle'/><span className="input-text">画矩形</span>
-                        <input type="radio" name='func' value='circle'/><span className="input-text">画圆</span>
+                        {/*<input type="radio" name='func' value='circle'/><span className="input-text">画圆</span>*/}
                     </div>
                     <div className="input-item">
                         <input id="clear" type="button" className="btn" value="清除"/>

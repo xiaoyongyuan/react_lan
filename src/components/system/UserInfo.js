@@ -55,10 +55,10 @@ const FormModal = Form.create({ name: "form_in_modal" })(
             <Form.Item label="用户名" key="realname">
               {getFieldDecorator("realname", {
                 rules: [
-                  {
-                    required: true,
-                    message: "请输入账号!"
-                  }
+                    {
+                        required: true,
+                        message: "请输入账号!"
+                    }
                 ]
               })(<Input />)}
             </Form.Item>

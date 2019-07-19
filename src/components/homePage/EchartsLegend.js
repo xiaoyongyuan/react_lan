@@ -64,7 +64,7 @@ class EchartsLegend extends Component{
                     type: 'scatter',
                     coordinateSystem: 'geo',
                     data: equipmentList,
-                    symbolSize: 15, //圈圈大小
+                    symbolSize: 45, //圈圈大小
                     label: {
                         normal: {
                             formatter: '{b}',
