@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import "../../style/ztt/css/electronicMap.less";
+import axios from "../../axios/index";
 class ElectronicMap extends Component{
     constructor (props) {
         super (props);
@@ -17,10 +18,40 @@ class ElectronicMap extends Component{
         var mouseTool = new window.AMap.MouseTool(map);
         //监听draw事件可获取画好的覆盖物
         var overlays = [];
+        var LatitudeArr=[];
+        var mapJson={
+            "type": "FeatureCollection",
+            "features":[]
+        };
         mouseTool.on('draw',function(e){
             overlays.push(e.obj);
             let polygonItem = e.obj;
-
+            let path = polygonItem.getPath();//取得绘制的多边形的每一个点坐标
+            path.map((v)=>{
+                LatitudeArr.push([v.lng,v.lat]);
+            });
+            for(let i=0;i<overlays.length;i++){
+                mapJson.features.push({
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": LatitudeArr
+                    }
+                })
+            }
+            console.log(mapJson)
+            if(LatitudeArr.length>0){
+                axios.ajax({
+                    method:"get",
+                    url:window.g.loginURL+"/api/system/elemap",
+                    data:{
+                        data:mapJson
+                    }
+                }).then((res)=>{
+                    console.log(res)
+                })
+            }
         });
         function draw(type){
             switch(type){
@@ -64,7 +95,7 @@ class ElectronicMap extends Component{
             }
         }
         draw('marker');
-        document.getElementById('clear').onclick = function(){
+        document.getElementById('').onclick = function(){
             map.remove(overlays);
             overlays = [];
         };
@@ -89,7 +120,7 @@ class ElectronicMap extends Component{
                         {/*<input type="radio" name='func' value='circle'/><span className="input-text">画圆</span>*/}
                     </div>
                     <div className="input-item">
-                        <input id="clear" type="button" className="btn" value="清除"/>
+                        <input id="" type="button" className="btn" value="清除"/>
                         <input id="close" type="button" className="btn" value="关闭绘图"/>
                     </div>
                 </div>

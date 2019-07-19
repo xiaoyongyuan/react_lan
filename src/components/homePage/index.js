@@ -26,6 +26,10 @@ class Index extends Component {
         this.equipmentCount();
         this.policeCount();
         this.hanleCamera();
+        this.setState({
+            mqwl:localStorage.getItem("scenegraph")
+        });
+        console.log(localStorage.getItem("scenegraph"))
     }
     option=()=>{
         echarts.registerMap('xicheng', mqwl);
