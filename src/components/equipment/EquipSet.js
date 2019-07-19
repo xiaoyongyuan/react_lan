@@ -92,7 +92,6 @@ class EquipSet extends Component {
       })
       .then(res => {
         if (res.success) {
-          console.log(res.data, "list");
           if (res.data.cstatus === 0) {
             if (res.data.field) {
               this.setState({
@@ -140,7 +139,8 @@ class EquipSet extends Component {
               ) {
                 oneBackType = [0, 1];
               }
-            } else if (res.data.field[2]) {
+            }
+            if (res.data.field[2]) {
               if (res.data.field[2].type === "0") {
                 twoBackType = [0];
               } else if (res.data.field[2].type === "1") {
@@ -151,7 +151,8 @@ class EquipSet extends Component {
               ) {
                 twoBackType = [0, 1];
               }
-            } else if (res.data.field[3]) {
+            }
+            if (res.data.field[3]) {
               if (res.data.field[3].type === "0") {
                 threeBackType = [0];
               } else if (res.data.field[3].type === "1") {
@@ -167,9 +168,15 @@ class EquipSet extends Component {
           this.setState(
             {
               equipData: res.data,
-              oneTypeSelect: oneBackType,
-              twoTypeSelect: twoBackType,
+              oneTypeSelect: oneBackType
+                ? oneBackType
+                : this.state.oneTypeSelect,
+              twoTypeSelect: twoBackType
+                ? twoBackType
+                : this.state.twoTypeSelect,
               threeTypeSelect: threeBackType
+                ? threeBackType
+                : this.state.threeTypeSelect
             },
             () => {
               const equipData = this.state.equipData;
@@ -952,44 +959,56 @@ class EquipSet extends Component {
     }
   };
   handleTypeChange = (cv, num) => {
-    console.log(cv, "cv");
-
     if (num === 1) {
       this.setState(
         {
           oneTypeSelect: cv
         },
-        () => {
-          console.log("res", cv);
-        }
+        () => {}
       );
     } else if (num === 2) {
       this.setState(
         {
           twoTypeSelect: cv
         },
-        () => {
-          console.log("res", cv);
-        }
+        () => {}
       );
     } else if (num === 3) {
       this.setState(
         {
           threeTypeSelect: cv
         },
-        () => {
-          console.log("res", cv);
-        }
+        () => {}
       );
     }
   };
-  handleDefAdd = e => {
-    // const ev = e || window.event;
-    // if (ev.stopPropagation) {
-    //   ev.stopPropagation();
-    // } else if (window.event) {
-    //   window.event.cancelBubble = true;
-    // }
+  handleDefAdd = (e, num) => {
+    const ev = e || window.event;
+    if (ev.stopPropagation) {
+      ev.stopPropagation();
+    } else if (window.event) {
+      window.event.cancelBubble = true;
+    }
+    switch (num) {
+      case 1:
+        this.setState({
+          defOneSubBtn: false
+        });
+        break;
+      case 2:
+        this.setState({
+          defTwoSubBtn: false
+        });
+        break;
+      case 3:
+        this.setState({
+          defThreeSubBtn: false
+        });
+        break;
+
+      default:
+        break;
+    }
     e.stopPropagation();
     this.opendraw();
   };
@@ -1009,21 +1028,20 @@ class EquipSet extends Component {
             .then(res => {
               if (res.success) {
                 message.success("1号防区删除成功");
-                this.getOne();
                 this.clearCanvas();
                 this.setState(
                   {
                     defOneAddBtn: false,
                     defOneDelBtn: true,
-                    defOneSubBtn: false,
+                    defOneSubBtn: true,
                     areaOne: []
                   },
-                  () => {}
+                  () => {
+                    this.getOne();
+                  }
                 );
               }
             });
-        } else {
-          this.clearCanvas();
         }
 
         break;
@@ -1042,20 +1060,20 @@ class EquipSet extends Component {
               if (res.success) {
                 message.success("2号防区删除成功");
                 this.clearCanvas();
-                this.getOne();
+
                 this.setState(
                   {
                     defTwoAddBtn: false,
                     defTwoDelBtn: true,
-                    defTwoSubBtn: false,
+                    defTwoSubBtn: true,
                     areaTwo: []
                   },
-                  () => {}
+                  () => {
+                    this.getOne();
+                  }
                 );
               }
             });
-        } else {
-          this.clearCanvas();
         }
 
         break;
@@ -1074,20 +1092,19 @@ class EquipSet extends Component {
               if (res.success) {
                 message.success("3号防区删除成功");
                 this.clearCanvas();
-                this.getOne();
                 this.setState(
                   {
                     defThreeAddBtn: false,
                     defThreeDelBtn: true,
-                    defThreeSubBtn: false,
+                    defThreeSubBtn: true,
                     areaThree: []
                   },
-                  () => {}
+                  () => {
+                    this.getOne();
+                  }
                 );
               }
             });
-        } else {
-          this.clearCanvas();
         }
 
         break;
@@ -1146,6 +1163,9 @@ class EquipSet extends Component {
                     this.state.newinitarea = [];
                   }
                 );
+                this.getOne();
+              } else {
+                message.error(res.msg);
               }
             });
         }
@@ -1196,6 +1216,9 @@ class EquipSet extends Component {
                   this.state.newinitarea = [];
                 }
               );
+              this.getOne();
+            } else {
+              message.error(res.msg);
             }
           });
 
@@ -1249,6 +1272,9 @@ class EquipSet extends Component {
                   this.state.newinitarea = [];
                 }
               );
+              this.getOne();
+            } else {
+              message.error(res.msg);
             }
           });
 
@@ -1277,6 +1303,9 @@ class EquipSet extends Component {
     //开始绘制，打开开关
     open = true;
     this.draw(this.state.initarea);
+    this.setState({
+      initareaMove: false
+    });
   };
   clearCanvas = () => {
     let ele = document.getElementById("cavcontainer");
@@ -1500,7 +1529,7 @@ class EquipSet extends Component {
         <div className="optbtn">
           <Button
             onClick={e => {
-              this.handleDefAdd(e);
+              this.handleDefAdd(e, 1);
             }}
             disabled={this.state.defOneAddBtn}
           >
@@ -1546,7 +1575,7 @@ class EquipSet extends Component {
           <span style={{ marginLeft: "40px" }}>
             <Checkbox.Group
               options={checkType}
-              defaultValue={[0]}
+              defaultValue={this.state.twoTypeSelect}
               onChange={cv => this.handleTypeChange(cv, 2)}
             />
           </span>
@@ -1555,7 +1584,7 @@ class EquipSet extends Component {
         <div className="optbtn">
           <Button
             onClick={e => {
-              this.handleDefAdd(e);
+              this.handleDefAdd(e, 2);
             }}
             disabled={this.state.defTwoAddBtn}
           >
@@ -1601,7 +1630,7 @@ class EquipSet extends Component {
           <span style={{ marginLeft: "40px" }}>
             <Checkbox.Group
               options={checkType}
-              defaultValue={[0]}
+              defaultValue={this.state.threeTypeSelect}
               onChange={cv => this.handleTypeChange(cv, 3)}
             />
           </span>
@@ -1610,7 +1639,7 @@ class EquipSet extends Component {
         <div className="optbtn">
           <Button
             onClick={e => {
-              this.handleDefAdd(e);
+              this.handleDefAdd(e, 3);
             }}
             disabled={this.state.defThreeAddBtn}
           >

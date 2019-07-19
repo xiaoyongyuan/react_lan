@@ -257,23 +257,11 @@ class DefendTime extends Component {
           }
         })
         .then(res => {
-          console.log(res, "ppppppppppp");
-          // if (res.success) {
-          //   _this.setState(
-          //     {
-          //       subBtn: true
-          //       // subData: trantime
-          //     },
-          //     () => {
-          //       // console.log(_this.state.subData, "提交改变data9999");
-          //     }
-          //   );
-          //   message.success("布防时间提交成功");
-          //   _this.props.getOne();
-          // } else {
-          //   alert(2);
-          //   message.error(res.msg);
-          // }
+          if (res.success) {
+            message.success("布防时间提交成功");
+          } else {
+            message.error(res.msg);
+          }
         });
     });
 
