@@ -125,9 +125,51 @@ class EquipSet extends Component {
               });
             }
           }
+          var oneBackType;
+          var twoBackType;
+          var threeBackType;
+          if (res.data.field) {
+            if (res.data.field[1]) {
+              if (res.data.field[1].type === "0") {
+                oneBackType = [0];
+              } else if (res.data.field[1].type === "1") {
+                oneBackType = [1];
+              } else if (
+                res.data.field[1].type === "0,1" ||
+                res.data.field[1].type === "1,0"
+              ) {
+                oneBackType = [0, 1];
+              }
+            } else if (res.data.field[2]) {
+              if (res.data.field[2].type === "0") {
+                twoBackType = [0];
+              } else if (res.data.field[2].type === "1") {
+                twoBackType = [1];
+              } else if (
+                res.data.field[2].type === "0,1" ||
+                res.data.field[2].type === "1,0"
+              ) {
+                twoBackType = [0, 1];
+              }
+            } else if (res.data.field[3]) {
+              if (res.data.field[3].type === "0") {
+                threeBackType = [0];
+              } else if (res.data.field[3].type === "1") {
+                threeBackType = [1];
+              } else if (
+                res.data.field[3].type === "0,1" ||
+                res.data.field[3].type === "1,0"
+              ) {
+                threeBackType = [0, 1];
+              }
+            }
+          }
           this.setState(
             {
-              equipData: res.data
+              equipData: res.data,
+              oneTypeSelect: oneBackType,
+              twoTypeSelect: twoBackType,
+              threeTypeSelect: threeBackType
             },
             () => {
               const equipData = this.state.equipData;
@@ -172,7 +214,6 @@ class EquipSet extends Component {
           this.getOne();
         } else {
           message.success(res.msg);
-
         }
       });
   };
@@ -192,7 +233,6 @@ class EquipSet extends Component {
           this.getOne();
         } else {
           message.success(res.msg);
-
         }
       });
   };
@@ -210,9 +250,8 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("24小时设防中");
           this.getOne();
-        }else{
+        } else {
           message.success(res.msg);
-
         }
       });
   };
@@ -232,7 +271,6 @@ class EquipSet extends Component {
           this.getOne();
         } else {
           message.success(res.msg);
-
         }
       });
   };
@@ -256,7 +294,6 @@ class EquipSet extends Component {
               window.location.href = "#/main/equipment";
             } else {
               message.success(res.msg);
-
             }
           });
       }

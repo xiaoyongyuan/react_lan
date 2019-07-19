@@ -31,13 +31,6 @@ const FormModal = Form.create()(
       checkAll: false,
       radioSelect: false
     };
-    componentDidMount() {
-      if (this.state.checkedList.length > 0) {
-        this.setState({
-          radioSelect: false
-        });
-      }
-    }
 
     onChange = checkedList => {
       if (checkedList.length > 0) {
@@ -115,7 +108,6 @@ const FormModal = Form.create()(
       return (
         <Modal
           visible={visible}
-          afterClose={this.afterClose}
           onOk={onOk}
           onCancel={onCancel}
           title={title}
@@ -169,113 +161,16 @@ class DefendTime extends Component {
       subBtn: false
     };
   }
-  onShow() {
-    this.setState({
-      visible: true
-    });
-    if (!this.state.subBtn) {
-      this.setState({
-        subBtn: true
-      });
-    }
-  }
-  onCancel() {
-    const { resetFields } = this.form.props.form;
-    resetFields();
-    this.setState({
-      visible: false
-    });
-  }
-  onOk() {
-    const { getFieldsValue, resetFields } = this.form.props.form;
-    this.setState({
-      visible: false
-    });
-
-    if (this.form.state.radioSelect) {
-      if (
-        this.props.equipData.timelist &&
-        this.props.equipData.timelist[this.state.btnNum]
-      ) {
-        axios
-          .ajax({
-            method: "delete",
-            // url: "http://192.168.1.163:8111/api/api/deleteOneWorkingTime",
-            url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
-            data: {
-              cid: this.props.code ? this.props.code : this.props.addBackCode,
-              deleteNum: this.state.btnNum
-            }
-          })
-          .then(res => {
-            if (res.success) {
-              message.success("删除成功");
-              this.props.getOne();
-              if (
-                $($("tr")[this.state.btnNum - 1])
-                  .find(".td")
-                  .hasClass("selected")
-              ) {
-                $($("tr")[this.state.btnNum - 1])
-                  .find(".td")
-                  .removeClass("selected")
-                  .css("background", "#fff");
-              }
-            }
-          });
-      } else {
-        if (
-          $($("tr")[this.state.btnNum - 1])
-            .find(".td")
-            .hasClass("selected")
-        ) {
-          $($("tr")[this.state.btnNum - 1])
-            .find(".td")
-            .removeClass("selected")
-            .css("background", "#fff");
-        }
-      }
-    } else {
-      if (getFieldsValue().days && this.state.currentData.length > 0) {
-        getFieldsValue().days.map((g, h) => {
-          if (
-            this.props.equipData.timelist &&
-            this.props.equipData.timelist[g] &&
-            this.props.equipData.timelist[g].split(",").length > 0
-          ) {
-            if (
-              $($("tr")[g - 1])
-                .find(".td")
-                .hasClass("selected") &&
-              g != this.state.btnNum
-            ) {
-              $($("tr")[g - 1])
-                .find(".td")
-                .removeClass("selected")
-                .css("background", "#fff");
-            }
-          }
-          this.state.currentData.map((m, n) => {
-            $($($(".tr")[g - 1]).find(".td")[m - 1])
-              .addClass("selected")
-              .css("background", "#32e8fe");
-
-            return "";
-          });
-        });
-      }
-    }
-    resetFields();
-  }
   componentWillReceiveProps(nextProps) {
-    if (this.props.equipData.timelist != nextProps.timelist) {
-      this.dataRecover();
+    if (this.props.equipData.timelist != nextProps.equipData.timelist) {
+      this.dataRecover(nextProps.equipData.timelist);
     }
   }
   componentDidMount() {
     const _this = this;
-    this.dataRecover();
+    this.dataRecover(this.props.equipData.timelist);
     var key = 0;
+    //隐藏
     for (let i = 0; i < 7; i++) {
       $($($(".tr")[i]).find(".td")[48]).mousemove(function(e) {
         key = 0;
@@ -310,9 +205,14 @@ class DefendTime extends Component {
 
         const trantime =
           "[" + JSON.stringify(timelist).replace(/\"/g, "'") + "]";
-        _this.setState({
-          subData: trantime
-        });
+        _this.setState(
+          {
+            subData: trantime
+          },
+          () => {
+            // console.log( _this.state.subData, "移动改变data9999");
+          }
+        );
       }
     });
     $("#tab").mousedown(function(e) {
@@ -345,28 +245,34 @@ class DefendTime extends Component {
       timelist["7"] = backdata[6];
 
       const trantime = "[" + JSON.stringify(timelist).replace(/\"/g, "'") + "]";
-      if (_this.state.subData != _this.props.equipData.timelist) {
-        axios
-          .ajax({
-            method: "post",
-            // url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
-            url: window.g.loginURL + "/api/workingTime/setWorkingTime",
-            data: {
-              timelist: trantime,
-              cid: _this.props.code ? _this.props.code : _this.props.addBackCode
-            }
-          })
-          .then(res => {
-            if (res.success) {
-              _this.setState({
-                subBtn: true,
-                subData: trantime
-              });
-              message.success("布防时间提交成功");
-              _this.props.getOne();
-            }
-          });
-      }
+
+      axios
+        .ajax({
+          method: "post",
+          // url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
+          url: window.g.loginURL + "/api/workingTime/setWorkingTime",
+          data: {
+            timelist: trantime,
+            cid: _this.props.code ? _this.props.code : _this.props.addBackCode
+          }
+        })
+        .then(res => {
+          if (res.success) {
+            _this.setState(
+              {
+                subBtn: true
+                // subData: trantime
+              },
+              () => {
+                // console.log(_this.state.subData, "提交改变data9999");
+              }
+            );
+            message.success("布防时间提交成功");
+            _this.props.getOne();
+          } else {
+            message.error(res.msg);
+          }
+        });
     });
 
     $("#deleteData").click(function() {
@@ -391,6 +297,8 @@ class DefendTime extends Component {
                     .css("background", "#fff");
                 }
               }
+            } else {
+              message.error(res.msg);
             }
           });
       } else {
@@ -415,11 +323,16 @@ class DefendTime extends Component {
             }
           });
 
-        _this.setState({
-          visible: true,
-          btnNum: k + 1,
-          currentData: currentData
-        });
+        _this.setState(
+          {
+            visible: true,
+            btnNum: k + 1,
+            currentData: currentData
+          },
+          () => {
+            console.log(_this.state.currentData, "当前行数据");
+          }
+        );
       });
     });
   }
@@ -430,6 +343,147 @@ class DefendTime extends Component {
       });
     }
   }
+  onShow() {
+    this.setState({
+      visible: true
+    });
+  }
+  onCancel() {
+    const { resetFields } = this.form.props.form;
+    resetFields();
+    this.setState({
+      visible: false
+    });
+    this.form.setState({
+      checkAll: false,
+      radioSelect: false
+    });
+  }
+  onOk() {
+    this.form.setState({
+      checkAll: false,
+      radioSelect: false
+    });
+    this.setState({
+      visible: false,
+      subBtn: false
+    });
+    const { getFieldsValue, resetFields } = this.form.props.form;
+
+    if (this.form.state.radioSelect) {
+      if (
+        this.props.equipData.timelist &&
+        this.props.equipData.timelist[this.state.btnNum]
+      ) {
+        axios
+          .ajax({
+            method: "delete",
+            // url: "http://192.168.1.163:8111/api/api/deleteOneWorkingTime",
+            url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
+            data: {
+              cid: this.props.code ? this.props.code : this.props.addBackCode,
+              deleteNum: this.state.btnNum
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("删除成功");
+              this.props.getOne();
+
+              this.setState({
+                currentData: []
+              });
+              if (
+                $($("tr")[this.state.btnNum - 1])
+                  .find(".td")
+                  .hasClass("selected")
+              ) {
+                $($("tr")[this.state.btnNum - 1])
+                  .find(".td")
+                  .removeClass("selected")
+                  .css("background", "#fff");
+              }
+            }
+          });
+      } else {
+        if (
+          $($("tr")[this.state.btnNum - 1])
+            .find(".td")
+            .hasClass("selected")
+        ) {
+          $($("tr")[this.state.btnNum - 1])
+            .find(".td")
+            .removeClass("selected")
+            .css("background", "#fff");
+        }
+      }
+    } else {
+      if (getFieldsValue().days && this.state.currentData.length > 0) {
+        getFieldsValue().days.map((g, h) => {
+          if (
+            this.props.equipData.timelist &&
+            this.props.equipData.timelist[h] != ""
+          ) {
+            if (this.props.equipData.timelist[h].indexOf(",")) {
+              if (
+                $($("tr")[g])
+                  .find(".td")
+                  .hasClass("selected") &&
+                h != this.state.btnNum
+              ) {
+                $($("tr")[g])
+                  .find(".td")
+                  .removeClass("selected")
+                  .css("background", "#fff");
+              }
+              this.state.currentData.map((m, n) => {
+                $($($(".tr")[g]).find(".td")[n - 1])
+                  .addClass("selected")
+                  .css("background", "#32e8fe");
+
+                return "";
+              });
+            } else {
+              if (
+                $(
+                  $($(".tr")[g]).find(".td")[
+                    parseInt(this.props.equipData.timelist[h]) - 1
+                  ]
+                ).hasClass("selected") &&
+                h != this.state.btnNum
+              ) {
+                $(
+                  $($(".tr")[g]).find(".td")[
+                    parseInt(this.props.equipData.timelist[h]) - 1
+                  ]
+                )
+                  .removeClass("selected")
+                  .css("background", "#fff");
+              }
+
+              this.state.currentData.map((m, n) => {
+                $($($(".tr")[g]).find(".td")[n - 1])
+                  .addClass("selected")
+                  .css("background", "#32e8fe");
+
+                return "";
+              });
+            }
+          } else {
+            this.state.currentData.map((m, n) => {
+              $($($(".tr")[g]).find(".td")[n - 1])
+                .addClass("selected")
+                .css("background", "#32e8fe");
+
+              return "";
+            });
+          }
+        });
+      }
+    }
+    resetFields();
+  }
+
   renderTable = () => {
     var cols = 49;
     var rows = 7;
@@ -445,16 +499,23 @@ class DefendTime extends Component {
     htmlstr += "</table>";
     return htmlstr;
   };
-  dataRecover = () => {
-    var res = this.props.equipData.timelist;
+  dataRecover = data => {
     var v;
-    for (v in res) {
-      res[v].split(",").map(m => {
-        $($($(".tr")[v - 1]).find(".td")[m - 1])
-          .addClass("selected")
-          .css("background", "#32e8fe");
-        return "";
-      });
+    for (v in data) {
+      if (data[v].indexOf(",")) {
+        data[v].split(",").map(m => {
+          $($($(".tr")[v - 1]).find(".td")[m - 1])
+            .addClass("selected")
+            .css("background", "#32e8fe");
+          return;
+        });
+      } else {
+        if (data[v] != " ") {
+          $($($(".tr")[v - 1]).find(".td")[parseInt(data[v])])
+            .addClass("selected")
+            .css("background", "#32e8fe");
+        }
+      }
     }
   };
   render() {
@@ -511,10 +572,6 @@ class DefendTime extends Component {
               </Button>
             </div>
           </Col>
-
-          {/* <Col xl={{ span: 2 }} xxl={{ span: 1 }} className="deleteWrap">
-            
-          </Col> */}
         </Row>
 
         <Row>
