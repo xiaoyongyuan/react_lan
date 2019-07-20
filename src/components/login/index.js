@@ -23,7 +23,7 @@ class Login extends Component {
               localStorage.setItem("ifsys", res.data.datainfo.ifsys);
               localStorage.setItem("utype", res.data.datainfo.utype);
               localStorage.setItem("token", res.data.token);
-              localStorage.setItem("scenegraph",res.data.datainfo.scenegraph);
+              localStorage.setItem("elemapinfo",res.data.elemapinfo);
               this.props.history.push("/main/index");
             } else {
               message.warn("用户名或密码错误！");

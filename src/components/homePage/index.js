@@ -7,6 +7,7 @@ import axios from "../../axios/index";
 import nodata from "../../style/imgs/nodata.png";
 import ReactEcharts from "echarts-for-react";
 import mqwl from "../../style/ztt/json/lenged";
+import $ from "jquery";
 import echarts from "echarts";
 class Index extends Component {
     constructor(props) {
@@ -27,12 +28,12 @@ class Index extends Component {
         this.policeCount();
         this.hanleCamera();
         this.setState({
-            mqwl:localStorage.getItem("scenegraph")
+            mqwl:localStorage.getItem("")
         });
-        console.log(localStorage.getItem("scenegraph"))
+        console.log(JSON.parse(localStorage.getItem("elemapinfo")))
     }
     option=()=>{
-        echarts.registerMap('xicheng', mqwl);
+        echarts.registerMap('xicheng',mqwl);
         let equipmentList=[];
         this.state.cameraList.map((v)=>{
             if(v.lat && v.lng){

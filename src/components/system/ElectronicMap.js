@@ -6,7 +6,12 @@ class ElectronicMap extends Component{
         super (props);
         this.state = {
             searchContent:'',
-        }
+        };
+        this.mapJson={
+            "type": "FeatureCollection",
+            "features":[]
+        };
+        this.LatitudeArr=[];
     }
     componentDidMount() {
         const _this = this;
@@ -18,40 +23,24 @@ class ElectronicMap extends Component{
         var mouseTool = new window.AMap.MouseTool(map);
         //监听draw事件可获取画好的覆盖物
         var overlays = [];
-        var LatitudeArr=[];
-        var mapJson={
-            "type": "FeatureCollection",
-            "features":[]
-        };
         mouseTool.on('draw',function(e){
             overlays.push(e.obj);
             let polygonItem = e.obj;
             let path = polygonItem.getPath();//取得绘制的多边形的每一个点坐标
             path.map((v)=>{
-                LatitudeArr.push([v.lng,v.lat]);
+                _this.LatitudeArr.push([v.lng,v.lat]);
             });
             for(let i=0;i<overlays.length;i++){
-                mapJson.features.push({
+                _this.mapJson.features.push({
                     "type": "Feature",
                     "properties": {},
                     "geometry": {
                         "type": "Polygon",
-                        "coordinates": LatitudeArr
+                        "coordinates": _this.LatitudeArr
                     }
                 })
             }
-            console.log(mapJson)
-            if(LatitudeArr.length>0){
-                axios.ajax({
-                    method:"get",
-                    url:window.g.loginURL+"/api/system/elemap",
-                    data:{
-                        data:mapJson
-                    }
-                }).then((res)=>{
-                    console.log(res)
-                })
-            }
+            console.log(_this.mapJson);
         });
         function draw(type){
             switch(type){
@@ -95,7 +84,7 @@ class ElectronicMap extends Component{
             }
         }
         draw('marker');
-        document.getElementById('').onclick = function(){
+        document.getElementById('clear').onclick = function(){
             map.remove(overlays);
             overlays = [];
         };
@@ -106,6 +95,17 @@ class ElectronicMap extends Component{
             }
         }
     }
+    hanleMap=()=>{
+        if(this.LatitudeArr.length>0){
+            axios.ajax({
+                method:"get",
+                url:window.g.loginURL+"/api/system/elemap",
+                data:{
+                    data:this.mapJson
+                }
+            }).then((res)=>{})
+        }
+    };
     render() {
         return (
             <div className="electronicMap">
@@ -120,8 +120,9 @@ class ElectronicMap extends Component{
                         {/*<input type="radio" name='func' value='circle'/><span className="input-text">画圆</span>*/}
                     </div>
                     <div className="input-item">
-                        <input id="" type="button" className="btn" value="清除"/>
+                        <input id="clear" type="button" className="btn" value="清除"/>
                         <input id="close" type="button" className="btn" value="关闭绘图"/>
+                        <input type="button" className="btn" value="确定" onClick={this.hanleMap} />
                     </div>
                 </div>
             </div>
