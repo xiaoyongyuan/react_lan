@@ -117,7 +117,11 @@ class Equipment extends Component {
                             ? "布防中"
                             : val.workingstatus === 0
                             ? "休息中"
-                            : "未布防"}
+                            : val.workingstatus === -1
+                            ? "未启用"
+                            : val.workingstatus === -2
+                            ? "未设置"
+                            : null}
                         </span>
                       </li>
                       <li
