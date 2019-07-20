@@ -48,9 +48,6 @@ class EquipSet extends Component {
       sliderChange: false,
       threshold: 5,
       frozentime: 5,
-      src: "",
-      cid: "",
-      presentlast: [],
       initarea: [
         [195, 364],
         [197, 252],
@@ -79,6 +76,10 @@ class EquipSet extends Component {
     if (this.props.query.code) {
       this.getOne();
     }
+    document.body.onmouseup = () => {
+      moveswitch = false;
+      scopeswitch = false;
+    };
   }
   getOne = () => {
     const { setFieldsValue } = this.props.form;
@@ -1250,10 +1251,10 @@ class EquipSet extends Component {
                 {
                   defThreeAddBtn: true,
                   defThreeDelBtn: false,
-                  defThreeSubBtn: true,
-                  areaThree: this.state.initareaMove
-                    ? this.state.newinitarea
-                    : this.state.initarea
+                  defThreeSubBtn: true
+                  // areaThree: this.state.initareaMove
+                  //   ? this.state.newinitarea
+                  //   : this.state.initarea
                 },
                 () => {
                   this.state.initareaMove
@@ -1295,9 +1296,14 @@ class EquipSet extends Component {
     //开始绘制，打开开关
     open = true;
     this.draw(this.state.initarea);
-    this.setState({
-      initareaMove: false
-    });
+    this.setState(
+      {
+        initareaMove: false
+      },
+      () => {
+        this.state.newinitarea = this.state.initarea;
+      }
+    );
   };
   clearCanvas = () => {
     let ele = document.getElementById("cavcontainer");
@@ -1353,7 +1359,6 @@ class EquipSet extends Component {
         c = !c;
       }
     }
-    console.log(c, "点在区域内");
     return c;
   }
   PointInPolyMoved(pt) {
@@ -1376,7 +1381,6 @@ class EquipSet extends Component {
         c = !c;
       }
     }
-    console.log(c, "点在区域内");
     return c;
   }
   dotrim = dot => {
@@ -1391,7 +1395,6 @@ class EquipSet extends Component {
         el[1] - 10 <= dot.y &&
         dot.y <= el[1] + 10
       ) {
-        console.log(i, "点在第几+2个角点上");
         return i + 1;
       }
     }
@@ -1429,9 +1432,9 @@ class EquipSet extends Component {
     let arrY = [];
 
     let item = this.state.initarea;
-    item.map((item, i) => {
-      arrX.push(item[0]);
-      arrY.push(item[1]);
+    item.map((it, i) => {
+      arrX.push(it[0]);
+      arrY.push(it[1]);
     });
     return {
       minX: Math.min(...arrX),
@@ -1443,13 +1446,11 @@ class EquipSet extends Component {
   getarrMoved = () => {
     let arrX = [];
     let arrY = [];
-    let item =
-      this.state.newinitarea.length > 0
-        ? this.state.newinitarea
-        : this.state.initarea;
-    item.map((item, i) => {
-      arrX.push(item[0]);
-      arrY.push(item[1]);
+    let item = this.state.newinitarea;
+
+    item.map((it, i) => {
+      arrX.push(it[0]);
+      arrY.push(it[1]);
     });
     return {
       minX: Math.min(...arrX),
@@ -1463,33 +1464,32 @@ class EquipSet extends Component {
     e.preventDefault();
     if (!open) return;
     let getcord = this.getcoord(e);
-    // let getcordMoved = this.getcoord(e);
-    console.log(getcord, "点击坐标点");
+    let getcordMoved = this.getcoord(e);
     const ex = this.dotrim(getcord); //是否为单点范围内的第几个点
-    const exmoved = this.dotrimMoved(getcord); //是否为移动后的单点范围内的第几个点
+    const exMoved = this.dotrimMoved(getcordMoved); //是否为移动后的单点范围内的第几个点
     console.log(ex, "判断点击坐标点是否在第几个上");
+    console.log(exMoved, "判断点击坐标点是否在移动后第几个上");
     const scope = this.PointInPoly(getcord); //是否在图形内
-    const scopemoved = this.PointInPolyMoved(getcord); //是否在图形内
+    const scopeMoved = this.PointInPolyMoved(getcordMoved); //是否在图形内
     console.log(scope, "判断点击坐标点是否在区域内");
+    console.log(scopeMoved, "判断点击坐标点是否在移动后区域内");
     if (ex) {
       moveswitch = true;
       this.setState({ movedot: ex });
-      console.log(!ex, "!ex");
     } else if (scope) {
       //在图形内但不在单点范围内
       scopeswitch = true;
       this.setState({ movescope: this.getarr(), movepoint: getcord }); //可移动范围和初始点
     }
-    if (exmoved) {
+    if (exMoved) {
       moveswitch = true;
-      this.setState({ movedoted: exmoved });
-    } else if (scopemoved) {
+      this.setState({ movedotMoved: exMoved });
+    } else if (scopeMoved) {
       //在图形内但不在单点范围内
       scopeswitch = true;
       this.setState({
         movescopeMoved: this.getarrMoved(),
-        // movepointMoved: getcordMoved,
-        movepoint: getcord
+        movepointMoved: getcordMoved
       }); //可移动范围和初始点
     }
   };
@@ -1502,38 +1502,42 @@ class EquipSet extends Component {
     if (!open) {
       return;
     }
-    const initarea = this.state.initarea;
     const movedot = this.state.movedot;
-    const movedoted = this.state.movedoted;
+    const movedotMoved = this.state.movedotMoved;
     const getcoord = this.getcoord(e);
+    const getcordMoved = this.getcoord(e);
     if (moveswitch) {
       //鼠标单点移动
       if (getcoord.x > 704) getcoord.x = 704;
       if (getcoord.y > 576) getcoord.y = 576;
+      if (getcordMoved.x > 704) getcordMoved.x = 704;
+      if (getcordMoved.y > 576) getcordMoved.y = 576;
       if (this.state.initareaMove) {
         var newinitarea = this.state.newinitarea;
-        newinitarea[movedoted - 1] = [getcoord.x, getcoord.y];
+        newinitarea[movedotMoved - 1] = [getcordMoved.x, getcordMoved.y];
         this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
           this.draw(newinitarea);
+          this.state.movescopeMoved = this.getarrMoved();
         });
       } else {
-        var newinitarea = initarea;
+        var newinitarea = this.state.initarea;
         newinitarea[movedot - 1] = [getcoord.x, getcoord.y];
         this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
           this.draw(newinitarea);
+          this.state.movescopeMoved = this.getarrMoved();
         });
       }
     } else if (scopeswitch) {
       //整体拖动
       const movepoint = this.state.movepoint;
-      // const movepointMoved = this.state.movepointMoved;
+      const movepointMoved = this.state.movepointMoved;
       const movescope = this.state.movescope;
       const movescopeMoved = this.state.movescopeMoved;
       var x = getcoord.x - movepoint.x;
       var y = getcoord.y - movepoint.y;
-      var mx = this.getcoord(e).x - movepoint.x;
-      var my = this.getcoord(e).y - movepoint.y;
-      if (this.state.initareaMove && movescopeMoved != {}) {
+      var mx = getcordMoved.x - movepointMoved.x;
+      var my = getcordMoved.y - movepointMoved.y;
+      if (this.state.initareaMove) {
         if (mx > 0 && Math.abs(mx) > movescopeMoved.maxX) {
           mx = movescopeMoved.maxX;
         }
@@ -1552,6 +1556,7 @@ class EquipSet extends Component {
         });
         this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
           this.draw(newinitarea);
+          this.state.movescopeMoved = this.getarrMoved();
         });
       } else {
         if (x > 0 && Math.abs(x) > movescope.maxX) {
@@ -1567,11 +1572,12 @@ class EquipSet extends Component {
           y = -movescope.minY;
         }
         var newinitarea = [];
-        initarea.map(el => {
+        this.state.initarea.map(el => {
           newinitarea.push([el[0] + x, el[1] + y]);
         });
         this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
           this.draw(newinitarea);
+          this.state.movescopeMoved = this.getarrMoved();
         });
       }
     }
