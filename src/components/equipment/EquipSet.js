@@ -92,6 +92,7 @@ class EquipSet extends Component {
       })
       .then(res => {
         if (res.success) {
+          console.log(res.data.alarmtype, "leixing");
           if (res.data.cstatus === 0) {
             this.setState({
               disabledStopSer: true,
@@ -102,15 +103,18 @@ class EquipSet extends Component {
             if (res.data.if_cancel === 1) {
               this.setState({
                 disabledStopSer: false,
+                disabled24: true,
                 disabledRecover: false
               });
             } else if (res.data.if_cancel === 0) {
               this.setState({
                 disabledStopSer: false,
-                disabled24: false
+                disabled24: false,
+                disabledRecover: true
               });
             } else if (res.data.if_cancel === 2) {
               this.setState({
+                disabledStopSer: true,
                 disabledRecover: false,
                 disabled24: false
               });
@@ -387,7 +391,7 @@ class EquipSet extends Component {
                 streamport: fields.streamport,
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
-                alarmtype: fields.alarmtype == true ? 1 : 0
+                alarmtype: fields.alarmtype ? 1 : 0
               }
             })
             .then(res => {
@@ -412,6 +416,7 @@ class EquipSet extends Component {
         if (err) {
           message.error(err);
         } else {
+          console.log(fields.alarmtype, "tijiao");
           axios
             .ajax({
               method: "put",
@@ -427,10 +432,11 @@ class EquipSet extends Component {
                 streamport: fields.streamport,
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
-                alarmtype: fields.alarmtype == true ? 1 : 0
+                alarmtype: fields.alarmtype ? 1 : 0
               }
             })
             .then(res => {
+              this.getOne();
               message.success("信息更新成功");
             });
         }
