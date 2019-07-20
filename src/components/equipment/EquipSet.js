@@ -219,8 +219,6 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("已启用");
           this.getOne();
-        } else {
-          message.success(res.msg);
         }
       });
   };
@@ -238,8 +236,6 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("已停止服务");
           this.getOne();
-        } else {
-          message.success(res.msg);
         }
       });
   };
@@ -257,8 +253,6 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("24小时设防中");
           this.getOne();
-        } else {
-          message.success(res.msg);
         }
       });
   };
@@ -276,8 +270,6 @@ class EquipSet extends Component {
         if (res.success) {
           message.success("已恢复");
           this.getOne();
-        } else {
-          message.success(res.msg);
         }
       });
   };
@@ -300,7 +292,7 @@ class EquipSet extends Component {
               message.success("已删除");
               window.location.href = "#/main/equipment";
             } else {
-              message.success(res.msg);
+              message.error(res.msg);
             }
           });
       }
@@ -1119,7 +1111,7 @@ class EquipSet extends Component {
         {
           var oneType;
           if (this.state.oneTypeSelect == `${[]}`) {
-            oneType = 0;
+            oneType = "";
           } else if (this.state.oneTypeSelect == `${[0]}`) {
             oneType = 0;
           } else if (this.state.oneTypeSelect == `${[1]}`) {
@@ -1160,7 +1152,7 @@ class EquipSet extends Component {
                       : (this.state.areaOne = this.state.initarea);
 
                     this.boundarydraw("one");
-                    this.state.newinitarea = [];
+                    // this.state.newinitarea = [];
                   }
                 );
                 this.getOne();
@@ -1174,7 +1166,7 @@ class EquipSet extends Component {
       case 2:
         var twoType;
         if (this.state.twoTypeSelect == `${[]}`) {
-          twoType = 0;
+          twoType = "";
         } else if (this.state.twoTypeSelect == `${[0]}`) {
           twoType = 0;
         } else if (this.state.twoTypeSelect == `${[1]}`) {
@@ -1213,7 +1205,7 @@ class EquipSet extends Component {
                     ? (this.state.areaTwo = this.state.newinitarea)
                     : (this.state.areaTwo = this.state.initarea);
                   this.boundarydraw("two");
-                  this.state.newinitarea = [];
+                  // this.state.newinitarea = [];
                 }
               );
               this.getOne();
@@ -1226,7 +1218,7 @@ class EquipSet extends Component {
       case 3:
         var threeType;
         if (this.state.threeTypeSelect == `${[]}`) {
-          threeType = 0;
+          threeType = "";
         } else if (this.state.threeTypeSelect == `${[0]}`) {
           threeType = 0;
         } else if (this.state.threeTypeSelect == `${[1]}`) {
@@ -1269,7 +1261,7 @@ class EquipSet extends Component {
                     : (this.state.areaThree = this.state.initarea);
 
                   this.boundarydraw("three");
-                  this.state.newinitarea = [];
+                  // this.state.newinitarea = [];
                 }
               );
               this.getOne();
@@ -1361,10 +1353,35 @@ class EquipSet extends Component {
         c = !c;
       }
     }
+    console.log(c, "点在区域内");
+    return c;
+  }
+  PointInPolyMoved(pt) {
+    //判断点是否在移动区域(b多边形向内缩小10像素)
+    const newinitarea = this.state.newinitarea;
+    for (
+      var c = false, i = -1, l = newinitarea.length, j = l - 1;
+      ++i < l;
+      j = i
+    ) {
+      if (
+        ((newinitarea[i][1] <= pt.y && pt.y < newinitarea[j][1]) ||
+          (newinitarea[j][1] <= pt.y && pt.y < newinitarea[i][1])) &&
+        pt.x <
+          ((newinitarea[j][0] - newinitarea[i][0]) *
+            (pt.y - newinitarea[i][1])) /
+            (newinitarea[j][1] - newinitarea[i][1]) +
+            newinitarea[i][0]
+      ) {
+        c = !c;
+      }
+    }
+    console.log(c, "点在区域内");
     return c;
   }
   dotrim = dot => {
     //判断鼠标是否在坐标点临界范围内
+    console.log(this.state.initareaMove, "移动了没");
     const initarea = this.state.initarea;
     for (var i = 0; i < initarea.length; i++) {
       const el = initarea[i];
@@ -1374,6 +1391,25 @@ class EquipSet extends Component {
         el[1] - 10 <= dot.y &&
         dot.y <= el[1] + 10
       ) {
+        console.log(i, "点在第几+2个角点上");
+        return i + 1;
+      }
+    }
+  };
+  dotrimMoved = dot => {
+    //判断鼠标是否在坐标点临界范围内
+    console.log(this.state.initareaMove, "移动了没");
+    const newinitarea = this.state.newinitarea;
+
+    for (var i = 0; i < newinitarea.length; i++) {
+      const el = newinitarea[i];
+      if (
+        el[0] - 10 <= dot.x &&
+        dot.x <= el[0] + 10 &&
+        el[1] - 10 <= dot.y &&
+        dot.y <= el[1] + 10
+      ) {
+        console.log(i, "点在第几+2个角点上");
         return i + 1;
       }
     }
@@ -1391,6 +1427,7 @@ class EquipSet extends Component {
     //得出可移动的最小最大范围
     let arrX = [];
     let arrY = [];
+
     let item = this.state.initarea;
     item.map((item, i) => {
       arrX.push(item[0]);
@@ -1403,21 +1440,57 @@ class EquipSet extends Component {
       maxY: 576 - Math.max(...arrY)
     };
   };
-
+  getarrMoved = () => {
+    let arrX = [];
+    let arrY = [];
+    let item =
+      this.state.newinitarea.length > 0
+        ? this.state.newinitarea
+        : this.state.initarea;
+    item.map((item, i) => {
+      arrX.push(item[0]);
+      arrY.push(item[1]);
+    });
+    return {
+      minX: Math.min(...arrX),
+      maxX: 704 - Math.max(...arrX),
+      minY: Math.min(...arrY),
+      maxY: 576 - Math.max(...arrY)
+    };
+  };
   mousedown = e => {
     //鼠标按下，判断是需要单点还是整体拖动
     e.preventDefault();
     if (!open) return;
     let getcord = this.getcoord(e);
+    // let getcordMoved = this.getcoord(e);
+    console.log(getcord, "点击坐标点");
     const ex = this.dotrim(getcord); //是否为单点范围内的第几个点
+    const exmoved = this.dotrimMoved(getcord); //是否为移动后的单点范围内的第几个点
+    console.log(ex, "判断点击坐标点是否在第几个上");
     const scope = this.PointInPoly(getcord); //是否在图形内
+    const scopemoved = this.PointInPolyMoved(getcord); //是否在图形内
+    console.log(scope, "判断点击坐标点是否在区域内");
     if (ex) {
       moveswitch = true;
       this.setState({ movedot: ex });
-    } else if (scope && !ex) {
+      console.log(!ex, "!ex");
+    } else if (scope) {
       //在图形内但不在单点范围内
       scopeswitch = true;
       this.setState({ movescope: this.getarr(), movepoint: getcord }); //可移动范围和初始点
+    }
+    if (exmoved) {
+      moveswitch = true;
+      this.setState({ movedoted: exmoved });
+    } else if (scopemoved) {
+      //在图形内但不在单点范围内
+      scopeswitch = true;
+      this.setState({
+        movescopeMoved: this.getarrMoved(),
+        // movepointMoved: getcordMoved,
+        movepoint: getcord
+      }); //可移动范围和初始点
     }
   };
   mouseup = () => {
@@ -1431,43 +1504,76 @@ class EquipSet extends Component {
     }
     const initarea = this.state.initarea;
     const movedot = this.state.movedot;
+    const movedoted = this.state.movedoted;
     const getcoord = this.getcoord(e);
     if (moveswitch) {
       //鼠标单点移动
       if (getcoord.x > 704) getcoord.x = 704;
       if (getcoord.y > 576) getcoord.y = 576;
-      // initarea[movedot - 1] = [getcoord.x, getcoord.y];
-      // this.setState({ initarea }, () => this.draw());
-      var newinitarea = initarea;
-      newinitarea[movedot - 1] = [getcoord.x, getcoord.y];
-      this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
-        this.draw(newinitarea);
-      });
+      if (this.state.initareaMove) {
+        var newinitarea = this.state.newinitarea;
+        newinitarea[movedoted - 1] = [getcoord.x, getcoord.y];
+        this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
+          this.draw(newinitarea);
+        });
+      } else {
+        var newinitarea = initarea;
+        newinitarea[movedot - 1] = [getcoord.x, getcoord.y];
+        this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
+          this.draw(newinitarea);
+        });
+      }
     } else if (scopeswitch) {
       //整体拖动
       const movepoint = this.state.movepoint;
+      // const movepointMoved = this.state.movepointMoved;
       const movescope = this.state.movescope;
+      const movescopeMoved = this.state.movescopeMoved;
       var x = getcoord.x - movepoint.x;
       var y = getcoord.y - movepoint.y;
-      if (x > 0 && Math.abs(x) > movescope.maxX) {
-        x = movescope.maxX;
+      var mx = this.getcoord(e).x - movepoint.x;
+      var my = this.getcoord(e).y - movepoint.y;
+      if (this.state.initareaMove && movescopeMoved != {}) {
+        if (mx > 0 && Math.abs(mx) > movescopeMoved.maxX) {
+          mx = movescopeMoved.maxX;
+        }
+        if (mx < 0 && Math.abs(mx) > movescopeMoved.minX) {
+          mx = -movescopeMoved.minX;
+        }
+        if (my > 0 && Math.abs(my) > movescopeMoved.maxY) {
+          my = movescopeMoved.maxY;
+        }
+        if (my < 0 && Math.abs(my) > movescopeMoved.minY) {
+          my = -movescopeMoved.minY;
+        }
+        var newinitarea = [];
+        this.state.newinitarea.map(el => {
+          newinitarea.push([el[0] + mx, el[1] + my]);
+        });
+        this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
+          this.draw(newinitarea);
+        });
+      } else {
+        if (x > 0 && Math.abs(x) > movescope.maxX) {
+          x = movescope.maxX;
+        }
+        if (x < 0 && Math.abs(x) > movescope.minX) {
+          x = -movescope.minX;
+        }
+        if (y > 0 && Math.abs(y) > movescope.maxY) {
+          y = movescope.maxY;
+        }
+        if (y < 0 && Math.abs(y) > movescope.minY) {
+          y = -movescope.minY;
+        }
+        var newinitarea = [];
+        initarea.map(el => {
+          newinitarea.push([el[0] + x, el[1] + y]);
+        });
+        this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
+          this.draw(newinitarea);
+        });
       }
-      if (x < 0 && Math.abs(x) > movescope.minX) {
-        x = -movescope.minX;
-      }
-      if (y > 0 && Math.abs(y) > movescope.maxY) {
-        y = movescope.maxY;
-      }
-      if (y < 0 && Math.abs(y) > movescope.minY) {
-        y = -movescope.minY;
-      }
-      var newinitarea = [];
-      initarea.map(el => {
-        newinitarea.push([el[0] + x, el[1] + y]);
-      });
-      this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
-        this.draw(newinitarea);
-      });
     }
   };
 
