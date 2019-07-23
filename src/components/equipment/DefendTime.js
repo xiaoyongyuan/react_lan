@@ -256,6 +256,7 @@ class DefendTime extends Component {
         .then(res => {
           if (res.success) {
             message.success("布防时间提交成功");
+            _this.props.getOne();
           } else {
             message.error(res.msg);
           }

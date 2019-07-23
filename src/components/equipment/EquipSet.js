@@ -1454,7 +1454,9 @@ class EquipSet extends Component {
     } else if (scope) {
       //在图形内但不在单点范围内
       scopeswitch = true;
-      this.setState({ movescope: this.getarr(), movepoint: getcord }); //可移动范围和初始点
+      this.setState({ movescope: this.getarr(), movepoint: getcord }, () => {
+        this.state.movepointMoved = this.state.movepoint;
+      }); //可移动范围和初始点
     }
     if (exMoved) {
       moveswitch = true;
@@ -1530,6 +1532,8 @@ class EquipSet extends Component {
           newinitarea.push([el[0] + mx, el[1] + my]);
         });
         this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
+          this.state.movepointMoved.x = this.state.movepointMoved.x + mx;
+          this.state.movepointMoved.y = this.state.movepointMoved.y + my;
           this.draw(newinitarea);
           this.state.movescopeMoved = this.getarrMoved();
         });
