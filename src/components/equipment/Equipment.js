@@ -1,6 +1,5 @@
 import { Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
-import Utils from "../../utils/utils";
 import "../../style/jhy/less/equiplist.less";
 import "../../style/jhy/less/reset.less";
 import axios from "../../axios";
@@ -8,7 +7,10 @@ class Equipment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      equipList: []
+      equipList: [],
+      pageindex: 1,
+      pagesize: 36,
+      total: 0
     };
   }
   componentDidMount() {
@@ -20,17 +22,31 @@ class Equipment extends Component {
       .ajax({
         method: "get",
         url: window.g.loginURL + "/api/camera/getlist",
-        data: {}
+        data: {
+          // pagesize: this.state.pagesize,
+          // pageindex: this.state.pageindex
+        }
       })
       .then(res => {
         if (res.success) {
           this.setState({
             equipList: res.data
+            // total: res.totalcount,
+            // pageindex: res.page
           });
         }
       });
   };
-
+  handlePageChange(current) {
+    this.setState(
+      {
+        pageindex: current
+      },
+      () => {
+        this.getList();
+      }
+    );
+  }
   addEquip = () => {
     window.location.href = "#/main/equipset:add";
   };
@@ -127,6 +143,22 @@ class Equipment extends Component {
               ))
             : null}
         </Row>
+        <div className="paginationWrap">
+          {/* <Pagination
+            // total={73}
+            total={this.state.total}
+            current={this.state.pageindex}
+            pageSize={this.state.pageSize || 10}
+            // pageSize={36}
+            showTotal={() => {
+              return `共${this.state.total}条`;
+            }}
+            onChange={current => this.handlePageChange(current)}
+            showQuickJumper
+            // hideOnSinglePage={true}
+            className="pagination"
+          /> */}
+        </div>
       </div>
     );
   }
