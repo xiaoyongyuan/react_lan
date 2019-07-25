@@ -90,13 +90,12 @@ export default class Axios {
         if (response && response.status === 200) {
           const res = response.data;
           if (res.success === 0) {
-            if (res.msg.type === "401") {
-              reject();
-              message.error("登录时效已过期，请重新登录");
-              window.location.href = "#/login";
-            }
             if (res.msg.info) {
-              message.error(res.msg.info);
+              if (res.msg.type === "401") {
+                reject(res.msg);
+                message.error("登录时效已过期，请重新登陆");
+                window.location.href = "#/login";
+              }
             } else {
               message.error(res.msg);
             }

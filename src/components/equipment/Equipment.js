@@ -8,14 +8,9 @@ class Equipment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      equipList: [],
-      totalCount: 0
+      equipList: []
     };
   }
-  params = {
-    pageindex: 1,
-    pagesize: 12
-  };
   componentDidMount() {
     this.getList();
   }
@@ -25,20 +20,12 @@ class Equipment extends Component {
       .ajax({
         method: "get",
         url: window.g.loginURL + "/api/camera/getlist",
-        data: {
-          pagesize: 12,
-          pageindex: this.params.pageindex
-        }
+        data: {}
       })
       .then(res => {
         if (res.success) {
           this.setState({
-            equipList: res.data,
-            totalCount: res.totalcount,
-            pagination: Utils.pagination(res, current => {
-              this.params.pageindex = current;
-              this.getUserData();
-            })
+            equipList: res.data
           });
         }
       });
@@ -140,12 +127,6 @@ class Equipment extends Component {
               ))
             : null}
         </Row>
-        <div className="paginationWrap">
-          <Pagination
-            pagination={this.state.pagination}
-            className="pagination"
-          />
-        </div>
       </div>
     );
   }
