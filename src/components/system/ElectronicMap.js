@@ -1,128 +1,242 @@
 import React, { Component } from 'react';
 import "../../style/ztt/css/electronicMap.less";
+import L from 'leaflet';
+import {message,Button} from "antd";
 import axios from "../../axios/index";
+import $ from "jquery";
+import noStatus from "../../style/ztt/imgs/noStatus.png";
+var map={};
+var coordinate ={
+    "type": "FeatureCollection",
+    "features":[]
+};
+var line={
+    "type": "FeatureCollection",
+    "features":[{
+        "type": "Feature",
+        "properties": {
+            "color": "#53d853"
+        },
+        "geometry": {
+            "type": "LineString",
+            "coordinates":[]
+        }
+    }]
+};
+var polygon={
+    "type": "FeatureCollection",
+    "features":[{
+        "type": "Feature",
+        "properties": {
+            "color": "#53d853"
+        },
+        "geometry": {
+            "type": "Polygon",
+            "coordinates":[[]]
+        }
+    }]
+};
 class ElectronicMap extends Component{
     constructor (props) {
         super (props);
         this.state = {
             searchContent:'',
+            cameraList:[],
+            btnFalse:false,
+            count:0
         };
-        this.mapJson={
-            "type": "FeatureCollection",
-            "features":[]
-        };
-        this.LatitudeArr=[];
     }
     componentDidMount() {
-        const _this = this;
-        let content = _this.refs.container;
-        let map = new window.AMap.Map(content,{
-            resizeEnable:true,
-            zoom:14
+        this.hanleCamera();
+        this.hannleMap();
+        console.log(line.features[0].geometry.coordinates,polygon.features[0].geometry.coordinates)
+    };
+    hannleMap=()=>{
+        map = L.map('container').setView([34.276113,108.95378], 12);
+        var ls = [];
+        L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+            maxZoom: 18,
+            attribution: '',
+            id: 'mapbox.light'
+        }).addTo(map);
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        //动态绘制线
+        $("#line").click(function () {
+            map.off();// 关闭该事件
+            DrawLine();
+
         });
-        var mouseTool = new window.AMap.MouseTool(map);
-        //监听draw事件可获取画好的覆盖物
-        var overlays = [];
-        mouseTool.on('draw',function(e){
-            overlays.push(e.obj);
-            let polygonItem = e.obj;
-            let path = polygonItem.getPath();//取得绘制的多边形的每一个点坐标
-            path.map((v)=>{
-                _this.LatitudeArr.push([v.lng,v.lat]);
+        //动态画多边形
+        $("#polygon").click(function () {
+            map.off();// 关闭该事件
+            DrawPolygon();
+        });
+        //清除所有命令
+        $("#clear").click(function () {
+            map.off();
+        });
+        $("#clearCanvas").click(function () {
+            map.eachLayer(function (layer) {
+                if(!layer._container){
+                    layer.remove();
+                }
             });
-            for(let i=0;i<overlays.length;i++){
-                _this.mapJson.features.push({
+        });
+        //线绘画
+        function DrawLine() {
+            var points = [];
+            var lines = new L.polyline(points);
+            var tempLines = new L.polyline([]);
+            map.on('click', onClick);    //点击地图
+            map.on('dblclick', onDoubleClick);
+            function onClick(e) {
+                points.push([e.latlng.lat, e.latlng.lng]);
+                lines.addLatLng(e.latlng);
+                map.addLayer(lines);
+                map.addLayer(L.circle(e.latlng, { color: '#afb8ff', fillColor: '#afb8ff', fillOpacity: 1 }))
+                map.on('mousemove', onMove)//双击地图
+
+            }
+            function onMove(e) {
+                if (points.length > 0) {
+                    ls = [points[points.length - 1], [e.latlng.lat, e.latlng.lng]];
+                    tempLines.setLatLngs(ls);
+                    map.addLayer(tempLines)
+                }
+            }
+
+            function onDoubleClick() {
+                L.polyline(points,{ color: '#afb8ff', fillColor: '#afb8ff', fillOpacity: 1 }).addTo(map);
+                points.map((el)=>{
+                    line.features[0].geometry.coordinates.push([el[1],el[0]]);
+                });
+                map.off();
+                points = [];
+                lines = new L.polyline(points);
+            }
+        }
+        //多边形绘画
+        function DrawPolygon() {
+            var points = [];
+            var lines = new L.polyline([]);
+            var tempLines = new L.polygon([]);
+            map.on('click', onClick);    //点击地图
+            map.on('dblclick', onDoubleClick);
+            map.on('mousemove', onMove);//双击地图
+            function onClick(e) {
+                points.push([e.latlng.lat, e.latlng.lng]);
+                lines.addLatLng(e.latlng);
+                map.addLayer(lines);
+                map.addLayer(L.circle(e.latlng, { color: '#5afb8b', fillColor: '#5afb8b', fillOpacity: 1 }))
+            }
+            function onMove(e) {
+                if (points.length > 0) {
+                    ls = [points[points.length - 1], [e.latlng.lat, e.latlng.lng]];
+                    tempLines.setLatLngs(ls);
+                    map.addLayer(tempLines);
+                }
+            }
+            function onDoubleClick(e) {
+                L.polygon([points],{ color: '#5afb8b', fillColor: '#5afb8b', fillOpacity: 0.3 }).addTo(map);
+                points.map((el)=>{
+                    polygon.features[0].geometry.coordinates[0].push([el[1],el[0]]);
+                });
+                map.off();
+                points = [];
+                lines = new L.polyline([]);
+            }
+        }
+    };
+    //点绘图
+    DrawPoint=(code,name,index)=>{
+        var points=[];
+        map.on('click', function (e) {
+            points.push([e.latlng.lng,e.latlng.lat]);
+            L.marker(e.latlng,{
+                icon:L.icon({
+                    iconUrl: noStatus,
+                    iconSize: [30, 30],
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -28]
+                })}).addTo(map);
+            document.getElementsByClassName('cameraName')[index].setAttribute("disabled","true");
+            points.map((el)=>{
+                coordinate.features.push({
                     "type": "Feature",
-                    "properties": {},
+                    "properties": {
+                        "popupContent":name,
+                        "id":2,
+                        "code":code
+                    },
                     "geometry": {
-                        "type": "Polygon",
-                        "coordinates": _this.LatitudeArr
+                        "type": "Point",
+                        "coordinates":el
                     }
                 })
-            }
-            console.log(_this.mapJson);
+            });
+            map.off();
         });
-        function draw(type){
-            switch(type){
-               /* case 'marker':{
-                    mouseTool.marker({});
-                    break;
-                }
-                case 'polyline':{
-                    mouseTool.polyline({
-                        strokeColor:'#c3742b'
-                    });
-                    break;
-                }*/
-                case 'polygon':{
-                    mouseTool.polygon({
-                        fillColor:'#afb8ff',
-                        strokeColor:'#8a59fb'
-                    });
-                    break;
-                }
-                case 'rectangle':{
-                    mouseTool.rectangle({
-                        fillColor:'#ffafaf',
-                        strokeColor:'#d87474'
-                    });
-                    break;
-                }
-               /* case 'circle':{
-                    mouseTool.circle({
-                        fillColor:'#5acafb',
-                        strokeColor:'#3fa7d3'
-                    });
-                    break;
-                }*/
-            }
-        }
-        var radios = document.getElementsByName('func');
-        for(var i=0;i<radios.length;i+=1){
-            radios[i].onchange = function(e){
-                draw(e.target.value);
-            }
-        }
-        draw('marker');
-        document.getElementById('clear').onclick = function(){
-            map.remove(overlays);
-            overlays = [];
-        };
-        document.getElementById('close').onclick = function(){
-            mouseTool.close(true);//关闭，并清除覆盖物
-            for(var i=0;i<radios.length;i+=1){
-                radios[i].checked = false;
-            }
-        }
-    }
-    hanleMap=()=>{
-        if(this.LatitudeArr.length>0){
+    };
+    hanleCamera=()=>{
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/camera/getlist",
+            data:{}
+        }).then((res)=>{
+            this.setState({
+                cameraList:res.data
+            })
+        })
+    };
+    handleEquipment=(code,index,name)=>{
+        this.DrawPoint(code,name,index);
+    };
+    hanleSubmit=()=>{
+        if( coordinate.features.length>0 || line.features[0].geometry.coordinates.length>0 || polygon.features[0].geometry.coordinates[0].length>0){
             axios.ajax({
                 method:"get",
                 url:window.g.loginURL+"/api/system/elemap",
                 data:{
-                    data:this.mapJson
+                    point:coordinate,
+                    line:line,
+                    polygon:polygon
                 }
-            }).then((res)=>{})
+            }).then((res)=>{
+                line.features[0].geometry.coordinates=[];
+                polygon.features[0].geometry.coordinates[0]=[];
+                coordinate.features=[];
+                message.success(res.msg);
+            })
+        }else{
+            message.warning("至少绘制一种图形");
         }
     };
     render() {
         return (
             <div className="electronicMap">
-                <div className="container" ref="container"></div>
-                <div className='info'>操作说明：圆和矩形通过拖拽来绘制，其他覆盖物通过点击来绘制</div>
+                <div className="container" id="container"></div>
+                <div className='info'>操作说明：线和多边形通过点击绘制，双击结束绘制；点击设备按钮后在地图上摆放设备位置；<br/>
+                    线和多边形一次只能绘制一个;点击确定进行数据提交，首页展示数据。</div>
                 <div className="input-card">
-                    <div className="input-item">
-                       {/* <input type="radio" name='func' value='marker'/><span className="input-text">画点</span>
-                        <input type="radio" name='func' value='polyline'/><span className="input-text">画折线</span>*/}
-                        <input type="radio" name='func' value='polygon'/><span className="input-text" >画多边形</span>
-                        <input type="radio" name='func' value='rectangle'/><span className="input-text">画矩形</span>
-                        {/*<input type="radio" name='func' value='circle'/><span className="input-text">画圆</span>*/}
+                    <div className="equipmentCon">
+                        {
+                            this.state.cameraList.map((el,i)=>(
+                               <div key={i} className="equipment"><Button type="primary"  ghost className="cameraName" onClick={()=>this.handleEquipment(el.code,i,el.name)}>{el.name}</Button></div>
+                            ))
+                        }
                     </div>
                     <div className="input-item">
-                        <input id="clear" type="button" className="btn" value="清除"/>
-                        <input id="close" type="button" className="btn" value="关闭绘图"/>
-                        <input type="button" className="btn" value="确定" onClick={this.hanleMap} />
+                        {/*<input type="button" className="input-text" id="point" value="点 " />*/}
+                        <input type="button" className="input-text" id="line" value="线" />
+                        <input type="button" className="input-text" id="polygon" value="多边形"/>
+                    </div>
+                    <div className="input-item">
+                        <input type="button" className="btn" id="clear" value="清除所有命令" />
+                        <input type="button" className="btn" id="clearCanvas" value="清除画布" />
+                        <input type="button" className="btn"  value="确定" onClick={this.hanleSubmit} />
                     </div>
                 </div>
             </div>

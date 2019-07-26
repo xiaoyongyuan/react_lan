@@ -5,10 +5,10 @@ import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import HomePageModel from "./HomePageModel";
 import axios from "../../axios/index";
 import nodata from "../../style/imgs/nodata.png";
-import ReactEcharts from "echarts-for-react";
-import mqwl from "../../style/ztt/json/lenged";
-import $ from "jquery";
-import echarts from "echarts";
+import noStatus from "../../style/ztt/imgs/noStatus.png";
+import alarmStatus from "../../style/ztt/imgs/alarmStatus.png";
+import offStatus from "../../style/ztt/imgs/offStatus.png";
+import L from 'leaflet';
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -26,99 +26,91 @@ class Index extends Component {
         this.getList();
         this.equipmentCount();
         this.policeCount();
-        this.hanleCamera();
-        this.setState({
-            mqwl:localStorage.getItem("")
-        });
-        console.log(JSON.parse(localStorage.getItem("elemapinfo")))
-    }
-    option=()=>{
-        echarts.registerMap('xicheng',mqwl);
-        let equipmentList=[];
-        this.state.cameraList.map((v)=>{
-            if(v.lat && v.lng){
-                equipmentList.push({value:[v.lng,v.lat],name:v.name})
-            }
-        });
-        const option = {
-            geo: {
-                map: 'xicheng',
-                roam: false,
-                aspectScale:.8, //长宽比
-                zoom:1.2, //当前视角的缩放比例
-                //取消鼠标移入地图上的文字
-                label: {
-                    emphasis: {
-                        show: false
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        //          color: '#ddd',
-                        borderColor: 'rgba(147, 235, 248, 1)',
-                        borderWidth: 1,
-                        areaColor: "#35425F",
-                        shadowColor: 'rgba(128, 217, 248, 1)',
-                        // shadowColor: 'rgba(255, 255, 255, 1)',
-                        shadowOffsetX: -2,
-                        shadowOffsetY: 2,
-                        shadowBlur: 10
-                    },
-                    emphasis:{
-                        areaColor:"#35425F" //悬浮时的颜色
-                    },
-                }
-            },
-            series:[
-                {
-                    name: 'light',
-                    type: 'scatter',
-                    coordinateSystem: 'geo',
-                    data: equipmentList,
-                    symbolSize: 15, //圈圈大小
-                    label: {
-                        normal: {
-                            formatter: '{b}',
-                            position: 'right',
-                            show: true  //字体显示
-                        }
-                    },
-                    itemStyle: {
-                        normal: {
-                            color: '#f4258e'
-                        }
-                    }
-                }
-            ]
-        };
-        return option;
+        this.handleMap();
     };
-    onByModelClick=(e)=>{
-        this.state.cameraList.map((v)=>{
-            if (e.componentType === "series") {
-                if(e.data.name===v.name){
-                    axios.ajax({
-                        method:"get",
-                        url:window.g.loginURL+"/api/camera/getone",
-                        data:{code:v.code}
-                    }).then((res)=>{
-                        if(res.success){
-                            this.setState({
-                                closeBtn:true,
-                                camName:res.data.name,
-                                camIp:res.data.ip,
-                                camImg:res.data.fileip+res.data.picpath,
-                                camVideo:res.data.fileip+res.data.videopath,
-                                camFieldnum:res.data.fieldnum
-                            })
-                        }
+    handleMap=()=>{
+        var map =  L.map('map').setView([34.276113,108.95378], 12);
+        //禁止移动和放大缩小
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+        axios.ajax({
+            method:"get",
+            url:window.g.loginURL+"/api/index/elemapshow",
+            data:{}
+        }).then((res)=>{
+            let pointData=JSON.parse(res.data.point);
+            let lineData=JSON.parse(res.data.line);
+            let polygonData=JSON.parse(res.data.polygon);
+            //坐标点
+            L.geoJSON(pointData, {
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {icon:iconType(feature.properties.id)});
+                },
+                onEachFeature: this.onEachFeature,
+            }).addTo(map);
+            //折线
+            L.geoJSON(lineData).addTo(map);
+            //多边形
+            L.geoJSON(polygonData, {
+                style: function (feature) {
+                    return {color:feature.properties.color};
+                }
+            }).addTo(map);
+        });
+        function iconType(type){
+            if(type===1){
+                return L.icon({
+                    iconUrl: noStatus,
+                    iconSize: [30, 30],
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -28]
+                })
+            }else if(type===2){
+                return L.icon({
+                    iconUrl: alarmStatus,
+                    iconSize: [30, 30],
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -28]
+                })
+            }else{
+                return L.icon({
+                    iconUrl: offStatus,
+                    iconSize: [30, 30],
+                    iconAnchor: [16, 37],
+                    popupAnchor: [0, -28]
+                })
+            }
+        };
+        L.control.zoom("zoomControl",true)
+    };
+    onEachFeature=(feature,layer)=>{
+        const _this=this;
+        var popupContent = "";
+        if (feature.properties && feature.properties.popupContent) {
+            popupContent += feature.properties.popupContent;
+        }
+        layer.bindTooltip(popupContent);
+        layer.on("click",function () {
+            axios.ajax({
+                method:"get",
+                url:window.g.loginURL+"/api/camera/getone",
+                data:{code:feature.properties.code}
+            }).then((res)=>{
+                if(res.success){
+                    _this.setState({
+                        closeBtn:true,
+                        camName:res.data.name,
+                        camIp:res.data.ip,
+                        camImg:res.data.fileip+res.data.picpath,
+                        camVideo:res.data.fileip+res.data.videopath,
+                        camFieldnum:res.data.fieldnum,
+                        policeCode:res.data.code,
                     })
                 }
-            }
-        });
-    };
-    onClickByModel = {
-        click: this.onByModelClick
+            })
+        })
     };
     //设备数量
     equipmentCount=()=>{
@@ -161,17 +153,6 @@ class Index extends Component {
             this.setState({
                 policeList:res.data.slice(0,6)
             })
-        })
-    };
-    hanleCamera=()=>{
-        axios.ajax({
-            method:"get",
-            url:window.g.loginURL+"/api/camera/getlist",
-            data:{}
-        }).then((res)=>{
-           this.setState({
-               cameraList:res.data
-           })
         })
     };
     hanleDefence=(params)=>{
@@ -252,13 +233,13 @@ class Index extends Component {
     hanlelastAlarm=()=>{
       if(this.state.fortification==="已布防"){
           return(
-              <div className="alarmImg">
-                  <div className="alarmVideo"><img src={this.state.camImg?this.state.camImg:defenceImg} alt=""/>
+              <div className="alarmImg" onClick={()=>this.hanleWithdrawal(this.state.policeCode)}>
+                  <div className="alarmVideo" ><img src={this.state.camImg?this.state.camImg:defenceImg} alt=""/>
                       <div className="alarmVideoBottom">
                           <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
                       </div>
                   </div>
-                  <div className="alarmVideo"><video controls="controls" autoplay="autoplay" src={this.state.camVideo?this.state.camVideo:defenceImg}/>
+                  <div className="alarmVideo"><video controls="controls" loop="loop"  autoplay="autoplay" src={this.state.camVideo?this.state.camVideo:defenceImg}/>
                       {/*<div className="alarmVideoBottom">
                           <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
                       </div>*/}
@@ -267,7 +248,7 @@ class Index extends Component {
           )
       }else{
          return(
-             <div className="alarmImg">
+             <div className="alarmImg" onClick={()=>this.hanleWithdrawal(this.state.policeCode)}>
                  <div className="alarmVideo"><img src={this.state.camImg?this.state.camImg:defenceImg} alt=""/>
                      <div className="alarmVideoBottom">
                          <span className="alarmVideoCircle"/><span className="alarmVideoName">{this.state.camName}</span>
@@ -339,11 +320,7 @@ class Index extends Component {
                                 <p className="roomAlarm"><span className="statusImg3" /><span className="status3">离线</span></p>
                             </div>
                             <div className="computer">
-                                <ReactEcharts
-                                    option={this.option(this.state.cameraList)}
-                                    onEvents={this.onClickByModel}
-                                    style={{width:"80%", height:"60vh"}}
-                                />
+                                <div style={{width:"85%",height:"470px"}} id="map"></div>
                             </div>
                         </div>
 
@@ -413,6 +390,7 @@ class Index extends Component {
                     onCancel={this.handleCancel}
                     width={1200}
                     footer={null}
+                    destroyOnClose={true}
                 >
                     <HomePageModel visible={this.state.visible} listCode={this.state.listCode} />
                 </Modal>

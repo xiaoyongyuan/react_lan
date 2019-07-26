@@ -3,7 +3,7 @@ import policeImg from "../../style/ztt/imgs/policeImg.png";
 import nodata from "../../style/imgs/nodata.png";
 import "./homeModel.less";
 import axios from "../../axios/index";
-import {Button, message, Switch} from "antd";
+import {Button, message, Switch,Empty} from "antd";
 class HomePageModel extends Component{
     constructor(props){
         super(props);
@@ -44,23 +44,25 @@ class HomePageModel extends Component{
             }
         }).then((res)=>{
             if(res.success){
-                res.data[0].fieldresult.map((v)=>{
-                    this.setState({
-                        tagType:v.tag
+                if(res.data.length>0){
+                    res.data[0].fieldresult.map((v)=>{
+                        this.setState({
+                            tagType:v.tag
+                        });
                     });
-                });
-                this.setState({
-                    homeDatail:res.data,
-                    fields:res.data[0].field,
-                    picpathImg:res.data[0].picpath,
-                    fieldresult:res.data[0].fieldresult,
-                    pic_width:res.data[0].pic_width,
-                    pic_height:res.data[0].pic_height,
-                    policeStatus:res.data[0].status,
-                    policeCode:res.data[0].code,
-                },()=>{
-                    this.draw();
-                })
+                    this.setState({
+                        homeDatail:res.data,
+                        fields:res.data[0].field,
+                        picpathImg:res.data[0].picpath,
+                        fieldresult:res.data[0].fieldresult,
+                        pic_width:res.data[0].pic_width,
+                        pic_height:res.data[0].pic_height,
+                        policeStatus:res.data[0].status,
+                        policeCode:res.data[0].code,
+                    },()=>{
+                        this.draw();
+                    })
+                }
             }
         })
     };
@@ -150,7 +152,7 @@ class HomePageModel extends Component{
     };
     render() {
         return(
-                this.state.homeDatail.map((v,i)=>(
+            this.state.homeDatail.length>0?this.state.homeDatail.map((v,i)=>(
                     <div className="homePageModel" key={i}>
                         <div className="homePageModelLeft">
                             <div className="homeageImg">
@@ -195,7 +197,7 @@ class HomePageModel extends Component{
                             </div>
                         </div>
                     </div>
-                ))
+                )):<Empty />
         );
     }
 }
