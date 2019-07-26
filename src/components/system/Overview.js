@@ -99,36 +99,62 @@ class Overview extends Component {
       color: ["#006cff", "#dcdbe0"]
     };
     const physpie = {
-      tooltip: {},
+      title: {
+        text: `${datalist.totalMemories}GB`,
+        left: "center",
+        top: "36%",
+        padding: [24, 0],
+        textStyle: {
+          color: "#006cff",
+          fontSize: 18,
+          align: "center"
+        }
+      },
+      tooltip: {
+        formatter: "{c}GB"
+      },
       series: [
         {
           type: "pie",
           radius: ["50%", "80%"],
           label: [],
           data: [
-            { value: datalist.totalMemories },
             { value: datalist.surplusMemories },
             { value: datalist.usedMemories }
           ]
         }
       ],
-      color: ["#006cff", "#ff7200", "#32e8fe"]
+      color: ["#ff7200", "#32e8fe"]
     };
     const diskpie = {
-      tooltip: {},
+      title: {
+        text: `${datalist.MaxDisksMemories}GB`,
+        left: "center",
+        top: "36%",
+        padding: [24, 0],
+        textStyle: {
+          color: "#32e8fe",
+          fontSize: 18,
+          align: "center"
+        }
+      },
+      tooltip: {
+        formatter: "{c}MB"
+      },
       series: [
         {
           type: "pie",
           radius: ["50%", "80%"],
           label: [],
           data: [
-            { value: datalist.MaxDisksMemories },
-            { value: datalist.surplusDisksMemories },
-            { value: datalist.couldUseMemories }
+            {
+              value: datalist.surplusDisksMemories / datalist.MaxDisksMemories
+            },
+            { value: datalist.couldUseMemories / datalist.MaxDisksMemories }
           ]
         }
       ],
-      color: ["#006cff", "#ff7200", "#32e8fe"]
+      color: ["#006cff", "#ff7200"]
     };
     return (
       <div className="overview">
@@ -201,15 +227,15 @@ class Overview extends Component {
                   <Col span={8}>
                     <p className="desc elli">
                       <span className="dot bluedot" />
-                      可使用内存
+                      可使用磁盘
                     </p>
                     <p className="desc elli">
                       <span className="dot orangedot" />
-                      剩余内存
+                      剩余磁盘
                     </p>
                     <p className="desc elli">
                       <span className="dot lightbluedot" />
-                      最大可使用内存
+                      最大可使用磁盘
                     </p>
                   </Col>
                 </Row>

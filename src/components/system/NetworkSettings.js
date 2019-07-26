@@ -70,9 +70,6 @@ const NetOneForm = Form.create({})(
               <Input disabled={this.state.isDisable} />
             )}
           </Form.Item>
-          {/* <Form.Item>
-                {getFieldDecorator("userUnderIP", {})(<Radio>网络测试</Radio>)}
-              </Form.Item> */}
           <Form.Item label=" ">
             <div className="optwrap">
               <Button type="primary" className="submit" htmlType="submit">
@@ -156,9 +153,6 @@ const NetTwoForm = Form.create({})(
               <Input disabled={this.state.isDisableTwo} />
             )}
           </Form.Item>
-          {/* <Form.Item>
-                {getFieldDecorator("userUnderIP", {})(<Radio>网络测试</Radio>)}
-              </Form.Item> */}
           <Form.Item label=" ">
             <div className="optwrap">
               <Button className="submit" type="primary" htmlType="submit">
@@ -184,7 +178,7 @@ class NetworkSettings extends Component {
           axios
             .ajax({
               method: "get",
-              url: "http://192.168.1.176:8111/api/system/ipset",
+              url: window.g.loginURL + "/api/system/ipset",
               data: {
                 id: 1,
                 type: this.form1.state.type,
@@ -212,7 +206,7 @@ class NetworkSettings extends Component {
           axios
             .ajax({
               method: "get",
-              url: "http://192.168.1.176:8111/api/system/ipset",
+              url: window.g.loginURL + "/api/system/ipset",
               data: {
                 id: 0,
                 type: this.form2.state.type,

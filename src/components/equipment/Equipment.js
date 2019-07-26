@@ -1,6 +1,5 @@
 import { Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
-import Utils from "../../utils/utils";
 import "../../style/jhy/less/equiplist.less";
 import "../../style/jhy/less/reset.less";
 import axios from "../../axios";
@@ -9,13 +8,11 @@ class Equipment extends Component {
     super(props);
     this.state = {
       equipList: [],
-      totalCount: 0
+      pageindex: 1,
+      pagesize: 36,
+      total: 0
     };
   }
-  params = {
-    pageindex: 1,
-    pagesize: 12
-  };
   componentDidMount() {
     this.getList();
   }
@@ -26,24 +23,30 @@ class Equipment extends Component {
         method: "get",
         url: window.g.loginURL + "/api/camera/getlist",
         data: {
-          pagesize: 12,
-          pageindex: this.params.pageindex
+          // pagesize: this.state.pagesize,
+          // pageindex: this.state.pageindex
         }
       })
       .then(res => {
         if (res.success) {
           this.setState({
-            equipList: res.data,
-            totalCount: res.totalcount,
-            pagination: Utils.pagination(res, current => {
-              this.params.pageindex = current;
-              this.getUserData();
-            })
+            equipList: res.data
+            // total: res.totalcount,
+            // pageindex: res.page
           });
         }
       });
   };
-
+  handlePageChange(current) {
+    this.setState(
+      {
+        pageindex: current
+      },
+      () => {
+        this.getList();
+      }
+    );
+  }
   addEquip = () => {
     window.location.href = "#/main/equipset:add";
   };
@@ -117,7 +120,11 @@ class Equipment extends Component {
                             ? "布防中"
                             : val.workingstatus === 0
                             ? "休息中"
-                            : "未布防"}
+                            : val.workingstatus === -1
+                            ? "未启用"
+                            : val.workingstatus === -2
+                            ? "未设置"
+                            : null}
                         </span>
                       </li>
                       <li
@@ -137,10 +144,20 @@ class Equipment extends Component {
             : null}
         </Row>
         <div className="paginationWrap">
-          <Pagination
-            pagination={this.state.pagination}
+          {/* <Pagination
+            // total={73}
+            total={this.state.total}
+            current={this.state.pageindex}
+            pageSize={this.state.pageSize || 10}
+            // pageSize={36}
+            showTotal={() => {
+              return `共${this.state.total}条`;
+            }}
+            onChange={current => this.handlePageChange(current)}
+            showQuickJumper
+            // hideOnSinglePage={true}
             className="pagination"
-          />
+          /> */}
         </div>
       </div>
     );

@@ -55,20 +55,25 @@ const FormModal = Form.create({ name: "form_in_modal" })(
             <Form.Item label="用户名" key="realname">
               {getFieldDecorator("realname", {
                 rules: [
-                    {
-                        required: true,
-                        message: "请输入账号!"
-                    }
+                  {
+                    required: true,
+                    message: "请输入账号!"
+                  }
                 ]
               })(<Input />)}
             </Form.Item>
             <Form.Item label="邮箱地址" key="emailaddress">
-              {getFieldDecorator("emailaddress",{
-                  rules:[{
+              {getFieldDecorator("emailaddress", {
+                rules: [
+                  {
                     required: false,
-                    pattern:new RegExp('^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$',"g"),
-                    message:"请输入正确的邮箱号!",
-                  }]
+                    pattern: new RegExp(
+                      "^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
+                      "g"
+                    ),
+                    message: "请输入正确的邮箱号!"
+                  }
+                ]
               })(<Input />)}
             </Form.Item>
             <Form.Item label="角色权限" key="role">
@@ -116,7 +121,6 @@ class UserInfo extends Component {
     axiosW
       .ajax({
         method: "get",
-        // url: "http://192.168.1.163:8111/api/system/userlist",
         url: window.g.loginURL + "/api/system/userlist",
         data: {
           pagesize: 10,
@@ -144,25 +148,27 @@ class UserInfo extends Component {
       });
     } else {
       this.setState({
-          title: "编辑",
-          currentRecordData: opt,
-          visible: true
+        title: "编辑",
+        currentRecordData: opt,
+        visible: true
       });
-        axiosW.ajax({
-            method:"get",
-            url:window.g.loginURL + "/api/system/userlist",
-            data: {
-                code:opt.code
-            }
-        }).then((res)=>{
-            const { form } = this.formRef.props;
-            form.setFieldsValue({
-                account:res.data.account,
-                realname:res.data.realname,
-                emailaddress:res.data.emailaddress,
-                utype:res.data.utype,
-            });
+      axiosW
+        .ajax({
+          method: "get",
+          url: window.g.loginURL + "/api/system/userlist",
+          data: {
+            code: opt.code
+          }
         })
+        .then(res => {
+          const { form } = this.formRef.props;
+          form.setFieldsValue({
+            account: res.data.account,
+            realname: res.data.realname,
+            emailaddress: res.data.emailaddress,
+            utype: res.data.utype
+          });
+        });
     }
   };
   handleCancel = () => {
@@ -183,7 +189,6 @@ class UserInfo extends Component {
           });
           axios({
             method: "post",
-            // url: "http://192.168.1.176:8111/api/autocode/auto",
             url: window.g.loginURL + "/api/autocode/auto",
             headers: {
               AUTHORIZATION: "Bearer " + localStorage.getItem("token")
@@ -218,10 +223,9 @@ class UserInfo extends Component {
           this.setState({
             visible: false
           });
-          console.log(values)
+          console.log(values);
           axios({
             method: "post",
-            // url: "http://192.168.1.163:8111/api/system/setuser",
             url: window.g.loginURL + "/api/system/setuser",
             headers: {
               AUTHORIZATION: "Bearer " + localStorage.getItem("token")
@@ -259,7 +263,6 @@ class UserInfo extends Component {
       onOk() {
         axios({
           method: "post",
-          // url: "http://192.168.1.176:8111/api/system/setuser",
           url: window.g.loginURL + "/api/system/setuser",
           headers: {
             AUTHORIZATION: "Bearer " + localStorage.getItem("token")
@@ -345,7 +348,7 @@ class UserInfo extends Component {
         width: "16%",
         render: (text, record) => {
           if (ifsys === "1") {
-            if (account == record.account) {
+            if (account === record.account) {
               return null;
             } else {
               return (
@@ -372,7 +375,7 @@ class UserInfo extends Component {
             }
           } else {
             if (utype === "0") {
-              if (account == record.account) {
+              if (account === record.account) {
                 return (
                   <span>
                     <Button

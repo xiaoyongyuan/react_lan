@@ -37,7 +37,6 @@ class EquipSet extends Component {
       addOnly: true,
       addBackCode: "",
       equipData: {},
-      unlock: true,
       disabledStopSer: true,
       disabled24: true,
       disabledRecover: true,
@@ -93,33 +92,29 @@ class EquipSet extends Component {
       })
       .then(res => {
         if (res.success) {
+          console.log(res.data.alarmtype, "leixing");
           if (res.data.cstatus === 0) {
-            if (res.data.field) {
-              this.setState({
-                unlock: false
-              });
-            }
             this.setState({
               disabledStopSer: true,
               disabled24: true,
               disabledRecover: true
             });
           } else if (res.data.cstatus === 1) {
-            this.setState({
-              unlock: true
-            });
             if (res.data.if_cancel === 1) {
               this.setState({
                 disabledStopSer: false,
+                disabled24: true,
                 disabledRecover: false
               });
             } else if (res.data.if_cancel === 0) {
               this.setState({
                 disabledStopSer: false,
-                disabled24: false
+                disabled24: false,
+                disabledRecover: true
               });
             } else if (res.data.if_cancel === 2) {
               this.setState({
+                disabledStopSer: true,
                 disabledRecover: false,
                 disabled24: false
               });
@@ -196,7 +191,7 @@ class EquipSet extends Component {
                 Protocol: equipData.Protocol || "",
                 threshold: equipData.threshold || 5,
                 frozentime: equipData.frozentime || 5,
-                alarmtype: equipData.alarmtype || ""
+                alarmtype: equipData.alarmtype || 0
               });
             }
           );
@@ -205,23 +200,6 @@ class EquipSet extends Component {
   };
   handleBack = () => {
     window.location.href = "#/main/equipment";
-  };
-  handleUnlock = () => {
-    axios
-      .ajax({
-        method: "put",
-        url: window.g.loginURL + "/api/camera/update",
-        data: {
-          code: this.state.addBackCode || this.props.query.code,
-          cstatus: 1
-        }
-      })
-      .then(res => {
-        if (res.success) {
-          message.success("已启用");
-          this.getOne();
-        }
-      });
   };
   handleStop = () => {
     axios
@@ -402,7 +380,6 @@ class EquipSet extends Component {
           axios
             .ajax({
               method: "post",
-              // url:"http://192.168.1.163:8111/api/camera/add",
               url: window.g.loginURL + "/api/camera/add",
               data: {
                 name: fields.name,
@@ -414,7 +391,7 @@ class EquipSet extends Component {
                 streamport: fields.streamport,
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
-                alarmtype: fields.alarmtype
+                alarmtype: fields.alarmtype ? 1 : 0
               }
             })
             .then(res => {
@@ -439,6 +416,7 @@ class EquipSet extends Component {
         if (err) {
           message.error(err);
         } else {
+          console.log(fields.alarmtype, "tijiao");
           axios
             .ajax({
               method: "put",
@@ -454,10 +432,11 @@ class EquipSet extends Component {
                 streamport: fields.streamport,
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
-                alarmtype: fields.alarmtype
+                alarmtype: fields.alarmtype ? 1 : 0
               }
             })
             .then(res => {
+              this.getOne();
               message.success("信息更新成功");
             });
         }
@@ -1112,7 +1091,8 @@ class EquipSet extends Component {
         {
           var oneType;
           if (this.state.oneTypeSelect == `${[]}`) {
-            oneType = "";
+            message.info("请选择检测类型");
+            return;
           } else if (this.state.oneTypeSelect == `${[0]}`) {
             oneType = 0;
           } else if (this.state.oneTypeSelect == `${[1]}`) {
@@ -1167,7 +1147,8 @@ class EquipSet extends Component {
       case 2:
         var twoType;
         if (this.state.twoTypeSelect == `${[]}`) {
-          twoType = "";
+          message.info("请选择检测类型");
+          return;
         } else if (this.state.twoTypeSelect == `${[0]}`) {
           twoType = 0;
         } else if (this.state.twoTypeSelect == `${[1]}`) {
@@ -1219,7 +1200,8 @@ class EquipSet extends Component {
       case 3:
         var threeType;
         if (this.state.threeTypeSelect == `${[]}`) {
-          threeType = "";
+          message.info("请选择检测类型");
+          return;
         } else if (this.state.threeTypeSelect == `${[0]}`) {
           threeType = 0;
         } else if (this.state.threeTypeSelect == `${[1]}`) {
@@ -1385,7 +1367,6 @@ class EquipSet extends Component {
   }
   dotrim = dot => {
     //判断鼠标是否在坐标点临界范围内
-    console.log(this.state.initareaMove, "移动了没");
     const initarea = this.state.initarea;
     for (var i = 0; i < initarea.length; i++) {
       const el = initarea[i];
@@ -1401,7 +1382,6 @@ class EquipSet extends Component {
   };
   dotrimMoved = dot => {
     //判断鼠标是否在坐标点临界范围内
-    console.log(this.state.initareaMove, "移动了没");
     const newinitarea = this.state.newinitarea;
 
     for (var i = 0; i < newinitarea.length; i++) {
@@ -1412,7 +1392,6 @@ class EquipSet extends Component {
         el[1] - 10 <= dot.y &&
         dot.y <= el[1] + 10
       ) {
-        console.log(i, "点在第几+2个角点上");
         return i + 1;
       }
     }
@@ -1467,19 +1446,17 @@ class EquipSet extends Component {
     let getcordMoved = this.getcoord(e);
     const ex = this.dotrim(getcord); //是否为单点范围内的第几个点
     const exMoved = this.dotrimMoved(getcordMoved); //是否为移动后的单点范围内的第几个点
-    console.log(ex, "判断点击坐标点是否在第几个上");
-    console.log(exMoved, "判断点击坐标点是否在移动后第几个上");
     const scope = this.PointInPoly(getcord); //是否在图形内
     const scopeMoved = this.PointInPolyMoved(getcordMoved); //是否在图形内
-    console.log(scope, "判断点击坐标点是否在区域内");
-    console.log(scopeMoved, "判断点击坐标点是否在移动后区域内");
     if (ex) {
       moveswitch = true;
       this.setState({ movedot: ex });
     } else if (scope) {
       //在图形内但不在单点范围内
       scopeswitch = true;
-      this.setState({ movescope: this.getarr(), movepoint: getcord }); //可移动范围和初始点
+      this.setState({ movescope: this.getarr(), movepoint: getcord }, () => {
+        this.state.movepointMoved = this.state.movepoint;
+      }); //可移动范围和初始点
     }
     if (exMoved) {
       moveswitch = true;
@@ -1555,6 +1532,8 @@ class EquipSet extends Component {
           newinitarea.push([el[0] + mx, el[1] + my]);
         });
         this.setState({ newinitarea: newinitarea, initareaMove: true }, () => {
+          this.state.movepointMoved.x = this.state.movepointMoved.x + mx;
+          this.state.movepointMoved.y = this.state.movepointMoved.y + my;
           this.draw(newinitarea);
           this.state.movescopeMoved = this.getarrMoved();
         });
@@ -1970,7 +1949,7 @@ class EquipSet extends Component {
                   </Form.Item>
                   <Form.Item label=" 是否强制报警">
                     {getFieldDecorator("alarmtype", {
-                      initialValue: false
+                      initialValue: 0
                     })(<Switch />)}
                   </Form.Item>
                   <Form.Item label="设备智能分析阈值" className="sliderWrap">
@@ -2011,13 +1990,6 @@ class EquipSet extends Component {
             <div className="topbtn">
               <Button type="primary" onClick={() => this.handleBack()}>
                 返回
-              </Button>
-              <Button
-                disabled={this.state.unlock}
-                type="primary"
-                onClick={() => this.handleUnlock()}
-              >
-                启用
               </Button>
               <Button
                 type="danger"
@@ -2244,7 +2216,7 @@ class EquipSet extends Component {
                       </Form.Item>
                       <Form.Item label=" 是否强制报警">
                         {getFieldDecorator("alarmtype", {
-                          initialValue: false
+                          initialValue: 0
                         })(<Switch />)}
                       </Form.Item>
                       <Form.Item

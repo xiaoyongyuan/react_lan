@@ -1,17 +1,79 @@
 import React, { Component } from "react";
-import { Row, Col, Form, Radio, Button, Input, Select } from "antd";
+import {
+  Row,
+  Col,
+  Form,
+  Radio,
+  Button,
+  DatePicker,
+  TimePicker,
+  message
+} from "antd";
+import moment from "moment";
+import axios from "../../axios/index";
 import "../../style/jhy/less/timeset.less";
+
+const dateFormat = "YYYY-MM-DD";
+const timeFormat = "HH:mm:ss";
+
 class TimesSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      getTimeType: ""
+      isDisable: true,
+      type: 0
     };
   }
-  handleGetTime = e => {
-    this.setState({
-      getTimeType: e.target.value
-    });
+  handleReset() {
+    const { resetFields } = this.props.form;
+    resetFields();
+  }
+  handleSub = e => {
+    e.preventDefault();
+    if (this.state.type) {
+      const { validateFields } = this.props.form;
+      validateFields((err, values) => {
+        if (!err) {
+          console.log(values);
+          axios
+            .ajax({
+              method: "get",
+              url: window.g.loginURL + "/api/system/timeset",
+              data: {
+                type: 1,
+                date: moment(values.date).format(dateFormat),
+                time: moment(values.time).format(timeFormat)
+              }
+            })
+            .then(res => {
+              if (res.success) {
+                message.success("手动时间设置成功");
+              } else {
+                message.error(res.msg);
+              }
+            });
+        } else {
+          message.error(err);
+          return;
+        }
+      });
+    } else {
+      axios
+        .ajax({
+          method: "get",
+          url: window.g.loginURL + "/api/system/timeset",
+          data: {
+            type: 0
+          }
+        })
+        .then(res => {
+          if (res.success) {
+            message.success("自动时间设置成功" + res.msg);
+          } else {
+            message.error(res.msg);
+          }
+        });
+    }
   };
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -20,50 +82,73 @@ class TimesSettings extends Component {
         span: 5
       },
       wrapperCol: {
-        span: 16
+        xl: {
+          span: 10
+        },
+        xxl: {
+          span: 8
+        }
       }
     };
     return (
       <div className="timeset">
         <Row>
           <Col span={12}>
-            <Form {...formItemLayout} colon={false}>
+            <Form {...formItemLayout} colon={false} onSubmit={this.handleSub}>
               <Form.Item>
-                <Row>
-                  <Col span={8}>
-                    {getFieldDecorator("autoGettime", {
-                      initialValue: "auto"
-                    })(
-                      <Radio.Group
-                        value={this.state.getTimeType}
-                        onChange={e => this.handleGetTime(e)}
-                      >
-                        <Radio value="auto" className="radios">
-                          自动时间设置
-                        </Radio>
-                        <Radio value="hand" className="radios">
-                          手动时间配置
-                        </Radio>
-                      </Radio.Group>
-                    )}
-                  </Col>
-                  <Col span={10}>
-                    <span>请选择时区</span>
-                    {/* <Select>
-
-                    </Select> */}
-                  </Col>
-                </Row>
+                <Radio
+                  value="0"
+                  checked={this.state.isDisable}
+                  onClick={() => {
+                    this.setState({ type: 0, isDisable: true });
+                    this.handleReset();
+                  }}
+                  className="radios"
+                >
+                  自动时间设置
+                </Radio>
+              </Form.Item>
+              <Form.Item>
+                <Radio
+                  value="1"
+                  checked={!this.state.isDisable}
+                  onClick={() => this.setState({ type: 1, isDisable: false })}
+                  className="radios"
+                >
+                  手动时间设置
+                </Radio>
               </Form.Item>
               <Form.Item label="日期">
-                {getFieldDecorator("date", {})(<Input />)}
+                {getFieldDecorator("date", {
+                  initialValue: moment(
+                    new Date().toLocaleDateString(),
+                    dateFormat
+                  )
+                })(
+                  <DatePicker
+                    format={dateFormat}
+                    disabled={this.state.isDisable}
+                    style={{ width: "80%" }}
+                  />
+                )}
               </Form.Item>
               <Form.Item label="时间">
-                {getFieldDecorator("time", {})(<Input />)}
+                {getFieldDecorator("time", {
+                  initialValue: moment(new Date().toTimeString(), timeFormat)
+                })(
+                  <TimePicker
+                    disabled={this.state.isDisable}
+                    format={timeFormat}
+                    style={{ width: "80%" }}
+                  />
+                )}
               </Form.Item>
-              <Form.Item label=" " style={{ marginTop: "20px" }}>
+              <Form.Item
+                style={{ marginTop: "20px" }}
+                wrapperCol={{ span: 10 }}
+              >
                 <div className="optwrap">
-                  <Button type="primary" className="submit">
+                  <Button htmlType="submit" type="primary" className="submit">
                     确认
                   </Button>
                   <Button className="cancle">取消</Button>

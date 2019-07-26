@@ -209,9 +209,7 @@ class DefendTime extends Component {
           {
             subData: trantime
           },
-          () => {
-            // console.log( _this.state.subData, "移动改变data9999");
-          }
+          () => {}
         );
       }
     });
@@ -249,7 +247,6 @@ class DefendTime extends Component {
       axios
         .ajax({
           method: "post",
-          // url: "http://192.168.1.163:8111/api/workingTime/setWorkingTime",
           url: window.g.loginURL + "/api/workingTime/setWorkingTime",
           data: {
             timelist: trantime,
@@ -259,6 +256,7 @@ class DefendTime extends Component {
         .then(res => {
           if (res.success) {
             message.success("布防时间提交成功");
+            _this.props.getOne();
           } else {
             message.error(res.msg);
           }
@@ -271,7 +269,6 @@ class DefendTime extends Component {
           .ajax({
             method: "delete",
             url: window.g.loginURL + "/api/api/zworkingtime",
-            // url: "http://192.168.1.163:8111/api/api/zworkingtime",
             data: {
               ids: _this.props.code ? _this.props.code : _this.props.addBackCode
             }
@@ -319,9 +316,7 @@ class DefendTime extends Component {
             btnNum: k + 1,
             currentData: currentData
           },
-          () => {
-            console.log(_this.state.currentData, "当前行数据");
-          }
+          () => {}
         );
       });
     });
@@ -368,7 +363,6 @@ class DefendTime extends Component {
         axios
           .ajax({
             method: "delete",
-            // url: "http://192.168.1.163:8111/api/api/deleteOneWorkingTime",
             url: window.g.loginURL + "/api/api/deleteOneWorkingTime",
             data: {
               cid: this.props.code ? this.props.code : this.props.addBackCode,
@@ -410,12 +404,10 @@ class DefendTime extends Component {
     } else {
       if (getFieldsValue().days && this.state.currentData.length > 0) {
         getFieldsValue().days.map((g, h) => {
-          console.log(g, h, "days");
           if (
             this.props.equipData.timelist &&
             this.props.equipData.timelist[g] != ""
           ) {
-            console.log(this.props.equipData.timelist[g], "youshuju ");
             if (
               $($("tr")[g - 1])
                 .find(".td")
