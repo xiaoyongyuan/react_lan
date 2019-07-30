@@ -12,29 +12,11 @@ var coordinate ={
 };
 var line={
     "type": "FeatureCollection",
-    "features":[{
-        "type": "Feature",
-        "properties": {
-            "color": "#53d853"
-        },
-        "geometry": {
-            "type": "LineString",
-            "coordinates":[]
-        }
-    }]
+    "features":[]
 };
 var polygon={
     "type": "FeatureCollection",
-    "features":[{
-        "type": "Feature",
-        "properties": {
-            "color": "#53d853"
-        },
-        "geometry": {
-            "type": "Polygon",
-            "coordinates":[[]]
-        }
-    }]
+    "features":[]
 };
 class ElectronicMap extends Component{
     constructor (props) {
@@ -43,13 +25,11 @@ class ElectronicMap extends Component{
             searchContent:'',
             cameraList:[],
             btnFalse:false,
-            count:0
         };
     }
     componentDidMount() {
         this.hanleCamera();
         this.hannleMap();
-        console.log(line.features[0].geometry.coordinates,polygon.features[0].geometry.coordinates)
     };
     hannleMap=()=>{
         map = L.map('container').setView([34.276113,108.95378], 12);
@@ -75,10 +55,14 @@ class ElectronicMap extends Component{
             DrawPolygon();
         });
         //清除所有命令
-        $("#clear").click(function () {
+       /* $("#clear").click(function () {
             map.off();
-        });
+        });*/
+        //清除画布
         $("#clearCanvas").click(function () {
+            line.features=[];
+            polygon.features=[];
+            coordinate.features=[];
             map.eachLayer(function (layer) {
                 if(!layer._container){
                     layer.remove();
@@ -96,9 +80,8 @@ class ElectronicMap extends Component{
                 points.push([e.latlng.lat, e.latlng.lng]);
                 lines.addLatLng(e.latlng);
                 map.addLayer(lines);
-                map.addLayer(L.circle(e.latlng, { color: '#afb8ff', fillColor: '#afb8ff', fillOpacity: 1 }))
+                map.addLayer(L.circle(e.latlng, { color: '#afb8ff', fillColor: '#afb8ff', fillOpacity: 1 }));
                 map.on('mousemove', onMove)//双击地图
-
             }
             function onMove(e) {
                 if (points.length > 0) {
@@ -109,9 +92,24 @@ class ElectronicMap extends Component{
             }
 
             function onDoubleClick() {
+                var lineNum=[];
+                var transformationLine=[];
                 L.polyline(points,{ color: '#afb8ff', fillColor: '#afb8ff', fillOpacity: 1 }).addTo(map);
-                points.map((el)=>{
-                    line.features[0].geometry.coordinates.push([el[1],el[0]]);
+                //统计有几个线条
+                lineNum.push(points);
+                //经纬度调换位置
+                lineNum.map((el)=>{
+                    el.map((data)=>{
+                        transformationLine.push([data[1],data[0]])
+                    });
+                });
+                line.features.push({
+                    "type": "Feature",
+                    "properties": {},
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates":transformationLine
+                    }
                 });
                 map.off();
                 points = [];
@@ -139,10 +137,33 @@ class ElectronicMap extends Component{
                     map.addLayer(tempLines);
                 }
             }
-            function onDoubleClick(e) {
+            function onDoubleClick() {
+                var polygonNum=[];
+                var transformationPolygon=[];
+                var count=[];//放入大数组
+                var openArr=[];
                 L.polygon([points],{ color: '#5afb8b', fillColor: '#5afb8b', fillOpacity: 0.3 }).addTo(map);
-                points.map((el)=>{
-                    polygon.features[0].geometry.coordinates[0].push([el[1],el[0]]);
+                //统计有几个线条
+                polygonNum.push(points);
+                count.push(polygonNum);
+                //经纬度调换位置
+                count.map((num)=>{
+                    num.map((el)=>{
+                       el.map((data)=>{
+                           transformationPolygon.push([data[1],data[0]])
+                       })
+                    })
+                });
+                openArr.push(transformationPolygon);
+                polygon.features.push({
+                    "type": "Feature",
+                    "properties": {
+                        "color":"#5afb8b"
+                    },
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates":openArr
+                    }
                 });
                 map.off();
                 points = [];
@@ -195,7 +216,7 @@ class ElectronicMap extends Component{
         this.DrawPoint(code,name,index);
     };
     hanleSubmit=()=>{
-        if( coordinate.features.length>0 || line.features[0].geometry.coordinates.length>0 || polygon.features[0].geometry.coordinates[0].length>0){
+        if( coordinate.features.length>0 ||  line.features.length>0 ||polygon.features.length>0){
             axios.ajax({
                 method:"get",
                 url:window.g.loginURL+"/api/system/elemap",
@@ -205,8 +226,8 @@ class ElectronicMap extends Component{
                     polygon:polygon
                 }
             }).then((res)=>{
-                line.features[0].geometry.coordinates=[];
-                polygon.features[0].geometry.coordinates[0]=[];
+                line.features=[];
+                polygon.features=[];
                 coordinate.features=[];
                 message.success(res.msg);
             })
@@ -218,9 +239,10 @@ class ElectronicMap extends Component{
         return (
             <div className="electronicMap">
                 <div className="container" id="container"></div>
-                <div className='info'>操作说明：线和多边形通过点击绘制，双击结束绘制；点击设备按钮后在地图上摆放设备位置；<br/>
+                <div className='info'><strong>操作说明：</strong>线和多边形通过点击绘制，双击结束绘制；点击设备按钮后在地图上摆放设备位置；<br/>
                     线和多边形一次只能绘制一个;点击确定进行数据提交，首页展示数据。</div>
                 <div className="input-card">
+                    <p>摄像头:</p>
                     <div className="equipmentCon">
                         {
                             this.state.cameraList.map((el,i)=>(
@@ -234,7 +256,7 @@ class ElectronicMap extends Component{
                         <input type="button" className="input-text" id="polygon" value="多边形"/>
                     </div>
                     <div className="input-item">
-                        <input type="button" className="btn" id="clear" value="清除所有命令" />
+                        {/*<input type="button" className="btn" id="clear" value="清除所有命令" />*/}
                         <input type="button" className="btn" id="clearCanvas" value="清除画布" />
                         <input type="button" className="btn"  value="确定" onClick={this.hanleSubmit} />
                     </div>
