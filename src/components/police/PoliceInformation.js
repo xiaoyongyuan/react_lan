@@ -28,8 +28,6 @@ class PoliceInformation extends Component {
             policeListIndex:0,//初始化报警下标
             nextcode:"",//下一个
             lastcode:"",//上一个
-            bdate:"",
-            edate:"",
         };
     }
     componentDidMount() {
@@ -49,6 +47,10 @@ class PoliceInformation extends Component {
        this.hanleQuantity();
        this.handlePoliceList();
     }
+    params={
+        bdate:"",
+        edate:"",
+    };
     //报警列表
     handlePoliceList=()=>{
         let params={
@@ -56,8 +58,8 @@ class PoliceInformation extends Component {
             pageindex:this.state.page,
             pagesize:this.state.pagesize,
             cid:this.state.scid,
-            bdate:this.state.bdate,
-            edate:this.state.edate
+            bdate:this.params.bdate,
+            edate:this.params.edate
         };
         axios.ajax({
             method:"get",
@@ -86,8 +88,8 @@ class PoliceInformation extends Component {
                     url:window.g.loginURL+"/api/alarm/alarminfo",
                     data:{
                         cid:this.state.scid,
-                        bdate:this.state.bdate,
-                        edate:this.state.edate,
+                        bdate:this.params.bdate,
+                        edate:this.params.edate,
                         code:this.state.policeListCode,
                         status:this.state.selectstatus,
                     }
@@ -323,10 +325,12 @@ class PoliceInformation extends Component {
                     let mydate = moment(moment(values.date[1]).format('YYYY-MM-DD HH:mm:ss'));
                     let days=mydate.diff(beforeTime, 'day');
                     if(days<=7) {
-                        this.setState({
+                       this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null;
+                       this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null;
+                       /* this.setState({
                             bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null,
                             edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null,
-                        })
+                        })*/
                     }else{
                         message.error('请选择七天以内的时间');
                     }
