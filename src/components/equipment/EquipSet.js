@@ -48,12 +48,12 @@ class EquipSet extends Component {
       threshold: 5,
       frozentime: 5,
       initarea: [
-        [195, 364],
-        [197, 252],
-        [307, 192],
-        [412, 264],
-        [412, 369],
-        [303, 433]
+        [174, 380],
+        [174, 200],
+        [365, 200],
+        [550, 200],
+        [550, 380],
+        [365, 380]
       ],
       newinitarea: [],
       initareaMove: false,
@@ -1506,6 +1506,7 @@ class EquipSet extends Component {
       }
     } else if (scopeswitch) {
       //整体拖动
+      document.body.style.cursor = "move";
       const movepoint = this.state.movepoint;
       const movepointMoved = this.state.movepointMoved;
       const movescope = this.state.movescope;
