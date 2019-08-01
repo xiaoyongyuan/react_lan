@@ -92,7 +92,6 @@ class EquipSet extends Component {
       })
       .then(res => {
         if (res.success) {
-          console.log(res.data.alarmtype, "leixing");
           if (res.data.cstatus === 0) {
             this.setState({
               disabledStopSer: true,
@@ -1270,7 +1269,9 @@ class EquipSet extends Component {
       })
       .then(res => {
         if (res.success) {
-          message.info(res.msg);
+          message.info(
+            "重新获取底图请求已发送，稍后请刷新页面，如为获取请重新发送请求"
+          );
         }
       });
   };

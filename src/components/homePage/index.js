@@ -34,7 +34,7 @@ class Index extends Component {
         // this.socketFun();
     };
     componentWillUnmount(){
-        this.socket.onclose();
+        // this.socket.onclose();
     }
     // socketFun(){
     //     this.socket = new Socket({
