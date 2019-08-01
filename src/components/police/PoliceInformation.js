@@ -325,12 +325,8 @@ class PoliceInformation extends Component {
                     let mydate = moment(moment(values.date[1]).format('YYYY-MM-DD HH:mm:ss'));
                     let days=mydate.diff(beforeTime, 'day');
                     if(days<=7) {
-                       this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null;
-                       this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null;
-                       /* this.setState({
-                            bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null,
-                            edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null,
-                        })*/
+                       this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):"";
+                       this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):"";
                     }else{
                         message.error('请选择七天以内的时间');
                     }
