@@ -28,6 +28,8 @@ class PoliceInformation extends Component {
             policeListIndex:0,//初始化报警下标
             nextcode:"",//下一个
             lastcode:"",//上一个
+            bdate:"",
+            edate:"",
         };
     }
     componentDidMount() {
@@ -322,8 +324,8 @@ class PoliceInformation extends Component {
                     let days=mydate.diff(beforeTime, 'day');
                     if(days<=7) {
                         this.setState({
-                            bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:00:00"):null,
-                            edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:00:00"):null,
+                            bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null,
+                            edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null,
                         })
                     }else{
                         message.error('请选择七天以内的时间');
@@ -339,6 +341,12 @@ class PoliceInformation extends Component {
             }
         })
     };
+    onChangeTime=(date, dateString)=>{
+        this.setState({
+            bdate:dateString?dateString[0]:"",
+            edate:dateString?dateString[1]:""
+        });
+    }
     //分页
     hanlePage=(page)=>{
         this.setState({
@@ -433,6 +441,7 @@ class PoliceInformation extends Component {
                         <Form.Item label="选择时间">
                             {getFieldDecorator('date')(
                                 <RangePicker
+                                    onChange={this.onChangeTime}
                                     disabledDate={this.disabledDate}
                                     showTime={{ format: 'YYYY-MM-DD HH:mm:ss' }}
                                     format="YYYY-MM-DD HH:mm:ss"

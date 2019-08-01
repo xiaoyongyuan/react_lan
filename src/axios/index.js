@@ -22,45 +22,16 @@ export default class Axios {
         });
     });
   }
-  static logout(options) {
-    let loading;
-    if (options.isShowLoading !== false) {
-      loading = document.getElementById("ajaxLoading");
-      loading.style.display = "block";
-    }
-    return new Promise((resolve, reject) => {
-      axios({
-        method: "get",
-        url: window.g.loginURL + "/login/exit",
-        params: {
-          token: localStorage.getItem("token")
-        }
-        // headers: {
-        //     ContentType:'application/json;charset=UTF-8',
-        //     AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
-        // }
-      }).then(response => {
-        if (options.isShowLoading !== false) {
-          loading = document.getElementById("ajaxLoading");
-          loading.style.display = "none";
-        }
-        if (response && response.status == "200") {
-          const res = response.data;
-          resolve(res);
-        } else reject(response.msg);
-      });
-    });
-  }
   static ajax(options) {
     const biography = {
       account: localStorage.getItem("account"),
       companycode: localStorage.getItem("companycode")
     };
-    /* let loading;
+     let loading;
         if (options.isShowLoading !== false){
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
-        }*/
+        }
     const token = localStorage.getItem("token");
     return new Promise((resolve, reject) => {
       if (!token) {
@@ -83,10 +54,10 @@ export default class Axios {
             ? Object.assign(options.data, biography)
             : null
       }).then(response => {
-        /*  if (options.isShowLoading !== false) {
-                        loading = document.getElementById('ajaxLoading');
-                        loading.style.display = 'none';
-                    }*/
+          if (options.isShowLoading !== false) {
+              loading = document.getElementById('ajaxLoading');
+              loading.style.display = 'none';
+          }
         if (response && response.status === 200) {
           const res = response.data;
           if (res.success === 0) {

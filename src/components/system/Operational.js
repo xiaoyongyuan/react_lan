@@ -60,11 +60,14 @@ class Operational extends Component{
                 let mydate = moment(moment(values.times[1]).format('YYYY-MM-DD HH:mm:ss'));
                 let days=mydate.diff(beforeTime, 'day');
                 if(days<=1){
-                    this.param.bdate=values.times && values.times.length?values.times[0].format("YYYY-MM-DD HH:00:00"):null;
-                    this.param.edate=values.times && values.times.length?values.times[1].format("YYYY-MM-DD HH:00:00"):null;
+                    this.param.bdate=values.times && values.times.length?values.times[0].format("YYYY-MM-DD HH:mm:ss"):null;
+                    this.param.edate=values.times && values.times.length?values.times[1].format("YYYY-MM-DD HH:mm:ss"):null;
                 }else{
                     message.info("请选择24小时以内的时间");
                 }
+            }else{
+                this.param.bdate=values.times && values.times.length?values.times[0].format("YYYY-MM-DD HH:mm:ss"):null;
+                this.param.edate=values.times && values.times.length?values.times[1].format("YYYY-MM-DD HH:mm:ss"):null;
             }
             this.param.handletype=values.handletype;
             this.param.realname=values.realname;
