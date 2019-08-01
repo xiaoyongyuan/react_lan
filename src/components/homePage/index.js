@@ -9,6 +9,8 @@ import noStatus from "../../style/ztt/imgs/noStatus.png";
 import alarmStatus from "../../style/ztt/imgs/alarmStatus.png";
 import offStatus from "../../style/ztt/imgs/offStatus.png";
 import L from 'leaflet';
+import Socket from "../../utils/socket";
+
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -19,6 +21,8 @@ class Index extends Component {
           closeBtn:false,
           cameraList:[]
       };
+        this.taskRemindInterval = null;
+
     }
     componentDidMount() {
         this.hanleBgColor1();
@@ -27,7 +31,37 @@ class Index extends Component {
         this.equipmentCount();
         this.policeCount();
         this.handleMap();
+        this.socketFun();
     };
+    socketFun(){
+        this.socket = new Socket({
+            socketUrl: "ws://192.168.1.168:8111/api/webSocket",
+            timeout: 5000,
+            socketMessage: receive => {
+                console.log(receive, "调用中后端返回数据"); //后端返回的数据，渲染页面
+            },
+            socketClose: msg => {
+                console.log(msg, "调用中关闭socket收到的数据");
+            },
+            socketError: () => {
+                console.log("连接建立失败");
+            },
+            socketOpen: () => {
+                console.log("连接建立成功");
+                // 心跳机制 定时向后端发数据
+                this.taskRemindInterval = setInterval(() => {
+                    this.socket.sendMessage({ msgType: 0 });
+                }, 30000);
+            }
+        });
+        // 重试创建socket连接;
+        try {
+            this.socket.connection();
+        } catch (e) {
+            // 捕获异常，防止js error
+            // donothing
+        }
+    }
     handleMap=()=>{
         var map =  L.map('map').setView([34.276113,108.95378], 12);
         //禁止移动和放大缩小
