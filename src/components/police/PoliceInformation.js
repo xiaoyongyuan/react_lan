@@ -19,7 +19,7 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:20,
+            pagesize:30,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
@@ -342,11 +342,9 @@ class PoliceInformation extends Component {
         })
     };
     onChangeTime=(date, dateString)=>{
-        this.setState({
-            bdate:dateString?dateString[0]:"",
-            edate:dateString?dateString[1]:""
-        });
-    }
+        this.params.bdate=dateString[0]?dateString[0]:"";
+        this.params.edate=dateString[1]?dateString[1]:"";
+    };
     //分页
     hanlePage=(page)=>{
         this.setState({
