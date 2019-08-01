@@ -134,20 +134,37 @@ class PoliceInformation extends Component {
     //围界去重
     hanleRemoval=(e)=>{
         e.preventDefault();
-        if(this.state.alarmCid){
             let ele = document.getElementById("canvasobj");
             let canvsclent = ele.getBoundingClientRect();
-            let x=parseInt(e.clientX-canvsclent.left * (ele.width / canvsclent.width));
-            let y=parseInt(e.clientY-canvsclent.top*(ele.height / canvsclent.height));
-            console.log(x,y)
-            /*this.state.fieldresult.map((v)=>{
-                const x = 510 / this.state.pic_width, y = 278 / this.state.pic_height;
-                if(e.clientX<v.x*x && e.clientX<v.y*y){
-                    console.log(e.clientX,e.clientX)
-                }
-            });*/
-        }
+            let canvW=e.clientX-canvsclent.left;
+            let canvH=e.clientY-canvsclent.top;
+            let cavProportionW=parseInt((ele.width / canvsclent.width)*canvW);
+            let cavProportionH=parseInt((ele.height / canvsclent.height)*canvH);
+            this.setState({
+                cavProportionW,cavProportionH
+            })
     };
+    hanleAddremoval=()=>{
+        if(this.state.cavProportionW && this.state.cavProportionH){
+            const xi = 510 / this.state.pic_width, yi = 278 / this.state.pic_height;
+            this.state.fieldresult.map((v)=>{
+                if(this.state.cavProportionW>=parseInt(v.x*xi) && this.state.cavProportionW<=parseInt((v.x+v.w)*xi) && this.state.cavProportionH>=parseInt(v.y*yi) && this.state.cavProportionH<=parseInt((v.y+v.h)*yi)){
+                    axios.ajax({
+                        method:"post",
+                        url:window.g.loginURL+"/api/alarm/distinctpoint",
+                        data:{
+                            cid:this.state.alarmCid,
+                            finalinfo:JSON.stringify(v)
+                        }
+                    }).then((res)=>{
+                       message.info(res.msg)
+                    })
+                }
+            });
+        }else{
+            message.warning("请点击目标对象!");
+        }
+    }
     //画围界
     draw=()=>{
         let ele = document.getElementById("canvasobj");
@@ -514,7 +531,7 @@ class PoliceInformation extends Component {
                                 </Col>
                                 <Col span={16} className="addqc">
                                     <div className="addqcdiv">
-                                        <span>添加去重</span>
+                                        <span onClick={this.hanleAddremoval}>添加去重</span>
                                     </div>
                                 </Col>
                             </Row>
