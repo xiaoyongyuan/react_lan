@@ -37,6 +37,9 @@
   display: flex;
   align-items: center;
 }
+.LayerHeader .headerRight .alarmNum {
+  padding-right: 10%;
+}
 .LayerHeader .headerRight .header-right {
   width: 36px;
   height: 36px;

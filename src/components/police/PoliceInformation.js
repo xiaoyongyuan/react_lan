@@ -19,7 +19,7 @@ class PoliceInformation extends Component {
             policeList:[],
             equList:[],
             page:1,
-            pagesize:20,
+            pagesize:30,
             field:true, //是否显示围界信息
             obj:true, //是否显示报警对象
             checkedVal:false,
@@ -324,16 +324,15 @@ class PoliceInformation extends Component {
                     let beforeTime = moment(values.date[0]).format('YYYY-MM-DD HH:mm:ss');
                     let mydate = moment(moment(values.date[1]).format('YYYY-MM-DD HH:mm:ss'));
                     let days=mydate.diff(beforeTime, 'day');
-                    if(days<=7) {
-                       this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null;
-                       this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null;
-                       /* this.setState({
-                            bdate:values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):null,
-                            edate:values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):null,
-                        })*/
+                    if(days<=1) {
+                       this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):"";
+                       this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):"";
                     }else{
-                        message.error('请选择七天以内的时间');
+                        message.error('请选择1天以内的时间');
                     }
+                }else{
+                    this.params.bdate=values.date && values.date.length?values.date[0].format("YYYY-MM-DD HH:mm:ss"):"";
+                    this.params.edate=values.date && values.date.length?values.date[1].format("YYYY-MM-DD HH:mm:ss"):"";
                 }
                 this.setState({
                     scid:values.cid,
@@ -345,12 +344,6 @@ class PoliceInformation extends Component {
             }
         })
     };
-    onChangeTime=(date, dateString)=>{
-        this.setState({
-            bdate:dateString?dateString[0]:"",
-            edate:dateString?dateString[1]:""
-        });
-    }
     //分页
     hanlePage=(page)=>{
         this.setState({
@@ -445,7 +438,6 @@ class PoliceInformation extends Component {
                         <Form.Item label="选择时间">
                             {getFieldDecorator('date')(
                                 <RangePicker
-                                    onChange={this.onChangeTime}
                                     disabledDate={this.disabledDate}
                                     showTime={{ format: 'YYYY-MM-DD HH:mm:ss' }}
                                     format="YYYY-MM-DD HH:mm:ss"
@@ -514,7 +506,7 @@ class PoliceInformation extends Component {
                                     <span className="equipName-right-word">{this.state.tagType===0?"人员报警":"车辆报警"}</span>
                                 </Col>
                                 <Col className="equipName-right-caralarm" span={8}>
-                                    <span className="equipName-right-word">{this.state.tagType===1?"人员报警":"车辆报警"}</span>
+                                    <span className="equipName-right-word">{this.state.tagType===0?"车辆报警":"人员报警"}</span>
                                 </Col>
                             </Row>
                             <Row className="equipName">

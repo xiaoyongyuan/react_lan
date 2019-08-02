@@ -64,7 +64,7 @@ export default class Axios {
             if (res.msg.info) {
               if (res.msg.type === "401") {
                 reject(res.msg);
-                message.error("登录时效已过期，请重新登陆");
+                message.error("登录时效已过期，请重新登录");
                 window.location.href = "#/login";
               }
             } else {
