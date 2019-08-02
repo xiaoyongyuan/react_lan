@@ -36,6 +36,7 @@ class EquipSet extends Component {
     this.state = {
       addOnly: true,
       addBackCode: "",
+      activeKey: "0",
       equipData: {},
       disabledStopSer: true,
       disabled24: true,
@@ -277,6 +278,9 @@ class EquipSet extends Component {
     });
   };
   handleTabChange(activekey) {
+    // this.setState({
+    //   activeKey: `${activekey}`
+    // });
     if (activekey === "1") {
       const equipData = this.state.equipData;
       if (equipData.field && equipData.field[1]) {
@@ -399,6 +403,7 @@ class EquipSet extends Component {
                   addOnly: false,
                   addBackCode: res.data.code
                 });
+                window.location.href = `#/main/equipset?code=${res.data.code}`;
                 message.success("添加成功");
               }
             });
@@ -2021,6 +2026,7 @@ class EquipSet extends Component {
             </div>
             <Tabs
               defaultActiveKey="0"
+              // activeKey={this.state.activeKey}
               type="card"
               onChange={activekey => {
                 this.handleTabChange(activekey);
