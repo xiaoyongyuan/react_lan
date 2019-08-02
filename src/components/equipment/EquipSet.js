@@ -1952,7 +1952,7 @@ class EquipSet extends Component {
                         onChange={value => this.handleFrozenChange(value)}
                       />
                     )}
-                    <span className="sliderVal">{this.state.frozentime}</span>
+                    <span className="sliderVal">{this.state.frozentime}秒</span>
                   </Form.Item>
                   <Form.Item label=" 是否强制报警">
                     {getFieldDecorator("alarmtype", {
@@ -1971,12 +1971,14 @@ class EquipSet extends Component {
                           1: "1",
                           10: "10"
                         }}
-                        tooltipVisible={false}
+                        // tooltipVisible={false}
                         className="thresholdset"
                         onChange={value => this.handleThresholdChange(value)}
                       />
                     )}
-                    <span className="sliderVal">{this.state.threshold}</span>
+                    <span className="sliderVal">
+                      {`${this.state.threshold * 10}%`}
+                    </span>
                   </Form.Item>
                   <Form.Item
                     label=" "
@@ -2219,7 +2221,7 @@ class EquipSet extends Component {
                           {this.state.sliderChange
                             ? this.state.frozentime
                             : this.state.equipData.frozentime}
-                          s
+                          秒
                         </span>
                       </Form.Item>
                       <Form.Item label=" 是否强制报警">
@@ -2242,7 +2244,7 @@ class EquipSet extends Component {
                               1: "1",
                               10: "10"
                             }}
-                            tooltipVisible={false}
+                            // tooltipVisible={false}
                             className="thresholdset"
                             onChange={value =>
                               this.handleThresholdChange(value)
@@ -2251,8 +2253,8 @@ class EquipSet extends Component {
                         )}
                         <span className="sliderVal">
                           {this.state.sliderChange
-                            ? this.state.threshold
-                            : this.state.equipData.threshold}
+                            ? `${this.state.threshold * 10}%`
+                            : this.state.equipData.threshold?`${this.state.equipData.threshold * 10}%`:'50%'}
                         </span>
                       </Form.Item>
                       <Form.Item
