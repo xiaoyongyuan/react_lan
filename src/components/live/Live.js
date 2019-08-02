@@ -65,6 +65,7 @@ class Live extends Component {
                 playbackRates: [1, 1.5, 2],
             });
         }
+        console.log(document.getElementsByClassName("video-js"))
     }
     componentWillUnmount() {
         if (this.player) {
@@ -74,7 +75,7 @@ class Live extends Component {
     render() {
         return(
              <div data-vjs-player>
-                 <video ref={ node => this.videoNode = node } className="video-js" id="myvideo" poster={flash}></video>
+                 <video ref={ node => this.videoNode = node } className="video-js vjs-big-play-centered" id="myvideo" poster={flash}></video>
              </div>
         );
     }
