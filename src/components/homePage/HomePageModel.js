@@ -174,8 +174,8 @@ class HomePageModel extends Component{
                         <div className="homePageModelRight">
                             <div className="deviceContext">
                                 <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
-                                <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType===1?"人员报警":"车辆报警"}</span></div>
-                                <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
+                                <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType==0?"车辆报警":"人员报警"}</span></div>
+                                <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>=
                                 <div className="nameDevice"><span className="equName">报警状态</span><span className="equTimes">{this.handleStatus(v.status)}</span></div>
                                 <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>防区显示&nbsp;&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
                                 <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>目标显示&nbsp;&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
