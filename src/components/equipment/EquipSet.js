@@ -36,6 +36,7 @@ class EquipSet extends Component {
     this.state = {
       addOnly: true,
       addBackCode: "",
+      activeKey: "0",
       equipData: {},
       disabledStopSer: true,
       disabled24: true,
@@ -277,6 +278,9 @@ class EquipSet extends Component {
     });
   };
   handleTabChange(activekey) {
+    // this.setState({
+    //   activeKey: `${activekey}`
+    // });
     if (activekey === "1") {
       const equipData = this.state.equipData;
       if (equipData.field && equipData.field[1]) {
@@ -399,6 +403,7 @@ class EquipSet extends Component {
                   addOnly: false,
                   addBackCode: res.data.code
                 });
+                window.location.href = `#/main/equipset?code=${res.data.code}`;
                 message.success("添加成功");
               }
             });
@@ -1947,7 +1952,7 @@ class EquipSet extends Component {
                         onChange={value => this.handleFrozenChange(value)}
                       />
                     )}
-                    <span className="sliderVal">{this.state.frozentime}</span>
+                    <span className="sliderVal">{this.state.frozentime}秒</span>
                   </Form.Item>
                   <Form.Item label=" 是否强制报警">
                     {getFieldDecorator("alarmtype", {
@@ -1966,12 +1971,14 @@ class EquipSet extends Component {
                           1: "1",
                           10: "10"
                         }}
-                        tooltipVisible={false}
+                        // tooltipVisible={false}
                         className="thresholdset"
                         onChange={value => this.handleThresholdChange(value)}
                       />
                     )}
-                    <span className="sliderVal">{this.state.threshold}</span>
+                    <span className="sliderVal">
+                      {`${this.state.threshold * 10}%`}
+                    </span>
                   </Form.Item>
                   <Form.Item
                     label=" "
@@ -2021,6 +2028,7 @@ class EquipSet extends Component {
             </div>
             <Tabs
               defaultActiveKey="0"
+              // activeKey={this.state.activeKey}
               type="card"
               onChange={activekey => {
                 this.handleTabChange(activekey);
@@ -2213,7 +2221,7 @@ class EquipSet extends Component {
                           {this.state.sliderChange
                             ? this.state.frozentime
                             : this.state.equipData.frozentime}
-                          s
+                          秒
                         </span>
                       </Form.Item>
                       <Form.Item label=" 是否强制报警">
@@ -2236,7 +2244,7 @@ class EquipSet extends Component {
                               1: "1",
                               10: "10"
                             }}
-                            tooltipVisible={false}
+                            // tooltipVisible={false}
                             className="thresholdset"
                             onChange={value =>
                               this.handleThresholdChange(value)
@@ -2245,8 +2253,8 @@ class EquipSet extends Component {
                         )}
                         <span className="sliderVal">
                           {this.state.sliderChange
-                            ? this.state.threshold
-                            : this.state.equipData.threshold}
+                            ? `${this.state.threshold * 10}%`
+                            : this.state.equipData.threshold?`${this.state.equipData.threshold * 10}%`:'50%'}
                         </span>
                       </Form.Item>
                       <Form.Item
