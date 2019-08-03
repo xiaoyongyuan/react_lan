@@ -1,3 +1,6 @@
+/**
+ * @copyright mikeJang
+ */
 import React, { Component } from "react";
 import $ from "jquery";
 import "../../style/jhy/less/defendTime.less";
@@ -11,7 +14,8 @@ import {
   Modal,
   Form,
   Checkbox,
-  Radio
+  Radio,
+  Divider
 } from "antd";
 const CheckboxGroup = Checkbox.Group;
 const dayOptions = [
@@ -121,6 +125,7 @@ const FormModal = Form.create()(
                 <CheckboxGroup options={dayOptions} onChange={this.onChange} />
               )}
             </Form.Item>
+            <Divider />
             <Form.Item label=" " key="delete">
               <Radio
                 checked={this.state.radioSelect}
@@ -141,7 +146,7 @@ const FormModal = Form.create()(
                   );
                 }}
               >
-                清除当前设定
+                删除星期{day[btnNum]}的布防时间
               </Radio>
             </Form.Item>
           </Form>
@@ -486,49 +491,46 @@ class DefendTime extends Component {
         }}
       >
         <Row>
-          <Col xl={{ span: 19 }} xxl={{ span: 14 }}>
-            <div
-              className="defend"
-              id="defend"
-              style={{
-                display: "inline-block",
-                width: "700px"
-              }}
-              dangerouslySetInnerHTML={{
-                __html: this.renderTable()
-              }}
-            />
-            <div
-              className="deleteWrap"
-              style={{
-                marginLeft: "20px",
-                position: "absolute",
-                display: "inline-block"
-              }}
-            >
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-              <Button className="delete">
-                <Icon type="setting" />
-              </Button>
-            </div>
-          </Col>
+          <div
+            className="defend"
+            id="defend"
+            style={{
+              display: "inline-block",
+              width: "680px"
+            }}
+            dangerouslySetInnerHTML={{
+              __html: this.renderTable()
+            }}
+          />
+          <div
+            className="deleteWrap"
+            style={{
+              position: "absolute",
+              display: "inline-block"
+            }}
+          >
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+            <Button className="delete">
+              <Icon type="setting" />
+            </Button>
+          </div>
         </Row>
 
         <Row>

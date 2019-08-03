@@ -40,11 +40,11 @@ export default {
           key: "/main/overview",
           component: "Overview"
         },
-        {
-          title: "系统初始化",
-          key: "/main/sysreset",
-          component: "SysReset"
-        },
+//        {
+//          title: "系统初始化",
+//          key: "/main/sysreset",
+//          component: "SysReset"
+//        },
         {
           title: "用户管理",
           key: "/main/userInfo",

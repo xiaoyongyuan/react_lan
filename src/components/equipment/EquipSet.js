@@ -1,3 +1,6 @@
+/**
+ * @copyright mikeJang
+ */
 import {
   Tabs,
   Col,
@@ -15,6 +18,7 @@ import {
   Modal
 } from "antd";
 import React, { Component, Fragment } from "react";
+import ReactDOM from "react-dom";
 import DefTime from "./DefendTime";
 import axios from "../../axios/index";
 import "../../style/jhy/less/equipset.less";
@@ -278,9 +282,6 @@ class EquipSet extends Component {
     });
   };
   handleTabChange(activekey) {
-    // this.setState({
-    //   activeKey: `${activekey}`
-    // });
     if (activekey === "1") {
       const equipData = this.state.equipData;
       if (equipData.field && equipData.field[1]) {
@@ -371,6 +372,13 @@ class EquipSet extends Component {
   handleFrozenChange = val => {
     this.setState({ sliderChange: true, frozentime: val });
   };
+  handleCamaraType(val) {
+    if (val === "other") {
+      ReactDOM.findDOMNode(this.videoAdd).style.visibility = "visible";
+    } else {
+      ReactDOM.findDOMNode(this.videoAdd).style.visibility = "hidden";
+    }
+  }
   handleAdd = e => {
     e.preventDefault();
     const { validateFields } = this.props.form;
@@ -1809,7 +1817,8 @@ class EquipSet extends Component {
                         rules: [
                           {
                             required: true,
-                            message: "请输入IP地址!"
+                            pattern: /((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g,
+                            message: "请输入正确的IP地址!"
                           }
                         ]
                       })(<Input />)}
@@ -1818,7 +1827,7 @@ class EquipSet extends Component {
                       {getFieldDecorator("ipctype", {
                         initialValue: "hikvision"
                       })(
-                        <Select>
+                        <Select onChange={val => this.handleCamaraType(val)}>
                           <Option key="1" value="hikvision">
                             海康威视
                           </Option>
@@ -1886,15 +1895,14 @@ class EquipSet extends Component {
                         </Select>
                       )}
                     </Form.Item>
-                    <Form.Item label="视频流地址">
-                      {getFieldDecorator("streamport", {
-                        rules: [
-                          {
-                            required: true,
-                            message: "请输入视频流地址!"
-                          }
-                        ]
-                      })(<Input />)}
+                    <Form.Item
+                      label="视频流地址"
+                      ref={videoAdd => {
+                        this.videoAdd = videoAdd;
+                      }}
+                      style={{ visibility: "hidden" }}
+                    >
+                      {getFieldDecorator("streamport", {})(<Input />)}
                     </Form.Item>
                   </Row>
                 </Col>
@@ -2073,8 +2081,9 @@ class EquipSet extends Component {
                           {getFieldDecorator("ip", {
                             rules: [
                               {
+                                pattern: /((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}/g,
                                 required: true,
-                                message: "请输入IP地址!"
+                                message: "请输入正确的IP地址!"
                               }
                             ]
                           })(<Input />)}
@@ -2083,7 +2092,9 @@ class EquipSet extends Component {
                           {getFieldDecorator("ipctype", {
                             initialValue: "hikvision"
                           })(
-                            <Select>
+                            <Select
+                              onChange={val => this.handleCamaraType(val)}
+                            >
                               <Option key="1" value="hikvision">
                                 海康威视
                               </Option>
@@ -2151,15 +2162,14 @@ class EquipSet extends Component {
                             </Select>
                           )}
                         </Form.Item>
-                        <Form.Item label="视频流地址">
-                          {getFieldDecorator("streamport", {
-                            rules: [
-                              {
-                                required: true,
-                                message: "请输入视频流地址!"
-                              }
-                            ]
-                          })(<Input />)}
+                        <Form.Item
+                          label="视频流地址"
+                          ref={videoAdd => {
+                            this.videoAdd = videoAdd;
+                          }}
+                          style={{ visibility: "hidden" }}
+                        >
+                          {getFieldDecorator("streamport", {})(<Input />)}
                         </Form.Item>
                       </Row>
                     </Col>
@@ -2254,7 +2264,9 @@ class EquipSet extends Component {
                         <span className="sliderVal">
                           {this.state.sliderChange
                             ? `${this.state.threshold * 10}%`
-                            : this.state.equipData.threshold?`${this.state.equipData.threshold * 10}%`:'50%'}
+                            : this.state.equipData.threshold
+                            ? `${this.state.equipData.threshold * 10}%`
+                            : "50%"}
                         </span>
                       </Form.Item>
                       <Form.Item
