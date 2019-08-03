@@ -1,3 +1,6 @@
+/**
+ * @copyright mikeJang
+ */
 import React, { Component } from "react";
 import ReactEcharts from "echarts-for-react";
 import {
@@ -19,6 +22,7 @@ class Overview extends Component {
     super(props);
     this.state = {
       datalist: {},
+      alarmcheck: false,
       syscheck: false,
       servcheck: false,
       playcheck: false
@@ -44,6 +48,9 @@ class Overview extends Component {
       });
   };
   handleAlarmSound = checked => {
+    this.setState({
+      alarmcheck: checked
+    });
     axios
       .ajax({
         method: "get",
@@ -282,6 +289,7 @@ class Overview extends Component {
               <Switch
                 id="alarmSound"
                 className="alarmSound"
+                checked={this.state.alarmcheck}
                 onChange={checked => this.handleAlarmSound(checked)}
               />
             </Row>

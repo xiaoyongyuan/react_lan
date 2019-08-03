@@ -1,3 +1,6 @@
+/**
+ * @copyright mikeJang
+ */
 import React, { Component } from "react";
 import {
   Row,

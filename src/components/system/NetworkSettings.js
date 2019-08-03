@@ -1,3 +1,6 @@
+/**
+ * @copyright mikeJang
+ */
 import React, { Component } from "react";
 import { Row, Col, Form, Radio, Button, Input, message } from "antd";
 import axios from "../../axios/index";

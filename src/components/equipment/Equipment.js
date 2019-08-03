@@ -1,3 +1,6 @@
+/**
+ * @copyright mikeJang
+ */
 import { Col, Icon, Row, Pagination } from "antd";
 import React, { Component } from "react";
 import "../../style/jhy/less/equiplist.less";
@@ -91,7 +94,11 @@ class Equipment extends Component {
                 >
                   <div className="equipEle" style={{ background: "#fff" }}>
                     <div
+                      onClick={() => {
+                        this.setEquip(val.code);
+                      }}
                       style={{
+                        cursor: "pointer",
                         height: "82%",
                         background: val.basemap
                           ? "url(" +
