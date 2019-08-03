@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import {
   Row,
   Icon,
+  Col,
   Button,
   Modal,
   Form,
@@ -426,17 +427,16 @@ class UserInfo extends Component {
 
     return (
       <div className="userInfo">
-        <Row>
-          <Button
-            type="primary"
-            onClick={() => {
-              this.showModel("add");
-            }}
-          >
-            <Icon type="plus" />
-            新增用户
-          </Button>
-        </Row>
+           <Button
+               type="primary"
+               onClick={() => {
+                   this.showModel("add");
+               }}
+               style={{float:"right"}}
+           >
+               <Icon type="plus" />
+               新增用户
+           </Button>
         <FormModal
           wrappedComponentRef={formRef => (this.formRef = formRef)}
           visible={this.state.visible}
@@ -445,12 +445,16 @@ class UserInfo extends Component {
           title={this.state.title}
           currentRecordData={this.state.currentRecordData}
         />
-        <Etable
-          dataSource={this.state.userdata}
-          columns={userlist}
-          pagination={this.state.pagination}
-          style={{ marginTop: "20px" }}
-        />
+          <Row>
+              <Col span={24}>
+                  <Etable
+                      dataSource={this.state.userdata}
+                      columns={userlist}
+                      pagination={this.state.pagination}
+                      style={{ marginTop: "20px" }}
+                  />
+              </Col>
+          </Row>
       </div>
     );
   }
