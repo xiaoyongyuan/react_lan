@@ -11,6 +11,7 @@ import {
   Descriptions,
   List,
   Radio,
+  Button,
   Switch,
   message
 } from "antd";
@@ -62,6 +63,21 @@ class Overview extends Component {
       .then(res => {
         if (res.success) {
           message.success(checked === true ? "报警声音开启" : "报警声音关闭");
+        }
+      });
+  };
+  sys_setInitInfo = () => {
+    axios
+      .ajax({
+        method: "get",
+        url: window.g.loginURL + "/api/redisinfo/setinfo",
+        data: {}
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("重置系统成功,请重启服务器");
+        } else {
+          message.error("重置系统失败,请联系管理员");
         }
       });
   };
@@ -292,6 +308,14 @@ class Overview extends Component {
                 checked={this.state.alarmcheck}
                 onChange={checked => this.handleAlarmSound(checked)}
               />
+              <Button
+                onClick={() => this.sys_setInitInfo()}
+                className="reset"
+                type="primary"
+                style={{ float: "right", marginRight: "20px" }}
+              >
+                系统初始化
+              </Button>
             </Row>
             <Row gutter={16} style={{ marginTop: "20px" }}>
               <Col span={6}>
