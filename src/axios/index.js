@@ -27,11 +27,11 @@ export default class Axios {
       account: localStorage.getItem("account"),
       companycode: localStorage.getItem("companycode")
     };
-     let loading;
-        if (options.isShowLoading !== false){
-            loading = document.getElementById('ajaxLoading');
-            loading.style.display = 'block';
-        }
+    let loading;
+    if (options.isShowLoading !== false) {
+      loading = document.getElementById("ajaxLoading");
+      loading.style.display = "block";
+    }
     const token = localStorage.getItem("token");
     return new Promise((resolve, reject) => {
       if (!token) {
@@ -54,16 +54,16 @@ export default class Axios {
             ? Object.assign(options.data, biography)
             : null
       }).then(response => {
-          if (options.isShowLoading !== false) {
-              loading = document.getElementById('ajaxLoading');
-              loading.style.display = 'none';
-          }
+        if (options.isShowLoading !== false) {
+          loading = document.getElementById("ajaxLoading");
+          loading.style.display = "none";
+        }
         if (response && response.status === 200) {
           const res = response.data;
           if (res.success === 0) {
             if (res.msg.info) {
               if (res.msg.type === "401") {
-                reject(res.msg);
+                // reject();
                 message.error("登录时效已过期，请重新登录");
                 window.location.href = "#/login";
               }
