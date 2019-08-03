@@ -155,7 +155,7 @@ class Index extends Component {
             data:{}
         }).then((res)=>{
             this.setState({
-                policeList:res.data.slice(0,6)
+                policeList:res.data
             })
         })
     };

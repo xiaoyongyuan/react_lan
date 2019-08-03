@@ -31,7 +31,7 @@ class PoliceInformation extends Component {
         };
     }
     componentDidMount() {
-        new Swiper(".swiper-container", {
+       /* new Swiper(".swiper-container", {
             loop: false, //循环
             // autoplay: {
             //     //滑动后继续播放（不写官方默认暂停）
@@ -42,7 +42,7 @@ class PoliceInformation extends Component {
             observer: true,
             observeParents: true,
             observeSlideChildren: true,
-        });
+        });*/
        this.hanleEquipment();
        this.hanleQuantity();
        this.handlePoliceList();
@@ -150,7 +150,7 @@ class PoliceInformation extends Component {
     };
     hanleAddremoval=()=>{
         if(this.state.cavProportionW && this.state.cavProportionH){
-            const xi = 510 / this.state.pic_width, yi = 278 / this.state.pic_height;
+            const xi = 510 / this.state.pic_width, yi = 340 / this.state.pic_height;
             this.state.fieldresult.map((v)=>{
                 if(this.state.cavProportionW>=parseInt(v.x*xi) && this.state.cavProportionW<=parseInt((v.x+v.w)*xi) && this.state.cavProportionH>=parseInt(v.y*yi) && this.state.cavProportionH<=parseInt((v.y+v.h)*yi)){
                     axios.ajax({
@@ -178,7 +178,7 @@ class PoliceInformation extends Component {
         if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length>0) {
-                const xi=510/704, yi=278/576;
+                const xi=510/704, yi=340/576;
                 let areafield = ele.getContext("2d");
                 for(let i=0;i<datafield.length;i++){
                     let list=datafield[i].pointList;
@@ -201,7 +201,7 @@ class PoliceInformation extends Component {
             const objs = this.state.fieldresult;
             if (this.state.obj && objs.length>0) {
                 //计算缩放比例
-                const x = 510 / this.state.pic_width, y = 278 / this.state.pic_height;
+                const x = 510 / this.state.pic_width, y = 340 / this.state.pic_height;
                 objs.map((el, i) => {
                     area.strokeStyle = '#ff0';
                     area.beginPath();
@@ -453,25 +453,12 @@ class PoliceInformation extends Component {
                             <Col className="main-left-L" span={12}>
                                 <div className="img-up-fu">
                                     <div className="alarmImg">
-                                        <canvas id="canvasobj" onClick={this.hanleRemoval} width="510px" height="278px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
+                                        <canvas id="canvasobj" onClick={this.hanleRemoval} width="510px" height="340px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
                                         <img src={nodata} alt="" className="nodata" style={{display:this.state.alarmImg?"none":"block"}} />
                                     </div>
                                     <div className="img-up-fu-word">
                                         <div className="circle" />
                                         <span className="img-up-fu-word-span">{this.state.alarm.name}</span>
-                                    </div>
-                                </div>
-                                <div className="swiper-container">
-                                    <div className="swiper-wrapper">
-                                        {
-                                            this.state.malarminfo.map((v,i)=>(
-                                                <div key={i} className="everyImg">
-                                                    <div className="swiper-slide">
-                                                        <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
-                                                    </div>
-                                                </div>
-                                            ))
-                                        }
                                     </div>
                                 </div>
                             </Col>
@@ -480,7 +467,18 @@ class PoliceInformation extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col className="updown">
+                            <Col span={12}>
+                                <div className="smallImg">
+                                    {
+                                        this.state.malarminfo.map((v,i)=>(
+                                            <div key={i} className="everyImg">
+                                                <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </Col>
+                            <Col span={12} className="updown">
                                 <Button onClick={()=>this.hanleUper("lastcode")} disabled={this.state.lastcode?false:true}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
                                 <Button onClick={()=>this.hanleUper("nextcode")} disabled={this.state.nextcode?false:true}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
                             </Col>

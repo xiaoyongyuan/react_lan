@@ -179,37 +179,24 @@
   width: 69%;
   float: left;
 }
+.ploceinfomation .ploceinfomation-main .main-left .smallImg {
+  width: 100%;
+  display: flex;
+  padding-left: 16px;
+}
+.ploceinfomation .ploceinfomation-main .main-left .smallImg .everyImg {
+  width: 60px;
+  height: 30px;
+  margin: 1% 1%;
+}
+.ploceinfomation .ploceinfomation-main .main-left .smallImg .everyImg img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L {
   height: 360px;
   padding: 20px 20px 0 20px;
-}
-.ploceinfomation .ploceinfomation-main .main-left .main-left-L .swiper-container {
-  margin-top: 2px;
-}
-.ploceinfomation .ploceinfomation-main .main-left .main-left-L .swiper-container .everyImg {
-  width: 20%;
-}
-.ploceinfomation .ploceinfomation-main .main-left .main-left-L .swiper-container .swiper-slide img {
-  width: 100%;
-  padding: 0 2%;
-}
-.ploceinfomation .ploceinfomation-main .main-left .main-left-L .swiper-container .prev {
-  position: absolute;
-  top: 24%;
-  left: 10px;
-  margin-top: -22px;
-  z-index: 10;
-  cursor: pointer;
-  color: #fff;
-}
-.ploceinfomation .ploceinfomation-main .main-left .main-left-L .swiper-container .next {
-  position: absolute;
-  top: 24%;
-  right: 10px;
-  margin-top: -22px;
-  z-index: 10;
-  cursor: pointer;
-  color: #fff;
 }
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu img {
   width: 100%;
@@ -220,7 +207,7 @@
 }
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg {
   width: 100%;
-  height: 278px;
+  height: 340px;
   position: relative;
 }
 .ploceinfomation .ploceinfomation-main .main-left .main-left-L .img-up-fu .alarmImg .nodata {
