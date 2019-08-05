@@ -9,7 +9,8 @@ export default class Axios {
     }
     return new Promise((resolve, reject) => {
       axios
-        .post(window.g.loginURL + "/api/login/verify", options.data)
+        // .post(window.g.loginURL + "/api/login/verify", options.data)
+        .post("http://192.168.1.164:8111/api/login/verify", options.data)
         .then(response => {
           if (options.isShowLoading !== false) {
             loading = document.getElementById("ajaxLoading");
