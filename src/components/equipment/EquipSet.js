@@ -1283,7 +1283,7 @@ class EquipSet extends Component {
       .then(res => {
         if (res.success) {
           message.info(
-            "重新获取底图请求已发送，稍后请刷新页面，如为获取请重新发送请求"
+            "重新获取底图请求已发送，稍后请刷新页面，如未获取请重新发送请求"
           );
         }
       });

@@ -43,6 +43,7 @@ class Overview extends Component {
       .then(res => {
         if (res.success) {
           this.setState({
+            alarmcheck: res.data.voiceFlag,
             datalist: res.data
           });
         }
@@ -63,6 +64,7 @@ class Overview extends Component {
       .then(res => {
         if (res.success) {
           message.success(checked === true ? "报警声音开启" : "报警声音关闭");
+          this.getData();
         }
       });
   };
@@ -305,7 +307,7 @@ class Overview extends Component {
               <Switch
                 id="alarmSound"
                 className="alarmSound"
-                checked={this.state.alarmcheck}
+                checked={this.state.alarmcheck === "true" ? true : false}
                 onChange={checked => this.handleAlarmSound(checked)}
               />
               <Button
