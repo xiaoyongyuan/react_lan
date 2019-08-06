@@ -364,7 +364,7 @@ class Index extends Component {
                 <div className="alarminfor">
                     <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><Icon className="iconRight" type="double-right" /></div></a>
                     <div className="gutter-example">
-                        <Row gutter={16} style={{display:'flex',overflowX:'auto',overflowY:'hidden'}}>
+                        <Row gutter={16}>
                             {
                                 this.state.policeList.map((v,i)=>(
                                     <Col className="gutter-row" span={4} key={i}>
