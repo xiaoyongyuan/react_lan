@@ -432,7 +432,7 @@ class UserInfo extends Component {
                onClick={() => {
                    this.showModel("add");
                }}
-               style={{float:"right"}}
+               style={{float:"right",zIndex:999,display:account==="admin"?"block":"none"}}
            >
                <Icon type="plus" />
                新增用户

@@ -470,11 +470,13 @@ class PoliceInformation extends Component {
                             <Col span={12}>
                                 <div className="smallImg">
                                     {
-                                        this.state.malarminfo.map((v,i)=>(
+                                        this.state.malarminfo.length>0?[this.state.malarminfo.map((v,i)=>(
                                             <div key={i} className="everyImg">
                                                 <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
                                             </div>
-                                        ))
+                                        ))]:[<div className="everyImg">
+                                            <img src={this.state.alarm.picpath} alt="" />
+                                        </div>]
                                     }
                                 </div>
                             </Col>

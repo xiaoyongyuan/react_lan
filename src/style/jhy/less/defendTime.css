@@ -208,6 +208,9 @@
   top: -10px;
   left: 12px;
 }
+.defendTime .deleteWrap {
+  margin-top: 2px;
+}
 .defendTime .deleteWrap .ant-btn:hover,
 .defendTime .deleteWrap .ant-btn:focus {
   color: red;
@@ -215,8 +218,11 @@
   border-color: red;
 }
 .defendTime .deleteWrap .delete {
-  margin-top: 19px;
+  margin-top: 20px;
   color: red;
   display: block;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
 }
 /*# sourceMappingURL=defendTime.css.map */

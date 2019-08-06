@@ -12,16 +12,29 @@ class LayerSider extends Component {
     this.state = {
         currentKey:'', //当前页面
         menuTreeNode: [],
-        selectedKey:''
+        selectedKey:'',
+        account:""
     }
   }
   componentWillMount(){
-    const menuTreeNode = this.renderMenu(MenuConfig.menuList);
-    this.setState({
-        menuTreeNode
-    })
+      if(localStorage.getItem("account")==="admin"){
+          this.setState({
+              menuTreeNode:this.renderMenu(MenuConfig.menuList)
+          })
+      }else{
+          this.setState({
+              menuTreeNode:this.renderMenu(MenuConfig.menuList1)
+          })
+      }
+
   }
-  onTitleClick=(key,dom)=>{
+  componentDidMount() {
+	    this.setState({
+            account:localStorage.getItem("account")
+        })
+  }
+
+    onTitleClick=(key,dom)=>{
 	   // console.log(key,dom)
   };
   handleClick = ({ item, key }) => {

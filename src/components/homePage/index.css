@@ -11,6 +11,20 @@
   /*早期浏览器*/
   user-select: none;
 }
+.homePage ::-webkit-scrollbar {
+  width: 6px;
+  height: 10px;
+}
+.homePage ::-webkit-scrollbar-thumb {
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 3px;
+}
+.homePage ::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0);
+}
 .homePage .leaflet-bar,
 .homePage .leaflet-control {
   display: none;
@@ -148,16 +162,16 @@
     height: 85.5vh !important;
   }
   .homePage .computerRoom .RoomStatusLeft {
-    width: 24%!important;
+    width: 24% !important;
   }
   .homePage .computerRoom .computer {
-    width: 62%!important;
+    width: 62% !important;
   }
   .homePage .computerRoom .computerRoom-camera {
-    height: 85vh!important;
+    height: 85vh !important;
   }
   .homePage .computerRoom .lastAlarm {
-    height: 42vh!important;
+    height: 42vh !important;
   }
 }
 .homePage .computerRoom .computerRoom-context {
