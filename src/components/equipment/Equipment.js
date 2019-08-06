@@ -18,6 +18,9 @@ class Equipment extends Component {
   }
   componentDidMount() {
     this.getList();
+    this.setState({
+        account:localStorage.getItem("account")
+    })
   }
 
   getList = () => {
@@ -68,7 +71,8 @@ class Equipment extends Component {
             style={{
               marginBottom: "16px",
               cursor: "pointer",
-              height: "25vh"
+              height: "25vh",
+              display:this.state.account==="admin"?"block":"none"
             }}
           >
             <div className="addEquip" style={{ background: "#fff" }}>

@@ -28,13 +28,7 @@ class LayerSider extends Component {
       }
 
   }
-  componentDidMount() {
-	    this.setState({
-            account:localStorage.getItem("account")
-        })
-  }
-
-    onTitleClick=(key,dom)=>{
+  onTitleClick=(key,dom)=>{
 	   // console.log(key,dom)
   };
   handleClick = ({ item, key }) => {

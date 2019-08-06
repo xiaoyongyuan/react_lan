@@ -102,6 +102,12 @@ export default {
           icon: "play-square"
       },
       {
+          title: "设备",
+          key: "/main/equipment",
+          component: "Equipment",
+          icon: "tablet"
+      },
+      {
           title: "系统",
           key: "/main/system",
           icon: "bars",

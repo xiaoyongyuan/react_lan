@@ -9,7 +9,6 @@ import noStatus from "../../style/ztt/imgs/noStatus.png";
 import alarmStatus from "../../style/ztt/imgs/alarmStatus.png";
 import offStatus from "../../style/ztt/imgs/offStatus.png";
 import L from 'leaflet';
-
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -30,7 +29,6 @@ class Index extends Component {
         this.equipmentCount();
         this.policeCount();
         this.handleMap();
-
     };
     handleMap=()=>{
         var map =  L.map('map').setView([34.276113,108.95378], 12);

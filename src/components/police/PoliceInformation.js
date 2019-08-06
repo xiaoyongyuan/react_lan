@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { Row, Col, Select,DatePicker,Button,Icon,Form,message,Pagination,Switch,Checkbox} from 'antd';
 import "./ploceinfomation.less";
 import alarmcl from "../../style/imgs/alarmcl.png";
-import 'swiper/dist/css/swiper.min.css';
-import Swiper from 'swiper/dist/js/swiper.js'
 import alarmBg from "../../style/ztt/imgs/defenceImg.png";
 import axios from "../../axios/index";
 import moment from "moment";
 import nodata from "../../style/imgs/nodata.png";
+import $ from "jquery";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 class PoliceInformation extends Component {
@@ -31,18 +30,6 @@ class PoliceInformation extends Component {
         };
     }
     componentDidMount() {
-       /* new Swiper(".swiper-container", {
-            loop: false, //循环
-            // autoplay: {
-            //     //滑动后继续播放（不写官方默认暂停）
-            //     disableOnInteraction: false
-            // }, //可选选项，自动滑动
-            slidesPerView: 5,
-            spaceBetween: 10,
-            observer: true,
-            observeParents: true,
-            observeSlideChildren: true,
-        });*/
        this.hanleEquipment();
        this.hanleQuantity();
        this.handlePoliceList();
@@ -463,6 +450,7 @@ class PoliceInformation extends Component {
                                 </div>
                             </Col>
                             <Col className="main-left-R" span={12}>
+                                <span className="picture"></span>
                                 <video controls="controls" src={this.state.alarm.videopath} style={{ width:'100%',height:'100%' }}/>
                             </Col>
                         </Row>
