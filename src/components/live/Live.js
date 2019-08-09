@@ -35,7 +35,7 @@ class Live extends Component {
                 }
             }
         }catch (e) {
-            console.log(e);
+
         }
         if(has_flash){
             var _this=this;
@@ -65,7 +65,6 @@ class Live extends Component {
                 playbackRates: [1, 1.5, 2],
             });
         }
-        console.log(document.getElementsByClassName("video-js"))
     }
     componentWillUnmount() {
         if (this.player) {

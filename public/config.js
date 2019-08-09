@@ -1,3 +1,3 @@
 window.g = {
-    loginURL:"http://192.168.1.176:8111"
+    loginURL:"http://192.168.1.187:8111"
 };

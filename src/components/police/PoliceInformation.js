@@ -6,7 +6,7 @@ import alarmBg from "../../style/ztt/imgs/defenceImg.png";
 import axios from "../../axios/index";
 import moment from "moment";
 import nodata from "../../style/imgs/nodata.png";
-import $ from "jquery";
+import ImageMagnifier from "./ImgeMagnifier";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 class PoliceInformation extends Component {
@@ -27,6 +27,9 @@ class PoliceInformation extends Component {
             policeListIndex:0,//初始化报警下标
             nextcode:"",//下一个
             lastcode:"",//上一个
+            magnifierOff:false,
+            widthEnlarge:"",//放大图片的宽度
+            heightNarrow:""//放大图片的高度
         };
     }
     componentDidMount() {
@@ -199,6 +202,25 @@ class PoliceInformation extends Component {
                 })
             }
         }
+    };
+    //鼠标移入打开放大
+    hanleEnter=()=>{
+        this.setState({
+            magnifierOff:true
+        })
+    };
+    //鼠标离开关闭放大
+    hanleMouseLeave=()=>{
+        this.setState({
+            magnifierOff:false
+        })
+    };
+    //动态获取报警图片的宽度和高度
+    hanleLoad=()=>{
+        this.setState({
+            widthEnlarge:this.refs.alarmImg.getBoundingClientRect().width,
+            heightNarrow:this.refs.alarmImg.getBoundingClientRect().height
+        });
     };
     //设备
     hanleEquipment=()=>{
@@ -439,9 +461,14 @@ class PoliceInformation extends Component {
                         <Row type="flex" justify="space-around">
                             <Col className="main-left-L" span={12}>
                                 <div className="img-up-fu">
-                                    <div className="alarmImg">
-                                        <canvas id="canvasobj" onClick={this.hanleRemoval} width="510px" height="340px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
+                                    <div className="alarmImg" ref="alarmImg" onLoad={this.hanleLoad}>
+                                        <canvas id="canvasobj"  onClick={this.hanleRemoval} onMouseEnter={this.hanleEnter} width="510px" height="340px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
                                         <img src={nodata} alt="" className="nodata" style={{display:this.state.alarmImg?"none":"block"}} />
+                                        {
+                                            this.state.magnifierOff?(
+                                                <ImageMagnifier minImg={this.state.alarmImg} maxImg={this.state.alarmImg}  mouseLeave={this.hanleMouseLeave} widthEnlarge={this.state.widthEnlarge} heightNarrow={this.state.heightNarrow}  />
+                                            ):null}
+
                                     </div>
                                     <div className="img-up-fu-word">
                                         <div className="circle" />
@@ -450,7 +477,6 @@ class PoliceInformation extends Component {
                                 </div>
                             </Col>
                             <Col className="main-left-R" span={12}>
-                                <span className="picture"></span>
                                 <video controls="controls" src={this.state.alarm.videopath} style={{ width:'100%',height:'100%' }}/>
                             </Col>
                         </Row>

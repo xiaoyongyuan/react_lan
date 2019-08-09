@@ -484,23 +484,24 @@
 .homePage .alarminfor .alarminfornikName .iconRight {
   color: #066fff;
 }
-.homePage .alarminfor .gutter-example {
-  margin-top: 16px;
+.homePage .alarminfor .swiper-container {
+  margin-top: 10px;
 }
-.homePage .alarminfor .gutter-example .gutter-box {
+.homePage .alarminfor .swiper-container .swiper-slide {
   position: relative;
   min-height: 14vh;
   border: 1px solid #d0c9c9;
   background: #EEEEEE;
+  cursor: pointer;
 }
-.homePage .alarminfor .gutter-example .gutter-box .alarmVideoBtn {
+.homePage .alarminfor .swiper-container .swiper-slide .alarmVideoBtn {
   position: absolute;
   top: 34%;
   left: 42%;
   width: 16%;
   cursor: pointer;
 }
-.homePage .alarminfor .gutter-example .gutter-box .policeStatus {
+.homePage .alarminfor .swiper-container .swiper-slide .policeStatus {
   display: inline-block;
   padding: 5px 10px;
   color: #fff;
@@ -511,7 +512,7 @@
   left: 0;
   bottom: 70%;
 }
-.homePage .alarminfor .gutter-example .gutter-box .policeStatus .policeStatusCicle {
+.homePage .alarminfor .swiper-container .swiper-slide .policeStatus .policeStatusCicle {
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -519,7 +520,7 @@
   background-color: #fff;
   margin-right: 5px;
 }
-.homePage .alarminfor .gutter-example .gutter-box .policeTimes {
+.homePage .alarminfor .swiper-container .swiper-slide .policeTimes {
   display: inline-block;
   position: absolute;
   right: 0;
@@ -530,7 +531,7 @@
   border-radius: 20px;
   font-size: 12px;
 }
-.homePage .alarminfor .gutter-example .gutter-box .alarminforBg {
+.homePage .alarminfor .swiper-container .swiper-slide .alarminforBg {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -540,7 +541,7 @@
   display: flex;
   align-items: center;
 }
-.homePage .alarminfor .gutter-example .gutter-box .alarminforBg .alarminforCirle {
+.homePage .alarminfor .swiper-container .swiper-slide .alarminforBg .alarminforCirle {
   display: inline-block;
   width: 10px;
   height: 10px;
@@ -548,7 +549,7 @@
   border-radius: 50%;
   margin: 0 14px;
 }
-.homePage .alarminfor .gutter-example .gutter-box .alarminforBg .alarminforFont {
+.homePage .alarminfor .swiper-container .swiper-slide .alarminforBg .alarminforFont {
   color: #fff;
   font-size: 14px;
 }

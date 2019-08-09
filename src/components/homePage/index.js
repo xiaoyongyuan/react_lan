@@ -9,6 +9,8 @@ import noStatus from "../../style/ztt/imgs/noStatus.png";
 import alarmStatus from "../../style/ztt/imgs/alarmStatus.png";
 import offStatus from "../../style/ztt/imgs/offStatus.png";
 import L from 'leaflet';
+import Swiper from "swiper/dist/js/swiper";
+import "swiper/dist/css/swiper.min.css";
 class Index extends Component {
     constructor(props) {
       super(props);
@@ -29,6 +31,18 @@ class Index extends Component {
         this.equipmentCount();
         this.policeCount();
         this.handleMap();
+        new Swiper(".swiper-container", {
+            loop: false, //循环
+            autoplay: {
+                //滑动后继续播放（不写官方默认暂停）
+                disableOnInteraction: false
+            }, //可选选项，自动滑动
+            slidesPerView: 5,
+            spaceBetween: 10,
+            observer: true,
+            observeParents: true,
+            observeSlideChildren: true
+        });
     };
     handleMap=()=>{
         var map =  L.map('map').setView([34.276113,108.95378], 12);
@@ -363,12 +377,11 @@ class Index extends Component {
                 </div>
                 <div className="alarminfor">
                     <a href="#/main/policeInformation"><div className="alarminfornikName"><span className="alarminfornikName-title">更多报警信息</span><Icon className="iconRight" type="double-right" /></div></a>
-                    <div className="gutter-example">
-                        <Row gutter={16}>
-                            {
-                                this.state.policeList.map((v,i)=>(
-                                    <Col className="gutter-row" span={4} key={i}>
-                                        <div className="gutter-box" onClick={()=>this.hanleWithdrawal(v.code)}>
+                    <div className="swiper-container ">
+                        <div className="swiper-wrapper">
+                                {
+                                    this.state.policeList.map((v,i)=>(
+                                        <div className="swiper-slide" onClick={()=>this.hanleWithdrawal(v.code)} key={i}>
                                             <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
                                             <div className="alarminforBg">
                                                 <span className="alarminforCirle"/>
@@ -378,10 +391,9 @@ class Index extends Component {
                                             <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
                                             <span className="policeTimes">{v.atime}</span>
                                         </div>
-                                    </Col>
-                                ))
-                            }
-                        </Row>
+                                    ))
+                                }
+                        </div>
                     </div>
                 </div>
                 <div className="nodata"><img src={nodata} alt="" style={{width:"80px",height:"78px",display:this.state.policeList.length>0?"none":"block"}} /></div>
