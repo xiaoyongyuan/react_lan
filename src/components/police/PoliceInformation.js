@@ -477,7 +477,7 @@ class PoliceInformation extends Component {
                                 </div>
                             </Col>
                             <Col className="main-left-R" span={12}>
-                                <video controls="controls" src={this.state.alarm.videopath} style={{ width:'100%',height:'100%' }}/>
+                                <video controls="controls" src={this.state.alarm.videopath} style={{ width:'96%',height:'100%' }}/>
                             </Col>
                         </Row>
                         <Row>
