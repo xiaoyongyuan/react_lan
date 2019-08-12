@@ -402,7 +402,8 @@ class EquipSet extends Component {
                 streamport: fields.streamport,
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
-                alarmtype: fields.alarmtype ? 1 : 0
+                alarmtype: fields.alarmtype ? 1 : 0,
+                ipctype: fields.ipctype,
               }
             })
             .then(res => {
@@ -444,7 +445,8 @@ class EquipSet extends Component {
                 streamport: fields.streamport,
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
-                alarmtype: fields.alarmtype ? 1 : 0
+                alarmtype: fields.alarmtype ? 1 : 0,
+                ipctype: fields.ipctype,
               }
             })
             .then(res => {
