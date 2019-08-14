@@ -199,6 +199,11 @@ class EquipSet extends Component {
               });
             }
           );
+          if (res.data.ipctype === "other") {
+            ReactDOM.findDOMNode(this.videoAdd).style.visibility = "visible";
+          } else {
+            ReactDOM.findDOMNode(this.videoAdd).style.visibility = "hidden";
+          }
         }
       });
   };
@@ -395,6 +400,8 @@ class EquipSet extends Component {
               data: {
                 name: fields.name,
                 ip: fields.ip,
+                fielddistance: fields.fielddistance,
+                scene: fields.scene,
                 authport: fields.authport,
                 ausername: fields.ausername,
                 apassword: fields.apassword,
@@ -403,7 +410,7 @@ class EquipSet extends Component {
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
                 alarmtype: fields.alarmtype ? 1 : 0,
-                ipctype: fields.ipctype,
+                ipctype: fields.ipctype
               }
             })
             .then(res => {
@@ -438,6 +445,8 @@ class EquipSet extends Component {
                 code: this.state.addBackCode || this.props.query.code,
                 name: fields.name,
                 ip: fields.ip,
+                fielddistance: fields.fielddistance,
+                scene: fields.scene,
                 authport: fields.authport,
                 ausername: fields.ausername,
                 apassword: fields.apassword,
@@ -446,7 +455,7 @@ class EquipSet extends Component {
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
                 alarmtype: fields.alarmtype ? 1 : 0,
-                ipctype: fields.ipctype,
+                ipctype: fields.ipctype
               }
             })
             .then(res => {
