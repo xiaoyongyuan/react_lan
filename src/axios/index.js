@@ -20,6 +20,12 @@ export default class Axios {
                         const res = response.data;
                         resolve(res);
                     } else reject(response.msg);
+                })
+                .catch(()=>{
+                    if (options.isShowLoading !== false) {
+                        loading = document.getElementById("ajaxLoading");
+                        loading.style.display = "none";
+                    }
                 });
         });
     }
