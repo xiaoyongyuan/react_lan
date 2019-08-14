@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import "./index.less";
-import {Modal,Row,Col,Icon} from "antd";
+import {Modal,message,Icon} from "antd";
 import defenceImg from "../../style/ztt/imgs/defenceImg.png";
 import HomePageModel from "./HomePageModel";
 import axios from "../../axios/index";
@@ -25,6 +25,9 @@ class Index extends Component {
 
     }
     componentDidMount() {
+        this.setState({
+            titleName:window.g.title
+        })
         this.hanleBgColor1();
         this.hanleBgColor2();
         this.getList();
@@ -124,6 +127,8 @@ class Index extends Component {
                         camFieldnum:res.data.fieldnum,
                         policeCode:res.data.code,
                     })
+                }else{
+                    message.warning(res.msg);
                 }
             })
         })
@@ -328,7 +333,7 @@ class Index extends Component {
                 </div>
                 <div className="computerRoom" >
                     <div className="computerRoom-context" >
-                        <div className="computerRoom-title">傲科云科技服务器机房</div>
+                        <div className="computerRoom-title">{this.state.titleName}</div>
                         <div className="computerRoomStatus">
                             <div className="RoomStatusLeft">
                                 <p className="roomAlarm"><span className="statusImg1" /><span className="status1">有报警状态</span></p>

@@ -72,6 +72,12 @@ export default class Axios {
                 }else{
                     reject(response.msg);
                 }
+            }).catch(error=>{
+                if (options.isShowLoading !== false) {
+                    loading = document.getElementById("ajaxLoading");
+                    loading.style.display = "none";
+                }
+                window.location.href='#/login';
             });
         });
     }

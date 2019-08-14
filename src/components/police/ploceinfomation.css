@@ -185,9 +185,10 @@
   padding-left: 16px;
 }
 .ploceinfomation .ploceinfomation-main .main-left .smallImg .everyImg {
-  width: 60px;
+  width: 48px;
   height: 30px;
-  margin: 1% 1%;
+  padding-left: 2px;
+  margin: 2px 3px;
 }
 .ploceinfomation .ploceinfomation-main .main-left .smallImg .everyImg img {
   width: 100%;
