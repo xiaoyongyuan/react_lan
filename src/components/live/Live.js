@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import videojs from "video.js";
-import "video.js/dist/video-js.min.css";
 import flash from "../../style/ztt/imgs/flash.png";
 import "./live.less";
 var ActiveXObject = window.ActiveXObject;
@@ -21,6 +19,9 @@ class Live extends Component {
     }
   }
   componentDidMount() {
+    var videojs = window.videojs;
+    var videojsFlash = window.videojsFlash;
+    console.log(videojsFlash, "vf");
     //判断浏览器是否有flash插件
     var isIE = false;
     if (window.ActiveXObject) {
@@ -39,7 +40,10 @@ class Live extends Component {
       }
     } catch (e) {}
     if (has_flash) {
+      alert(1);
       var _this = this;
+      videojs.options.flash.swf = "../../../public/video-js.swf";
+
       this.player = videojs(
         "myvideo",
         {
@@ -52,7 +56,7 @@ class Live extends Component {
           muted: false, //是否静音
           loop: false, //是否循环播放
           autoplay: true, //是否自动播放
-          swf: "/public/video-js.swf"
+          techOrder: ["flash", "html5"]
         },
         function onPlayerReady() {
           if (_this.props.videostreaming) {
@@ -63,13 +67,20 @@ class Live extends Component {
           }
         }
       );
+      console.log(videojs.options.flash.swf, this.player.options.flash, 1);
     } else {
+      alert(0);
+      var flash = videojsFlash;
+
+      videojs.options.flash.swf = "../../../public/video-js.swf";
       this.player = videojs("myvideo", {
         preload: "none", // 预加载
         width: 850, // 播放器宽度
         height: 600, // 播放器高度
-        playbackRates: [1, 1.5, 2]
+        playbackRates: [1, 1.5, 2],
+        techOrder: ["flash", "html5"]
       });
+      console.log(videojs.options.flash.swf, this.player.options.flash, 0);
     }
   }
   componentWillUnmount() {
