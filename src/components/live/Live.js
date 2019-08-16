@@ -52,7 +52,7 @@ class Live extends Component {
           muted: false, //是否静音
           loop: false, //是否循环播放
           autoplay: true, //是否自动播放
-          swf: "public/svideo-js.swf"
+          swf: "/public/video-js.swf"
         },
         function onPlayerReady() {
           if (_this.props.videostreaming) {
