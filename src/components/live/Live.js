@@ -21,7 +21,6 @@ class Live extends Component {
   componentDidMount() {
     var videojs = window.videojs;
     var videojsFlash = window.videojsFlash;
-    console.log(videojsFlash, "vf");
     //判断浏览器是否有flash插件
     var isIE = false;
     if (window.ActiveXObject) {
@@ -40,7 +39,6 @@ class Live extends Component {
       }
     } catch (e) {}
     if (has_flash) {
-      alert(1);
       var _this = this;
       videojs.options.flash.swf = "../../../public/video-js.swf";
 
@@ -67,9 +65,7 @@ class Live extends Component {
           }
         }
       );
-      console.log(videojs.options.flash.swf, this.player.options.flash, 1);
     } else {
-      alert(0);
       var flash = videojsFlash;
 
       videojs.options.flash.swf = "../../../public/video-js.swf";
@@ -80,7 +76,6 @@ class Live extends Component {
         playbackRates: [1, 1.5, 2],
         techOrder: ["flash", "html5"]
       });
-      console.log(videojs.options.flash.swf, this.player.options.flash, 0);
     }
   }
   componentWillUnmount() {
