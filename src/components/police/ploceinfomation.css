@@ -4,6 +4,10 @@
 .ploceinfomation .selectBorder {
   border: 1px solid #ff7200 !important;
 }
+.ploceinfomation .policeList .picImg {
+  width: 100%;
+  min-height: 14vh;
+}
 .ploceinfomation .policeList {
   min-height: 14vh;
   background: #EEEEEE;

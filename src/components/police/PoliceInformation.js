@@ -138,27 +138,6 @@ class PoliceInformation extends Component {
                 cavProportionW,cavProportionH
             })
     };
-    hanleAddremoval=()=>{
-        if(this.state.cavProportionW && this.state.cavProportionH){
-            const xi = 510 / this.state.pic_width, yi = 340 / this.state.pic_height;
-            this.state.fieldresult.map((v)=>{
-                if(this.state.cavProportionW>=parseInt(v.x*xi) && this.state.cavProportionW<=parseInt((v.x+v.w)*xi) && this.state.cavProportionH>=parseInt(v.y*yi) && this.state.cavProportionH<=parseInt((v.y+v.h)*yi)){
-                    axios.ajax({
-                        method:"post",
-                        url:window.g.loginURL+"/api/alarm/distinctpoint",
-                        data:{
-                            cid:this.state.alarmCid,
-                            finalinfo:JSON.stringify(v)
-                        }
-                    }).then((res)=>{
-                       message.info(res.msg)
-                    })
-                }
-            });
-        }else{
-            message.warning("请点击目标对象!");
-        }
-    }
     //画围界
     draw=()=>{
         let ele = document.getElementById("canvasobj");
@@ -215,6 +194,31 @@ class PoliceInformation extends Component {
             magnifierOff:false
         })
     };
+    //去重
+    hanleAddremoval=()=>{
+        this.setState({
+            magnifierOff:false
+        })
+        /* if(this.state.cavProportionW && this.state.cavProportionH){
+             const xi = 510 / this.state.pic_width, yi = 340 / this.state.pic_height;
+             this.state.fieldresult.map((v)=>{
+                 if(this.state.cavProportionW>=parseInt(v.x*xi) && this.state.cavProportionW<=parseInt((v.x+v.w)*xi) && this.state.cavProportionH>=parseInt(v.y*yi) && this.state.cavProportionH<=parseInt((v.y+v.h)*yi)){
+                     axios.ajax({
+                         method:"post",
+                         url:window.g.loginURL+"/api/alarm/distinctpoint",
+                         data:{
+                             cid:this.state.alarmCid,
+                             finalinfo:JSON.stringify(v)
+                         }
+                     }).then((res)=>{
+                        message.info(res.msg)
+                     })
+                 }
+             });
+         }else{
+             message.warning("请点击目标对象!");
+         }*/
+    }
     //动态获取报警图片的宽度和高度
     hanleLoad=()=>{
         this.setState({

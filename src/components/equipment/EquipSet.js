@@ -1819,9 +1819,12 @@ class EquipSet extends Component {
                           {
                             required: true,
                             message: "请输入摄像头名称!"
+                          },{
+                                pattern: new RegExp("^[0-9\u4e00-\u9fa5]+$","g"),
+                                message: "请输入10位以内汉字、数字!"
                           }
                         ]
-                      })(<Input />)}
+                      })(<Input placeholder="请输入10位以内汉字、数字" maxLength={10} />)}
                     </Form.Item>
                     <Form.Item label="IP地址">
                       {getFieldDecorator("ip", {
