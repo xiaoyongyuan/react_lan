@@ -3,7 +3,6 @@ import videojs from 'video.js';
 import 'video.js/dist/video-js.min.css';
 import flash from "../../style/ztt/imgs/flash.png";
 import "./live.less";
-import videoswf from "../../style/video/video-js.swf";
 var ActiveXObject=window.ActiveXObject;
 class Live extends Component {
     constructor(props){
@@ -40,17 +39,20 @@ class Live extends Component {
         }
         if(has_flash){
             var _this=this;
-            videojs.options.flash.swf = videoswf;
-            this.player = videojs('myvideo', {
+           videojs.options.flash.swf = require('videojs-swf/dist/video-js.swf');
+           // videojs.options.flash.swf = require("../../style/video-js.swf");
+            this.player = videojs(this.videoNode, {
                 preload: 'auto',// 预加载
                 bigPlayButton: {},// 大按钮
                 controls: true,// 是否开启控制栏
                 width: 850,// 播放器宽度
                 height: 600,// 播放器高度
                 playbackRates: [1, 1.5, 2],
-                muted: false, //是否静音
+                muted: true, //是否静音
                 loop : false, //是否循环播放
                 autoplay:true, //是否自动播放
+                techOrder: ["flash"],//设置flash播放
+                language: "zh-CN",
             }, function onPlayerReady() {
                 if(_this.props.videostreaming){
                     this.src({
@@ -60,12 +62,13 @@ class Live extends Component {
                 }
             });
         }else{
-            videojs.options.flash.swf = videoswf;
-            this.player = videojs('myvideo', {
+            this.player = videojs(this.videoNode, {
                 preload: 'none',// 预加载
                 width: 850,// 播放器宽度
                 height: 600,// 播放器高度
                 playbackRates: [1, 1.5, 2],
+                techOrder: ["flash"],//设置flash播放
+                language: "zh-CN",
             });
         }
     }

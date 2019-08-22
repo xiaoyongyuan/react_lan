@@ -59,8 +59,8 @@ class RecycleBin extends Component{
         });
     };
     hanleEliminate=(time)=>{
-        let beforeTime = moment(time).format('YYYY-MM-DD HH:mm:ss');
-        let mydate = moment(moment(new Date()).format('YYYY-MM-DD HH:mm:ss'));
+        let beforeTime = moment(time).format('YYYY-MM-DD ');
+        let mydate = moment(moment(new Date()).format('YYYY-MM-DD '));
         let days=mydate.diff(beforeTime, 'day');
         return 7-days;
     };
