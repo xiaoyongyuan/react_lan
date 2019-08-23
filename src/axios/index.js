@@ -66,7 +66,7 @@ export default class Axios {
                     loading = document.getElementById("ajaxLoading");
                     loading.style.display = "none";
                 }
-                if(response&&response.status===200){
+                if(response&&response.status==200){
                     const res=response.data;
                     if(res.success===0){resolve(res)}
                     if(res.success===1){
