@@ -637,7 +637,7 @@ class PoliceInformation extends Component {
                                     ))
                                 }
                             </Row>
-                            <div className="pagination"><Pagination showSizeChanger={true} hideOnSinglePage={true}  onShowSizeChange={this.onShowSizeChange} defaultCurrent={this.state.page} current={this.state.page} total={this.state.totalcount} pageSize={this.state.pagesize} onChange={this.hanlePage} style={{display:this.state.policeList.length>0?"block":"none"}} /></div>
+                            <div className="pagination"><Pagination showSizeChanger={true} hideOnSinglePage={true}  onShowSizeChange={this.onShowSizeChange} defaultCurrent={this.state.page} current={this.state.page} total={this.state.totalcount} pageSize={this.state.pagesize} onChange={this.hanlePage} /></div>
                         </div>
                     ]:[
                         <div className="nodataEmpty">
