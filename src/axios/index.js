@@ -16,7 +16,7 @@ export default class Axios {
                         loading = document.getElementById("ajaxLoading");
                         loading.style.display = "none";
                     }
-                    if (response && response.status == "200") {
+                    if (response && response.status === "200") {
                         const res = response.data;
                         resolve(res);
                     } else reject(response.msg);
@@ -66,12 +66,12 @@ export default class Axios {
                     loading = document.getElementById("ajaxLoading");
                     loading.style.display = "none";
                 }
-                if(response&&response.status===200){
+                if(response&&response.status === 200){
                     const res=response.data;
                     if(res.success===0){resolve(res)}
                     if(res.success===1){
                         resolve(res)
-                    }else if(res.success=='401'){
+                    }else if(res.success === '401'){
                         window.location.href='#/login';
                         message.warning("登录已过期，请重新登录！")
                     }

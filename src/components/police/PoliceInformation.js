@@ -29,7 +29,8 @@ class PoliceInformation extends Component {
             lastcode:"",//上一个
             magnifierOff:false,
             widthEnlarge:"",//放大图片的宽度
-            heightNarrow:""//放大图片的高度
+            heightNarrow:"",//放大图片的高度
+            auxiliary:false,//是否点击副报警
         };
     }
     componentDidMount() {
@@ -93,6 +94,7 @@ class PoliceInformation extends Component {
                             });
                           this.setState({
                               alarm:res.data.Malarm,
+                              alarmTime:res.data.Malarm.atime,
                               alarmCid:res.data.Malarm.cid,
                               alarmImg:res.data.Malarm.picpath,
                               malarminfo:res.data.Malarm.Malarminfo,
@@ -310,6 +312,8 @@ class PoliceInformation extends Component {
     //多条报警图片
     hanleReplace=(picImg)=>{
         this.setState({
+            clickCode:picImg.code,
+            alarmTime:picImg.atime,
             alarmImg:picImg.picpath,
             fields:picImg.field,
             fieldresult:picImg.fieldresult,
@@ -319,11 +323,33 @@ class PoliceInformation extends Component {
             this.draw();
         })
     };
+    //点击报警选中的样式
+    hanleBorder=(index)=>{
+        if(this.state.policeListCode===index){
+            return "selectBorder";
+        }
+    };
+    //点击副报警选中的样式
+    hanleAuxiliary=(code)=>{
+        if(this.state.clickCode===code){
+            return "selectBorder";
+        }
+    };
+    /*
+        默认主报警的样式
+        是否点击副报警图片 是 返回样式 否 不返回样式
+    */
+    hanleFirstAuxiliary=(alarm)=>{
+        if(this.state.policeListCode===this.state.clickCode){
+            return "selectBorder";
+        }
+    };
     //查看详情
     hanlePoliceDateil=(code,index)=>{
         this.setState({
             policeListCode:code,
             policeListIndex:index,
+            auxiliary:false
         },()=>{
             this.getInfor();
         });
@@ -401,11 +427,6 @@ class PoliceInformation extends Component {
         },()=>{
             this.getInfor();
         })
-    };
-    hanleBorder=(index)=>{
-       if(this.state.policeListCode===index){
-           return "selectBorder";
-       }
     };
     disabledDate = (current) => {
         return current > moment().endOf('day');
@@ -489,12 +510,12 @@ class PoliceInformation extends Component {
                                     <Row>
                                         <Col span={12}>
                                             <div className="smallImg">
-                                                <div className="everyImg">
+                                                <div className={"everyImg "+this.hanleFirstAuxiliary()}>
                                                     <img src={this.state.alarm.picpath} alt="" onClick={()=>this.hanleReplace(this.state.alarm)} />
                                                 </div>
                                                 {
                                                    this.state.malarminfo.map((v,i)=>(
-                                                        <div key={i} className="everyImg">
+                                                        <div key={i} className={"everyImg "+this.hanleAuxiliary(v.code)}>
                                                            <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
                                                         </div>
                                                     ))
@@ -535,7 +556,7 @@ class PoliceInformation extends Component {
                                                 报警时间
                                             </Col>
                                             <Col className="equipName-right" span={16}>
-                                                <span className="equipName-right-word">{this.state.alarm.atime}</span>
+                                                <span className="equipName-right-word">{this.state.alarmTime}</span>
                                             </Col>
                                         </Row>
                                         <Row className="equipName">

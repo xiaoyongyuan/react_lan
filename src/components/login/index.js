@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Icon, Input, Button, message } from "antd";
+import { Form,Input, Button, message } from "antd";
 import axios from "../../axios/index";
 import logo from "../../style/imgs/logo.png";
 import "./index.less";

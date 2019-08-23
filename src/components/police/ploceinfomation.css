@@ -41,7 +41,7 @@
 .ploceinfomation .pagination {
   width: 100%;
   text-align: center;
-  padding-bottom: 20px;
+  padding: 20px 0;
 }
 .ploceinfomation .nodata {
   display: flex;
@@ -197,7 +197,7 @@
 .ploceinfomation .ploceinfomation-main .main-left .smallImg .everyImg {
   width: 48px;
   height: 30px;
-  padding-left: 2px;
+  padding: 2px;
   margin: 2px 3px;
   display: flex;
 }
