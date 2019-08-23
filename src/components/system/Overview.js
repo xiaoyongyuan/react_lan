@@ -285,7 +285,7 @@ class Overview extends Component {
                 />
               </Col>
               <Col span={5} className="vjcenter">
-                <span style={{ width: "20%" }}>显存</span>
+                <span>显存</span>
                 <span className="prog" style={{ width: "50%" }}>
                   {datalist.videoRam}
                 </span>
