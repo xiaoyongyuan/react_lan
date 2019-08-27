@@ -97,7 +97,7 @@ class PoliceInformation extends Component {
                               alarmTime:res.data.Malarm.atime,
                               alarmCid:res.data.Malarm.cid,
                               alarmImg:res.data.Malarm.picpath,
-                              malarminfo:res.data.Malarm.Malarminfo,
+                              malarminfo:res.data.Malarm.Malarminfo.slice(0,9),
                               fields:res.data.Malarm.field,
                               fieldresult:res.data.Malarm.fieldresult,
                               policeListCode:res.data.Malarm.code,
@@ -624,8 +624,8 @@ class PoliceInformation extends Component {
                             <Row gutter={16}>
                                 {
                                     this.state.policeList.map((v,i)=>(
-                                        <Col className={"gutter-row "+this.hanleBorder(v.code)} xxl={4} xl={6} key={i} >
-                                            <div className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
+                                        <Col className={"gutter-row "+this.hanleBorder(v.code)} xxl={4} xl={6} >
+                                            <div  key={i}  className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
                                                 <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
                                                 <div className="policeBottom">
                                                     <span className="policeCircle" /><span className="policeName">{v.name}</span>

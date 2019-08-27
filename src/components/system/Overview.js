@@ -163,7 +163,7 @@ class Overview extends Component {
         }
       },
       tooltip: {
-        formatter: "{c}MB"
+        formatter: "{c}GB"
       },
       series: [
         {
@@ -171,10 +171,8 @@ class Overview extends Component {
           radius: ["50%", "80%"],
           label: [],
           data: [
-            {
-              value: datalist.surplusDisksMemories / datalist.MaxDisksMemories
-            },
-            { value: datalist.couldUseMemories / datalist.MaxDisksMemories }
+            { value: datalist.surplusDisksMemories},
+            { value: datalist.couldUseMemories }
           ]
         }
       ],
@@ -238,7 +236,7 @@ class Overview extends Component {
               </Card>
             </Col>
             <Col span={8}>
-              <Card title="磁盘内存" bordered={false} className="disk">
+              <Card title="磁盘空间" bordered={false} className="disk">
                 <Row>
                   <Col span={16}>
                     <div className="pie">
@@ -251,15 +249,15 @@ class Overview extends Component {
                   <Col span={8}>
                     <p className="desc elli">
                       <span className="dot bluedot" />
-                      可使用磁盘
+                      剩余磁盘空间
                     </p>
                     <p className="desc elli">
                       <span className="dot orangedot" />
-                      剩余磁盘
+                      已使用磁盘空间
                     </p>
                     <p className="desc elli">
                       <span className="dot lightbluedot" />
-                      最大可使用磁盘
+                      磁盘总空间
                     </p>
                   </Col>
                 </Row>

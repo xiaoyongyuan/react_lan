@@ -277,7 +277,6 @@ class UserInfo extends Component {
             ifdel: 1
           }
         }).then(res => {
-          console.log(res);
           if (res.data.success) {
             message.success("删除用户成功");
             _this.getUserData();

@@ -1,1 +1,7 @@
-.LayerSider .actionfont{padding-right:5px}
+.LayerSider {
+  font-family: 'Microsoft YaHei';
+}
+.LayerSider .actionfont {
+  padding-right: 5px;
+}
+/*# sourceMappingURL=index.css.map */

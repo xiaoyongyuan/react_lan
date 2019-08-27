@@ -45,6 +45,11 @@ export default {
           component: "UserInfo"
         },
         {
+          title: "分组管理",
+          key: "/main/groupManagement",
+          component: "GroupManagement"
+        },
+        {
           title: "网络设置",
           key: "/main/networkSettings",
           component: "NetworkSettings"

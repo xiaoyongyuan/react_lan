@@ -81,7 +81,7 @@ class Broadcast extends Component {
                 {
                     this.state.liveList.length>0?
                         [this.state.liveList.map((v,i)=>(
-                        <Col xxl={4} xl={8} className="gutter-row" key={i}>
+                        <Col key={i} xxl={4} xl={8} className="gutter-row">
                             <div className="gutter-box borderBot">
                                 <img className="videoImg" src={v.basemap?v.basemap+"?t="+this.state.nowTime:defenceImg} alt="" />
                                 <img className="videoBtn" src={playBtn} alt="" onClick={()=>this.hanleLive(v.videostreaming)} />

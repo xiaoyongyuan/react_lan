@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { LocaleProvider } from 'antd';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
+import "babel-polyfill";
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
