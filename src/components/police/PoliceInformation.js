@@ -339,7 +339,7 @@ class PoliceInformation extends Component {
         默认主报警的样式
         是否点击副报警图片 是 返回样式 否 不返回样式
     */
-    hanleFirstAuxiliary=(alarm)=>{
+    hanleFirstAuxiliary=()=>{
         if(this.state.policeListCode===this.state.clickCode){
             return "selectBorder";
         }
@@ -504,7 +504,7 @@ class PoliceInformation extends Component {
                                             </div>
                                         </Col>
                                         <Col className="main-left-R" span={12}>
-                                            <video controls="controls" src={this.state.alarm.videopath} style={{ width:'96%',height:'100%' }}/>
+                                            <video controls="controls" src={this.state.alarm.videopath?this.state.alarm.videopath:""} style={{ width:'96%',height:'100%' }}/>
                                         </Col>
                                     </Row>
                                     <Row>
