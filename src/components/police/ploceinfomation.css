@@ -339,6 +339,15 @@
 }
 .ploceinfomation .ploceinfomation-main .main-right .up .alarmInfor {
   color: #294499;
+  display: flex;
+  align-items: center;
+}
+.ploceinfomation .ploceinfomation-main .main-right .up .alarmInfor .alarmInforBg {
+  display: inline-block;
+  width: 18px;
+  height: 17px;
+  background: url("../../style/ztt/imgs/alarmInfoBg.png") no-repeat;
+  background-size: 100% 100%;
 }
 .ploceinfomation .ploceinfomation-main .main-right .up .equipName {
   margin: 8px 0;
@@ -401,18 +410,28 @@
   justify-content: space-between;
   font-size: 15px;
   font-weight: bolder;
-  border-top: 3px solid #f3f3f5;
-  padding: 16px 0;
+  padding: 14px 0;
 }
 .ploceinfomation .ploceinfomation-main .main-right .down .equipHandleTitle .alarmsta {
   color: #203c96;
+  display: flex;
+  align-items: center;
+}
+.ploceinfomation .ploceinfomation-main .main-right .down .equipHandleTitle .alarmsta .equimentBg {
+  display: inline-block;
+  width: 18px;
+  height: 17px;
+  background: url("../../style/ztt/imgs/equimentBg.png") no-repeat;
+  background-size: 100% 100%;
 }
 .ploceinfomation .ploceinfomation-main .main-right .down .equipHandleTitle .addDuplicate {
   color: #006de7;
 }
 .ploceinfomation .ploceinfomation-main .main-right .down .equipHandle {
   background-color: #f3f3f5;
-  padding: 3% 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
 }
 .ploceinfomation .ploceinfomation-main .main-right .down .equipHandle .policeBtn {
   color: #fff;

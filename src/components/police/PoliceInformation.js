@@ -530,7 +530,10 @@ class PoliceInformation extends Component {
                                         <Col span={21}>
                                             <div className="up">
                                                 <div style={{ height:'20px' }}></div>
-                                                <p className="alarmInfor">报警信息</p>
+                                                <p className="alarmInfor">
+                                                    <span className="alarmInforBg"/>&nbsp;
+                                                    <span>报警信息</span>
+                                                </p>
                                                 <Row className="equipName">
                                                     <Col className="equipName-left" span={8}>
                                                         设备名称
@@ -578,7 +581,10 @@ class PoliceInformation extends Component {
                                             </div>
                                             <div className="down">
                                                 <div className="equipHandleTitle">
-                                                    <div className="alarmsta">报警状态</div>
+                                                    <div className="alarmsta">
+                                                        <span className="equimentBg"/>&nbsp;
+                                                        <span>报警状态</span>
+                                                    </div>
                                                     <div className="addDuplicate ">添加去重</div>
                                                 </div>
                                                 <Row className="equipHandle">

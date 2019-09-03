@@ -338,6 +338,15 @@
         font-size: 15px;
         .alarmInfor{
           color:#294499;
+          display: flex;
+          align-items: center;
+          .alarmInforBg{
+            display: inline-block;
+            width: 18px;
+            height: 17px;
+            background: url("../../style/ztt/imgs/alarmInfoBg.png") no-repeat;
+            background-size: 100% 100%;
+          }
         }
         .equipName{
           margin: 8px 0;
@@ -397,13 +406,21 @@
         width: 90%;
         .equipHandleTitle{
           display: flex;
-          justify-content:space-between;
+          justify-content: space-between;
           font-size: 15px;
           font-weight: bolder;
-          border-top: 3px solid #f3f3f5;
-          padding: 16px 0;
+          padding: 14px 0;
           .alarmsta{
             color: #203c96;
+            display: flex;
+            align-items: center;
+            .equimentBg{
+              display: inline-block;
+              width: 18px;
+              height: 17px;
+              background: url("../../style/ztt/imgs/equimentBg.png") no-repeat;
+              background-size: 100% 100%;
+            }
           }
           .addDuplicate{
             color:#006de7;
@@ -411,7 +428,9 @@
         }
         .equipHandle{
           background-color: #f3f3f5;
-          padding: 3% 0;
+          height: 56px;
+          display: flex;
+          align-items: center;
           .policeBtn{
             color: #fff;
             margin-left: 20%;
