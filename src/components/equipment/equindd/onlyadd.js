@@ -94,16 +94,19 @@ class Onlyadd extends Component{
           <Row>
             <Col span={10}>
               <Row>
-                <Form.Item label="摄像头名称">
-                  {getFieldDecorator("name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "请输入摄像头名称!"
-                      }
-                    ]
-                  })(<Input />)}
-                </Form.Item>
+                  <Form.Item label="摄像头名称">
+                      {getFieldDecorator("name", {
+                          rules: [
+                              {
+                                  required: true,
+                                  message: "请输入摄像头名称!"
+                              },{
+                                  pattern: new RegExp("^[0-9\u4e00-\u9fa5]+$","g"),
+                                  message: "请输入10位以内汉字、数字!"
+                              }
+                          ]
+                      })(<Input placeholder="请输入10位以内汉字、数字" maxLength={10} />)}
+                  </Form.Item>
                 <Form.Item label="IP地址">
                   {getFieldDecorator("ip", {
                     rules: [

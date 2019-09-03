@@ -487,16 +487,9 @@ class PoliceInformation extends Component {
                                 <div className="main-left">
                                     <Row type="flex" justify="space-around">
                                         <Col span={1} className="pageLeft">
-                                            <div className="pageBorder" onClick={()=>this.hanleUper("lastcode")} >
-                                                {
-                                                    this.state.policeListCode?[
-                                                        <Icon type="left" />
-                                                    ]:[
-                                                        <Tooltip title="没有上一个"></Tooltip>
-                                                    ]
-                                                }
+                                            <div className="pageBorder">
+                                                <Icon type="left" onClick={()=>this.hanleUper("lastcode")} />
                                             </div>
-                                            {/*<Button type="left" onClick={()=>this.hanleUper("lastcode")} disabled={this.state.lastcode?false:true}></Button>*/}
                                         </Col>
                                         <Col className="main-left-L" span={12}>
                                             <div className="img-up-fu">
@@ -531,12 +524,6 @@ class PoliceInformation extends Component {
                                             <video controls="controls" src={this.state.alarm.videopath?this.state.alarm.videopath:""} style={{ width:'100%',height:'100%' }}/>
                                         </Col>
                                     </Row>
-                                   {/* <Row>
-                                        <Col span={12} className="updown">
-                                            <Button onClick={()=>this.hanleUper("lastcode")} disabled={this.state.lastcode?false:true}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
-                                            <Button onClick={()=>this.hanleUper("nextcode")} disabled={this.state.nextcode?false:true}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
-                                        </Col>
-                                    </Row>*/}
                                 </div>
                                 <div className="main-right">
                                     <Row>
@@ -605,9 +592,8 @@ class PoliceInformation extends Component {
                                             </div>
                                         </Col>
                                         <Col span={3} className="pageLeft">
-                                            {/*<Button type="right" onClick={()=>this.hanleUper("nextcode")} disabled={this.state.nextcode?false:true}></Button>*/}
-                                            <div className="pageBorder" onClick={()=>this.hanleUper("nextcode")} >
-                                                <Icon type="right" />
+                                            <div className="pageBorder">
+                                                <Icon type="right"  onClick={()=>this.hanleUper("nextcode")}  />
                                             </div>
                                         </Col>
                                     </Row>

@@ -39,7 +39,6 @@ export default class EquipSet extends Component {
       defThreeSubBtn: true ,
       initareaMove: false,
       defSelect: "zero",
-      initareaMove: false,
       newinitarea: [],
       areaOne: [], //防区一 防区图形的坐标
       areaTwo: [],
