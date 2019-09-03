@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Row, Col, Select, DatePicker, Button, Icon, Form, message, Pagination, Switch, Checkbox, Empty} from 'antd';
+import {Row, Col, Select, DatePicker, Button, Icon, Form, message, Pagination, Switch, Checkbox, Empty,Tooltip} from 'antd';
 import "./ploceinfomation.less";
 import alarmcl from "../../style/imgs/alarmcl.png";
 import alarmBg from "../../style/ztt/imgs/defenceImg.png";
@@ -149,7 +149,7 @@ class PoliceInformation extends Component {
         if(this.state.alarmImg){
             const datafield = this.state.fields;
             if (this.state.field && datafield.length>0) {
-                const xi=510/704, yi=340/576;
+                const xi=510/704, yi=360/576;
                 let areafield = ele.getContext("2d");
                 for(let i=0;i<datafield.length;i++){
                     let list=datafield[i].pointList;
@@ -172,7 +172,7 @@ class PoliceInformation extends Component {
             const objs = this.state.fieldresult;
             if (this.state.obj && objs.length>0) {
                 //计算缩放比例
-                const x = 510 / this.state.pic_width, y = 340 / this.state.pic_height;
+                const x = 510 / this.state.pic_width, y = 360 / this.state.pic_height;
                 objs.map((el, i) => {
                     area.strokeStyle = '#ff0';
                     area.beginPath();
@@ -484,12 +484,24 @@ class PoliceInformation extends Component {
                     this.state.policeList.length>0?[
                         <div>
                             <Row className="ploceinfomation-main" >
-                                <div  className="main-left">
+                                <div className="main-left">
                                     <Row type="flex" justify="space-around">
+                                        <Col span={1} className="pageLeft">
+                                            <div className="pageBorder" onClick={()=>this.hanleUper("lastcode")} >
+                                                {
+                                                    this.state.policeListCode?[
+                                                        <Icon type="left" />
+                                                    ]:[
+                                                        <Tooltip title="没有上一个"></Tooltip>
+                                                    ]
+                                                }
+                                            </div>
+                                            {/*<Button type="left" onClick={()=>this.hanleUper("lastcode")} disabled={this.state.lastcode?false:true}></Button>*/}
+                                        </Col>
                                         <Col className="main-left-L" span={12}>
                                             <div className="img-up-fu">
                                                 <div className="alarmImg" ref="alarmImg" onLoad={this.hanleLoad}>
-                                                    <canvas id="canvasobj"  onClick={this.hanleRemoval} onMouseEnter={this.hanleEnter} width="510px" height="340px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
+                                                    <canvas id="canvasobj"  onClick={this.hanleRemoval} onMouseEnter={this.hanleEnter} width="510px" height="360px" style={{backgroundImage:'url('+this.state.alarmImg+')',backgroundSize:"100% 100%"}} />
                                                     <img src={nodata} alt="" className="nodata" style={{display:this.state.alarmImg?"none":"block"}} />
                                                     {
                                                         this.state.magnifierOff && this.state.alarmImg?(
@@ -501,111 +513,104 @@ class PoliceInformation extends Component {
                                                     <div className="circle" />
                                                     <span className="img-up-fu-word-span">{this.state.alarm.name}</span>
                                                 </div>
+                                                <div className="smallImg">
+                                                    <div className={"everyImg "+this.hanleFirstAuxiliary()}>
+                                                        <img src={this.state.alarm.picpath} alt="" onClick={()=>this.hanleReplace(this.state.alarm)} />
+                                                    </div>
+                                                    {
+                                                        this.state.malarminfo.map((v,i)=>(
+                                                            <div key={i} className={"everyImg "+this.hanleAuxiliary(v.code)}>
+                                                                <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
                                             </div>
                                         </Col>
-                                        <Col className="main-left-R" span={12}>
-                                            <video controls="controls" src={this.state.alarm.videopath?this.state.alarm.videopath:""} style={{ width:'96%',height:'100%' }}/>
+                                        <Col className="main-left-R" span={11}>
+                                            <video controls="controls" src={this.state.alarm.videopath?this.state.alarm.videopath:""} style={{ width:'100%',height:'100%' }}/>
                                         </Col>
                                     </Row>
-                                    <Row>
-                                        <Col span={12}>
-                                            <div className="smallImg">
-                                                <div className={"everyImg "+this.hanleFirstAuxiliary()}>
-                                                    <img src={this.state.alarm.picpath} alt="" onClick={()=>this.hanleReplace(this.state.alarm)} />
-                                                </div>
-                                                {
-                                                   this.state.malarminfo.map((v,i)=>(
-                                                        <div key={i} className={"everyImg "+this.hanleAuxiliary(v.code)}>
-                                                           <img src={v.picpath?v.picpath:alarmBg} alt="" onClick={()=>this.hanleReplace(v)} />
-                                                        </div>
-                                                    ))
-                                                }
-                                            </div>
-                                        </Col>
+                                   {/* <Row>
                                         <Col span={12} className="updown">
                                             <Button onClick={()=>this.hanleUper("lastcode")} disabled={this.state.lastcode?false:true}><div className="updown-left"><Icon type="arrow-left" style={{ color: '#fff' }} /></div>上一个</Button>
                                             <Button onClick={()=>this.hanleUper("nextcode")} disabled={this.state.nextcode?false:true}><div className="updown-left"><Icon type="arrow-right" style={{ color: '#fff' }}  /></div>下一个</Button>
                                         </Col>
-                                    </Row>
+                                    </Row>*/}
                                 </div>
                                 <div className="main-right">
-                                    <div className="up">
-                                        <div style={{ height:'20px' }}>
-                                        </div>
-                                        <Row className="equipName">
-                                            <Col className="equipName-left" span={8}>
-                                                设备名称
-                                            </Col>
-                                            <Col className="equipName-right" span={16}>
-                                                <span className="equipName-right-word">{this.state.alarm.name}</span>
-                                            </Col>
-                                        </Row>
-                                        <Row className="equipName">
-                                            <Col className="equipName-left" span={8}>
-                                                报警类型
-                                            </Col>
-                                            <Col className="equipName-left" span={8}>
-                                                <span className="equipName-right-word">{this.state.tagType===0?"人员报警":"车辆报警"}</span>
-                                            </Col>
-                                            <Col className="equipName-right-caralarm" span={8}>
-                                                <span className="equipName-right-word">{this.state.tagType===0?"车辆报警":"人员报警"}</span>
-                                            </Col>
-                                        </Row>
-                                        <Row className="equipName">
-                                            <Col className="equipName-left" span={8}>
-                                                报警时间
-                                            </Col>
-                                            <Col className="equipName-right" span={16}>
-                                                <span className="equipName-right-word">{this.state.alarmTime}</span>
-                                            </Col>
-                                        </Row>
-                                        <Row className="equipName">
-                                            <Col className="equipName-left" span={8}>
-                                                报警状态
-                                            </Col>
-                                            <Col className="equipName-right" span={16}>
-                                                <span className="equipName-right-word">{this.updateStatus(this.state.alarm.status?this.state.alarm.status:"")}</span>
-                                            </Col>
-                                        </Row>
-                                        <Row className="showTaget">
-                                            <Col span={8}>
-                                                <div className="showfq" style={{display:this.state.alarmImg?"block":"none"}}>
-                                                    <div className="zdupdate-word">防区显示&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></div>
+                                    <Row>
+                                        <Col span={21}>
+                                            <div className="up">
+                                                <div style={{ height:'20px' }}></div>
+                                                <p className="alarmInfor">报警信息</p>
+                                                <Row className="equipName">
+                                                    <Col className="equipName-left" span={8}>
+                                                        设备名称
+                                                    </Col>
+                                                    <Col className="equipName-right" span={16}>
+                                                        <span className="equipName-right-word">{this.state.alarm.name}</span>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="equipName">
+                                                    <Col className="equipName-left" span={8}>
+                                                        报警类型
+                                                    </Col>
+                                                    <Col className="equipName-right" span={16}>
+                                                        <span className="equipName-right-word">{this.state.tagType===0?"人员报警":"车辆报警"}</span>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="equipName">
+                                                    <Col className="equipName-left" span={8}>
+                                                        报警时间
+                                                    </Col>
+                                                    <Col className="equipName-right" span={16}>
+                                                        <span className="equipName-right-word">{this.state.alarmTime}</span>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="equipName">
+                                                    <Col className="equipName-left" span={8}>
+                                                        报警状态
+                                                    </Col>
+                                                    <Col className="equipName-right" span={16}>
+                                                        <span className="equipName-right-word">{this.updateStatus(this.state.alarm.status?this.state.alarm.status:"")}</span>
+                                                    </Col>
+                                                </Row>
+                                                {
+                                                    this.state.alarmImg?[
+                                                        <Row className="equipName">
+                                                            <Col className="equipNamefiled" span={11}>
+                                                                防区显示<Switch className="switchfiled"  checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')}/>
+                                                            </Col>
+                                                            <Col className="equipName-right" span={13}>
+                                                                目标显示<Switch className="switchfiled" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} />
+                                                            </Col>
+                                                        </Row>
+                                                    ]:""
+                                                }
+                                            </div>
+                                            <div className="down">
+                                                <div className="equipHandleTitle">
+                                                    <div className="alarmsta">报警状态</div>
+                                                    <div className="addDuplicate ">添加去重</div>
                                                 </div>
-                                                <div className="showfq" style={{display:this.state.alarmImg?"block":"none"}}>
-                                                    <div className="zdupdate-word">目标显示&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></div>
-                                                </div>
-                                            </Col>
-                                            <Col span={16} className="addqc">
-                                                <div className="addqcdiv">
-                                                    <span onClick={this.hanleAddremoval}>添加去重</span>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </div>
-                                    <div className="down">
-                                        <Row>
-                                            <Col span={6}>
-                                                <div className="alarmcl">
-                                                    <div className="alarmcl-img">
-                                                        <img src={alarmcl} style={{ width:'50px',height:'40px' }}/>
-                                                    </div>
-                                                    <div className="alarmcl-word">
-                                                        <span>报警处理</span>
-                                                    </div>
-
-                                                </div>
-                                            </Col>
-                                            <Col span={18}>
-                                                <div className="alarmq" onClick={()=>this.hanlePoliceStatus("1")}>
-                                                    <span>警情</span>
-                                                </div>
-                                                <div className="alarmx" onClick={()=>this.hanlePoliceStatus("3")}>
-                                                    <span>虚警</span>
-                                                </div>
-                                            </Col>
-                                        </Row>
-                                    </div>
+                                                <Row className="equipHandle">
+                                                    <Col span={12}>
+                                                        <Button type="primary" className="policeBtn policq" onClick={()=>this.hanlePoliceStatus("1")}>警情</Button>
+                                                    </Col>
+                                                    <Col span={12}>
+                                                        <Button type="primary" className="policeBtn policex" onClick={()=>this.hanlePoliceStatus("3")}>虚警</Button>
+                                                    </Col>
+                                                </Row>
+                                            </div>
+                                        </Col>
+                                        <Col span={3} className="pageLeft">
+                                            {/*<Button type="right" onClick={()=>this.hanleUper("nextcode")} disabled={this.state.nextcode?false:true}></Button>*/}
+                                            <div className="pageBorder" onClick={()=>this.hanleUper("nextcode")} >
+                                                <Icon type="right" />
+                                            </div>
+                                        </Col>
+                                    </Row>
                                 </div>
                             </Row>
                             <Row className="ploceinfomation-update">
@@ -628,10 +633,13 @@ class PoliceInformation extends Component {
                                             <div  key={i}  className="gutter-box policeList" onClick={()=>this.hanlePoliceDateil(v.code,i)}>
                                                 <img src={v.picpath?v.picpath:alarmBg} className="picImg" alt=""/>
                                                 <div className="policeBottom">
-                                                    <span className="policeCircle" /><span className="policeName">{v.name}</span>
+                                                    <span className="policeName">{v.atime}</span>
                                                 </div>
                                                 <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
-                                                <span className="policeTimes">{v.atime}</span>
+                                               <div className="policeNikName">
+                                                    <span className="policeCircle" />
+                                                   <span className="policeTimes">{v.name}</span>
+                                               </div>
                                             </div>
                                         </Col>
                                     ))

@@ -8,6 +8,10 @@
   .selectBorder{
     border: 1px solid #ff7200!important;
   }
+  .ant-switch-loading-icon, .ant-switch::after{
+    width: 16px!important;
+    height: 16px!important;
+  }
   .policeList .picImg{
     width: 100%;
     min-height: 14vh;
@@ -180,29 +184,37 @@
   }
   .ploceinfomation-main{
     height: 400px;
-    background-color: #f0f2f5;
+    background-color: #fff;
     margin-top: 15px;
+    .pageLeft{
+      line-height: 400px;
+      .anticon{
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #EEEEEE;
+        font-size: 26px;
+        cursor: pointer;
+      }
+      .anticon:hover{
+
+      }
+    }
     .main-left{
-      background-color: #fff;
       height: 100%;
-      width: 69%;
+      width: 74%;
       float: left;
-      .smallImg{
-        width: 100%;
+      .updown-left{
+        margin: 0 10px;
+        width: 20px;
+        height: 20px;
+        background-color: #006fe3;
         display: flex;
-        padding-left: 16px;
-        .everyImg{
-          width: 48px;
-          height: 30px;
-          padding: 2px;
-          margin: 2px 3px;
-          display: flex;
-        }
-        .everyImg img{
-          width: 100%;
-          height: 100%;
-          cursor: pointer;
-        }
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
       }
       .main-left-L{
         height: 360px;
@@ -215,7 +227,7 @@
           position: relative;
           .alarmImg{
             width:100%;
-            height:340px;
+            height:360px;
             position: relative;
             .nodata{
               width: 74px;
@@ -236,27 +248,49 @@
             width: 100%;
             height: 100%;
           }
-          .img-up-fu-word{
+          .smallImg{
             position: absolute;
             bottom: 0;
-            left:0;
+            left: 0;
             width: 100%;
-            height: 36px;
-            background-color:rgba(20,39,69,0.5);
+            display: flex;
+            background-color: rgba(14,18,23,0.7);
+            padding: 3px 0;
+            .everyImg{
+              width: 50px;
+              height: 34px;
+              padding: 2px;
+              margin: 2px 3px;
+              display: flex;
+            }
+            .everyImg img{
+              width: 100%;
+              height: 100%;
+              cursor: pointer;
+            }
+          }
+          .img-up-fu-word{
+            position: absolute;
+            top: 10%;
+            right: 1px;
+            background-color: rgba(20, 39, 69, 0.5);
             display: flex;
             align-items: center;
+            padding: 4px 7px;
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            font-size: 14px;
             .img-up-fu-word-span{
               color: #fff;
-              font-size: 14px;
               font-family: 黑体;
-              margin-left: 12px;
+              margin-left: 10px;
             }
             .circle{
-              width: 12px;
-              height: 12px;
+              width: 10px;
+              height: 10px;
               border-radius: 50%;
               background-color: #ff7200;
-              margin-left: 24px;
+              margin-left: 5px;
             }
           }
         }
@@ -266,7 +300,7 @@
       }
       .main-left-R{
         position: relative;
-        height: 360px;
+        height: 378px;
         padding:20px 20px 0 0;
         .picture{
           display: inline-block;
@@ -290,46 +324,57 @@
         justify-content: flex-end;
         font-size: 13px;
         color: #b9b9b9;
-        .updown-left{
-          margin: 0 10px;
-          width: 20px;
-          height: 20px;
-          background-color: #006fe3;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-        }
       }
     }
     .main-right{
       float: right;
-      background-color: #f0f2f5;
-      width: 30%;
+      width: 25%;
       height: 100%;
       .up{
         background-color: #fff;
         width: 100%;
-        height: 70%;
+        font-weight: bolder;
+        font-size: 15px;
+        .alarmInfor{
+          color:#294499;
+        }
         .equipName{
-          margin:0 auto 8px auto;
+          margin: 8px 0;
           width: 90%;
-          height: 35px;
+          height: 38px;
           color: #4159a1;
-          font-family: 黑体;
+          background-color: #f3f3f5;
+          display: flex;
+          align-items: center;
+          .equipNamefiled{
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .switchfiled{
+              height: 20px;
+              margin-left: 4%;
+            }
+          }
           .equipName-left{
             height: 100%;
-            background-color: #f3f3f5;
             border-right: #e4e4e5 solid 1px;
             display: flex;
             align-items: center;
             justify-content: center;
+            .switchfiled{
+              height: 20px;
+              margin-left: 4%;
+            }
           }
           .equipName-right{
             height: 100%;
-            background-color: #f3f3f5;
             display: flex;
             align-items: center;
+            .switchfiled{
+              height: 20px;
+              margin-left: 4%;
+            }
             .equipName-right-word{
               margin-left: 20px;
             }
@@ -345,58 +390,40 @@
             }
           }
         }
-        .showTaget{
-          margin: auto;
-          height: 90px;
-          width: 90%;
-          .showfq{
-            width: 100px;
-            height: 25px;
-            background-color: #006fe4;
-            border-radius:  25px ;
-            margin-right: 30px;
-            margin-top: 10px;
-            .zdupdate-word{
-              line-height: 25px;
-              font-size: 13px;
-              color:#fff;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-            .cicrle{
-              width: 15px;
-              height: 15px;
-              line-height: 15px;
-              background-color: #fff;
-              border-radius: 50%;
-              float: right;
-              margin: 5px;
-              .cicrle-icon{
-                color: #006fe4;
-              }
-            }
-          }
-          .addqc{
-            background-color: #1ECD6E;
-            .addqcdiv{
-              height: 60px;
-              background-color: #f3f3f5;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              font-family: 黑体;
-              color: #4159a1;
-              cursor: pointer;
-            }
-          }
-        }
       }
       .down{
-        background-color: #fff;
-        width: 100%;
-        height: 27%;
-        margin-top: 10px;
+        margin-top: 4px;
+        width: 90%;
+        .equipHandleTitle{
+          display: flex;
+          justify-content:space-between;
+          font-size: 15px;
+          font-weight: bolder;
+          border-top: 3px solid #f3f3f5;
+          padding: 16px 0;
+          .alarmsta{
+            color: #203c96;
+          }
+          .addDuplicate{
+            color:#006de7;
+          }
+        }
+        .equipHandle{
+          background-color: #f3f3f5;
+          padding: 3% 0;
+          .policeBtn{
+            color: #fff;
+            margin-left: 20%;
+            padding: 0 16%;
+            border: none;
+          }
+          .policq{
+            background-color: #fb380c;
+          }
+          .policex{
+            background-color: #ff7100;
+          }
+        }
         .alarmcl{
           width: 90px;
           height: 90px;
@@ -529,16 +556,23 @@
           margin-right: 5px;
         }
       }
-      .policeTimes{
-        display: inline-block;
+      .policeNikName{
         position: absolute;
         right: 0;
         bottom: 70%;
         background-color: rgba(10,51,73,0.8);
-        padding: 2px 10px;
+        padding: 3px 6px;
         color: #fff;
         border-radius: 20px;
-        font-size: 12px;
+        font-size: 13px;
+        .policeCircle{
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #FF7200;
+          margin-right: 5px;
+        }
       }
       .policeBottom{
         position: absolute;
@@ -549,15 +583,6 @@
         background-color: rgba(19,36,64,0.8);
         display: flex;
         align-items: center;
-        .policeCircle{
-          display: inline-block;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background-color: #FF7200;
-         margin-left: 18px;
-        }
-
       }
     }
   }
