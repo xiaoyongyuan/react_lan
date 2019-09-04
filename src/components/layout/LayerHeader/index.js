@@ -11,7 +11,7 @@ class LayerHeader extends Component {
     constructor(props) {
       super(props);
       this.state = {
-          alarmNum:''
+          alarmNum:'0'
       };
     }
     componentDidMount() {
