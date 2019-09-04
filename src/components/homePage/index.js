@@ -290,35 +290,35 @@ class Index extends Component {
                 <div className="equNum">
                     <div className="equ equ-right">
                         <span className="equImg1" />
-                        <div className="equContext">
+                        <div className="equContext equColor1">
                             <span className="equipName">设备总数</span>
                             <span className="equipTotal"><span className="equBer">{this.state.cameraTotals?this.state.cameraTotals:0}</span>部</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg2" />
-                        <div className="equContext">
+                        <div className="equContext equColor2">
                             <span className="equipName">在线设备</span>
                             <span className="equipTotal"><span className="equBer">{this.state.onlineCameras?this.state.onlineCameras:0}</span>部</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg3" />
-                        <div className="equContext">
+                        <div className="equContext equColor3">
                             <span className="equipName">离线设备</span>
                             <span className="equipTotal"><span className="equBer">{this.state.downCameras?this.state.downCameras:0}</span>部</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg4" />
-                        <div className="equContext">
+                        <div className="equContext equColor4">
                             <span className="equipName">已处理报警</span>
                             <span className="equipTotal-Handle"><span className="equBer">{this.state.hasDealCount?this.state.hasDealCount:0}</span>条</span>
                         </div>
                     </div>
                     <div className="equ equBorder">
                         <span className="equImg5" />
-                        <div className="equContext">
+                        <div className="equContext equColor5">
                             <span className="equipName">未处理报警</span>
                             <span className="equipTotal-UHandle"><span className="equBer">{this.state.unDealCount?this.state.unDealCount:0}</span>条</span>
                         </div>

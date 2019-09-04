@@ -38,13 +38,27 @@ export default class EquipSet extends Component {
       sliderChange: false,
       threshold: 5,
       frozentime: 5,
+      subNode:[]
     };
   }
   componentDidMount() {
     if (this.props.query.code) {
       this.getOne();
+      this.hanleSubordinate();
     }
   }
+  hanleSubordinate=()=> {
+        axios.ajax({
+            method: "get",
+            url: window.g.loginURL + "/api/system/nodelist",
+            data: {}
+        }).then((res) => {
+            this.setState({
+                subNode: res.data,
+                selectp: res.data ? res.data[0].sysip : ''
+            })
+        })
+    }
   getOne = () => {
     axios
       .ajax({
@@ -56,7 +70,7 @@ export default class EquipSet extends Component {
       })
       .then(res => {
         if (res.success) {
-          // console.log(res.data)
+
           if (res.data.cstatus === 0) {
             this.setState({
               disabledStopSer: true,
@@ -87,7 +101,7 @@ export default class EquipSet extends Component {
           this.setState({
               equipData: res.data
             });
-          
+
         }
       });
   };
@@ -183,11 +197,10 @@ export default class EquipSet extends Component {
     })
   }
   render() {
-    // console.log(this.state.sliderChange)
     return (
       <div className="equipset">
         {this.props.match.params.add === ":add" && this.state.addOnly === true && (
-        <Onlyadd  statda = {this.state}  
+        <Onlyadd  statda = {this.state}
           handleThresholdChange = {this.handleThresholdChange}
           handleFrozenChange = {this.handleFrozenChange}
           handonlyadd = {this.handonlyadd}
@@ -232,7 +245,6 @@ export default class EquipSet extends Component {
               // activeKey={this.state.activeKey}
               type="card"
               // onChange={activekey => {
-              //   console.log(activekey)
               //   this.handleTabChange(activekey);
               // }}
             >
@@ -252,10 +264,11 @@ export default class EquipSet extends Component {
                 }
                 key="0"
               >
-                <BaseInf 
+                <BaseInf
                   ststIn = {this.state}
                   equipData = {this.state.equipData}
                   getOne = {this.getOne}
+                  subNode={this.state.subNode}
                   formcode = {this.props.query.code}
                   handleThresholdChange = {this.handleThresholdChange}
                   handleFrozenChange = {this.handleFrozenChange}
@@ -277,7 +290,7 @@ export default class EquipSet extends Component {
                 }
                 key="1"
               >
-                <CameraSet 
+                <CameraSet
                   camerdat = {this.state}
                   code={this.props.query.code}
                   getOne = {this.getOne}

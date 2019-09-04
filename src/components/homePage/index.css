@@ -51,6 +51,7 @@
   width: 22%;
   height: 74px;
   background: #fff;
+  color: #F83434;
 }
 .homePage .equNum .equ1 .equImg6 {
   display: inline-block;
@@ -69,16 +70,11 @@
   padding-right: 2px;
 }
 .homePage .equNum .equ1 .equContext .equipName {
-  color: #354D9D;
   font-weight: bold;
   font-size: 15px;
   padding-bottom: 4px;
 }
-.homePage .equNum .equ1 .equContext .equipTotal {
-  color: #385BD1;
-}
 .homePage .equNum .equ1 .equContext .equipTotal-today {
-  color: #FF7200;
   letter-spacing: 1px;
 }
 .homePage .equNum .equ {
@@ -90,6 +86,21 @@
   height: 74px;
   background: #fff;
 }
+.homePage .equNum .equ .equColor1 {
+  color: #375BD1;
+}
+.homePage .equNum .equ .equColor2 {
+  color: #37D142;
+}
+.homePage .equNum .equ .equColor3 {
+  color: #656A7B;
+}
+.homePage .equNum .equ .equColor4 {
+  color: #006CFF;
+}
+.homePage .equNum .equ .equColor5 {
+  color: #FF7200;
+}
 .homePage .equNum .equ .equContext {
   display: flex;
   flex-direction: column;
@@ -100,13 +111,11 @@
   padding-right: 2px;
 }
 .homePage .equNum .equ .equContext .equipName {
-  color: #354D9D;
   font-size: 15px;
   font-weight: bolder;
   padding-bottom: 4px;
 }
 .homePage .equNum .equ .equContext .equipTotal {
-  color: #385BD1;
   letter-spacing: 1px;
 }
 .homePage .equNum .equ .equContext .equipTotal-Handle {
@@ -114,7 +123,6 @@
   letter-spacing: 1px;
 }
 .homePage .equNum .equ .equContext .equipTotal-UHandle {
-  color: #656A7B;
   letter-spacing: 1px;
 }
 .homePage .equNum .equ .equImg1 {

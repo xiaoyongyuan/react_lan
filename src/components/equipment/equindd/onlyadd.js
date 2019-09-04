@@ -22,9 +22,25 @@ class Onlyadd extends Component{
   constructor(props){
     super(props) ;
     this.state = {
+      subNode:[]
     };
   }
-
+  componentDidMount() {
+    this.hanleSubordinate();
+  }
+  //所属节点
+  hanleSubordinate=()=>{
+    axios.ajax({
+        method:"get",
+        url:window.g.loginURL+"/api/system/nodelist",
+        data:{}
+    }).then((res)=>{
+      this.setState({
+          subNode:res.data,
+          selectp:res.data?res.data[0].code:''
+      })
+    })
+  }
   handleAdd = e => {
     e.preventDefault();
     const { validateFields } = this.props.form;
@@ -51,7 +67,8 @@ class Onlyadd extends Component{
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
                 alarmtype: fields.alarmtype ? 1 : 0,
-                ipctype: fields.ipctype
+                ipctype: fields.ipctype,
+                groupid:fields.groupid
               }
             })
             .then(res => {
@@ -203,6 +220,19 @@ class Onlyadd extends Component{
             </Col>
             <Col span={10}>
               <Row style={{ marginBottom: "20px" }}>
+                  <Form.Item label="所属节点">
+                      {getFieldDecorator("groupid", {
+                          initialValue:this.state.selectp
+                      })(
+                          <Select>
+                              {
+                                this.state.subNode.map((v,i)=>(
+                                    <Option key={i} value={v.code}>{v.sysip}</Option>
+                                ))
+                              }
+                          </Select>
+                      )}
+                  </Form.Item>
                 <Form.Item label="视频用户名">
                   {getFieldDecorator("vusername", {})(<Input />)}
                 </Form.Item>

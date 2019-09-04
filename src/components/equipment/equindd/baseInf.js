@@ -23,19 +23,16 @@ class BaseInf extends Component {
   constructor(props){
     super(props) ;
     this.state = {
-      dfrtg:1
+      dfrtg:1,
+      subNode:[]
     }
-  } 
-  componentDidMount(){  
-      // this.props.getOne()
   }
-
   componentWillReceiveProps(nextProps){
     if(this.props.equipData !== nextProps.equipData){
       this.getbaseinfodate(nextProps.equipData)
     }
   }
-  getOneww = () => { 
+  getOneww = () => {
     axios
       .ajax({
         method: "get",
@@ -45,9 +42,8 @@ class BaseInf extends Component {
         }
       })
       .then(res => {
-        // console.log(this.props.equipData)
         if (res.success) {
-        this.getbaseinfodate(res.data) 
+        this.getbaseinfodate(res.data)
         }
       });
   };
@@ -70,7 +66,8 @@ class BaseInf extends Component {
       Protocol: equipData.Protocol || "",
       threshold: equipData.threshold || 5,
       frozentime: equipData.frozentime || 5,
-      alarmtype: equipData.alarmtype || 0
+      alarmtype: equipData.alarmtype || 0,
+      groupid:equipData.groupid
     });
   }
   handleChangeInfo = e => {
@@ -82,7 +79,6 @@ class BaseInf extends Component {
         if (err) {
           message.error(err);
         } else {
-          // console.log(fields.alarmtype, "tijiao");
           axios
             .ajax({
               method: "put",
@@ -101,7 +97,8 @@ class BaseInf extends Component {
                 threshold: fields.threshold,
                 frozentime: fields.frozentime,
                 alarmtype: fields.alarmtype ? 1 : 0,
-                ipctype: fields.ipctype
+                ipctype: fields.ipctype,
+                groupid:fields.groupid
               }
             })
             .then(res => {
@@ -112,7 +109,7 @@ class BaseInf extends Component {
       }
     });
   };
-  
+
   handleCamaraType(val) {
     if (val === "other") {
       ReactDOM.findDOMNode(this.videoAdd).style.visibility = "visible";
@@ -122,7 +119,6 @@ class BaseInf extends Component {
   };
 
   render(){
-    // console.log(this.props.ststIn.sliderChange)
     const formItemLayout = {
       labelCol: {
         sm: { span: 7 }
@@ -254,6 +250,19 @@ class BaseInf extends Component {
           </Col>
           <Col span={10}>
             <Row style={{ marginBottom: "20px" }}>
+                <Form.Item label="所属节点">
+                    {getFieldDecorator("groupid", {
+                        initialValue:""
+                    })(
+                        <Select>
+                            {
+                                this.props.subNode.map((v,i)=>(
+                                    <Option key={i} value={v.code}>{v.sysip}</Option>
+                                ))
+                            }
+                        </Select>
+                    )}
+                </Form.Item>
               <Form.Item label="视频用户名">
                 {getFieldDecorator("vusername", {})(<Input />)}
               </Form.Item>

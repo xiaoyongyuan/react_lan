@@ -102,7 +102,7 @@ export default class EquipSet extends Component {
       threeTypeSelect: backType[3] ?
         backType[3] :
         this.state.threeTypeSelect
-    })   
+    })
   }
 
   mousedown = e => {
@@ -125,7 +125,7 @@ export default class EquipSet extends Component {
     if (!open) {
       return;
     }
-    let ssd = [this.getxy(e).x, this.getxy(e).y] //当前鼠标的坐标 
+    let ssd = [this.getxy(e).x, this.getxy(e).y] //当前鼠标的坐标
     if (dianjipd.one) {
       let ind = dianjipd.ind
       if (this.ifout("one", ssd)) {
@@ -289,7 +289,7 @@ export default class EquipSet extends Component {
     xinzb = this.copyarrTwo(this.state.initarea)
     this.draw(this.areaAll ,xinzb);
   };
-  handleTypeChange = (cv, num) => { 
+  handleTypeChange = (cv, num) => {
     if (num === 1) {
       this.setState(
         {
@@ -315,7 +315,6 @@ export default class EquipSet extends Component {
   };
   handleDefAdd = (e, num) => {
     const ev = e || window.event;
-    // console.log(ev)
     if (ev.stopPropagation) {
       ev.stopPropagation();
     } else if (window.event) {
@@ -344,15 +343,23 @@ export default class EquipSet extends Component {
     e.stopPropagation();
     this.opendraw();
   };
-  
+
   delaxj = (key,callback) => {
+      let syspiName="";
+      this.props.camerdat.subNode.map((v)=>{
+          if(this.props.camerdat.equipData.groupid===v.code){
+              syspiName=v.sysip
+          }
+      })
     axios
       .ajax({
         method: "get",
         url: window.g.loginURL + "/api/camera/fielddel",
         data: {
           code: this.props.camerdat.addBackCode || this.props.camerdat.equipData.code,
-          keys: key
+          keys: key,
+          groupip:this.props.camerdat.equipData.groupid,
+          sysip:syspiName
         }
       })
       .then(res => {
@@ -444,7 +451,13 @@ export default class EquipSet extends Component {
     ) {
       oneType = 2;
     }
-    console.log(oneType)
+
+    let syspiName="";
+      this.props.camerdat.subNode.map((v)=>{
+          if(this.props.camerdat.equipData.groupid===v.code){
+              syspiName=v.sysip
+          }
+      })
     axios
       .ajax({
         method: "get",
@@ -453,7 +466,9 @@ export default class EquipSet extends Component {
           code: this.props.camerdat.addBackCode || this.props.code,
           keys: key,
           field: JSON.stringify(xinzb) ,
-          type: oneType
+          type: oneType,
+          groupip:this.props.camerdat.equipData.groupid,
+          sysip:syspiName
         }
       })
       .then(res => {
@@ -485,7 +500,7 @@ export default class EquipSet extends Component {
         })
         break;
       case 2:
-        
+
         this.submitajax(2, () => {
           this.setState(
             {
@@ -494,7 +509,7 @@ export default class EquipSet extends Component {
               defTwoSubBtn: true
             },
             () => {
-              this.state.areaTwo = xinzb             
+              this.state.areaTwo = xinzb
               this.boundarydraw("two");
             }
           );
@@ -509,7 +524,7 @@ export default class EquipSet extends Component {
               defThreeSubBtn: true
             },
             () => {
-              this.state.areaThree = xinzb             
+              this.state.areaThree = xinzb
               this.boundarydraw("three");
             }
           );
@@ -526,7 +541,8 @@ export default class EquipSet extends Component {
         method: "get",
         url: window.g.loginURL + "/api/camera/getbasemap",
         data: {
-          code: this.props.camerdat.addBackCode || this.props.camerdat.equipData.code
+          code: this.props.camerdat.addBackCode || this.props.camerdat.equipData.code,
+          groupip:this.props.camerdat.equipData.groupid
         }
       })
       .then(res => {
@@ -689,7 +705,7 @@ export default class EquipSet extends Component {
           this.handleDefSelect(0);
         }}
         className="listItemWrap"
-      >  
+      >
         <Radio value="zero" checked={this.state.defSelect === "zero"}>
           总览
         </Radio>
