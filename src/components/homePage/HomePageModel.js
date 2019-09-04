@@ -75,7 +75,7 @@ class HomePageModel extends Component{
         if(this.state.picpathImg){
             const datafield=this.state.fields;
             if(this.state.field && datafield.length){
-                const xi=510/704, yi=278/576;
+                const xi=400/704, yi=300/576;
                 let areafield = ele.getContext("2d");
                 for(let i=0;i<datafield.length;i++){
                     let list=datafield[i].pointList;
@@ -98,7 +98,7 @@ class HomePageModel extends Component{
             const objs=this.state.fieldresult;
             if(this.state.obj && objs.length){
                 //计算缩放比例
-                const x=400/this.state.pic_width, y=280/this.state.pic_height;
+                const x=400/this.state.pic_width, y=300/this.state.pic_height;
                 objs.map((el,i)=>{
                     area.strokeStyle='#ff0';
                     area.beginPath();
@@ -157,7 +157,7 @@ class HomePageModel extends Component{
                         <div className="homePageModelLeft">
                             <div className="homeageImg">
                                 <div className="homeImg">
-                                    <canvas id="homeCanvas" width="400px" height="280px" style={{backgroundImage:'url('+v.picpath+')',backgroundSize:"100% 100%"}} alt=""/>
+                                    <canvas id="homeCanvas" width="400px" height="300px" style={{backgroundImage:'url('+v.picpath+')',backgroundSize:"100% 100%"}} alt=""/>
                                     <img className="nodata" src={nodata} alt="" style={{display:v.picpath?"none":"block"}} />
                                 </div>
                                 <div className="homeImg">
@@ -173,26 +173,28 @@ class HomePageModel extends Component{
                         </div>
                         <div className="homePageModelRight">
                             <div className="deviceContext">
+                                <p className="devicetitle">
+                                    <span className="deviceBg" />&nbsp;
+                                    <span className="deviceFont">报警信息</span>
+                                </p>
                                 <div className="nameDevice"><span className="equName">设备名称</span><span className="equTimes">{v.name}</span></div>
-                                <div className="nameDevice typePolice"><span>报警类型</span><span className="manAlarm">{this.state.tagType===0?"人员报警":"车辆报警"}</span><span className="carBg">{this.state.tagType==0?"车辆报警":"人员报警"}</span></div>
+                                <div className="nameDevice"><span className="equName">报警类型</span><span className="equTimes">{this.state.tagType===0?"人员报警":"车辆报警"}</span></div>
                                 <div className="nameDevice"><span className="equName">报警时间</span><span className="equTimes">{v.atime}</span></div>
                                 <div className="nameDevice"><span className="equName">报警状态</span><span className="equTimes">{this.handleStatus(v.status)}</span></div>
-                                <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>防区显示&nbsp;&nbsp;<Switch size="small" checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
-                                <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>目标显示&nbsp;&nbsp;<Switch size="small" checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
+                                <div className="nameDevice">
+                                    <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>防区显示&nbsp;&nbsp;<Switch  checked={this.state.field} onChange={(checked)=>this.onChangeCumference(checked,'field')} /></span>
+                                    <span className="sector" style={{display:this.state.picpathImg?"inlineBlock":"none"}}>目标显示&nbsp;&nbsp;<Switch  checked={this.state.obj} onChange={(checked)=>this.onChangeCumference(checked,'obj')} /></span>
+                                </div>
 
                             </div>
                             <div className="alarmImg">
-                                <div className="alarBg">
-                                    <img className="policeImg" src={policeImg} />
-                                    <span>报警处理</span>
-                                </div>
+                                <p className="alarmSatus">
+                                    <span className="alarmSatusBg" />&nbsp;
+                                    <span className="alarmSatusFont">报警状态</span>
+                                </p>
                                 <div className="policeBtn">
                                     <Button type="primary" onClick={()=>this.hanlePoliceStatus("1")} >警情</Button>
                                     <Button type="primary" onClick={()=>this.hanlePoliceStatus("3")} >虚警</Button>
-                                  {/* <div style={{display:this.state.ifstatus || this.state.falsestatus?"inlineBlock":"none"}}>
-                                       <p className="handler"><span className="hanleTime">处理时间</span><span className="hanleName">2019-7-13</span></p>
-                                       <p className="handler"><span className="hanleTime">处&nbsp;&nbsp;理&nbsp;人</span><span className="hanleName">李四</span></p>
-                                   </div>*/}
                                 </div>
                             </div>
                         </div>

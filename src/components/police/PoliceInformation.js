@@ -73,43 +73,43 @@ class PoliceInformation extends Component {
     };
     getInfor=()=>{
         if(this.state.policeList.length>0){
-            if(this.state.policeListCode){
+            if(this.state.policeListCode) {
                 axios.ajax({
-                    method:"get",
-                    url:window.g.loginURL+"/api/alarm/alarminfo",
-                    data:{
-                        cid:this.state.scid,
-                        bdate:this.params.bdate,
-                        edate:this.params.edate,
-                        code:this.state.policeListCode,
-                        status:this.state.selectstatus,
+                    method: "get",
+                    url: window.g.loginURL + "/api/alarm/alarminfo",
+                    data: {
+                        cid: this.state.scid,
+                        bdate: this.params.bdate,
+                        edate: this.params.edate,
+                        code: this.state.policeListCode,
+                        status: this.state.selectstatus,
                     }
-                }).then((res)=>{
-                    if(res.success){
-                      if(res.data.Malarm && res.data){
-                            res.data.Malarm.fieldresult.map((v)=>{
-                               this.setState({
-                                   tagType:v.tag
-                               });
+                }).then((res) => {
+                    if (res.success) {
+                        if (res.data.Malarm && res.data) {
+                            res.data.Malarm.fieldresult.map((v) => {
+                                this.setState({
+                                    tagType: v.tag
+                                });
                             });
-                          this.setState({
-                              alarm:res.data.Malarm,
-                              alarmTime:res.data.Malarm.atime,
-                              alarmCid:res.data.Malarm.cid,
-                              alarmImg:res.data.Malarm.picpath,
-                              malarminfo:res.data.Malarm.Malarminfo.slice(0,9),
-                              fields:res.data.Malarm.field,
-                              fieldresult:res.data.Malarm.fieldresult,
-                              policeListCode:res.data.Malarm.code,
-                              pic_width:res.data.Malarm.pic_width,
-                              pic_height:res.data.Malarm.pic_height,
-                              nextcode:res.data.Malarm.nextcode,
-                              lastcode:res.data.Malarm.lastcode
-                          },()=>{
-                              this.draw();
-                              this.updateStatus();
-                          })
-                      }
+                            this.setState({
+                                alarm: res.data.Malarm,
+                                alarmTime: res.data.Malarm.atime,
+                                alarmCid: res.data.Malarm.cid,
+                                alarmImg: res.data.Malarm.picpath,
+                                malarminfo: res.data.Malarm.Malarminfo.slice(0, 9),
+                                fields: res.data.Malarm.field,
+                                fieldresult: res.data.Malarm.fieldresult,
+                                policeListCode: res.data.Malarm.code,
+                                pic_width: res.data.Malarm.pic_width,
+                                pic_height: res.data.Malarm.pic_height,
+                                nextcode: res.data.Malarm.nextcode,
+                                lastcode: res.data.Malarm.lastcode
+                            }, () => {
+                                this.draw();
+                                this.updateStatus();
+                            })
+                        }
                     }
                 })
             }
@@ -630,7 +630,7 @@ class PoliceInformation extends Component {
                                                 <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
                                                <div className="policeNikName">
                                                     <span className="policeCircle" />
-                                                   <span className="policeTimes">{v.name}</span>
+                                                    <span className="policeTimes">{v.name}</span>
                                                </div>
                                             </div>
                                         </Col>

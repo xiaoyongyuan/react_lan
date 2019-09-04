@@ -613,19 +613,27 @@
             margin-right: 5px;
           }
         }
-
-        .policeTimes {
-          display: inline-block;
+        .alarmTitle{
           position: absolute;
           right: 0;
           top: 16%;
-          background-color: rgba(10, 51, 73, 0.8);
-          padding: 3px 10px;
+          display: inline-block;
+          padding: 4px 8px;
           color: #fff;
+          background-color: rgba(10, 51, 73, 0.8);
           border-radius: 20px;
-          font-size: 12px;
+          font-size: 13px;
+          .alarminforCirle {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #ff7200;
+            border-radius: 50%;
+          }
+          .policeTimes{
+            padding-left: 4px;
+          }
         }
-
         .alarminforBg {
           position: absolute;
           bottom: 0;
@@ -635,17 +643,8 @@
           background-color: rgba(20, 39, 69, 0.9);
           display: flex;
           align-items: center;
-
-          .alarminforCirle {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #ff7200;
-            border-radius: 50%;
-            margin: 0 14px;
-          }
-
           .alarminforFont {
+            padding-left: 10px;
             color: #fff;
             font-size: 14px;
           }

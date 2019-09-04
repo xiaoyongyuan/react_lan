@@ -17,7 +17,7 @@
       .homeImg{
         width: 400px;
         margin-top: 2px;
-        height: 250px;
+        height: 300px;
         position: relative;
         #homeCanvas{
           width: 100%;
@@ -33,7 +33,7 @@
         }
       }
       .homeImg video{
-        width: 96%;
+        width: 98%;
         height: 100%;
         background-color:#142745;
         margin-left: 10px;
@@ -77,15 +77,35 @@
   .homePageModelRight{
     width: 480px;
     .sector{
-      background: #006FE4;
-      color: #fff;
+      color: #262d8d;
       padding: 4px 8px;
       margin: 0 4px;
       border-radius: 30px;
+      .ant-switch-loading-icon, .ant-switch::after{
+        width: 16px;
+        height: 16px;
+      }
+      .ant-switch-checked{
+        height: 20px;
+      }
     }
     .deviceContext{
       padding: 10px;
       border: 2px solid #EEEEEE;
+      .devicetitle{
+        display: flex;
+        align-items: center;
+        .deviceBg{
+          display: inline-block;
+          width: 18px;
+          height: 16px;
+          background: url("../../style/ztt/imgs/alarmInfoBg.png") no-repeat;
+          background-size: 100% 100%;
+        }
+        .deviceFont{
+          color: #2c459a;
+        }
+      }
       .sectorBtn{
         display: inline-block;
         width: 14px;
@@ -137,27 +157,28 @@
       }
     }
     .alarmImg{
-      display: flex;
-      flex-direction: row;
       margin-top: 12px;
       border: 1px solid #EEEEEE;
-      .alarBg{
-        width: 33%;
-        background-color: #fff;
-        margin: 8px 8px;
+      .alarmSatus{
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
-        border-right: 1px solid #EEEEEE;
-        .policeImg{
-          width: 40px;
-          height: 40px;
+        padding: 1% 0 1% 4%;
+        .alarmSatusFont{
+          color: #274198;
+        }
+        .alarmSatusBg{
+          display: inline-block;
+          width: 18px;
+          height: 16px;
+          background: url("../../style/ztt/imgs/alarmInfoBg.png") no-repeat;
+          background-size: 100% 100%;
         }
       }
       .policeBtn{
-        width: 64%;
-        margin: 8px 3px;
+        width: 94%;
+        display: flex;
+        margin: 2% 4%;
+        border-radius: 4px;
         .handler{
           color: #2a3394;
           border-bottom: 1px solid #e2e2e2;
@@ -172,20 +193,20 @@
         }
       }
       .policeBtn Button{
-        width: 100%;
-        margin: 6px 0;
+        width: 26%;
       }
       .policeBtn Button:nth-child(1){
-        background-color: #FF7200;
+        background-color: #fa390d;
         color: #fff;
         border: none;
         border-radius: 1px;
       }
       .policeBtn Button:nth-child(2){
-        background-color: #B28750;
+        background-color: #ff7200;
         color: #fff;
         border: none;
         border-radius: 1px;
+        margin-left: 10%;
       }
     }
   }

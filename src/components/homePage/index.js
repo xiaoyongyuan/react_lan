@@ -389,12 +389,15 @@ class Index extends Component {
                                         <div className="swiper-slide" onClick={()=>this.hanleWithdrawal(v.code)} key={i}>
                                             <img src={v.picpath?v.picpath:defenceImg} alt="" className="defence"/>
                                             <div className="alarminforBg">
-                                                <span className="alarminforCirle"/>
-                                                <span className="alarminforFont">{v.name}</span>
+                                                <span className="alarminforFont">{v.atime}</span>
                                                 <span className="alarminforVideo"/>
                                             </div>
                                             <div className={this.hanlePoliceBg(v.status)}><span className="policeStatusCicle"/><span className="policeStatusFont">{this.hanleStatus(v.status)}</span></div>
-                                            <span className="policeTimes">{v.atime}</span>
+                                            <div className="alarmTitle">
+                                                <span className="alarminforCirle"/>
+                                                <span className="policeTimes">{v.name}</span>
+                                            </div>
+
                                         </div>
                                     ))
                                 }

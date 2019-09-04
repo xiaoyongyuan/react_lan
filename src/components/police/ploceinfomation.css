@@ -202,6 +202,10 @@
   font-size: 26px;
   cursor: pointer;
 }
+.ploceinfomation .ploceinfomation-main .pageLeft .anticon:hover {
+  color: #fff;
+  background-color: #2360db;
+}
 .ploceinfomation .ploceinfomation-main .main-left {
   height: 100%;
   width: 74%;
@@ -603,5 +607,6 @@
   background-color: rgba(19, 36, 64, 0.8);
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 /*# sourceMappingURL=ploceinfomation.css.map */

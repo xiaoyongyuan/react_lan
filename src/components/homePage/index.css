@@ -520,16 +520,26 @@
   background-color: #fff;
   margin-right: 5px;
 }
-.homePage .alarminfor .swiper-container .swiper-slide .policeTimes {
-  display: inline-block;
+.homePage .alarminfor .swiper-container .swiper-slide .alarmTitle {
   position: absolute;
   right: 0;
   top: 16%;
-  background-color: rgba(10, 51, 73, 0.8);
-  padding: 3px 10px;
+  display: inline-block;
+  padding: 4px 8px;
   color: #fff;
+  background-color: rgba(10, 51, 73, 0.8);
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 13px;
+}
+.homePage .alarminfor .swiper-container .swiper-slide .alarmTitle .alarminforCirle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #ff7200;
+  border-radius: 50%;
+}
+.homePage .alarminfor .swiper-container .swiper-slide .alarmTitle .policeTimes {
+  padding-left: 4px;
 }
 .homePage .alarminfor .swiper-container .swiper-slide .alarminforBg {
   position: absolute;
@@ -541,15 +551,8 @@
   display: flex;
   align-items: center;
 }
-.homePage .alarminfor .swiper-container .swiper-slide .alarminforBg .alarminforCirle {
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background-color: #ff7200;
-  border-radius: 50%;
-  margin: 0 14px;
-}
 .homePage .alarminfor .swiper-container .swiper-slide .alarminforBg .alarminforFont {
+  padding-left: 10px;
   color: #fff;
   font-size: 14px;
 }

@@ -37,18 +37,27 @@
 .LayerHeader .headerRight {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .LayerHeader .headerRight .alarmNum {
-  padding-right: 10%;
+  width: 180px;
+  display: flex;
+  align-items: center;
+  color: #ff2f00;
+  font-weight: bolder;
 }
-.LayerHeader .headerRight .header-right {
+.LayerHeader .headerRight .alarmRight {
+  display: flex;
+  align-items: center;
+}
+.LayerHeader .headerRight .alarmRight .header-right {
   width: 36px;
   height: 36px;
   background: url("../../../style/imgs/shield.png") no-repeat;
   background-size: 100% 100%;
-  margin-right: 20px;
+  margin-right: 14px;
 }
-.LayerHeader .headerRight .signout {
+.LayerHeader .headerRight .alarmRight .signout {
   padding-left: 20px;
   cursor: pointer;
 }

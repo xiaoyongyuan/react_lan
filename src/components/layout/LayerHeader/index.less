@@ -1,5 +1,10 @@
 .LayerHeader{
   font-family:'Microsoft YaHei';
+  color: #fff;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
   .ant-select-selection{
     background: #213C95;
     border: none;
@@ -8,11 +13,6 @@
   .ant-select-arrow{
     color: #fff;
   }
-  color: #fff;
-  width: 100%;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
   .headerLeft{
     display: flex;
     align-items: center;
@@ -36,20 +36,30 @@
   .headerRight{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     .alarmNum{
-      padding-right: 10%;
+      width:180px;
+      display: flex;
+      align-items: center;
+      color:#ff2f00;
+      font-weight: bolder;
     }
-    .header-right{
-      width: 36px;
-      height: 36px;
-      background: url("../../../style/imgs/shield.png") no-repeat;
-      background-size: 100% 100%;
-      margin-right: 20px;
+    .alarmRight{
+      display: flex;
+      align-items: center;
+      .header-right{
+        width: 36px;
+        height: 36px;
+        background: url("../../../style/imgs/shield.png") no-repeat;
+        background-size: 100% 100%;
+        margin-right: 14px;
+      }
+      .signout{
+        padding-left: 20px;
+        cursor: pointer;
+      }
     }
-    .signout{
-      padding-left: 20px;
-      cursor: pointer;
-    }
+
   }
 
 }
