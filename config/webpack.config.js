@@ -430,7 +430,7 @@ module.exports = function(webpackEnv) {
                     javascriptEnabled: true,
                     modules: false,
                     modifyVars: {
-                      "@primary-color": "#32E8FE", //主题色
+                      "@primary-color": "#006fe3", //主题色
                       "@layout-header-background": "#213C95", //layout头部背景色
                       "layout-sider-background": "#132252", //左边导航背景色
                       "@menu-bg": "#172A66", //菜单背景色
